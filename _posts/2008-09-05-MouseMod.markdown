@@ -1,0 +1,194 @@
+---
+layout: post
+title:  "Mögliche Mods an der „Standard”-Logitech-Maus"
+date:   2008-09-05 10:00:00
+categories: Artikel
+---
+
+
+
+<strong>…oder: Wir basteln uns aus der Logitech B69 Wheel Mouse Optical eine
+Silent-Maus ohne Klickgeräusch</strong>
+
+<p>
+Für ca. 12 Euro gibt’s eine simple PS/2-USB-Maus von Logitech. Dieses Modell
+besitze ich schon, seit es vor einigen Jahren noch 60 DM kostete, und es
+funktioniert wunderbar. Allerdings gibt es einige Dinge, die mich (nicht nur an
+dieser Maus) stören:
+</p>
+<ul>
+	<li>
+	Sie klickt zu laut. Das Problem haben eigentlich alle Mäuse, allerdings
+	hab ich das erst bei der Benutzung meines Notebooks so richtig bemerkt
+	(beim aktuellen Trackpad gibt's auch keine Klickgeräusche).
+	</li>
+	<li>
+	Das Scrollrad bewegt sich zu schwerfällig.
+	</li>
+	<li>
+	Sie lässt sich unnötig schwer bewegen.
+	</li>
+</ul>
+<p>
+Glücklicherweise können wir alle genannten Punkte beheben, die einzigen Dinge,
+die wir dazu brauchen, sind ein Schraubenzieher (ein dünner, <a
+href="/Bilder/Galerien/MouseMod/MouseMod_6.jpg">siehe Foto</a>) und ein Teppichmesser.
+</p>
+
+<div class="warning" style="min-height: 50px; margin-top: 2em; margin-bottom: 2em">
+<img src="/Bilder/Warning.png" class="backButton" alt="Warnung">
+<p style="margin-top: .5em" class="strong">Die Umbauten an deiner Maus
+geschehen auf eigene Gefahr! Ich übernehme keine Haftung für eventuelle Schäden
+und die Garantie geht wohl auch verloren.</p>
+</div>
+
+<h2>&Ouml;ffnen der Maus</h2>
+<p>
+Da die Maus nur zwei Schrauben enthält, können wir sie sehr schnell öffen. Dazu
+entfernen wir lediglich die Schraube unten an der Rückseite. Anschließend muss
+man das Gehäuse hinten anheben und vorne aushebeln.
+</p>
+<p>
+Nun sieht man das Scrollrad (welches übrigens leicht in Einzelteilen
+herausfällt), das Kabel und die Platine selbst.
+</p>
+<div align="center"><a href="/Bilder/Galerien/MouseMod/MouseMod_8.jpg"
+title="Großansicht"><img src="/Bilder/Galerien/MouseMod/MouseMod_8.jpg"
+width="400" height="300" alt="Geöffnete Maus" border="0"></a><br><i>Geöffnete
+Maus</i></div>
+
+<h2>Das Scrollrad</h2>
+<div align="center"><a href="/Bilder/Galerien/MouseMod/MouseMod_16.jpg"
+title="Großansicht"><img src="/Bilder/Galerien/MouseMod/MouseMod_16.jpg"
+width="400" height="300" alt="Einzelteile des Scrollrads"
+border="0"></a><br><i>Einzelteile des Scrollrads</i></div>
+<p>
+Das Scollrad besteht aus drei Komponenten (entschuldige bitte den Verzicht auf
+Fachbegriffe):
+</p>
+<ol>
+	<li>
+	Dem Plastikteil (links im Bild). Hierdurch wird überhaupt das Klicken
+	auf’s Scrollrad möglich (das Teil überträgt den Klick auf den Schalter,
+	der unter ihm sitzt). Oben kann man übrigens Nachschmieren (im Bild
+	sichtbar), wenn’s mit dem Scrollrad nicht mehr so gut klappt. Bei mir
+	ist das aber in über 5 Jahren nicht nötig gewesen.
+	</li>
+	<li>
+	Dieser Widerstand-erzeugende Draht (links unten)
+	</li>
+	<li>
+	Das Rad selbst
+	</li>
+</ol>
+<p>
+Vielleicht ging es schon aus der Beschreibung hervor, jedenfalls müssen wir
+Teil zwei einfach ausbauen, damit sich das Scrollrad angenehm leicht drehen
+lässt. Wem das doch nicht gefällt: <a
+href="/Bilder/Galerien/MouseMod/MouseMod_20.jpg">in diesem Bild sieht man</a>,
+wie es wieder befestigt werden muss.
+</p>
+
+<h2>Die Schwerfälligkeit</h2>
+<p>
+Der obere, abgenommene Teil des Gehäuses enthält ein Gewicht, damit die Maus
+besser in der Hand liegt. Dieses kann man entfernen, indem man die beiden
+herausstehenden Plastikecken nach innen drückt und das Plastikteil dabei nach
+oben drückt:
+</p>
+<div align="center"><a href="/Bilder/Galerien/MouseMod/MouseMod_35.jpg"
+title="Großansicht"><img src="/Bilder/Galerien/MouseMod/MouseMod_35.jpg"
+width="400" height="300" alt="Hier befindet sich das Gewicht"
+border="0"></a><br><i>Unter dem Plastikteil, welches auch die Maustasten
+darstellt, befindet sich das Gewicht</i></div>
+<p>
+Dieses Gewicht kann man einfach entfernen, nachdem man die Schraube gelöst hat.
+Nun kann man das eben abgeschraubte Plastikteil wieder anbringen und testen, ob
+die Maus gut in der Hand liegt. Falls ja, Gewicht zur Seite legen, falls nein,
+wieder einbauen.
+</p>
+
+<p>
+Einen anderen Teil der Schwerfälligkeit macht die Reibung mit dem Mousepad aus.
+Hierzu habe ich den Tipp, ein Gamer-Mousepad zu kaufen, da das in der Regel
+sehr robust ist (ebenfalls vor einigen Jahren gekauft und ist immer noch in
+einem sehr guten Zustand) und eine gute Gleitfähigkeit hat. Außerdem gibt es
+sogenannte Mouse-Skatez, welche man unten an der Maus anbringen kann. Diese
+verbesseren die Gleitfähigkeit noch weiter, indem sie die Oberfläche der Maus
+(im speziellen die vier herausstehenden runden Teile) glätten – wirkt
+wunderbar.
+</p>
+
+<div align="center"><a href="/Bilder/Galerien/MouseMod/MouseMod_42.jpg"
+title="Großansicht"><img src="/Bilder/Galerien/MouseMod/MouseMod_42.jpg"
+width="400" height="300" alt="Mouse-Skatez"
+border="0"></a><br><i>Mouse-Skatez</i></div>
+
+<h2>Das Klicken</h2>
+<p>
+Um das Klicken zu entfernen, müssen wir an die Platine. Diese lässt sich
+herausnehmen, indem man einfach das Kabel entfernt und dann die Platine vorne
+leicht anhebt (keinerlei Schrauben sind zu entfernen). Dort sind nun drei
+Schalter angebracht, von denen wir die Abdeckung via Teppichmesser entfernen:
+</p>
+<div align="center"><a href="/Bilder/MouseMod/Schalter_1.jpg"
+title="Großansicht"><img src="/Bilder/MouseMod/Schalter_1.jpg" width="413"
+height="223" alt="Der klickende Schalter" border="0"></a><br><i>Der Schalter,
+der für’s Klicken verantwortlich ist</i></div>
+<p>
+Der Schalter klickt an der Stelle rechts, probier’ das einfach mal mit dem
+Fingernagel aus, dann kriegst du ein Gefühl dafür. Wie man nun den Schalter
+genau vom Klicken abbringt, das weiß ich nicht. Mir ist es allerdings passiert,
+dass ich beim Herumspielen damit wohl die Spannung davon genommen habe (keine
+elektrische Spannung), sodass kein Klickgeräusch mehr entsteht. Probier’ also
+einfach mal, das Teil aus seiner Halterung zu nehmen und wieder reinzufummeln.
+Bei mir hat’s in beiden Fällen geklappt :-).
+</p>
+
+<p>
+Auf der von mir weiter unten verlinkten Seite gibt der Autor übrigens die
+Anweisung, das Schaltergehäuse um 180&deg; zu drehen und wieder aufzusetzen.
+Bei diesem Modell funktioniert das leider nicht, denn der Schalter ist an der
+einen Stelle höher (und das muss auch so bleiben). Mit roher Gewalt macht man
+sich in dem Fall nur den Schalter kaputt. Außerdem gibt der Autor auch den Rat,
+die Schalter vorher abzulöten und nachher wieder anzulöten, was aber total
+unnötig ist.
+</p>
+
+<p>
+Anschließend wird das Gehäuse wieder aufgesetzt und das war’s auch schon.
+</p>
+
+<h2>Fazit</h2>
+<p>
+Für mich hat sich das Modifizieren der Maus auf jeden Fall gelohnt. Bei der
+rechten Maustaste hätte ich nicht so viel rumspielen sollen, sie ist etwas zu
+leicht klickbar, während hingegen die linke Maustaste noch ein sehr leises
+Klickgeräusch von sich gibt, aber sich um Meilen besser als vorher verhält.
+</p>
+
+<p>
+Das Arbeiten macht nun einen viel angenehmeren, weicheren Eindruck („smooth”),
+das ist für jeden eine Erfahrung wert, finde ich. Ob man es mag, oder nicht,
+steht auf einem anderen Blatt ;-).
+</p>
+
+<h2>Siehe auch…</h2>
+<ul>
+	<li>
+	<a href="/Galerie/MouseMod/" title="Galerie: MouseMod">Die Galerie mit
+	mehr Fotos meiner ganzen Umbauaktion</a>
+	</li>
+	<li>
+	<a href="http://www.grynx.com/projects/silent-mouse/1/">grynx.com:
+	silent-mouse</a> – diese Website hat mich in meinem Vorhaben
+	bekräftigt, eine solche Maus einfach mal auseinander zu nehmen, ohne
+	vorher einen passenden, nicht-klickenden Ersatzschalter zu besorgen.
+	Leider klappen die dort gegebenen Tipps (wie oben erwähnt) bei der
+	Logitech-Maus nicht.
+	</li>
+	<li>
+	<a href="http://www.mouseskatez.de/" title="Mouseskatez.de"
+	target="_blank">Mouseskatez.de</a>
+	</li>
+</ul>

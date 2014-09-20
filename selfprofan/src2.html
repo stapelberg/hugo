@@ -1,0 +1,34 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Welcome to Adobe GoLive 4</title>
+	</head>
+
+	<body>
+		WindowTitle &quot;Koordinaten-Helfer&quot;<br>
+		<b>Def</b> GetSysColor(1) !&quot;USER32&quot;,&quot;GetSysColor&quot;<br>
+		Window 0,0-640,480<br>
+		SetTrueColor 1<br>
+		Cls getSysColor(15)<br>
+		<font color="blue">Declare</font> x%,y%,x2%,y2%<br>
+		MessageBox(&quot;Bitte legen sie jetzt die Gr&ouml;&szlig;e mit der Maus fest!&quot;,&quot;Khelf&quot;,64)<br>
+		<b>WaitMouse</b><br>
+		x%=%mouseX<br>
+		y%=%mouseY<br>
+		<b>While</b> %MousePressed<br>
+		<b>If</b> Or(GT(x2%,%mouseX),Gt(y2%,%mouseY))<br>
+		Cls GetSysColor(15)<br>
+		<b>EndIf</b><br>
+		Rectangle x%,y%-%mouseX,%mouseY<br>
+		x2%=%mouseX<br>
+		y2%=%mouseY<br>
+		<b>Wend</b><br>
+		<nobr>WindowTitle Add$(Add$(Add$(Add$(&quot;Create(Object,%hwnd,Name,&quot;,x%),Add$(&quot;,&quot;,y%)),Add$(&quot;,&quot;,x2%)),Add$(&quot;,&quot;,Add$(y2%,&quot;)&quot;)))</nobr><br>
+		<b>WaitMouse<br>
+		End<br>
+		</b>
+	</body>
+
+</html>

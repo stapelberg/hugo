@@ -1,0 +1,90 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>SelfProfan&sup2;</title>
+	</head>
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+		<table border="0" cellpadding="0" cellspacing="2">
+			<tr>
+				<td><img src="logo.gif" width="311" height="76"><br>
+					<a href="menu.html">SelfProfan&sup2;</a>:Dateien<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#ffff46"><h1>Dateien</h1>
+Da wir nun ziemlich viel mit Eingabe und Ausgabe gemacht haben (Print,Input,If...) wollen wir<br>
+nun zu den Dateien kommen. Diese k&ouml;nnen gelesen oder neu erstellt werden. Weiterhin ist<br>
+es m&ouml;glich einen Text an eine bestehende Datei anzuh&auml;ngen. Ein kleines Beispiel f&uuml;r einen<br>
+minimalen Zugriff auf eine Datei. Dies ist nur ein Ausschnitt aus einen Programm , nicht das ganze:<br>
+<i><font color="#ee0000">' Die Variable Punktzahl$ ist schon vorhanden!</font><br>
+Assign #1,&quot;datei.txt&quot;<br>
+Rewrite #1<br>
+print #1,Punktzahl$<br>
+close #1</i><br>
+Wer Englisch kann , der hat hiermit wahrscheinlich keine Probleme. Erkl&auml;rung:<br>
+Es wird eine Datei ge&ouml;ffnet , &quot;<i>datei.txt</i>&quot;. Diese wird dann komplett &uuml;berschrieben.<br>
+Es gibt au&szlig;er <i>Rewrite</i> noch 2 andere M&ouml;glichkeiten. Nun wird nicht auf den Bildschirm<br>
+geschrieben , sondern in die Datei. <i>Print</i> kann dabei wie gewohnt verwendet werden.<br>
+Danach wird die Datei wieder geschlossen. &Auml;nderungen werden erst &uuml;bernommen , <br>
+sobald die Datei geschlossen ist. Beim lesen muss man nicht warten. Nun genaueres zu <br>
+Assign und Rewrite:<br>
+<i>Assign #1,&quot;datei.txt&quot;</i><br>
+Die Datei wird mit Kanal 1 ge&ouml;ffnet und die Datei hei&szlig;t &quot;datei.txt&quot;. Die Anf&uuml;hrungszeichen <br>
+m&uuml;ssen dabeisein. Rewrite ist Englisch (wie oben gesagt) und bedeutet &quot;&Uuml;berschreiben&quot;. <br>
+Es gibt noch Reset , das bedeutet lesen und Append , dass anh&auml;ngen bedeutet. Beispiel:<br>
+<i>Declare zumschreiben$,zumlesen$,zumanh&auml;ngen$<br>
+zumschreiben$=&quot;Etwas zum schreiben&quot;<br>
+zumlesen$=&quot;Etwas zum lesen&quot;<br>
+zumanh&auml;ngen$=&quot;Etwas zum anh&auml;ngen&quot;<br>
+Assign #1,&quot;datei1.txt&quot;<br>
+Assign #2,&quot;name.dat&quot;<br>
+Assign #3,&quot;vorhanden.ode&quot;<br>
+Rewrite #1<br>
+Reset #2<br>
+Append #3<br>
+print #1,zumschreiben$<br>
+print #1,&quot;Das war was geschriebenes!&quot;<br>
+Input #2,zumlesen$<br>
+print zumlesen$<br>
+print #3,zumanh&auml;ngen$<br>
+close #1<br>
+close #2<br>
+close #3</i><br>
+Hier sind nun 3 Dateien gleichzeitig ge&ouml;ffnet. Es k&ouml;nnen maximal 15 Dateien gleichzeitig <br>ge&ouml;ffnet sein. Also geht es nur bis #15. Zum Lesen kann man Input #1,string$ verwenden.<br>
+Nat&uuml;rlich geht es auch mit anderen &quot;Dateikan&auml;len&quot;. Ein kleines Beispiel , dass eine Datei<br>
+&ouml;ffnet und diese liest:<br>
+<i>Declare buffer$<br>
+Assign #1,&quot;Datei.txt&quot;<br>
+Reset #1<br>
+<b>WhileNot Eof(#1)</b><br>
+Input #1,buffer$<br>
+print buffer$<br>
+<b>Wend</b><br>
+close #1</i><br>
+Nun steht die ganze Datei auf dem Bildschirm. Die <i>WhileNot</i>-Schleife kennst du wahrscheinlich<br>
+schon aus den vorherigen Kapiteln. Hier ist aber eine neue Bedingung: Eof(#1). Sie ist Englisch<br>
+und bedeutet &quot;End Of File&quot;. Das bedeutet soviel wie &quot;Das Ende der Datei&quot;. Aus der Schleife<br>
+k&ouml;nnte man einen Satz bilden: &quot;Solange,bis du nicht am Ende der Datei angesto&szlig;en bist,<br>
+lese eine Zeile ein und schreibe sie auf den Bildschirm.&quot; Man sollte allerdings nur Dateien<br>
+mit Text so &ouml;ffnen , denn es macht ja wenig Sinn , wenn man eine Bild-Datei &ouml;ffnet und nur<br>
+wirre Zeichen erh&auml;lt. Ansonsten kann man alles in eine Datei schreiben , was man will.<br>					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+					<hr>
+				</td>
+			</tr>
+		</table>
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+		</body>
+

@@ -1,0 +1,10 @@
+# Site settings
+title: Michael Stapelbergs Website
+email: your-email@domain.com
+description: "Die private Website von Michael Stapelberg mit Informationen, Programmen und Artikeln über das Programmieren sowie PC-, Mac OS X und Linux-Erfahrungen."
+baseurl: ""
+url: "http://michael.stapelberg.de"
+
+# Build settings
+markdown: kramdown
+permalink: "/Artikel/:title"

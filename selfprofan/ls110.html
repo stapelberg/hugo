@@ -1,0 +1,70 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>SelfProfan&sup2;</title>
+	</head>
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+		<table border="0" cellpadding="0" cellspacing="2">
+			<tr>
+				<td><img src="logo.gif" width="311" height="76"><br>
+					<a href="menu.html">SelfProfan&sup2;</a>:Prozeduren<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#ffff46"><h1>Prozeduren</h1>
+<p>Prozeduren sind einzelne Teile des Programmes, die nur innerhalb des Programmes<br>aufgerufen werden k&ouml;nnen. Beispiel:<br>
+<i>Declare input$<br>
+<b>Proc</b> werte_aus<br>
+<font color="blue">Parameters</font> wert1$<br>
+If Equ$(wert1$,&quot;value&quot;)<br>
+&lt;... Tue dies ...&gt;<br>
+Else<br>
+&lt;... Tue das ...&gt;<br>
+EndIf<br>
+<b>Endproc</b><br>
+Input input$<br>
+werte_aus input$<br>
+werte_aus &quot;Wert f&uuml;r Wert 1&quot;<br>
+End</i><br>Erkl&auml;rung:Es wird eine neue Prozedur festgelegt, dass geschieht mit dem Befehl<br>
+<i>proc $</i><br>
+Der zweite Parameter der <u>nicht</u> in Klammern steht ist der Name der Prozedur<br>
+Die Prozedur muss mit <i>Endproc</i> beendet werden. Der Teil, der zwischen<br>
+<i>Proc $</i> und <i>Endproc</i> steht wird nicht ausgef&uuml;hrt, bis er nicht aufgerufen wird.<br>Das aufrufen geschieht, indem man den Namen der Prozedur als Befehl verwendet.<br>Z.B. die Prozedur wurde &quot;Proz1&quot; genannt. Der Aufruf geschieht dann so:<br>
+<i>Proz1</i><br>Der oben verwendete, blau gekennzeichnete Befehl <i>Parameter $[,$,%...]</i><br>
+bedeutet fast das selbe wie <i>Declare</i>. Declare erstellt einen String/Integer. Parameters<br>tut das selbe, ist aber nur in Prozeduren verwendbar. Der Unterschied:<br>Wenn die Funktion aufgerufen wird, kann der mit Parameters erzeugte Integer/String<br>bestimmt werden. Beispiel:<br>
+<i>Proc proz1<br>
+Parameters p$<br>
+print p$<br>
+Endproc</i><br>proz1 &quot;dies ist der Text,der in der Prozedur in String p$ steht!&quot;<br>Die Prozedur hat nun empfangen, dass in dem String p$ der Text<br>&quot;dies ist der Text,der in der Prozedur in String p$ steht!&quot;<br>steht. Bei Zahlen ist der Aufruf so zu formulieren:<br>
+<i>proz1 12345</i><br>Hier gilt das selbe, als ob man den Wert eines Blattes/Zahl mit<br>
+<i>$/%=value</i><br>bestimmen w&uuml;rde. Sinnvoll w&auml;re:<br>
+<i>Declare blatt1$<br>
+Proc schreibe<br>
+Parameters wert1$<br>
+print wert1$<br>
+Endproc<br>
+Input blatt1$<br>
+schreibe blatt1$<br>
+End<br>
+</i>Nun steht in wert1$ das selbe, wie in blatt1$!<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+					<hr>
+				</td>
+			</tr>
+		</table>
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+		</body>
+

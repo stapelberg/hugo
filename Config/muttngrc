@@ -1,0 +1,109 @@
+set pager_context=1
+set mail_check=15
+set timeout=15
+set pager_index_lines=10
+set menu_scroll
+set status_on_top
+set header_cache="~/.muttng/header_cache"
+set sort=threads
+set sort_aux=reverse-date-received
+set mark_old=no
+
+set sidebar_width=15
+set sidebar_visible=yes
+alternates "michael@nospamplease\.de|michael\.stapelberg@firma\.de"
+set record="=Versendet"
+
+folder-hook . source ~/.muttng/fs_defaults
+folder-hook privat source ~/.muttng/fs_privat
+folder-hook INBOX source ~/.muttng/fs_ms
+folder-hook Schule source ~/.muttng/fs_schule
+
+set alias_file=~/.muttng/alises
+source ~/.muttng/aliases
+set reverse_alias
+set attribution = "Guten Tag %n,\n\n* [%(%d.%m.%y %H:%M)]:"
+set editor="vim -c 'set tw=78 nocin noai'"
+set delete=yes
+set include=yes
+set fast_reply=yes
+unset metoo
+unset forward_decrypt
+set beep=yes
+set beep_new=yes
+set markers=no
+
+set imap_user="michael"
+set imap_pass=""
+set folder=imap://localhost/user.michael.
+set spoolfile=imap://localhost/INBOX
+set trash="=Trash"
+mailboxes imap://localhost/INBOX =privat =schule
+
+ignore *
+unignore Date To From: Subject X-Mailer Organization User-Agent
+hdr_order Date From To Subject X-Mailer User-Agent Organization
+
+color normal     white          black   # Normaler Text
+color indicator  black          red     # Die ausgewählte Nachricht
+color tree       red            black   # Die Pfeile, die einen Thread zusammenhalten
+color status     brightyellow   blue    # Die Statuszeile
+color error      brightred      black   # Eine Fehlermeldung
+color message    red            black   # Informative Nachrichten
+color signature  blue           black   # Die Signatur eines Senders
+color attachment brightyellow   red     # MIME attachments
+color search     brightyellow   red     # Suchergebnisse
+color tilde      black          black   # Die »~« am Anfang einer Nachricht
+color markers    red            black   # Das »+« bei umgebrochenen Zeilen
+color hdrdefault blue           black   # Standardheaderzeilen
+color bold       red            black   # *hervorgehobener* Text im Body
+color underline  green          black   # _unterstrichener_ Text im Body
+color quoted     blue           black   # gequoteter Text
+color quoted1    magenta        black
+color quoted2    red            black
+color quoted3    green          black
+color quoted4    blue           black
+color quoted5    cyan           black
+color quoted6    magenta        black
+color quoted7    red            black
+color quoted8    green          black
+color quoted9    blue           black
+#
+#     object     foreground backg.   RegExp
+#
+color header     green      black  "^(Subject):"
+color header     red        black  "^(From|X-Mailer|To|Cc|Reply-To|Date):"
+color body       black      white    "((ftp|http|https)://|(file|mailto|news):|www\\.)[-a-z0-9_.:]*[a-z0-9](/[^][{} \t\n\r\"<>()]*[^][{} \t\n\r\"<>().,:!])?/?"
+color body       green      black  "((;|:|8\\:|\\=)(-|=|~|_|-'|%|<|)(\\)|Q|P|\\)%))"
+#color body      red        black  " (*)(ACK|ROTFL|LOL|SCNR|BRB|BTW|C|CWYL|FWIW|g|G|bg|vbg|GIWIST|G,D&R|HHOK|HTH|HTHBE|IMHO|IMNSHO|IOW|IRL|ITRW|OTP|OTF|OIC|OTOH|POV|RL|RTFM|ROTFL|TTFN|TTYL|U|WAEF|Y|TIMTOWTDI)(*) "
+color body       cyan       black  "[-a-z_0-9.+]+@[-a-z_0-9.]+"
+color body       red        black  "(^| )\\*[-a-z0-9*]+\\*[,.?]?[ \n]"
+color body       green      black  "(^| )_[-a-z0-9_]+_[,.?]?[ \n]"
+color index      blue       black  ~F           # geflagged Nachrichte
+color index      red        black  ~N           # Neue Nachrichten
+color index      magenta    black  ~T           # getaggte Nachrichten
+color index      yellow     black  ~D           # Nachrichten, die als gelöscht
+
+set xterm_set_titles=yes
+set xterm_title="muttng [new: %n c/%b o]"
+
+bind index \CP sidebar-prev
+bind pager \CP sidebar-prev
+bind index \CN sidebar-next
+bind pager \CN sidebar-next
+bind index \CO sidebar-open
+bind pager \CO sidebar-open
+bind index P purge-message
+bind pager h display-toggle-weed
+
+set quote_regexp="^( {0,4}[>|:%]| {0,4}[a-z0-9]+[>|]+)+"
+set smileys="((:|\\(|;|=)(-|=|-'|%)(\\)|:|\\=))"
+set reply_regexp="^((re(\\^[0-9])? ?:|a(nt)?w(ort)?:|wg:|\\(fwd\\))[ \t]+)*"
+
+subscribe lojban-beginners
+
+source ~/.muttng/gpg.rc
+unset crypt_autosign
+unset crypt_autoencrypt
+set crypt_verify_sig=yes
+set pgp_sign_as="65B790C2"

@@ -1,0 +1,72 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>SelfProfan&sup2;</title>
+	</head>
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+		<table border="0" cellpadding="0" cellspacing="2">
+			<tr>
+				<td><img src="logo.gif" width="311" height="76"><br>
+					<a href="menu.html">SelfProfan&sup2;</a>:Pfäde<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#ffff46"><h1>Pf&auml;de</h1>
+<p>Manche Funktionen erwarten ganze Pf&auml;de von dem Programm. Wenn das Programm<br>aber nun auf einem anderen Rechner installiert ist, und der Benutzer dort<br>einen anderen Pfad als du f&uuml;r die Installation vorgesehen hast, benutzt hat, funktioniert<br>das Programm nicht richtig. Dein Programm k&ouml;nnte so aussehen:<br>
+<i>Print &quot;Hier k&ouml;nnen sie meinen Lieblingssound h&ouml;ren!&quot;<br>
+PlaySound &quot;C:\Meinprog\Meindata\Meinsound\favorite\sound.wav&quot;,1</i><br>
+Der Befehl <i>PlaySound</i> wird sp&auml;ter erkl&auml;rt(Windows-Modus). Hier wird auf die<br>
+Datei <i>C:\Meinprog\Meindata\Meinsound\favorite\sound.wav</i> zugegriffen. Der<br>
+andere Benutzer hat als Verzeichniss aber <i>C:\Programme\Tollesprog\</i> gew&auml;hlt und<br>bekommt eine Fehlermeldung. Es gibt die Funktion <i>GetDir$($)</i> um ein Verzeichniss<br>zu ermitteln. Mit <i>GetDir$(&quot;@&quot;)</i> wird das jetztige Verzeichniss ermittelt. Beispiel:<br>
+<i>Declare pfad$,pfad2$<br>
+pfad$=GetDir$(&quot;@&quot;)<br>
+pfad2$=Add$(pfad$,&quot;\Meindata\Meinsound\favorite\sound.wav&quot;)<br>
+PlaySound pfad2$,1</i><br>Hier wird das selbe getan, nur bei dem anderen Benutzer funktioniert es jetzt.<br>
+Die Funktion <i>Add$($,$)</i> wurde schon erkl&auml;rt.<br>
+	<br>
+	<br>
+	Es kann mit der oben genannten Methode allerdings ein Fehler entstehen:<br>Sobald ein anderes Arbeitsverzeichniss angegeben ist, funktioniert es nicht mehr.<br>
+Deshalb sollte man eine zweite m&ouml;glichkeit nutzen:<br>
+<i>Par$(%)</i><br>Dieser Befehl gibt die Parameter an, die beim Aufruf angegeben werden. Beispiel:<br>
+Du startest das Programm <i>meinprog1.exe</i> aus der MS-DOS Eingabeaufforderung<br>
+so:<br>
+C:\meinord &gt; <i>meinprog1.exe 1para 2para 3para -4 .5</i><br>Nun kann das Programm seine eigenen Parameter auslesen. Diese Funktionen<br>
+w&uuml;rden folgendes zur&uuml;ckgeben:<br>
+Par$(1) = 1para<br>
+Par$(2) = 2para<br>
+Par$(3) = 3para<br>
+Par$(4) = -4<br>
+Par$(5) = .5<br>Verst&auml;ndlich, oder?Nun steht in %ParCount die Anzahl der Parameter. In diesem<br>Beispiel sind es 5. In Par$(0) steht der Name des Programmes. In dem oberen<br>
+Beispiel ist Par$(0) = meinprog1.exe<br>Nun ein kurzes Beispiel, wie man das Verzeichniss mit Hilfe von Par$(0)<br>
+herausbekommen kann:<br>
+<i>Declare laufwerk$,pfad$<br>
+pfad$=Par$(0)<br>
+laufwerk$=Left$(pfad$,2)<br>
+pfad$=Del$(pfad$,1,2)<br>
+WhileNot Equ$(Right$(pfad$,1),&quot;\&quot;) <font color="red">' Solange,wie das letzte Zeichen<br>
+' von pfad$ NICHT ein \ ist...</font><br>
+pfad$=Left$(pfad$,Len(pfad$)-1) <font color="red">' ...ziehe das letzte Zeichen ab.</font><br>
+Wend <font color="red">' Ende der Bedingung</font></i><br>Es muss immer das letzte Zeichen abgezogen werden, da der Pfad ja sonst<br>
+z.B. <i>C:\Programme\Profan70\Profan.exe</i> hei&szlig;en w&uuml;rde. Da das letzte Zeichen<br>dieses Pfades kein \ ist,wird ein Zeichen abgezogen. Das Ergebniss ist:<br>
+<i>C:\Programme\Profan70\Profan.ex</i> <br>Das wird solange wiederholt, bis das letzte Zeichen ein \ ist,also:<br>
+<i>C:\Programme\Profan70\</i><br>In pfad$ steht jetzt das Verzeichniss. In diesem&nbsp;Beispiel wird ein Befehl verwendet, <br>der noch nicht erkl&auml;rt wurde. While. Hiebei handelt es sich um eine Schleife. <br>					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+					<hr>
+				</td>
+			</tr>
+		</table>
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+		</body>
+

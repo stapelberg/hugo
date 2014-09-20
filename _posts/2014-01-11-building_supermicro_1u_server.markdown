@@ -1,0 +1,400 @@
+---
+layout: post
+title:  "Building a SuperMicro 1U server (with IPMI)"
+date:   2014-01-11 18:00:00
+categories: Artikel
+---
+
+
+<p>
+Recently, together with a couple friends of mine, we rented a rack in a
+datacenter. Not just any datacenter, but that’s a story for another time ;-).
+Each participant can hang up a 1U server in that rack, so I needed to build
+one.
+</p>
+
+<p>
+In this article, I’ll shed some light on the rationale behind which components
+I ordered and what my experiences with this setup are. Most of the article will
+cover the <a
+href="http://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface">IPMI</a>,
+a remote management interface. Having IPMI permanently available (as opposed to
+on-demand at my current dedicated server hoster) and influencing which
+components go into that box are the two killer features for me.
+</p>
+
+<h2>Choice of vendor</h2>
+
+<p>
+There are a number of big hardware companies out there, and in fact many people
+in this little project just bought a <a
+href="http://www.dell.com/us/business/p/poweredge-r210-2/pd">Dell r210</a>
+(Dell’s current entry-level server) or an HP machine. While that is certainly
+an easy option, I wanted fancier remote management capabilities. With Dell, you
+only get basic IPMI, but no remote console and virtual media functionality,
+unless you pay for the extra iDRAC board.
+</p>
+
+<p>
+Recent SuperMicro mainboards on the other hand come with IPMI 2.0, including
+remote console and virtual media. Also, their boards generally made a really
+good impression on me and many people I know. Given that I like assembling my
+own computers and choosing every single part that goes into the machine, I
+decided to go with a custom SuperMicro box instead of an “off-the-shelf” server
+of one of the big players.
+</p>
+
+<h2>Hardware specifics</h2>
+
+<p>
+The cheapest widely available SuperMicro board that I could find is the <a
+href="http://www.supermicro.com/products/motherboard/xeon/c202_c204/x9scl-f.cfm">X9SCL-F</a>.
+It accepts only Intel Xeon processors, so I ordered the cheapest Xeon I could
+find: E3-1220 v2. The rationale here is that modern CPUs provide a lot of
+computing power, but the server workloads I run are far from CPU constrained.
+There are a couple of interesting features that the CPU has, though. For one it
+supports <a href="http://en.wikipedia.org/wiki/AES-NI">AES-NI</a>, an
+instruction set introduced by Intel to speed up AES encryption/decryption. This
+makes it feasible to encrypt all data on the disks without paying a big
+latency/throughput penalty. Furthermore — and that is probably true for all
+server CPUs manufactured in the last couple of years — it supports Intel VT-x
+for hardware virtualization, so that I can run KVM, if I chose to.
+</p>
+
+<p>
+The combination of the SuperMicro X9SCL-F mainboard and the memory controller
+on that Xeon processor require unbuffered ECC-RAM. The term “unbuffered” means
+it should <strong>not</strong> be registered memory. This is a bit peculiar
+combination, but you can find RAM modules that fit the bill. I chose to go for
+2 modules with 8 GB each (<a
+href="http://www.kingston.com/us/memory/search/?partid=KVR16E11/8">Kingston
+KVR16E11</a>), which is the maximum supported amount of memory per module. If
+it turns out that I want more memory in the future, I can just add two more 8
+GB modules.
+</p>
+
+<p>
+As for the disks, I have had <strong>a lot</strong> of disks fail in the last
+couple of years, so nowadays I just buy the enterprise grade disks, typically
+from Western Digital. For SATA, this means using the <a
+href="http://wdc.com/en/products/products.aspx?id=580">WD RE4 WD1003FBYX-0</a>.
+I bought two of them and run them in a RAID-1 so that one can fail and the box
+still continues working. Of course, in case of failure, I’ll need to order a
+new disk, drive to the datacenter and replace the disk. In case you wonder: the
+particular case I bought does not have hot-swap drive bays, which was not
+entirely clear to me. With a better case, one could maybe store a hot spare
+(i.e. a drive in a hot plug tray) at the datacenter and have the remote hands
+just replace the drive for you.
+</p>
+
+<p>
+The case I chose is the <a
+href="http://www.supermicro.com/products/chassis/1u/512/sc512l-260.cfm">SuperMicro
+SC512L-260</a>, and I regret that. It’s the smallest and cheapest 1U case that
+SuperMicro sells, and it shows. The power supply unit only has 4 pin molex
+connectors, no SATA power connectors, so you need adapters. The wiring in the
+case is far from satisfactory, and the mainboard power cables are just barely
+long enough. Instead of having drive enclosures and a proper way to put them
+into the case, you directly mount the drive on the bottom of the case with
+screws. Of course, actually putting the drive in requires you to take out the
+fan (which is in the middle between the two drives), otherwise you don’t have
+enough space to do anything. The case is not very deep, but that’s not an
+advantage in any way, IMO.
+</p>
+
+<a href="/Bilder/supermicro_1.jpg"><img src="/Bilder/supermicro_1.thumb.jpg"
+width="200" height="150" border="0" alt="SuperMicro box 1"></a>
+<a href="/Bilder/supermicro_2.jpg"><img src="/Bilder/supermicro_2.thumb.jpg"
+width="200" height="150" border="0" alt="SuperMicro box 2"></a>
+<a href="/Bilder/supermicro_3.jpg"><img src="/Bilder/supermicro_3.thumb.jpg"
+width="200" height="150" border="0" alt="SuperMicro box 3"></a>
+
+<h2>Setting up the machine</h2>
+
+<p>
+Since the machine is located an hour’s drive away, I wanted the remote
+management functionality to work well. In order to test that, I decided to
+install the machine “remotely”, and not just boot from USB.
+</p>
+
+<p>
+When SuperMicro writes that the X9SCL-F has two ethernet ports, what they
+really mean is that it has two ports (LAN1 and LAN2) <strong>and</strong> a
+dedicated IPMI ethernet port. This was a bit of a surprise, I thought it had
+only one LAN port and the IPMI port. It’s not a big issue either, but it means
+that your operating system will find two ethernet adapters when installing, and
+you need to chose the right one. Also, depending on your Linux distribution
+(i.e. whether it has predictable interface names or not), you may get LAN1
+detected as either eth0 or eth1. This is not a big deal since typically the
+order is persisted in e.g.
+<code>/etc/udev/rules.d/70-persistent-net.rules</code> on Debian. However, it
+is one thing to be aware of when installing a new operating system or partially
+restoring from a backup.
+</p>
+
+<p>
+The first thing that really annoyed me was that the BIOS by default comes with
+IPMI disabled. There are three options on how IPMI can get its network
+configuration: statically configured, using DHCP or “do nothing”. Not very
+helpfully, the default is “do nothing”, and serial console redirection is also
+disabled in the BIOS. This means you need to hook up the machine to a monitor
+and a keyboard at least once. Luckily, USB keyboards work just fine.
+Nevertheless, it is unclear to me why you would chose that setting as a
+default. For people deploying these (server) mainboards in datacenters, it adds
+an additional step, whereas people who don’t want the IPMI need to have a way
+to access the BIOS anyway to change settings (or they could disable IPMI using
+IPMI…).
+</p>
+
+<p>
+When enabling IPMI, do pay attention to the LAN interface setting which
+controls on which ethernet interface the IPMI is active. The value “failover”,
+which is the default, means that at boot time, the IPMI will check if there is
+a link on the dedicated IPMI ethernet interface and fail over to LAN1
+otherwise. “Boot time” is somewhat unclear in this context, given that the IPMI
+BMC boots as soon as there is physical power connected to the machine, no
+matter whether you actually power up the board. In order to get a deterministic
+and reliable mode of operation, you should chose either “shared” or “dedicated”
+instead of “failover”. Dedicated is pretty clear — IPMI will only be active on
+the dedicated IPMI interface. This is okay if you have enough ethernet cables
+and ports and don’t mind the extra wiring. In our case, we wanted to avoid
+that, so I went for “shared”, meaning there will be two MAC addresses on LAN1
+(which is the left-most port on the mainboard). You can also configure the
+shared IPMI to use a VLAN ID. Note that you should update your IPMI firmware to
+the latest available firmware version before trying to do that (03.15 at the
+time of writing). Otherwise, VLANs might just not work at all :-).
+</p>
+
+<p>
+Note that I later discovered that using one ethernet cable and the “shared”
+setting is not a good idea. When rebooting, the ethernet port will be disabled
+and it takes quite some time until the IPMI makes it come up again. Typically,
+it takes longer than the time frame where you can enter the BIOS. This means
+you need a cooperating host (or <code>ipmitool(1)</code> on another host) in
+order to tell it to go the BIOS (see below). If you can, definitely use the
+dedicated ethernet interface.
+</p>
+
+<p>
+The IPMI interface is reachable via HTTP (or HTTPS, but more on that later) on
+the IP address that you configured or that it got via DHCP. The web interface
+makes heavy use of JavaScript, but works fine on Chrome and Firefox on Linux.
+To log in for the first time, use the username ADMIN and password ADMIN.
+</p>
+
+<h2>Using the remote console</h2>
+
+<p>
+While the IPMI’s remote console (called iKVM) is based on VNC and even runs on
+port 5900, it does use a non-standard authentication protocol. To get access,
+you typically log in to the web interface, navigate to “Remote Control” →
+“Console Redirection” and press the “Launch Console” button. The interface will
+serve a jnlp file, which you can launch using <code>javaws(1)</code>.
+</p>
+
+<p>
+There are third-party implementations of this protocol for Mac OS X at <a
+href="https://github.com/thefloweringash/chicken-aten-ikvm">github.com/thefloweringash/chicken-aten-ikvm</a>,
+but I haven’t tried them yet.
+</p>
+
+<p>
+Note that if you access the IPMI web interface through SSH tunnels with
+different ports, you’ll need to replace the ports in the jnlp file.
+</p>
+
+<h2>IPMI Remote Media</h2>
+
+<p>
+The remote media functionality on the X9SCL-F with IPMI firmware version 03.15
+can only read an image from Windows shares (CIFS). It wants you to specify a
+hostname or IP address plus the path to the image. The path contains the share
+name, so if your share is called “isos” and the ISO image is called
+“debian-netinst.iso”, the path is “\isos\debian-netinst.iso”.
+</p>
+
+<p>
+To serve files via CIFS without authentication easily, install the “samba”
+package on Debian and modify your /etc/samba/smb.conf to contain the following
+lines:
+</p>
+
+<pre>
+[global]
+  workgroup = WORKGROUP
+  server string = x200
+  dns proxy = no
+  interfaces = eth0
+  syslog = 0
+  browsable = yes
+  map to guest = bad user
+
+  encrypt passwords = true
+  passdb backend = tdbsam
+  obey pam restrictions = yes
+  unix password sync = no
+
+[debian]
+  path = /home/michael/debian-images/
+  read only = yes
+  guest ok = yes
+  browseable = yes
+  guest account = nobody
+</pre>
+
+<p>
+I specified “guest” as username and “guest” as password in the webinterface,
+just to be sure, and that worked fine.
+</p>
+
+<p>
+Note that you specifically need to chose “virtual media” as a boot device in
+the BIOS, though. In my tests, even after changing the boot order to contain
+virtual media as the first option, this setting would not always persist across
+multiple reboots (perhaps it gets discarded as soon as you boot without a
+virtual media image mounted).
+</p>
+
+<h2>Using ipmitool(1) on the host</h2>
+
+<p>
+After installing an operating system, you need to make sure that a bunch of
+kernel modules are loaded before you get the <code>/dev/ipmi0</code> device
+node that <code>ipmitool(1)</code> requires:
+</p>
+
+<pre>
+modprobe ipmi_si
+modprobe ipmi_devintf
+modprobe ipmi_msghandler
+</pre>
+
+<p>
+In order to boot into the BIOS (useful if the IPMI is unreachable during boot
+because it’s running on the shared ethernet port), use:
+</p>
+
+<pre>
+ipmitool chassis bootdev bios
+</pre>
+
+<h2>Enabling the serial console</h2>
+
+<p>
+Because you can never have enough safety nets, it makes sense to use the serial
+port in addition to the IPMI.
+</p>
+
+<p>
+With systemd, getting a getty started on a serial console is as simple as
+booting with <code>console=ttyS0</code> in the kernel command line, which has
+the nice side effect of also letting the kernel log to serial console. In
+addition, you’ll want to have <code>grub</code> itself be available on the
+serial console. On
+Debian, this works in <code>/etc/default/grub</code>:
+</p>
+<pre>
+GRUB_CMDLINE_LINUX="console=tty0 console=ttyS0 init=/bin/systemd"
+GRUB_TERMINAL=console
+</pre>
+
+<h2>Installing a custom SSL certificate</h2>
+
+<p>
+In our hosting project, every participant has access to the management VLAN, so
+everyone can connect to the web interface. Even worse, since the access is all
+tunneled through the same box, theoretically the box admin (or any attacker
+with a local root exploit) could sniff the traffic, thus gather the IPMI
+password (no, they don’t use a challenge response mechanism) and own your box.
+While the chances of that happening are relatively slim and I trust the other
+participants, I like end-to-end cryptography and decided I want to properly
+secure that interface as far as reasonibly possible.
+</p>
+
+<p>
+It took me quite a while to get this working, so I’ll be very specific on what
+the IPMI does. It is running a standard lighttpd to handle HTTP/HTTPS
+connections and execute CGI binaries. The SSL configuration is:
+</p>
+
+<pre>
+$SERVER["socket"] == ":443" {
+  server.use-ipv6 = "enable"
+  ssl.engine = "enable"
+  ssl.cipher-list = "TLSv1+HIGH !SSLv2 RC4+MEDIUM !aNULL !eNULL !3DES @STRENGTH"
+  ssl.pemfile = "server.pem"
+}
+</pre>
+
+<p>
+In <code>server.pem</code>, the web interface stores the certificate followed
+by the private key.
+</p>
+
+<p>
+What is important to know is that the httpd init script also runs “openssl verify”, probably to make sure that the user-provided certificates actually work and not have the lighttpd crash-loop. What’s unfortunate about this is that “openssl verify” verifies only the first certificate it finds in the PEM file. In case you want to use an SSL certificate that is actually verified by a trusted CA, this implies that the first certificate in the .pem file needs to be the CA certificate itself (because the IPMI does not have a certificate store). In my case, I tried the order “CA, intermediate CA, certificate, private key”. However, lighttpd will not load the certificates and just exit with an error:
+</p>
+
+<pre>
+2014-01-09 23:51:06: (network.c.601) SSL: Private key does not match the
+certificate public key, reason: error:0B080074:x509 certificate
+routines:X509_check_private_key:key values mismatch server.pem 
+</pre>
+
+<p>
+There are two possible workarounds for this problem:
+</p>
+
+<h3>SSL method 1: Get “OK” into the certificate</h3>
+
+<p>
+This is the most fun method. You just need to manage to get the string “OK”
+into any of your certificate’s fields — the common name will do. Note that this
+is case sensitive, so if your CA converts hostnames to lower case before
+issuing the certificate, this won’t work. In case they don’t, a certificate
+issued for e.g. <code>foobar-OK.stapelberg.de</code> will happily pass the init
+script’s check. This is because the “openssl verify” output includes the
+certificate’s fields in the output, and the init script merely greps for “OK”:
+</p>
+
+<pre>
+# …
+openssl verify $CERT_FILE > /tmp/cert.st 2>&1;
+if [ -z "`cat /tmp/cert.st | grep OK`" ];then 
+# …
+else
+    echo "SSL certificate verified OK."                    
+fi
+</pre>
+
+<h3>SSL method 2: Use a self-signed certificate</h3>
+
+<p>
+It’s not quite as clean, but you can just use a self-signed certificate,
+created as follows:
+</p>
+<pre>
+openssl req -x509 -nodes -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+</pre>
+
+<p>
+The common name is where you want to enter the DNS that points to your IPMI.
+Afterwards, you can just upload <code>cert.pem</code> as certificate and
+<code>key.pem</code> as private key in the web interface.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+The server seems to work pretty well, but the IPMI clearly still needs some
+work. It’s essentially an embedded computer, to a large part closed source,
+with questionable security/code quality and only somewhat reliable remote
+management capabilities. In addition to the inherent port flapping with the
+“shared” ethernet configuration I described above, the iKVM server also crashed
+on me once.
+</p>
+
+<p>
+Let’s see if SuperMicro (or ATEN, the company that actually makes the IPMI) is
+willing to improve things :).
+</p>
