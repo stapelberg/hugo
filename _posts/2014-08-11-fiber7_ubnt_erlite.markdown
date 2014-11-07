@@ -121,11 +121,20 @@ support DHCPv6-PD via its Web or CLI interface. The necessary software
 </p>
 
 <p>
+For the next steps, you need to know the transfer network IP range, which seems
+to be different for every fiber7 POP (location). You can get it by either using
+DHCPv6 and looking at the address you get, by checking your MikroTik
+configuration (if you have one) or by asking fiber7. In my case, the range is
+<code>2a02:168:2000:5::/64</code>, but I’ve heard from others that they have
+<code>2a02:168:2000:9::/64</code>.
+</p>
+
+<p>
 Use <code>ssh ubnt@192.168.1.1</code> to log into the CLI. In order to set the
 proper IPv6 address on the transfer network, run <code>ip -6 address show dev
 eth1</code> and look for a line that says <code>inet6
 fe80::de9f:dbff:fe81:a906/64 scope link</code>. Copy everything after the
-<code>::</code> and prefix it with <code>2a02:168:2000:5:</code> (the fiber7
+<code>::</code> and prefix it with <code>2a02:168:2000:5:</code> (your fiber7
 transfer network range), then configure that as static IPv6 address on eth1 and
 set the default route (and enable IPv6 offloading):
 </p>
