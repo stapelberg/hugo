@@ -61,10 +61,10 @@ Lite (Erlite-3)</a>.
 </p>
 
 <p>
-The EdgeRouter Lite (with firmware v1.5.0) offers IPv4 and IPv6 offloading, and
-in fact reaches Gigabit line rate (118 MB/s measured TCP performance). An
-unwelcome surprise is that hardware acceleration only works when
-<strong>not</strong> using bridging at all, so if you want to connect two
+The EdgeRouter Lite (tested with firmware v1.5.0 and v1.6.0) offers IPv4 and
+IPv6 offloading, and in fact reaches Gigabit line rate (118 MB/s measured TCP
+performance). An unwelcome surprise is that hardware acceleration only works
+when <strong>not</strong> using bridging at all, so if you want to connect two
 devices to your router in the same subnet, like a computer and a switch, you
 cannot do that. Effectively, the EdgeRouter needs to sit between the internet
 connection and a switch.
@@ -80,7 +80,7 @@ download on their website is very simple to find and use, and you even get a
 link to the relevant GPL tarball without asking :).
 </p>
 
-<h2>Configuring the EdgeRouter Lite for fiber7</h2>
+<h2>Properly disconnecting your old router</h2>
 
 <p>
 First of all, you should disconnect the MikroTik (or your current router) from
@@ -98,6 +98,8 @@ escalate the problem to their NOC. So, better disable the DHCP:
 /ipv6 dhcp-client set disabled=yes numbers=0
 </pre>
 
+<h2>Configuring the EdgeRouter Lite for fiber7</h2>
+
 <p>
 In my configuration, I connect a switch to eth0 and a media converter (the
 TP-LINK MC220L) to eth1. As a general tip: if you mess up your configuration,
@@ -113,6 +115,89 @@ select the “masquerade” radio button. You’ll also need to switch to the
 “services” tab and enable a DHCP and DNS server. This should give you IPv4
 connectivity to the internet.
 </p>
+
+<p>
+Now on to IPv6. Since EdgeOS version 1.6.0, DHCPv6-PD is an easily usable
+feature. Log into the router using <code>ssh ubnt@192.168.1.1</code>, then run
+the following commands:
+</p>
+
+<pre>
+configure
+set interfaces ethernet eth1 dhcpv6-pd pd 0 prefix-length /48
+set interfaces ethernet eth1 dhcpv6-pd pd 0 interface eth0 service slaac
+set interfaces ethernet eth1 dhcpv6-pd pd 0 interface eth0 prefix-id :0
+set interfaces ethernet eth0 ipv6 router-advert prefix ::/64
+set interfaces ethernet eth0 ipv6 router-advert radvd-options
+  "RDNSS 2001:4860:4860::8888 {};"
+commit
+save
+exit
+reboot
+</pre>
+
+<p>
+The <code>prefix-length</code> specifies how big the prefix is that the ISP is
+giving us; a <code>/48</code> in the case of fiber7. The next lines specify
+that we want to use <a href="http://en.wikipedia.org/wiki/SLAAC">SLAAC</a> to
+hand out addresses of the delegated prefix on <code>eth0</code>. The
+<code>prefix-id</code> is used for the part after the /48, so if you set it to
+e.g. <code>ff23</code>, and your prefix is <code>2a02:168:4a09::/48</code>, the
+EdgeRouter will announce <code>2a02:168:4a09:ff23::/64</code> on
+<code>eth0</code>.
+</p>
+
+<p>
+For me, the reboot was necessary after changing settings, so try rebooting if
+things don’t work as they should.
+</p>
+
+<p>
+When running <code>ip -6 address show dev eth0</code> you should see that
+the router added an IPv6 address like
+<code>2a02:168:4a09:0:de9f:dbff:fe81:a905/64</code> to eth0.
+</p>
+
+<p>
+That’s it! On clients you should be able to <code>ping6 google.ch</code> now
+and get replies.
+</p>
+
+<h2>Bonus: Configuring a DHCPv6-DUID</h2>
+
+<p>
+fiber7 wants to hand out static IPv6 prefixes based on the DHCPv6 option 37,
+but that’s not ready yet. Until then, they offer you to set a static prefix
+based on your DUID (a device identifier based on the MAC address of your
+router). Since I switched from the MikroTik, I needed to port its DUID to the
+EdgeRouter to keep my static prefix.
+</p>
+
+<p>
+Luckily, wide-dhcpv6 reads a file called dhcp6c_duid that you can create with
+the proper DUID. The file starts with a 16-bit integer containing the length of
+the DUID, followed by the raw DUID:
+</p>
+
+<pre>
+echo -en '\x00\x0a\x00\x03\x00\x01\x4c\x5e\x0c\x43\xbf\x39' > /var/lib/dhcpv6/dhcp6c_duid
+</pre>
+
+<h2>Conclusion</h2>
+
+<p>
+I can see why fiber7 went with the MikroTik as their offer for customers: it
+combines a media converter (for fiber to ethernet), a router, a switch and a
+wifi router. In my configuration, those are now all separate devices: the
+TP-LINK MC220L (27 CHF), the Ubiquiti EdgeRouter Lite Erlite-3 (170 CHF) and
+the TP-LINK WDR4300 (57 CHF). The ping latency to google.ch has gone up from
+0.6ms to 0.7ms due to the additional device, but the download rate is about
+twice as high, so I think this is the setup that I’ll keep for a while — until
+somebody comes up with an all-in-one device that provides the same features and
+achieves the same rates :-).
+</p>
+
+<h2>Appendix: IPv6 with EdgeOS &lt; 1.6.0</h2>
 
 <p>
 IPv6 is a bit harder, since EdgeOS in its current version (1.5.0) does not
@@ -213,38 +298,4 @@ exit
 
 <p>
 That’s it! On clients you should be able to <code>ping6 google.ch</code> now and get replies.
-</p>
-
-<h2>Bonus: Configuring a DHCPv6-DUID</h2>
-
-<p>
-fiber7 wants to hand out static IPv6 prefixes based on the DHCPv6 option 37,
-but that’s not ready yet. Until then, they offer you to set a static prefix
-based on your DUID (a device identifier based on the MAC address of your
-router). Since I switched from the MikroTik, I needed to port its DUID to the
-EdgeRouter to keep my static prefix.
-</p>
-
-<p>
-Luckily, wide-dhcpv6 reads a file called dhcp6c_duid that you can create with
-the proper DUID. The file starts with a 16-bit integer containing the length of
-the DUID, followed by the raw DUID:
-</p>
-
-<pre>
-echo -en '\x00\x0a\x00\x03\x00\x01\x4c\x5e\x0c\x43\xbf\x39' > /var/lib/dhcpv6/dhcp6c_duid
-</pre>
-
-<h2>Conclusion</h2>
-
-<p>
-I can see why fiber7 went with the MikroTik as their offer for customers: it
-combines a media converter (for fiber to ethernet), a router, a switch and a
-wifi router. In my configuration, those are now all separate devices: the
-TP-LINK MC220L (27 CHF), the Ubiquiti EdgeRouter Lite Erlite-3 (170 CHF) and
-the TP-LINK WDR4300 (57 CHF). The ping latency to google.ch has gone up from
-0.6ms to 0.7ms due to the additional device, but the download rate is about
-twice as high, so I think this is the setup that I’ll keep for a while — until
-somebody comes up with an all-in-one device that provides the same features and
-achieves the same rates :-).
 </p>
