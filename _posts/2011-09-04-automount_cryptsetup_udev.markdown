@@ -49,7 +49,7 @@ dmcrypt+LUKS-Partition hinzufügen:
 
 <pre>
 $ mkdir keyfiles; cd keyfiles
-$ dd if=/dev/urandom of=backup-hdd bs=256 count=1
+$ dd if=/dev/random of=backup-hdd bs=256 count=1
 # cryptsetup luksAddKey /dev/sdc1 ~/keyfiles/backup-hdd
 </pre>
 
