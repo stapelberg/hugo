@@ -1,0 +1,72 @@
+==================================================================
+https://keybase.io/secure
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://michael.stapelberg.de
+  * I am secure (https://keybase.io/secure) on keybase.
+  * I have a public key with fingerprint 424E 14D7 03E7 C6D4 3D9D  6F36 4E71 60ED 4AC8 EE1D
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "424e14d703e7c6d43d9d6f364e7160ed4ac8ee1d",
+            "host": "keybase.io",
+            "key_id": "4e7160ed4ac8ee1d",
+            "kid": "01010556ecfa25c150ec9b345603608295ac4dd7f591b3c1e75bebf441439c07795d0a",
+            "uid": "103887b78b94ee525dfec651952c3100",
+            "username": "secure"
+        },
+        "service": {
+            "hostname": "michael.stapelberg.de",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1422002858,
+    "expire_in": 157680000,
+    "prev": "ff12baea966a8e84b0fdbeab5758fd4264822747d5d01590ab121f2124f24fbe",
+    "seqno": 4,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFlkn9QVFUUx5fdQCVMcnQaQQd9Q5HrDr779t73Yx1FoB+OY2GFgmSu78d9y8tl
+d3lvwUhZHWMyEWXNxmRCGYdIZko0JKShTJgAZQccp8BNSEqzESjlx0gKE/UeY391
+7525P873fO45Z05wrsUUHfFq/vY/11++tyQiNCiYMlujG3YRglcqIhy7iB14ZpMV
+jwurPlXx+AkHASmIAZQY0o4ZkZagXeIkWrbTEDOAJrEEeZHFGEiEjcj1aoaHjhF4
+DScrXv1NvzgVyeD8X79jxkACfSJEY1HmKSQCRGKRE+wQ0aSdJlmKQ7wIJYmREQcE
+uwgwgwQsyBACaOdEkmE4JJG8jiuYwQHSzrKMwLACBzFGFJJkLNIIcIgS7YAkDaGG
+VQ+fh3W1hsUCFRPFNv2kFioiNgpg5PHYnqeIuTx2J2t+3ofdAlZdyRLWET7V6/eK
+XrcuyfX7fQ6D4C/yGS47seB8DHMKikfSq6k7FGJVU7wewgF0pehXDDqAFEWSFItY
+G4Hf8SkqdiqGAjE0S+rD+AYX6khZBpTAY56jaZ7FLBRIWRIwLyAGsbIEKRqyFMVA
+RtIrARBH8gKggEwBCsr6EoyANZzv8RIOqIfJu4zEFZdnNu+fST76gHnxE6aIaFNU
+pNnoCFP0nNj/2qS4MdYULG6bgkAMP9xDrrNYh96bPnI8/dSXY4jK+qGrG8WXhNxs
+zO7Kuqr3v55KTG0/MB1HZ86anFhy5WLVU47xm2Hr68GlMQnmk+Y1KQmWofMLSqYH
+b2dfDLy4tWZ+hvXWmfVlTD81Otjbd9XRXpEo/b7hzb0rT4aem51UWhx4UNIktXxw
+51hF076hcXVTb3Ja8HpDds4LW1bgiBOXsicXgjuPngkMra5pPLIqzp0LzqHWtXmW
++rOrpugyR0bNytupl1Cpa7Tvk6XfHe9MvTDuffJhh+vUwcqSNV9sfLb1sGrtWlsZ
+Stq+/3RtAGW5zoTCr8VmBgcXDXy/mOmal7O1NtH8Mb8ZnEtcPdwTfyXT/Nsr6e82
+dG4Ib3n6fohu4h4E2irg1cax5X/1VH9bN3dk2bBl955S5Wi1c90mbeL03jq3q31+
+2Fb949T1awlHy7/Zf7Zt+WVLPTNgRs+PJKFguigm+H8S92s3v2qJ3Pb2WEb3HJJI
+sX/o1kB8FHvj0/p477UFi8qmm7vvJo1K3f03/ql0x9/qYLvE8l+bF/6cVl0waf2o
+lx851D9Rmxpjd0LrvIGsZT1ph4fDs9Bd5tAbL28uPPF3n/iWVhRzLGljJrhAlz9q
+jxob7+xawUbG/dLxWUnAZnO9VJmyLTmm6rzv8z/4+2OOfX2Qbc8oatkZlWu+lyPy
++c3/Ag==
+=1L+B
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/secure
+
+==================================================================
