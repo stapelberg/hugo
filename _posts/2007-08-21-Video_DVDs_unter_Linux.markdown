@@ -109,7 +109,7 @@ der Zielordner, man kann sich also ein einfaches Script dafür schreiben.
 Aufgerufen wird dvdauthor dann schließlich mit:
 </p>
 <pre>
-dvdauthor -x &lt;path/to/dvdauthor.xml&gt;
+VIDEO_FORMAT=pal dvdauthor -x &lt;path/to/dvdauthor.xml&gt;
 </pre>
 
 <h2>DVD brennen</h2>
