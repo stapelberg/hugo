@@ -102,9 +102,15 @@ escalate the problem to their NOC. So, better disable the DHCP:
 
 <p>
 In my configuration, I connect a switch to eth0 and a media converter (the
-TP-LINK MC220L) to eth1. As a general tip: if you mess up your configuration,
-you can always use the link-local address of the EdgeRouter and SSH into that.
-Find the link-local address using <code>ping6 ff02::1%eth0</code>.
+TP-LINK MC220L) to eth1. Pay attention to configure the media converter to
+“auto”, not “force”. In both cases you’ll get a link, but with “force”, you
+will not get any replies to your packets.
+</p>
+
+<p>
+A general tip: if you mess up your IP configuration, you can always use the
+link-local address of the EdgeRouter and SSH into that. Find the link-local
+address using <code>ping6 ff02::1%eth0</code>.
 </p>
 
 <p>
