@@ -127,9 +127,6 @@ configure
 set interfaces ethernet eth1 dhcpv6-pd pd 0 prefix-length /48
 set interfaces ethernet eth1 dhcpv6-pd pd 0 interface eth0 service slaac
 set interfaces ethernet eth1 dhcpv6-pd pd 0 interface eth0 prefix-id :0
-set interfaces ethernet eth0 ipv6 router-advert prefix ::/64
-set interfaces ethernet eth0 ipv6 router-advert radvd-options
-  "RDNSS 2001:4860:4860::8888 {};"
 commit
 save
 exit
@@ -196,6 +193,25 @@ twice as high, so I think this is the setup that I’ll keep for a while — unt
 somebody comes up with an all-in-one device that provides the same features and
 achieves the same rates :-).
 </p>
+
+<h2>Appendix: IPv6 with EdgeOS &lt; 1.7.0</h2>
+
+<p>
+For EdgeOS 1.6.0, you’ll need to add router advertisement settings:
+</p>
+<pre>
+configure
+set interfaces ethernet eth1 dhcpv6-pd pd 0 prefix-length /48
+set interfaces ethernet eth1 dhcpv6-pd pd 0 interface eth0 service slaac
+set interfaces ethernet eth1 dhcpv6-pd pd 0 interface eth0 prefix-id :0
+set interfaces ethernet eth0 ipv6 router-advert prefix ::/64
+set interfaces ethernet eth0 ipv6 router-advert radvd-options
+  "RDNSS 2001:4860:4860::8888 {};"
+commit
+save
+exit
+reboot
+</pre>
 
 <h2>Appendix: IPv6 with EdgeOS &lt; 1.6.0</h2>
 
