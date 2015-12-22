@@ -168,6 +168,42 @@ Remember to make these settings both on your locale machines and on the
 machines you log into remotely.
 </p>
 
+<h3>Non-interactive SSH sessions</h3>
+
+<p>
+Notably, the above setup only covers interactive sessions. When you run e.g.
+<code>ssh server ls /tmp</code>, ssh will actually use a <a
+href="http://unix.stackexchange.com/a/46856">non-interactive non-login
+shell</a>. For most shells, this means that the usual configuration files are
+not read.
+</p>
+
+<p>
+In order for your locale setup to apply to non-interactive SSH commands as
+well, ensure that your SSH client is configured with <code>SendEnv LANG
+LC_*</code> to send the environment variables to the SSH server when
+connecting. On the server, you’ll need to have <code>AcceptEnv LANG LC_*</code>
+configured. Recent versions of OpenSSH include these settings by default in
+<code>/etc/ssh/ssh_config</code> and <code>/etc/ssh/sshd_config</code>,
+respectively. If that’s not the case on your machine, use <code>echo "SendEnv
+LANG LC_*" >> ~/.ssh/config</code>.
+</p>
+
+<p>
+To verify which variables are getting sent, run SSH with the <code>-v</code>
+flag and look for the line “debug1: Sending environment.”:
+</p>
+<pre>
+$ ssh localhost env
+[…]
+debug1: Sending environment.
+debug1: Sending env LC_TIME = en_DK.UTF-8
+debug1: Sending env LANG = de_CH.UTF-8
+debug1: Sending env LC_MESSAGES = C
+debug1: Sending command: env
+[…]
+</pre>
+
 <h2>Debugging locale issues</h2>
 
 <p>
@@ -187,8 +223,10 @@ LC_TIME=en_DK.UTF-8
 
 <p>
 In order for Unicode text input to work, your terminal emulator (e.g.
-<code>urxvt</code>) and your shell (e.g. <code>zsh</code>) both should use a
-locale whose codeset is UTF-8.
+<code>urxvt</code>) and the program you are using inside it (e.g. your shell,
+like <code>zsh</code>, or a terminal multiplexer like <code>screen</code>, or a
+chat program like <code>irssi</code>, etc.) both should use a locale whose
+codeset is UTF-8.
 </p>
 
 <p>
