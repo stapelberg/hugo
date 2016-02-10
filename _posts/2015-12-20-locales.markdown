@@ -164,7 +164,7 @@ sed -i '2isource ~/.my_locale_env' ~/.xsession
 </pre>
 
 <p>
-Remember to make these settings both on your locale machines and on the
+Remember to make these settings both on your local machines and on the
 machines you log into remotely.
 </p>
 
