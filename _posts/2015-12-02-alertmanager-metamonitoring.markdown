@@ -98,11 +98,13 @@ Create a file called <code>dailytest.rules</code> with the following content:
 ALERT DailyTest
   IF vector(1) > 0
   FOR 1m
-  WITH {
-    job="dailytest"
+  LABELS {
+    job = "dailytest",
   }
-  SUMMARY "daily alert test"
-  DESCRIPTION "daily alert test"
+  ANNOTATIONS {
+    summary = "daily alert test",
+    description = "daily alert test",
+  }
 </pre>
 
 <p>
@@ -123,28 +125,30 @@ alert test and nothing else, so that you never accidentally change something:
 </p>
 
 <pre>
-notification_config {
-  name: "dailytest"
-  email_config {
-    email: "michael+alerts@example.org"
-  }
-}
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 30s
+  repeat_interval: 1h
+  receiver: team-X-pager
 
-aggregation_rule {
-  filter {
-    name_re: "job"
-    value_re: "dailytest"
-  }
+  routes:
+  - match:
+      job: dailytest
+    receiver: dailytest
+    repeat_interval: 1d
 
-  repeat_rate_seconds: 86400
-  notification_config_name: "dailytest"
-}
+receivers:
+- name: 'dailytest'
+  email_configs:
+  - to: 'michael+alerts@example.org'
 </pre>
 
 <p>
-Alertmanager does not need a restart, it watches its configuration file. After
-Prometheus has been running for a minute, you should see the following alert on
-your Alertmanager’s <code>/alerts</code> status page:
+Send Alertmanager a <code>SIGHUP</code> signal to make it reload its
+configuration file. After Prometheus has been running for a minute, you should
+see the following alert on your Alertmanager’s <code>/alerts</code> status
+page:
 </p>
 
 <img src="/Bilder/alertmanager-daily-alert-lores.png" srcset="/Bilder/alertmanager-daily-alert.png 2x" width="422" height="189" alt="prometheus alertmanager alert">
@@ -154,7 +158,7 @@ your Alertmanager’s <code>/alerts</code> status page:
 <p>
 Finally, once you verified everything is working, add a filter so that the
 daily test alerts don’t clutter your Gmail inbox: put
-“<code>from:(alertmanager@example.org) subject:(daily alert test)</code>” into
+“<code>from:(alertmanager@example.org) subject:(DailyTest)</code>” into
 the search box, click the drop-down icon, click “Create filter with this
 search”, select “Skip the Inbox”.
 </p>
