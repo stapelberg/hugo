@@ -22,7 +22,7 @@ dual-stacked machine. For the latter, I used to use the following SSH config:
 <pre>
 Host home
         Hostname home.zekjur.net
-        ProxyCommand ssh -4 dualstack nc %h %p
+        ProxyCommand ssh -4 dualstack -W %h:%p
 </pre>
 
 <p>
@@ -40,7 +40,7 @@ when you don’t have a route to the public IPv6 internet, though:
 
 <pre>
 Match host home exec "ip -6 route get 2001:7fd::1 | grep -q unreachable"
-        ProxyCommand ssh -4 dualstack nc %h %p
+        ProxyCommand ssh -4 dualstack -W %h:%p
 
 Host home
         Hostname home.zekjur.net
