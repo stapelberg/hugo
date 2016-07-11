@@ -180,7 +180,7 @@ spec:
 </pre>
 
 <p>
-You can see that I’m referring to two volumes which are called Secrets. This is because <a href="https://github.com/kubernetes/kubernetes/issues/13610">static read-only files</a> are not yet supported by Kubernetes. So, in order to bring the configuration and SSL certificates to the docker container, I’ve chosen to create a Secret for each of them. An alternative would be to create my own Docker container based on the official nginx container, and then add my configuration in there. I dislike that approach because it signs me up for additional maintenance: with the Secret injection method, I’ll just use the official nginx container, and nginx upstream will take care of version updates and security updates. For creating the Secret files, I’ve created a small Makefile:
+You can see that I’m referring to two volumes which are called Secrets. This is because <a href="https://github.com/kubernetes/kubernetes/issues/13610">static read-only files</a> are not yet supported by Kubernetes (Update 2016-07-11: <a href="http://kubernetes.io/docs/user-guide/configmap/">ConfigMap</a> is now available in Kubernetes). So, in order to bring the configuration and SSL certificates to the docker container, I’ve chosen to create a Secret for each of them. An alternative would be to create my own Docker container based on the official nginx container, and then add my configuration in there. I dislike that approach because it signs me up for additional maintenance: with the Secret injection method, I’ll just use the official nginx container, and nginx upstream will take care of version updates and security updates. For creating the Secret files, I’ve created a small Makefile:
 </p>
 
 <pre>
