@@ -235,11 +235,18 @@ pretty clean and easy to understand.
 
 <p>
 You can find my version of the firmware at <a
-href="http://code.stapelberg.de/git/kinesis-firmware/">http://code.stapelberg.de/git/kinesis-firmware/</a>.
+href="https://github.com/stapelberg/kinesis-firmware">https://github.com/stapelberg/kinesis-firmware</a>.
 You can also <a href="/kinesis-firmware-2013-03-12.hex">download the .hex
 firmware image</a> that you can flash on your Teensy++ — but beware: I use <a
 href="http://www.neo-layout.org/">neo-layout.org</a>, so I remapped all the
 keys in the firmware :-).
+</p>
+
+<p>
+<strong>Update:</strong> I switched to a <a
+href="/kinesis-firmware-2016-09-16.hex">a .hex firmware image</a> which uses
+the US layout (with Escape/Delete swapped and <code>Super_L</code> on Home) and
+now do my remapping in the operating system.
 </p>
 
 <h2>The layout and board files</h2>
