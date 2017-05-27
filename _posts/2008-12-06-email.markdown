@@ -98,7 +98,7 @@ Beispiel mutt).
 Hier möchte ich auf folgende Anleitung verweisen, die wirklich alles abdeckt,
 was man wissen sollte und wie eine Antwort aussehen sollte:
 </p>
-<a href="http://www.afaik.de/usenet/faq/zitieren/" title="Korrekt zitieren" target="_blank">http://www.afaik.de/usenet/faq/zitieren/</a>
+<a href="http://www.afaik.de/usenet/faq/zitieren/download/zitieren-alles.html" title="Korrekt zitieren" target="_blank">http://www.afaik.de/usenet/faq/zitieren/download/zitieren-alles.html</a>
 
 <p>
 Dieser Punkt ist einer der wichtigsten! Ohne korrekte Zitate macht es einfach
