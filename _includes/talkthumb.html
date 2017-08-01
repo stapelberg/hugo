@@ -1,0 +1,29 @@
+<div markdown="0">
+<a href="https://youtu.be/{{ include.id }}">
+<picture class="talkthumb">
+{% if include.webp == 1 %}
+<source type="image/webp" srcset="
+{% if include.maxresdefault == 1 %}
+//i.ytimg.com/vi_webp/{{ include.id }}/maxresdefault.webp 1080w,
+{% endif %}
+{% if include.sddefault == 1 %}
+//i.ytimg.com/vi_webp/{{ include.id }}/sddefault.webp 640w,
+{% endif %}
+//i.ytimg.com/vi_webp/{{ include.id }}/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/{{ include.id }}/mqdefault.webp 320w" />
+{% endif %}
+
+<source srcset="
+{% if include.maxresdefault == 1 %}
+//i.ytimg.com/vi/{{ include.id }}/maxresdefault.jpg 1080w,
+{% endif %}
+{% if include.sddefault == 1 %}
+//i.ytimg.com/vi/{{ include.id }}/sddefault.jpg 640w,
+{% endif %}
+//i.ytimg.com/vi/{{ include.id }}/hqdefault.jpg 480w,
+//i.ytimg.com/vi/{{ include.id }}/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/{{ include.id }}/hqdefault.jpg">
+</picture>
+</a>
+</div>
