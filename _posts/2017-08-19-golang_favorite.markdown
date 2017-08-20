@@ -96,7 +96,7 @@ programmers (rather than standards committees?).
 #### Quick feedback / low latency
 
 I love quick feedback: I appreciate websites which load quickly, I prefer fluent
-User Interfaces which don’t lag, and I will chose a quick tool over a more
+User Interfaces which don’t lag, and I will choose a quick tool over a more
 powerful tool any day. [The
 findings](https://blog.gigaspaces.com/amazon-found-every-100ms-of-latency-cost-them-1-in-sales/)
 of large web properties confirm that this behavior is shared by many.
@@ -190,8 +190,8 @@ we point people to when they join the Gophers slack channel. See
 ### Caveats
 
 Of course, no programming tool is entirely free of problems. Given that this
-article explains why Go is my favorite programming language, it largely talks
-positively. I will mention a few issues in passing, though:
+article explains why Go is my favorite programming language, it focuses on the
+positives. I will mention a few issues in passing, though:
 
 * If you use Go packages which don’t offer a stable API, you might want to use a specific, known-working version. Your best bet is the [dep](https://github.com/golang/dep) tool, which is not part of the language at the time of writing.
 * Idiomatic Go code does not necessarily translate to the highest performance machine code, and the runtime comes at a (small) cost. In the rare cases where I found performance lacking, I successfully resorted to [cgo](https://golang.org/cmd/cgo/) or assembler. If your domain is hard-realtime applications or otherwise extremely performance-critical code, your mileage may vary, though.
