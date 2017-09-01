@@ -88,6 +88,13 @@ func writeAtomically(dest string, compress bool, write func(w io.Writer) error) 
         return err
     }
 
+    // fsync(2) after fchmod(2) orders writes as per
+    // https://lwn.net/Articles/270891/. Can be skipped for performance for
+    // idempotent applications (which only ever atomically write new files and
+    // tolerate file loss) on an ordered file systems. ext3, ext4, XFS, Btrfs,
+    // ZFS are ordered by default.
+    f.Sync()
+
     if err := f.Close(); err != nil {
         return err
     }
