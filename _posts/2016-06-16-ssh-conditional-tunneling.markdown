@@ -39,7 +39,7 @@ when you don’t have a route to the public IPv6 internet, though:
 </p>
 
 <pre>
-Match host home exec "ip -6 route get 2001:7fd::1 | grep -q unreachable"
+Match host home exec "ip -6 route get 2001:7fd::1 2>&1 | grep -q unreachable"
         ProxyCommand ssh -4 dualstack -W %h:%p
 
 Host home
