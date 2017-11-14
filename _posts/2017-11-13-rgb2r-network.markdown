@@ -29,9 +29,8 @@ with us :-).
 
 For the WiFi links to my parent’s place, we used 2 [tp-link
 CPE510](http://www.tp-link.com/us/products/details/cat-37_CPE510.html) (CPE
-stands for Customer Premise Equipment) on each site. While the devices achieve
-higher bandwidths on the WiFi layer, they only have 100 Mbit/s ethernet ports,
-which is why we used two of them.
+stands for Customer Premise Equipment) on each site. The devices only have 100
+Mbit/s ethernet ports, which is why we used two of them.
 
 The edge router for the event venue was a [PC Engines
 apu2c4](https://pcengines.ch/apu2c4.htm). For the Local Area Network (LAN)
@@ -530,8 +529,8 @@ don’t expect the config files to just work out of the box.
 * On link 2, our signal to noise ratio hovered between 34 dBm to 36 dBm. When it
   started raining, it dropped by 1 dBm.
 
-Despite the relatively bad signal/noise ratios, we could easily obtain more than
-100 Mbps on the WiFi layer.
+Despite the relatively bad signal/noise ratios, we could easily obtain about 140
+Mbps on the WiFi layer, which results in 100 Mbps on the ethernet layer.
 
 The difference in signal/noise ratio between the two links had no visible impact
 on bandwidth, but ICMP probes showed measurably more packet loss on link 1.
