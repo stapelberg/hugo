@@ -10,6 +10,9 @@ starting to vanish from the internet, I started collecting them here.
 
 ## 2017
 
+(en) Go Time #59: Improved Improved Improved (i3)
+* Podcast [abstract](https://changelog.com/gotime/59) [mp3](https://cdn.changelog.com/uploads/gotime/59/go-time-59.mp3)
+
 (de) gokrazy: ein Go userland für Raspberry Pi 3 appliances
 
 {% include talkthumb.html id="52HiPsa5DY0" maxresdefault=1 webp=1 %}
