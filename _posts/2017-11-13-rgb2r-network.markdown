@@ -25,6 +25,8 @@ Luckily, there is (almost) direct line of sight to my parent’s place, and my d
 recently got a 400 Mbit/s cable internet connection, which he’s happy to share
 with us :-).
 
+<img src="/Bilder/IMG_7157.jpg" width="640" height="480" alt="WiFi antenna pole">
+
 ### Hardware
 
 For the WiFi links to my parent’s place, we used 2 [tp-link
