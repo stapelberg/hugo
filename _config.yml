@@ -1,7 +1,7 @@
 # Site settings
 title: Michael Stapelbergs Website
 email: your-email@domain.com
-description: "Die private Website von Michael Stapelberg mit Informationen, Programmen und Artikeln über das Programmieren sowie PC-, Mac OS X und Linux-Erfahrungen."
+description: "Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux."
 baseurl: ""
 url: "http://michael.stapelberg.de"
 
