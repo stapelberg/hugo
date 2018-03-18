@@ -1,0 +1,4 @@
+[submodule "docs"]
+	path = docs
+	url = git@github.com:stapelberg/stapelberg.github.io.git
+	branch = master
