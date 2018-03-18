@@ -1,0 +1,45 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>Quelltext von &quot;WinMake 1.01a&quot;</title>
+	</head>
+
+	<body>
+		WindowStyle $0074<br>
+		Window 0,0-%maxX,%maxY<br>
+		<font color="blue">Declare</font> x%,y%,endx%,endy%,message&amp;,newwin&amp;,message$<br>
+		Cls<br>
+		UsePen 2,1,@RGB(0,0,0)<br>
+		UseBrush 1,@RGB(0,0,0)<br>
+		message&amp;=CreateText(%hwnd,&quot;(C) Michael Stapelberg 2001&quot;,0,0,%maxX,21)<br>
+		message&amp;=CreateText(%hwnd,&quot;Klicken sie mit der Maus,halten sie die linke Maustaste gedr&uuml;ckt und ziehen bestimmen sie die Gr&ouml;&szlig;e und Postion des Fenster!&quot;,0,21,%maxX,21)<br>
+		<b>WaitMouse</b><br>
+		x%=%MouseX<br>
+		y%=%mouseY<br>
+		<b>While</b> %MousePressed<br>
+		<i>If Or(Gt(endx%,%mouseX),Gt(endy%,%mouseY))<br>
+		Cls<br>
+		UseBrush 1,@RGB(0,0,0)<br>
+		EndIf<br>
+		Rectangle x%,y%-%mouseX,%mouseY<br>
+		endx%=%mouseX<br>
+		endy%=%mouseY<br>
+		<font color="red">' Wichtigster Programmteil /\</font><br>
+		</i><b>Wend</b><br>
+		message$=Add$(&quot;Quelltext: Window &quot;,x%)<br>
+		message$=Add$(message$,&quot;,&quot;)<br>
+		message$=Add$(message$,y%)<br>
+		message$=Add$(message$,&quot;-&quot;)<br>
+		message$=Add$(message$,endx%)<br>
+		message$=Add$(message$,&quot;,&quot;)<br>
+		message$=Add$(message$,endy%)<br>
+		Cls<br>
+		newwin&amp;=CreateDialog(%hwnd,&quot;Fertiges Fenster!&quot;,x%,y%,Sub(endx%,x%),Sub(endy%,y%))<br>
+		message&amp;=CreateText(%hwnd,message$,0,42,%maxX,21)<br>
+		<b>WaitMouse<br>
+		End</b>
+	</body>
+
+</html>

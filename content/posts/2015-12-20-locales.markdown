@@ -1,0 +1,257 @@
+---
+layout: post
+title:  "Configuring locales on Linux"
+date:   2015-12-20 16:30:00
+categories: Artikel
+Aliases:
+  - /Artikel/locales
+---
+
+<p>
+While modern desktop environments that are used on Linux set up the locale with
+support for UTF-8, users who prefer not to run a desktop environment or users
+who use SSH to work on remote computers occasionally face trouble setting up
+their locale correctly.
+</p>
+
+<p>
+On Linux, the locale is defined via the environment variables <code>LANG</code>
+and a bunch of environment variables starting with <code>LC_</code>, e.g.
+<code>LC_MESSAGES</code>.
+</p>
+
+<h2>Your system’s available locales</h2>
+
+<p>
+With <code>locale -a</code>, you can get a list of available locales, e.g.:
+</p>
+<pre>
+$ locale -a
+C
+C.UTF-8
+de_CH.utf8
+en_DK.utf8
+en_US.utf8
+POSIX
+</pre>
+
+<p>
+The format of these values is
+<code>[language[_territory][.codeset][@modifier]]</code>, see <a
+href="https://en.wikipedia.org/wiki/Locale">wikipedia:Locale</a>.
+</p>
+
+<p>
+You can configure the locales that should be generated on your system in
+<code>/etc/locale.gen</code>. On Debian, <code>sudo dpkg-reconfigure
+locales</code> brings up a front-end for that configuration file which
+automatically runs <code>locale-gen(8)</code> after you’ve made changes.
+</p>
+
+<h2>The environment variables</h2>
+
+<ol>
+<li>
+<code>LC_ALL</code> overrides all variables starting with <code>LC_</code> and
+<code>LANG</code>.
+</li>
+
+<li>
+<code>LANG</code> is the fallback when more specific <code>LC_</code>
+environment variables are not set.
+</li>
+
+<li>
+The individual <code>LC_</code> variables are documented in <a
+href="http://pubs.opengroup.org/onlinepubs/7908799/xbd/envvar.html#tag_002_002">The
+Single UNIX ® Specification</a>.
+</li>
+</ol>
+
+<p>
+Based on the above, my advice is to never set <code>LC_ALL</code>, set
+<code>LANG</code> to the locale you want to use and possibly override specific
+aspects using the relevant <code>LC_</code> variables.
+</p>
+
+<p>
+As an example, my personally preferred setup looks like this:
+</p>
+<pre>
+unset LC_ALL
+export LANG=de_CH.UTF-8
+export LC_MESSAGES=C
+export LC_TIME=en_DK.UTF-8
+</pre>
+
+<p>
+This slightly peculiar setup sets <code>LANG=de_CH.UTF-8</code> so that the
+default value corresponds to Switzerland, where I live.
+</p>
+
+<p>
+Then, it specifies via <code>LC_MESSAGES=C</code> that I prefer program output
+to not be translated. This corresponds to programs having English output in all
+cases that are relevant to me, but strictly speaking you could come across
+programs whose untranslated language isn’t English, so maybe you’d prefer
+<code>LC_MESSAGES=en_US.UTF-8</code>.
+</p>
+
+<p>
+Finally, via <code>LC_TIME=en_DK.UTF-8</code>, I configure date/time output to
+use the ISO8601 output, i.e. YYYY-mm-dd HH:MM:SS and a 24-hour clock.
+</p>
+
+<h2>Displaying the current locale setup</h2>
+
+<p>
+By running <code>locale</code> without any arguments, you can see the currently
+effective locale configuration:
+</p>
+
+<pre>
+$ locale
+LANG=de_CH.UTF-8
+LANGUAGE=
+LC_CTYPE="de_CH.UTF-8"
+LC_NUMERIC="de_CH.UTF-8"
+LC_TIME=en_DK.UTF-8
+LC_COLLATE="de_CH.UTF-8"
+LC_MONETARY="de_CH.UTF-8"
+LC_MESSAGES=C
+LC_PAPER="de_CH.UTF-8"
+LC_NAME="de_CH.UTF-8"
+LC_ADDRESS="de_CH.UTF-8"
+LC_TELEPHONE="de_CH.UTF-8"
+LC_MEASUREMENT="de_CH.UTF-8"
+LC_IDENTIFICATION="de_CH.UTF-8"
+LC_ALL=
+</pre>
+
+<h2>Where to set the environment variables?</h2>
+
+<p>
+Unfortunately, there is no single configuration file that allows you to set
+environment variables. Instead, each shell reads a slightly different set of
+configuration files, see <a
+href="https://en.wikipedia.org/wiki/Unix_shell#Configuration_files">wikipedia:Unix_shell#Configuration_files</a>
+for an overview. If you’re unsure which shell you are using, try using
+<code>readlink /proc/$$/exe</code>.
+</p>
+
+<p>
+Configuring the environment variables in the shell covers logins on the text
+console and via SSH, but you’ll still need to set the environment variables for
+graphical sessions. If you’re using a desktop environment such as GNOME, the
+desktop environment will configure the locale for you. If you’re using a window
+manager, you should be using an Xsession script (typically found in
+<code>~/.xsession</code> or <code>~/.xinitrc</code>).
+</p>
+
+<p>
+To keep the configuration centralized, I recommend you create a file that you
+can include from both your shell config and your Xsession:
+</p>
+
+<pre>
+cat > ~/.my_locale_env <<'EOT'
+unset LC_ALL
+export LANG=de_CH.UTF-8
+export LC_MESSAGES=C
+export LC_TIME=en_DK.UTF-8
+EOT
+
+echo 'source ~/.my_locale_env' >> ~/.zshrc
+sed -i '2isource ~/.my_locale_env' ~/.xsession
+</pre>
+
+<p>
+Remember to make these settings both on your local machines and on the
+machines you log into remotely.
+</p>
+
+<h3>Non-interactive SSH sessions</h3>
+
+<p>
+Notably, the above setup only covers interactive sessions. When you run e.g.
+<code>ssh server ls /tmp</code>, ssh will actually use a <a
+href="http://unix.stackexchange.com/a/46856">non-interactive non-login
+shell</a>. For most shells, this means that the usual configuration files are
+not read.
+</p>
+
+<p>
+In order for your locale setup to apply to non-interactive SSH commands as
+well, ensure that your SSH client is configured with <code>SendEnv LANG
+LC_*</code> to send the environment variables to the SSH server when
+connecting. On the server, you’ll need to have <code>AcceptEnv LANG LC_*</code>
+configured. Recent versions of OpenSSH include these settings by default in
+<code>/etc/ssh/ssh_config</code> and <code>/etc/ssh/sshd_config</code>,
+respectively. If that’s not the case on your machine, use <code>echo "SendEnv
+LANG LC_*" >> ~/.ssh/config</code>.
+</p>
+
+<p>
+To verify which variables are getting sent, run SSH with the <code>-v</code>
+flag and look for the line “debug1: Sending environment.”:
+</p>
+<pre>
+$ ssh localhost env
+[…]
+debug1: Sending environment.
+debug1: Sending env LC_TIME = en_DK.UTF-8
+debug1: Sending env LANG = de_CH.UTF-8
+debug1: Sending env LC_MESSAGES = C
+debug1: Sending command: env
+[…]
+</pre>
+
+<h2>Debugging locale issues</h2>
+
+<p>
+You can introspect the locale-related environment variables of any process by
+inspecting the <code>/proc/${PID}/environ</code> file (where
+<code>${PID}</code> stands for the process id of the process). As an example,
+this is how you verify your window manager is using the expected configuration,
+provided you use i3:
+</p>
+
+<pre>
+$ tr '\0' '\n' < /proc/$(pidof i3)/environ | grep -e '^\(LANG\|LC_\)'
+LC_MESSAGES=C
+LANG=de_CH.UTF-8
+LC_TIME=en_DK.UTF-8
+</pre>
+
+<p>
+In order for Unicode text input to work, your terminal emulator (e.g.
+<code>urxvt</code>) and the program you are using inside it (e.g. your shell,
+like <code>zsh</code>, or a terminal multiplexer like <code>screen</code>, or a
+chat program like <code>irssi</code>, etc.) both should use a locale whose
+codeset is UTF-8.
+</p>
+
+<p>
+A good end-to-end test could be to run the following <code>perl</code> command:
+</p>
+<pre>
+$ perl -MPOSIX -Mlocale -e 'print strftime("%c", localtime) . "\n"'
+2015-12-20T16:22:09 CET
+</pre>
+
+<p>
+In case your locales are misconfigured, <code>perl</code> will complain loudly:
+</p>
+<pre>
+$ LC_TIME=en_AU.UTF-8 perl -MPOSIX -Mlocale -e 'print strftime("%c", localtime) . "\n"'
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_TIME = "en_AU.UTF-8",
+	LC_MESSAGES = "C",
+	LANG = "de_CH.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to a fallback locale ("de_CH.UTF-8").
+Son 20 Dez 2015 16:22:58 CET
+</pre>

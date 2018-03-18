@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ThinkPad x200</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2008-11-29-x200/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">ThinkPad x200</h2> (<span id="date">2008-11-29</span>) <div class="Artikel" id="content">
+<p>
+Ich möchte kurz erläutern, warum ich das x200 dem MacBook vorziehe, welche
+Hardware es beinhaltet und wie man sie unter Linux zum Laufen bringt.
+</p>
+
+<h2>Warum kein MacBook mehr</h2>
+<p>
+Wie in meinem Artikel <a href="/Artikel/MacBook_erste_Erfahrungen"
+title="Artikel: MacBook: erste Erfahrungen">„MacBook: erste Erfahrungen”</a>
+beschrieben war ich anfangs sehr angetan von dem Gerät. Mittlerweile, also nach
+ca. zweieinhalb Jahren ist die Begeisterung allerdings verflogen. Hier ist eine
+Liste an Dingen, die mich an dem Gerät (insbesondere an meinem Modell, manche
+Punkte kann man nicht verallgemeinern) stören:
+</p>
+<ul>
+    <li>
+    Die Handauflagefläche ist zu kantig. Man kann die Hände nicht bequem
+    schief auflegen. Außerdem sammelt sich dort Dreck an, der, als ich ihn
+    entfernen wollte, dazu führte, dass das Plastik dort abbrach! Laut
+    Apple-Servicetechnikern ist das ein bekanntes Problem, dank AppleCare
+    wurde mir das komplette Topcase anstandslos ausgetauscht (oh, ein neues
+    Touchpad, schön…).
+    </li>
+    <li>
+    Das Gerät wird <strong>richtig</strong> heiß, man kann die Hand nicht
+    länger als 1-2 Sekunden an der heißesten Stelle lassen (links unten,
+    also dort, wo es das Knie berührt).
+    </li>
+    <li>
+    Das Netzteil ist einfach so kaputtgegangen und musste ausgetauscht
+    werden.
+    </li>
+    <li>
+    Ebenfalls repariert werden musste eine quietschende
+    Displayscharnierschraube, die iSight, bei der das Kabel nicht
+    festgeklebt wurde und somit im Laufe der Zeit abgerutscht ist sowie der
+    Akku, dessen Kapazität viel zu gering war (Serienfehler, das große
+    Akkutauschprogramm aller Hersteller, wer sich noch erinnert…).
+    </li>
+    <li>
+    Das MacBook hat keinen PCMCIA-Slot. Das war zwar früher nicht wichtig
+    für mich, heutzutage möchte ich aber ab und zu via UMTS ins Internet,
+    was nur geht, sofern das jemand anders mit PCMCIA-Slot für mich
+    weiterroutet…
+    </li>
+    <li>
+    Während die theoretische Möglichkeit, aus dem mini-DVI-Slot VGA, DVI
+    und S-Video zu ziehen, zwar schön ist, brauchte ich bisher nur VGA und
+    das wird auch noch einige Jahre so bleiben (bis zum nächsten Notebook).
+    Somit stört der nötige Adapter nur, da er ab und an herausrutscht,
+    merkwürdig aussieht (weißes Zubehör an einem schwarzen Notebook?) und
+    in der Regel nicht dort ist, wo man ihn braucht (nämlich greifbar).
+    </li>
+    <li>Nach einiger Zeit mit Mac OS X bemerkt man die ganzen Schönheitsfehler:
+    <ul>
+        <li>
+        Starke Verlangsamung bei Verschlüsselung mit FileVault (das ist
+        absoluter Standard, Notebooks ohne Verschlüsselung kann man
+        vergessen), keine Full-Disk-Encryption möglich standardmäßig.
+        </li>
+        <li>
+        Absolute Verlangsamung nachdem der RAM einmal voll war (daher
+        steckt man den Macs soviel davon rein), zum Beispiel nach dem
+        Kopieren eines DVD-Images. Es dauert teilweise bis zu 20
+        Sekunden, bis ein Klick Wirkung zeigt.
+        </li>
+        <li>
+        Langsames und umständlich bedienbares Terminal
+        (Alt-/Delete-Taste via SSH benutzen z.B.).
+        </li>
+        <li>
+        Kompilieren von Software in der Regel umständlicher als auf
+        Linux, da kein Package-Management-System vorhanden.
+        </li>
+        <li>
+        Keine Möglichkeit (zumindest kenne ich keine) Caps Lock als
+        Composekey (zum Erzeugen von Umlauten auf dem US-Layout) zu
+        verwenden.
+        </li>
+        <li>
+        Keine Möglichkeit (außer unschönen Kernel Extensions, sofern
+        das mittlerweile geht) um Suspend-to-RAM beim Zuklappen
+        auszuschalten (wäre praktisch um das Notebook kurz durch die
+        Gegend zu tragen).
+        </li>
+        <li>
+        Keine Möglichkeit einen anderen Window Manager zu wählen (auf
+        einem Notebook mit begrenztem Platz ist Tiling ziemlich
+        praktisch).
+        </li>
+    </ul>
+    <br>
+    → Die Konsequenz: Linux installieren. Die neuen Probleme:
+    <ul>
+        <li>
+        Dual-Boot-System braucht rEFIt, eine freie EFI-Firmware, die
+        bei jedem Beenden von Mac OS X neu geschrieben werden muss
+        (unschön).
+        </li>
+        <li>
+        Aufgrund merkwürdiger Umstände gelang es mir nicht, eine
+        ext2/ext3-Partition in der GPT (Partitiontable unter EFI)
+        einzurichten, sodass die Linuxinstallation bis heute im Swap
+        lebt (!)
+        </li>
+        <li>
+        Das Tastaturlayout ist komisch zu benutzen unter Linux. So
+        fehlt zum Beispiel eine Delete-Taste, F1-F12 generieren andere
+        Keycodes wenn man nicht Fn drückt, Alt- und Windows/Apfel-Taste
+        sind vertauscht.
+        </li>
+        <li>
+        Suspend-to-RAM funktionierte bis 2.6.25 nur sporadisch (OK,
+        mittlerweile kein Problem mehr, trotzdem ärgerlich damals).
+        </li>
+        <li>
+        Dass die Funktionstasten nur in Software steuerbar sind ist
+        doof, da man sie dazu erstmal konfigurieren muss. Außerdem
+        muss(te?) man zum Beispiel die Helligkeit via eigenem Programm
+        steuern.
+        </li>
+        <li>
+        Es fehlen LEDs für alle wichtigen Dinge (Eingeschaltet? Zugriff
+        auf die Festplatte? Netzwerktraffic? Immerhin, Sleep gibt's
+        ;-))
+        </li>
+        <li>
+        Es fehlen die Maustasten. Unter Linux gehen Programmierer davon
+        aus, dass man drei Maustasten hat. Und das ist auch gut so. Wer
+        sich schonmal mit Synaptics Double-Tap und Triple-Tap (!)
+        herumschlagen musste, weiß, was ich meine. Für die
+        Nicht-Leidgeplagten: Man muss mit drei Fingern gleichzeitig
+        aufs Touchpad tippen, um die mittlere Maustaste zu simulieren.
+        </li>
+        <li>
+        Ich habe es bis heute nicht geschafft, die WLAN-Karte in ein
+        WEP-Netz zu bringen.
+        </li>
+        <li>
+        Das Display wird trotz deaktiviertem DPMS alle (ca.) 15 Minuten
+        ausgeschaltet. Passiert da etwas in Hardware? Ansonsten möchte
+        ich nicht ausschließen, dass es an meiner Installation liegt.
+        </li>
+        <li>
+        Trotz deaktiviertem Laptopmode und Powermanagement hängt das
+        MacBook gelegentlich für 2-3 Sekunden ohne erkennbaren Grund,
+        vermutlich beim Festplattenzugriff.
+        </li>
+    </ul></li>
+</ul>
+
+<h2>Das x200 im Vergleich</h2>
+
+<p>Nun kurz zu den Vorteilen des x200 im Gegensatz zum MacBook:</p>
+<ul>
+    <li>Es ist leichter (1,6 kg mit größtem Akku gegenüber 2,2 kg des MacBooks).</li>
+    <li>Es ist kleiner, hat aber die selbe Auflösung (1280x800 Pixel).</li>
+    <li>Es hat kein Glossy Display :-).</li>
+    <li>Es ist schneller (2,2 GHz Core 2 Duo gegenüber 2 GHz Core Duo, wobei die MacBooks das mittlerweile auch bieten).</li>
+    <li>Die Festplatte ist größer (250 GB gegenüber den 160 GB, die im MacBook aufgrund horrender Preise bei Apple selbst nachgerüstet werden musste).</li>
+    <li>Der Akku hält ca. 8 Stunden im Vergleich zu 2-2,5 Stunden beim MacBook.</li>
+    <li>Es hat einen TrackPoint statt eines Touchpads (letzteres stört beim Tippen häufig, ein TrackPoint ist außerdem bequemer zu bedienen, finde ich).</li>
+    <li>Es unterstützt 4 GB RAM statt maximal 2 GB RAM (bei neueren MacBooks gehen auch 4 GB).</li>
+    <li>Es hat einen SD-Cardreader, einen PCMCIA-Slot, eine Standardtastatur und drei Maustasten.</li>
+    <li>Es wird bereits jetzt deutlich besser von Linux unterstützt.</li>
+    <li>Man kann eine Dockingstation verwenden (durchaus ein sehr nettes Extra).</li>
+</ul>
+
+<p>
+Einen einzigen Punkt muss man dem MacBook aber lassen: Der MagSafe-Anschluss (Magnetischer Stromanschluss, in den meisten Fällen passiert beim Stolpern über’s Kabel nichts) ist genial. Und von Apple patentiert. Danke auch, Apple :-(.
+</p>
+
+<p>
+Und auch einen Nachteil kann ich bereits jetzt am x200 nennen: Man kann es nur mit Windows Vista kaufen, schöner wäre es ohne Microsoft-Steuer gewesen. Einmal durfte es sogar booten, bevor es dem Debian Installer zum Opfer fiel ;-).
+</p>
+
+<h2>Die Hardware im x200</h2>
+<ul>
+<li>
+<strong>00:02.0 VGA compatible controller: Intel Corporation Cantiga Integrated Graphics Controller (rev 07)</strong><br>
+Hier verbirgt sich ein Intel GM45 Chipset, welches in der aktuellen Xorg-Version korrekt mit dem VESA-Treiber gestartet wird und damit dann auch funktioniert – mit dem Intel-Treiber nämlich (noch?) nicht.<br>
+<strong>Update:</strong> Mittlerweile funktioniert der intel-Treiber auch ordnungsgemäß (2:2.3.2-2+lenny5 in debian)</li>
+<li><strong>00:19.0 Ethernet controller: Intel Corporation 82567LM Gigabit Network Connection (rev 03)</strong><br>
+Diese Ethernetkarte funktioniert erst ab Linux 2.6.25. Dadurch findet zum Beispiel der Debian Installer kein Netz während der Installation. Nach manuellem Kernelupgrade funktioniert jedoch alles einwandfrei.</li>
+
+<li><strong>00:1b.0 Audio device: Intel Corporation 82801I (ICH9 Family) HD Audio Controller (rev 03)</strong><br>
+Wie bei vielen Notebooks läuft diese Soundkarte mit dem <code>snd_hda_intel</code>-Treiber ohne Konfiguration oder sonstigen Aufwand.</li>
+
+<li><strong>00:1f.2 SATA controller: Intel Corporation ICH9M/M-E SATA AHCI Controller (rev 03)</strong><br>
+Dieser AHCI-kompatible SATA-Controller wird von älteren Versionen des Debian Installers nicht gefunden. Mit Debian lenny funktioniert es jedoch einwandfrei (alle Kernel ab 2.6.20 sollten in Ordnung sein).</li>
+<li><strong>03:00.0 Ethernet controller: Atheros Communications Inc. AR242x 802.11abg Wireless PCI Express Adapter (rev 01)</strong><br>
+Diese Atheros-Karte mit AR2425-Chipset entspricht der Auswahl „ThinkPad 11b/g Wireless LAN Mini-PCI Express Adapter III” und läuft unter Linux 2.6.27-rc5 mit dem im Kernel enthaltenen <code>ath5k</code>-Treiber. Der Treiber enthält jedoch einen Hinweis, dass er noch in Entwicklung ist.</li>
+</ul>
+<p>Der Vollständigkeit halber hier noch die anderen Geräte:</p>
+<ul>
+<li><code>00:00.0 Host bridge: Intel Corporation Cantiga Memory Controller Hub (rev 07)</code></li>
+<li><code>00:1a.0 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #4 (rev 03)</code></li>
+<li><code>00:1f.3 SMBus: Intel Corporation 82801I (ICH9 Family) SMBus Controller (rev 03)</code></li>
+<li><code>00:02.1 Display controller: Intel Corporation Cantiga Integrated Graphics Controller (rev 07)</code></li>
+<li><code>00:03.0 Communication controller: Intel Corporation Cantiga MEI Controller (rev 07)</code></li>
+<li><code>00:1c.0 PCI bridge: Intel Corporation 82801I (ICH9 Family) PCI Express Port 1 (rev 03)</code></li>
+<li><code>00:1d.0 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #1 (rev 03)</code></li>
+<li><code>00:1d.7 USB Controller: Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #1 (rev 03)</code></li>
+<li><code>00:1e.0 PCI bridge: Intel Corporation 82801 Mobile PCI Bridge (rev 93)</code></li>
+<li><code>00:1f.0 ISA bridge: Intel Corporation ICH9M-E LPC Interface Controller (rev 03)</code></li>
+</ul>
+<p>
+Wenn du möchtest kannst du dir auch die detailliertere <a href="/x200/lspci_v.txt" title="lspci -v">Ausgabe von lspci -v</a> ansehen.
+</p>
+
+<h3>Suspend-to-RAM</h3>
+<p>
+Suspend-to-RAM funktioniert problemlos, sobald man dem Kernel den Parameter
+<code>acpi_sleep=s3_bios</code> übergibt. Ansonsten bleibt der Bildschirm
+einfach schwarz, der Rechner an sich ist aber da.
+</p>
+
+<h3>tp_smapi</h3>
+<p>
+tp_smapi ist ein Modul, mit dem man das Akku-Management steuern kann, also ab
+wann geladen werden soll, wie voll er laden soll, etc…
+</p>
+
+<p>
+Leider ist in der DSDT-table im BIOS der Port, den tp_smapi braucht, so
+konfiguriert, dass er nicht benutzt werden darf. Wenn man die DSDT-table
+allerdings manuell ändert, funktioniert es einwandfrei.
+</p>
+
+<p>
+Dazu kopiert man sich die aktuelle DSDT-table, dekompiliert sie, passt sie an,
+kompiliert sie wieder:
+</p>
+<pre>sudo cp /proc/acpi/dsdt DSDT
+sudo chown michael DSDT
+iasl -d DSDT
+vi DSDT.dsl
+# Hier nun nach 0x1600 suchen und die beiden Bereiche 
+# via // am Anfang vor jeder Zeile auskommentieren
+iasl -tc DSDT</pre>
+
+<p>
+Anschließend ändert man in der Kernel-Konfiguration folgende Einstellungen:
+</p>
+<pre>CONFIG_STANDALONE=n
+CONFIG_ACPI_CUSTOM_DSDT=y
+CONFIG_ACPI_CUSTOM_DSDT_FILE="/home/michael/dsdt/DSDT.hex"
+</pre>
+
+<p>
+Wenn alles glatt geht sieht man im dmesg nach dem nächsten Boot die Meldung
+„ACPI: Table DSDT replaced by host OS” und kann tp_smapi problemlos benutzen.
+</p>
+
+<h3>RAM</h3>
+<p>
+Von den eingebauten 3 GB sind 2966 MB tatsächlich nutzbar:
+</p>
+<pre>
+             total       used       free     shared    buffers     cached
+Mem:          2966        327       2638          0         15        170
+-/+ buffers/cache:        142       2824
+Swap:         8907          0       8907
+</pre>
+
+<h2>Kernel-Konfiguration</h2>
+
+<p>
+Falls du dir das Zusammenstellen einer Kernelkonfiguration ersparen möchtest,
+kannst du gerne meine <a href="/x200/config.txt" title="Kernel-Konfiguration
+für 2.6.27-rc5">Kernel-Konfiguration für 2.6.27-rc5</a> benutzen.
+</p>
+
+<h2>Bilder</h2>
+
+<p>
+Ein Bild sagt mehr als tausend Worte, und ich habe <a href="/Galerie/x200/"
+title="Galerie: x200">gleich zwölf davon</a>. Viel Spaß.
+</p>
+
+</div></div></div></div></div></div></body>
+</html>

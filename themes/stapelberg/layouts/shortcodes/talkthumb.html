@@ -1,0 +1,30 @@
+<div markdown="0">
+<a href="https://youtu.be/{{ .Get "id" }}">
+<picture class="talkthumb">
+{{ if eq (.Get "webp") "1" }}
+<source type="image/webp" srcset="
+{{ if eq (.Get "maxresdefault") "1" }}
+//i.ytimg.com/vi_webp/{{ .Get "id" }}/maxresdefault.webp 1080w,
+{{ end }}
+{{ if eq (.Get "sddefault") "1" }}
+//i.ytimg.com/vi_webp/{{ .Get "id" }}/sddefault.webp 640w,
+{{ end }}
+//i.ytimg.com/vi_webp/{{ .Get "id" }}/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/{{ .Get "id" }}/mqdefault.webp 320w" />
+{{ end }}
+
+<source srcset="
+{{ if eq (.Get "maxresdefault") "1" }}
+//i.ytimg.com/vi/{{ .Get "id" }}/maxresdefault.jpg 1080w,
+{{ end }}
+{{ if eq (.Get "sddefault") "1" }}
+//i.ytimg.com/vi/{{ .Get "id" }}/sddefault.jpg 640w,
+{{ end }}
+//i.ytimg.com/vi/{{ .Get "id" }}/hqdefault.jpg 480w,
+//i.ytimg.com/vi/{{ .Get "id" }}/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/{{ .Get "id" }}/hqdefault.jpg">
+</picture>
+</a>
+</div>
+

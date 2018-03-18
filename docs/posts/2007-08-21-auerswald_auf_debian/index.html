@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kurz-Howto: Auerswald-Telefonanlage unter Debian benutzen</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2007-08-21-auerswald_auf_debian/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Kurz-Howto: Auerswald-Telefonanlage unter Debian benutzen</h2> (<span id="date">2007-08-21</span>) <div class="Artikel" id="content">
+<p>
+Da die Installation der Programme zum Verwalten einer Auerswald-Telefonanlage
+(COMpact 4410 USB in meinem Fall) dank eigenem Auerswald-Kerneltreiber, nicht
+verfügbarem Debian-Modul und Javas problematischer Lizenz nicht ganz so trivial
+ist, werde ich hier eine kurze Anleitung geben.
+</p>
+
+<h3>Kernel-Quelltext installieren</h3>
+
+<p>
+<i>Benutzer, die einen eigenen Kernel verwenden, können diesen Schritt
+überspringen.</i>
+</p>
+
+<p>
+Zuerst benötigen wir den Quelltext des Kernels, den wir benutzen. Welche
+Version installiert ist, sieht man mit dem Befehl <code>uname -r</code>. Unter
+Debian kann man sich nun den Quelltext mittels <code>apt-get install
+kernel-source-&lt;version&gt;</code>, also bei mir zum Beispiel
+<code>kernel-source-2.4.27</code>, installieren. (Hinweis: Auf Ubuntu heißt das
+Paket <code>linux-source</code>.)
+</p>
+
+<p>
+Anschließend kopieren wir die Konfiguration mit <code>cp
+/boot/config-&lt;version&gt; /usr/src/linux/.config</code> (bei mir also
+<code>cp /boot/config-2.4.27 /usr/src/linux</code>), sodass wir uns nun einen
+identischen Kernel kompilieren könnten.
+</p>
+
+<h3>Auerswald-USB-Kernel-Modul installieren</h3>
+
+<p>
+Den entsprechenden aktuellen Treiber kann man sich auf <a
+href="http://www.auerswald.de" target="_blank">www.auerswald.de</a>
+herunterladen (unter „Service”, „Download”, „Software, Treiber”). Zum Zeitpunkt
+dieser Anleitung sind Version 2.1.12 für Kernel 2.6 und Version 1.2.8 für
+Kernel 2.4 aktuell.
+</p>
+
+<p>
+Die Installation verläuft hier noch problemlos (<code>make &amp;&amp; make
+install</code>), geladen wird das Kernelmodul dann mit <code>modprobe
+auerswald</code>, wenn er in <code>lsmod | grep auerswald</code> aufgeführt
+wird, hat’s geklappt.
+</p>
+
+<p>
+Falls die Devicenodes <code>/dev/usb/auer*</code> nicht existieren, muss man
+sie mit dem Befehl <code>for i in `seq 0 15` ; do mknod -m 666 /dev/usb/auer$i
+c 180 `expr 112 + $i` ; done</code> erzeugen.
+</p>
+
+<h3>Java installieren</h3>
+
+<p>
+So, nun geht’s ans Eingemachte – nicht nur weil Java unter Debian ohnehin schon
+umständlich zu installieren ist, sondern auch weil Auerswald anscheinend denkt,
+dass Linux ein Synonym für SuSE ist und wir daher die mitgelieferten
+Startscripts etwas umbiegen müssen.
+</p>
+
+<p>
+Da die Lizensbedingungen von Java verhindern, dass daraus ein Debian-Paket
+gebaut und zum Download gestellt werden kann, müssen wir uns eben selbst eins
+bauen. Dazu installieren wir das Paket <code>java-package</code>, welches das
+freundlicherweise für uns erledigt.
+</p>
+
+<p>
+Von <a href="http://java.sun.com/javase/downloads/index.jsp" title="Java
+Download">java.sun.com</a> brauchen wir nun die aktuelle Version des JDK (5.0
+Update 7). Die Datei sollte <code>jdk-1_5_0_07-linux-i586.bin</code> heißen.
+</p>
+
+<p>
+Wir erstellen nun das Paket mit <code>fakeroot make-jpkg
+jdk-1_5_0_07-linux-i586.bin</code> und installieren es mit <code>dpkg -i
+sun-j2sdk1.5_1.5.0+update07_i386.deb</code>. Nach erfolgreicher Installation
+legen wir noch mit <code>ln -s /usr/lib/j2sdk1.5-sun /usr/lib/java</code> einen
+Symlink an, der beim Aktualisieren von Java angepasst werden sollte.
+</p>
+
+<h3>Auerswald-Scripts anpassen</h3>
+
+<p>
+Wenn man nun die einzelnen Programme von Auerswald installiert, kommen diese
+mit einem Startscript namens <code>start14.sh</code>, in dem am Anfang die
+Umgebungevariable JAVA_HOME erkannt werden soll. Das klappt jedoch anscheinend
+nur auf SuSE-Systemen, sodass wir den Pfad einfach manuell setzen. Dazu löschen
+wir von der Zeile „# get correct JAVA_HOME entry” bis „if test -z $JAVA_HOME”
+alle Zeilen und fügen stattdessen die Zeile „JAVA_HOME=/usr/lib/java” ein. Der
+Anfang der Datei sieht dann so aus:
+</p>
+<pre>#!/bin/sh
+#
+# start script (java 1.4.x oder neuer)
+#
+JAVA_HOME=/usr/lib/java
+if test -z $JAVA_HOME
+then
+    echo Die Datei "$JAVA_INC" ist fehlerhaft.
+    echo Bitte passen Sie die Datei an Ihr System an.
+    exit 1
+fi
+</pre>
+
+<p>
+OK, das war’s – nun können wir die Programme wie in den
+<code>LIESMICH</code>-Dateien beschrieben starten.
+</p>
+
+</div></div></div></div></div></div></body>
+</html>

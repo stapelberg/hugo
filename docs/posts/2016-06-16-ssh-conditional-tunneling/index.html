@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Conditionally tunneling SSH connections</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2016-06-16-ssh-conditional-tunneling/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Conditionally tunneling SSH connections</h2> (<span id="date">2016-06-16</span>) <div class="Artikel" id="content">
+<p>
+Whereas most of the networks I regularly use (home, work, hackerspace, events,
+…) provide native IPv6 connectivity, sometimes I’m in a legacy-only network,
+e.g. when tethering via my phone on some mobile providers.
+</p>
+
+<p>
+By far the most common IPv6-only service I use these days is SSH to my
+computer(s) at home. On philosophical grounds, I refuse to set up a dynamic DNS
+record and port-forwardings, so the alternative I use is either <a
+href="https://en.wikipedia.org/wiki/Miredo">Miredo</a> or tunneling through a
+dual-stacked machine. For the latter, I used to use the following SSH config:
+</p>
+
+<pre>
+Host home
+        Hostname home.zekjur.net
+        ProxyCommand ssh -4 dualstack -W %h:%p
+</pre>
+
+<p>
+The issue with that setup is that it’s inefficient when I’m in a network which
+does support IPv6, and it requires me to authenticate to both machines. These
+are not huge issues of course, but they bother me enough that I’ve gotten into
+the habit of commenting out/in the <code>ProxyCommand</code> directive
+regularly.
+</p>
+
+<p>
+I’ve discovered that SSH can be told to use a <code>ProxyCommand</code> only
+when you don’t have a route to the public IPv6 internet, though:
+</p>
+
+<pre>
+Match host home exec "ip -6 route get 2001:7fd::1 2>&1 | grep -q unreachable"
+        ProxyCommand ssh -4 dualstack -W %h:%p
+
+Host home
+        Hostname home.zekjur.net
+</pre>
+
+<p>
+The IPv6 address used is from <code>k.root-servers.net</code>, but no packets
+are being sent — we merely ask the kernel for a route. When you don’t have an
+IPv6 address or default route, the <code>ip</code> command will print
+<code>unreachable</code>, which enables the <code>ProxyCommand</code>.
+</p>
+
+<p>
+For debugging/verifying the setup works as expected, use <code>ssh -vvv</code>
+and look for lines prefixed with “Debug3”.
+</p>
+
+</div></div></div></div></div></div></body>
+</html>

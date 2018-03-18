@@ -1,0 +1,373 @@
+[    81.131] 
+X.Org X Server 1.19.5
+Release Date: 2017-10-12
+[    81.131] X Protocol Version 11, Revision 0
+[    81.131] Build Operating System: Linux 4.9.0-4-amd64 x86_64 Debian
+[    81.131] Current Operating System: Linux midna 4.13.0-1-amd64 #1 SMP Debian 4.13.4-2 (2017-10-15) x86_64
+[    81.131] Kernel command line: BOOT_IMAGE=/vmlinuz-4.13.0-1-amd64 root=UUID=ac1a1fd0-1a04-4651-9eab-57bb1d91ac45 ro i915.preliminary_hw_support=1 i915.alpha_support=1 cgroup_enable=memory quiet
+[    81.131] Build Date: 16 October 2017  12:28:38PM
+[    81.131] xorg-server 2:1.19.5-1 (https://www.debian.org/support) 
+[    81.131] Current version of pixman: 0.34.0
+[    81.131] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[    81.131] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[    81.131] (==) Log file: "/var/log/Xorg.0.log", Time: Tue Nov  7 18:58:27 2017
+[    81.132] (==) Using config file: "/etc/X11/xorg.conf"
+[    81.132] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[    81.133] (==) No Layout section.  Using the first Screen section.
+[    81.133] (==) No screen section available. Using defaults.
+[    81.133] (**) |-->Screen "Default Screen Section" (0)
+[    81.133] (**) |   |-->Monitor "<default monitor>"
+[    81.133] (==) No monitor specified for screen "Default Screen Section".
+	Using a default monitor configuration.
+[    81.133] (==) Automatically adding devices
+[    81.133] (==) Automatically enabling devices
+[    81.133] (==) Automatically adding GPU devices
+[    81.133] (==) Max clients allowed: 256, resource mask: 0x1fffff
+[    81.134] (WW) The directory "/usr/share/fonts/X11/cyrillic" does not exist.
+[    81.134] 	Entry deleted from font path.
+[    81.134] (WW) The directory "/usr/share/fonts/X11/100dpi/" does not exist.
+[    81.134] 	Entry deleted from font path.
+[    81.134] (WW) The directory "/usr/share/fonts/X11/75dpi/" does not exist.
+[    81.134] 	Entry deleted from font path.
+[    81.134] (WW) The directory "/usr/share/fonts/X11/Type1" does not exist.
+[    81.134] 	Entry deleted from font path.
+[    81.134] (WW) The directory "/usr/share/fonts/X11/100dpi" does not exist.
+[    81.134] 	Entry deleted from font path.
+[    81.134] (WW) The directory "/usr/share/fonts/X11/75dpi" does not exist.
+[    81.134] 	Entry deleted from font path.
+[    81.134] (==) FontPath set to:
+	/usr/share/fonts/X11/misc,
+	built-ins
+[    81.134] (==) ModulePath set to "/usr/lib/xorg/modules"
+[    81.134] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[    81.134] (II) Loader magic: 0x55a652dc2de0
+[    81.134] (II) Module ABI versions:
+[    81.134] 	X.Org ANSI C Emulation: 0.4
+[    81.134] 	X.Org Video Driver: 23.0
+[    81.134] 	X.Org XInput driver : 24.1
+[    81.134] 	X.Org Server Extension : 10.0
+[    81.134] (++) using VT number 7
+
+[    81.134] (II) systemd-logind: logind integration requires -keeptty and -keeptty was not provided, disabling logind integration
+[    81.134] (II) xfree86: Adding drm device (/dev/dri/card0)
+[    81.135] (--) PCI:*(0:1:0:0) 10de:1c03:1462:3281 rev 161, Mem @ 0xde000000/16777216, 0xc0000000/268435456, 0xd0000000/33554432, I/O @ 0x0000e000/128, BIOS @ 0x????????/131072
+[    81.135] (II) LoadModule: "glx"
+[    81.136] (II) Loading /usr/lib/xorg/modules/linux/libglx.so
+[    81.154] (II) Module glx: vendor="NVIDIA Corporation"
+[    81.154] 	compiled for 4.0.2, module version = 1.0.0
+[    81.154] 	Module class: X.Org Server Extension
+[    81.154] (II) NVIDIA GLX Module  375.82  Wed Jul 19 20:30:13 PDT 2017
+[    81.154] (II) Applying OutputClass "nvidia" to /dev/dri/card0
+[    81.154] 	loading driver: nvidia
+[    81.154] (==) Matched nvidia as autoconfigured driver 0
+[    81.154] (==) Matched nouveau as autoconfigured driver 1
+[    81.154] (==) Matched nv as autoconfigured driver 2
+[    81.154] (==) Matched nouveau as autoconfigured driver 3
+[    81.154] (==) Matched nv as autoconfigured driver 4
+[    81.154] (==) Matched modesetting as autoconfigured driver 5
+[    81.154] (==) Matched fbdev as autoconfigured driver 6
+[    81.154] (==) Matched vesa as autoconfigured driver 7
+[    81.154] (==) Assigned the driver to the xf86ConfigLayout
+[    81.154] (II) LoadModule: "nvidia"
+[    81.155] (II) Loading /usr/lib/xorg/modules/drivers/nvidia_drv.so
+[    81.158] (II) Module nvidia: vendor="NVIDIA Corporation"
+[    81.158] 	compiled for 4.0.2, module version = 1.0.0
+[    81.158] 	Module class: X.Org Video Driver
+[    81.158] (II) LoadModule: "nouveau"
+[    81.158] (WW) Warning, couldn't open module nouveau
+[    81.158] (II) UnloadModule: "nouveau"
+[    81.158] (II) Unloading nouveau
+[    81.158] (EE) Failed to load module "nouveau" (module does not exist, 0)
+[    81.158] (II) LoadModule: "nv"
+[    81.158] (WW) Warning, couldn't open module nv
+[    81.158] (II) UnloadModule: "nv"
+[    81.158] (II) Unloading nv
+[    81.158] (EE) Failed to load module "nv" (module does not exist, 0)
+[    81.158] (II) LoadModule: "modesetting"
+[    81.159] (II) Loading /usr/lib/xorg/modules/drivers/modesetting_drv.so
+[    81.159] (II) Module modesetting: vendor="X.Org Foundation"
+[    81.159] 	compiled for 1.19.5, module version = 1.19.5
+[    81.159] 	Module class: X.Org Video Driver
+[    81.159] 	ABI class: X.Org Video Driver, version 23.0
+[    81.159] (II) LoadModule: "fbdev"
+[    81.159] (WW) Warning, couldn't open module fbdev
+[    81.159] (II) UnloadModule: "fbdev"
+[    81.159] (II) Unloading fbdev
+[    81.159] (EE) Failed to load module "fbdev" (module does not exist, 0)
+[    81.159] (II) LoadModule: "vesa"
+[    81.159] (WW) Warning, couldn't open module vesa
+[    81.159] (II) UnloadModule: "vesa"
+[    81.159] (II) Unloading vesa
+[    81.159] (EE) Failed to load module "vesa" (module does not exist, 0)
+[    81.159] (II) NVIDIA dlloader X Driver  375.82  Wed Jul 19 20:05:50 PDT 2017
+[    81.159] (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+[    81.160] (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+[    81.160] (II) Loading sub module "fb"
+[    81.160] (II) LoadModule: "fb"
+[    81.160] (II) Loading /usr/lib/xorg/modules/libfb.so
+[    81.161] (II) Module fb: vendor="X.Org Foundation"
+[    81.161] 	compiled for 1.19.5, module version = 1.0.0
+[    81.161] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    81.161] (II) Loading sub module "wfb"
+[    81.161] (II) LoadModule: "wfb"
+[    81.161] (II) Loading /usr/lib/xorg/modules/libwfb.so
+[    81.161] (II) Module wfb: vendor="X.Org Foundation"
+[    81.162] 	compiled for 1.19.5, module version = 1.0.0
+[    81.162] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    81.162] (II) Loading sub module "ramdac"
+[    81.162] (II) LoadModule: "ramdac"
+[    81.162] (II) Module "ramdac" already built-in
+[    81.163] (WW) Falling back to old probe method for modesetting
+[    81.163] (II) NVIDIA(0): Creating default Display subsection in Screen section
+	"Default Screen Section" for depth/fbbpp 24/32
+[    81.163] (==) NVIDIA(0): Depth 24, (==) framebuffer bpp 32
+[    81.163] (==) NVIDIA(0): RGB weight 888
+[    81.163] (==) NVIDIA(0): Default visual is TrueColor
+[    81.163] (==) NVIDIA(0): Using gamma correction (1.0, 1.0, 1.0)
+[    81.164] (**) NVIDIA(0): Enabling 2D acceleration
+[    81.913] (--) NVIDIA(0): Valid display device(s) on GPU-0 at PCI:1:0:0
+[    81.913] (--) NVIDIA(0):     DFP-0
+[    81.913] (--) NVIDIA(0):     DFP-1
+[    81.913] (--) NVIDIA(0):     DFP-2
+[    81.913] (--) NVIDIA(0):     DFP-3
+[    81.913] (--) NVIDIA(0):     DFP-4
+[    81.913] (--) NVIDIA(0):     DFP-5
+[    81.913] (--) NVIDIA(0):     DFP-6 (boot)
+[    81.913] (--) NVIDIA(0):     DFP-7
+[    81.914] (II) NVIDIA(0): NVIDIA GPU GeForce GTX 1060 6GB (GP106-A) at PCI:1:0:0
+[    81.914] (II) NVIDIA(0):     (GPU-0)
+[    81.914] (--) NVIDIA(0): Memory: 6291456 kBytes
+[    81.914] (--) NVIDIA(0): VideoBIOS: 86.06.27.00.7a
+[    81.914] (II) NVIDIA(0): Detected PCI Express Link width: 16X
+[    81.914] (--) NVIDIA(GPU-0): DFP-0: disconnected
+[    81.914] (--) NVIDIA(GPU-0): DFP-0: Internal TMDS
+[    81.914] (--) NVIDIA(GPU-0): DFP-0: 330.0 MHz maximum pixel clock
+[    81.914] (--) NVIDIA(GPU-0): 
+[    81.914] (--) NVIDIA(GPU-0): DFP-1: disconnected
+[    81.914] (--) NVIDIA(GPU-0): DFP-1: Internal TMDS
+[    81.914] (--) NVIDIA(GPU-0): DFP-1: 330.0 MHz maximum pixel clock
+[    81.914] (--) NVIDIA(GPU-0): 
+[    81.914] (--) NVIDIA(GPU-0): DFP-2: disconnected
+[    81.914] (--) NVIDIA(GPU-0): DFP-2: Internal DisplayPort
+[    81.914] (--) NVIDIA(GPU-0): DFP-2: 1440.0 MHz maximum pixel clock
+[    81.914] (--) NVIDIA(GPU-0): 
+[    81.914] (--) NVIDIA(GPU-0): DFP-3: disconnected
+[    81.914] (--) NVIDIA(GPU-0): DFP-3: Internal TMDS
+[    81.914] (--) NVIDIA(GPU-0): DFP-3: 330.0 MHz maximum pixel clock
+[    81.914] (--) NVIDIA(GPU-0): 
+[    81.914] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-4): connected
+[    81.914] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-4): Internal DisplayPort
+[    81.914] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-4): 1440.0 MHz maximum pixel clock
+[    81.914] (--) NVIDIA(GPU-0): 
+[    81.915] (--) NVIDIA(GPU-0): DFP-5: disconnected
+[    81.915] (--) NVIDIA(GPU-0): DFP-5: Internal TMDS
+[    81.915] (--) NVIDIA(GPU-0): DFP-5: 330.0 MHz maximum pixel clock
+[    81.915] (--) NVIDIA(GPU-0): 
+[    81.915] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-6): connected
+[    81.915] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-6): Internal DisplayPort
+[    81.915] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-6): 1440.0 MHz maximum pixel clock
+[    81.915] (--) NVIDIA(GPU-0): 
+[    81.916] (--) NVIDIA(GPU-0): DFP-7: disconnected
+[    81.916] (--) NVIDIA(GPU-0): DFP-7: Internal TMDS
+[    81.916] (--) NVIDIA(GPU-0): DFP-7: 330.0 MHz maximum pixel clock
+[    81.916] (--) NVIDIA(GPU-0): 
+[    81.920] (==) NVIDIA(0): 
+[    81.920] (==) NVIDIA(0): No modes were requested; the default mode "nvidia-auto-select"
+[    81.920] (==) NVIDIA(0):     will be used as the requested mode.
+[    81.920] (==) NVIDIA(0): 
+[    81.921] (II) NVIDIA(0): Validated MetaModes:
+[    81.921] (II) NVIDIA(0):     "DFP-6:nvidia-auto-select,DFP-4:nvidia-auto-select"
+[    81.921] (II) NVIDIA(0): Virtual screen size determined to be 7680 x 4320
+[    81.930] (++) NVIDIA(0): DPI set to (192, 192); computed from -dpi X commandline option
+[    81.930] (II) UnloadModule: "modesetting"
+[    81.930] (II) Unloading modesetting
+[    81.930] (--) Depth 24 pixmap format is 32 bpp
+[    81.931] (II) NVIDIA: Using 49152.00 MB of virtual memory for indirect memory
+[    81.931] (II) NVIDIA:     access.
+[    81.933] (II) NVIDIA(0): ACPI: failed to connect to the ACPI event daemon; the daemon
+[    81.933] (II) NVIDIA(0):     may not be running or the "AcpidSocketPath" X
+[    81.933] (II) NVIDIA(0):     configuration option may not be set correctly.  When the
+[    81.933] (II) NVIDIA(0):     ACPI event daemon is available, the NVIDIA X driver will
+[    81.933] (II) NVIDIA(0):     try to use it to receive ACPI event notifications.  For
+[    81.933] (II) NVIDIA(0):     details, please see the "ConnectToAcpid" and
+[    81.933] (II) NVIDIA(0):     "AcpidSocketPath" X configuration options in Appendix B: X
+[    81.933] (II) NVIDIA(0):     Config Options in the README.
+[    81.965] (II) NVIDIA(0): Setting mode "DFP-6:nvidia-auto-select,DFP-4:nvidia-auto-select"
+[    82.079] (==) NVIDIA(0): Disabling shared memory pixmaps
+[    82.079] (==) NVIDIA(0): Backing store enabled
+[    82.079] (==) NVIDIA(0): Silken mouse enabled
+[    82.080] (==) NVIDIA(0): DPMS enabled
+[    82.080] (II) Loading sub module "dri2"
+[    82.080] (II) LoadModule: "dri2"
+[    82.080] (II) Module "dri2" already built-in
+[    82.080] (II) NVIDIA(0): [DRI2] Setup complete
+[    82.080] (II) NVIDIA(0): [DRI2]   VDPAU driver: nvidia
+[    82.080] (--) RandR disabled
+[    82.081] (II) SELinux: Disabled on system
+[    82.082] (II) Initializing extension GLX
+[    82.082] (II) Indirect GLX disabled.
+[    82.108] (II) config/udev: Adding input device Power Button (/dev/input/event4)
+[    82.108] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[    82.108] (**) Power Button: Applying InputClass "keyboard"
+[    82.108] (II) LoadModule: "evdev"
+[    82.108] (II) Loading /usr/lib/xorg/modules/input/evdev_drv.so
+[    82.109] (II) Module evdev: vendor="X.Org Foundation"
+[    82.109] 	compiled for 1.19.1, module version = 2.10.5
+[    82.109] 	Module class: X.Org XInput Driver
+[    82.109] 	ABI class: X.Org XInput driver, version 24.1
+[    82.109] (II) Using input driver 'evdev' for 'Power Button'
+[    82.109] (**) Power Button: always reports core events
+[    82.109] (**) evdev: Power Button: Device: "/dev/input/event4"
+[    82.109] (--) evdev: Power Button: Vendor 0 Product 0x1
+[    82.109] (--) evdev: Power Button: Found keys
+[    82.109] (II) evdev: Power Button: Configuring as keyboard
+[    82.109] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXPWRBN:00/input/input4/event4"
+[    82.109] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD, id 6)
+[    82.109] (**) Option "xkb_rules" "evdev"
+[    82.109] (**) Option "xkb_model" "pc105"
+[    82.109] (**) Option "xkb_layout" "de"
+[    82.109] (**) Option "xkb_variant" "neo"
+[    82.117] (II) config/udev: Adding input device Power Button (/dev/input/event3)
+[    82.117] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[    82.117] (**) Power Button: Applying InputClass "keyboard"
+[    82.117] (II) Using input driver 'evdev' for 'Power Button'
+[    82.117] (**) Power Button: always reports core events
+[    82.117] (**) evdev: Power Button: Device: "/dev/input/event3"
+[    82.117] (--) evdev: Power Button: Vendor 0 Product 0x1
+[    82.117] (--) evdev: Power Button: Found keys
+[    82.117] (II) evdev: Power Button: Configuring as keyboard
+[    82.117] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input3/event3"
+[    82.117] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD, id 7)
+[    82.117] (**) Option "xkb_rules" "evdev"
+[    82.117] (**) Option "xkb_model" "pc105"
+[    82.117] (**) Option "xkb_layout" "de"
+[    82.117] (**) Option "xkb_variant" "neo"
+[    82.117] (II) config/udev: Adding input device Sleep Button (/dev/input/event2)
+[    82.117] (**) Sleep Button: Applying InputClass "evdev keyboard catchall"
+[    82.117] (**) Sleep Button: Applying InputClass "keyboard"
+[    82.117] (II) Using input driver 'evdev' for 'Sleep Button'
+[    82.117] (**) Sleep Button: always reports core events
+[    82.117] (**) evdev: Sleep Button: Device: "/dev/input/event2"
+[    82.117] (--) evdev: Sleep Button: Vendor 0 Product 0x3
+[    82.117] (--) evdev: Sleep Button: Found keys
+[    82.117] (II) evdev: Sleep Button: Configuring as keyboard
+[    82.117] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input2/event2"
+[    82.117] (II) XINPUT: Adding extended input device "Sleep Button" (type: KEYBOARD, id 8)
+[    82.117] (**) Option "xkb_rules" "evdev"
+[    82.117] (**) Option "xkb_model" "pc105"
+[    82.117] (**) Option "xkb_layout" "de"
+[    82.117] (**) Option "xkb_variant" "neo"
+[    82.117] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=3 (/dev/input/event14)
+[    82.117] (II) No input driver specified, ignoring this device.
+[    82.117] (II) This device may have been added with another device file.
+[    82.117] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=7 (/dev/input/event15)
+[    82.117] (II) No input driver specified, ignoring this device.
+[    82.117] (II) This device may have been added with another device file.
+[    82.118] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=8 (/dev/input/event16)
+[    82.118] (II) No input driver specified, ignoring this device.
+[    82.118] (II) This device may have been added with another device file.
+[    82.118] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=9 (/dev/input/event17)
+[    82.118] (II) No input driver specified, ignoring this device.
+[    82.118] (II) This device may have been added with another device file.
+[    82.118] (II) config/udev: Adding input device Logitech M570 (/dev/input/event0)
+[    82.118] (**) Logitech M570: Applying InputClass "evdev pointer catchall"
+[    82.118] (II) Using input driver 'evdev' for 'Logitech M570'
+[    82.118] (**) Logitech M570: always reports core events
+[    82.118] (**) evdev: Logitech M570: Device: "/dev/input/event0"
+[    82.118] (--) evdev: Logitech M570: Vendor 0x46d Product 0x1028
+[    82.118] (--) evdev: Logitech M570: Found 20 mouse buttons
+[    82.118] (--) evdev: Logitech M570: Found scroll wheel(s)
+[    82.118] (--) evdev: Logitech M570: Found relative axes
+[    82.118] (--) evdev: Logitech M570: Found x and y relative axes
+[    82.118] (II) evdev: Logitech M570: Configuring as mouse
+[    82.118] (II) evdev: Logitech M570: Adding scrollwheel support
+[    82.118] (**) evdev: Logitech M570: YAxisMapping: buttons 4 and 5
+[    82.118] (**) evdev: Logitech M570: EmulateWheelButton: 4, EmulateWheelInertia: 10, EmulateWheelTimeout: 200
+[    82.118] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:1c.4/0000:04:00.0/usb3/3-2/3-2.1/3-2.1:1.2/0003:046D:C52B.0004/0003:046D:1028.0005/input/input0/event0"
+[    82.118] (II) XINPUT: Adding extended input device "Logitech M570" (type: MOUSE, id 9)
+[    82.118] (II) evdev: Logitech M570: initialized for relative axes.
+[    82.118] (**) Logitech M570: (accel) keeping acceleration scheme 1
+[    82.118] (**) Logitech M570: (accel) acceleration profile 0
+[    82.118] (**) Logitech M570: (accel) acceleration factor: 2.000
+[    82.118] (**) Logitech M570: (accel) acceleration threshold: 4
+[    82.118] (II) config/udev: Adding input device Logitech M570 (/dev/input/mouse0)
+[    82.118] (II) No input driver specified, ignoring this device.
+[    82.118] (II) This device may have been added with another device file.
+[    82.118] (II) config/udev: Adding input device HumbleHacker.com HumbleHacked Kinesis Contoured (/dev/input/event1)
+[    82.118] (**) HumbleHacker.com HumbleHacked Kinesis Contoured: Applying InputClass "evdev keyboard catchall"
+[    82.118] (**) HumbleHacker.com HumbleHacked Kinesis Contoured: Applying InputClass "keyboard"
+[    82.118] (II) Using input driver 'evdev' for 'HumbleHacker.com HumbleHacked Kinesis Contoured'
+[    82.118] (**) HumbleHacker.com HumbleHacked Kinesis Contoured: always reports core events
+[    82.118] (**) evdev: HumbleHacker.com HumbleHacked Kinesis Contoured: Device: "/dev/input/event1"
+[    82.118] (--) evdev: HumbleHacker.com HumbleHacked Kinesis Contoured: Vendor 0x5af Product 0x2032
+[    82.118] (--) evdev: HumbleHacker.com HumbleHacked Kinesis Contoured: Found keys
+[    82.118] (II) evdev: HumbleHacker.com HumbleHacked Kinesis Contoured: Configuring as keyboard
+[    82.118] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:1c.4/0000:04:00.0/usb3/3-2/3-2.4/3-2.4:1.0/0003:05AF:2032.0006/input/input1/event1"
+[    82.118] (II) XINPUT: Adding extended input device "HumbleHacker.com HumbleHacked Kinesis Contoured" (type: KEYBOARD, id 10)
+[    82.118] (**) Option "xkb_rules" "evdev"
+[    82.118] (**) Option "xkb_model" "pc105"
+[    82.118] (**) Option "xkb_layout" "de"
+[    82.118] (**) Option "xkb_variant" "neo"
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Line Out Front (/dev/input/event10)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Line Out Surround (/dev/input/event11)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Line Out CLFE (/dev/input/event12)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Front Headphone (/dev/input/event13)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Front Mic (/dev/input/event7)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Rear Mic (/dev/input/event8)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device HDA Intel PCH Line (/dev/input/event9)
+[    82.119] (II) No input driver specified, ignoring this device.
+[    82.119] (II) This device may have been added with another device file.
+[    82.119] (II) config/udev: Adding input device Eee PC WMI hotkeys (/dev/input/event6)
+[    82.119] (**) Eee PC WMI hotkeys: Applying InputClass "evdev keyboard catchall"
+[    82.119] (**) Eee PC WMI hotkeys: Applying InputClass "keyboard"
+[    82.119] (II) Using input driver 'evdev' for 'Eee PC WMI hotkeys'
+[    82.119] (**) Eee PC WMI hotkeys: always reports core events
+[    82.119] (**) evdev: Eee PC WMI hotkeys: Device: "/dev/input/event6"
+[    82.119] (--) evdev: Eee PC WMI hotkeys: Vendor 0 Product 0
+[    82.119] (--) evdev: Eee PC WMI hotkeys: Found keys
+[    82.119] (II) evdev: Eee PC WMI hotkeys: Configuring as keyboard
+[    82.119] (**) Option "config_info" "udev:/sys/devices/platform/eeepc-wmi/input/input6/event6"
+[    82.119] (II) XINPUT: Adding extended input device "Eee PC WMI hotkeys" (type: KEYBOARD, id 11)
+[    82.119] (**) Option "xkb_rules" "evdev"
+[    82.119] (**) Option "xkb_model" "pc105"
+[    82.119] (**) Option "xkb_layout" "de"
+[    82.119] (**) Option "xkb_variant" "neo"
+[    82.119] (II) config/udev: Adding input device PC Speaker (/dev/input/event5)
+[    82.120] (II) No input driver specified, ignoring this device.
+[    82.120] (II) This device may have been added with another device file.
+[    82.126] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-4): connected
+[    82.126] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-4): Internal DisplayPort
+[    82.126] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-4): 1440.0 MHz maximum pixel clock
+[    82.126] (--) NVIDIA(GPU-0): 
+[    82.126] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-6): connected
+[    82.126] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-6): Internal DisplayPort
+[    82.126] (--) NVIDIA(GPU-0): DELL UP3218K (DFP-6): 1440.0 MHz maximum pixel clock
+[    82.126] (--) NVIDIA(GPU-0): 
+[    82.126] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=9 (/dev/input/event17)
+[    82.126] (II) No input driver specified, ignoring this device.
+[    82.126] (II) This device may have been added with another device file.
+[    82.126] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=7 (/dev/input/event15)
+[    82.126] (II) No input driver specified, ignoring this device.
+[    82.126] (II) This device may have been added with another device file.
+[    82.126] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=3 (/dev/input/event14)
+[    82.126] (II) No input driver specified, ignoring this device.
+[    82.126] (II) This device may have been added with another device file.
+[    82.127] (II) config/udev: Adding input device HDA NVidia HDMI/DP,pcm=8 (/dev/input/event16)
+[    82.127] (II) No input driver specified, ignoring this device.
+[    82.127] (II) This device may have been added with another device file.

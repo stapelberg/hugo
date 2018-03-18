@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>APC Smart UPS 700: Serielle Schnittstelle</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2012-07-03-apc_smartups_700/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">APC Smart UPS 700: Serielle Schnittstelle</h2> (<span id="date">2012-07-03</span>) <div class="Artikel" id="content">
+<p>
+Vor einer Weile habe ich eine alte APC Smart UPS 700 bekommen, für die ich neue
+Batterien gekauft und eingebaut habe. Nun bin ich dazu gekommen, zu testen, ob
+die UPS läuft.
+</p>
+
+<p>
+Wichtig zu erwähnen ist dabei, dass die APCs <strong>keine</strong> normale
+Belegung der Seriellen Schnittstelle benutzen. Sofern man ein 1:1- oder
+Nullmodemkabel anschließt, schaltet sich die APC direkt aus (und damit alle
+Geräte, die angeschlossen sind!).
+</p>
+
+<p>
+Stattdessen liefert APC ein Kabel mit, welches die Bezeichnung 940-0024C hat.
+Bei diesem Kabel sind einfach RX, TX und GND anders verdrahtet, als bei
+normalen RS232-Schnittstellen.
+</p>
+
+<p>
+Wenn man so ein Kabel gerade nicht greifbar hat, kann man sich selbst eins
+basteln, wie das geht steht <a
+href="http://lists.alioth.debian.org/pipermail/nut-upsuser/2005-August/000118.html">in
+diesem Post von Stepan Novotill</a>. Hierbei beachten: Der Post bezieht sich
+auf ein Kabel (!), nicht auf die Buchsenbelegung am Gerät.
+</p>
+
+<p>
+Weiterhin wichtig: Die serielle Schnittstelle arbeitet mit 12V-Pegeln. Ein
+USB-to-Serial-Adapter, der nur mit 5V oder gar 3,3V klarkommt, wird hier nicht
+(richtig) funktionieren.
+</p>
+
+<p>
+Ihr braucht also einen geeigneten seriellen Port, z.B. in eurem Rechner. Da
+moderne Rechner keinen seriellen Port mehr direkt auf dem Mainboard
+herausgeführt haben, gibts dafür meist eine Stiftleiste und einen zusätzlichen
+Adapter. Zu beachten ist hierbei, dass Intel eine Belegung für die Stiftleiste
+verwendet, die mit dem Adapter, den ich hier habe, nicht übereinstimmt. Hier
+empfiehlt sich also der Abgleich der Belegung, eventuell mit dem
+Durchgangsprüfer eines Multimeters.
+</p>
+
+<p>
+Nachdem das dann alles erledigt ist, müsste das Programm <code>apctest</code>
+die APC erkennen, das sieht dann so aus:
+</p>
+
+<pre>
+2012-07-03 22:37:35 apctest 3.14.10 (13 September 2011) debian
+Checking configuration ...
+Attached to driver: apcsmart
+sharenet.type = Network & ShareUPS Disabled
+cable.type = Custom Cable Smart
+mode.type = APC Smart UPS (any)
+Setting up the port ...
+Doing prep_device() ...
+
+You are using a SMART cable type, so I'm entering SMART test mode
+Hello, this is the apcupsd Cable Test program.
+This part of apctest is for testing Smart UPSes.
+Please select the function you want to perform.
+
+1) Query the UPS for all known values
+2) Perform a Battery Runtime Calibration
+3) Abort Battery Calibration
+4) Monitor Battery Calibration progress
+5) Program EEPROM
+6) Enter TTY mode communicating with UPS
+Q) Quit
+</pre>
+
+<p>
+Intern sendet apctest dazu zunächst ein "Y" zur APC und wartet, ob es "SM" (für
+Smart Mode) zurückbekommt.
+</p>
+
+<p>
+Bei mir war die Konfigurationsdatei <code>/etc/apcupsd/apcupsd.conf</code> wie
+sie in Debian ausgeliefert wird schon direkt nutzbar. Hier der Vollständigkeit
+halber die relevanten Parameter:
+</p>
+
+<pre>
+UPSCABLE smart
+UPSTYPE apcsmart
+DEVICE /dev/ttyS0
+</pre>
+
+</div></div></div></div></div></div></body>
+</html>

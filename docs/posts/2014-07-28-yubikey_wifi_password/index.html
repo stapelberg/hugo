@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Don’t type WiFi passwords again: use a yubikey</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2014-07-28-yubikey_wifi_password/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Don’t type WiFi passwords again: use a yubikey</h2> (<span id="date">2014-07-28</span>) <div class="Artikel" id="content">
+<p>
+In my flat, I have a printed <a
+href="http://daniel-baumann.ch/other/qr-codes/wifi/">QR code which contains the
+WiFi credentials</a>. You can scan it with your Smartphone (provided you have a
+barcode scanner installed) and then connect to the WiFi network.
+</p>
+
+<p>
+For notebook computers, this doesn’t work so well. Sometimes they don’t have a
+usable camera, and even if they have one, people don’t typically have a barcode
+scanner installed.
+</p>
+
+<p>
+Therefore, you typically end up typing in the (long) password, which is
+annoying. I thought there should be a better way, perhaps by faking a USB Human
+Interface Device (like a keyboard). Then I saw a YubiKey lying around and a
+couple minutes later I had my solution working :-).
+</p>
+
+<h2>YubiKey</h2>
+
+<p><img src="/Bilder/yubikey_small.jpg" align="left" width="200" height="105" alt="YubiKey" style="margin-right: 1em">
+<p>
+The <a
+href="http://www.yubico.com/products/yubikey-hardware/yubikey/">YubiKey</a> is
+a small USB device (about as big as a USB memory stick) that is typically used
+for two-factor authentication. You may be familiar with this concept from
+Gmail, where you log in with a password and then provide a number generated by
+the Google Authenticator on your phone as a second factor. The YubiKey does
+this by simulating you typing in the number after you touch it.
+</p></p>
+
+<p>
+Luckily, the device’s firmware also supports a mode where it essentially just
+types a static password when being touched. Unfortunately, this feature is a
+bit hard to use, so I wrote <a
+href="https://github.com/stapelberg/pw-to-yubi">pw-to-yubi</a>, a little script
+which translates a (WiFi) password into a command line to program your YubiKey.
+</p>
+
+<pre>
+$ sudo apt-get install yubikey-personalization
+$ git clone https://github.com/stapelberg/pw-to-yubi.git
+$ cd pw-to-yubi
+$ ./pw-to-yubi.pl mywifipassword
+ykpersonalize -1 -o-append-cr -o-static-ticket -oshort-ticket \
+  -o-strong-pw1 -o-strong-pw2 -oman-update \
+  -ofixed=h:101c1a0c090c130416161a1215070000 -ouid=000000000000 \
+  -a00000000000000000000000000000000
+</pre>
+
+<p>
+Run the command and any further touches of the YubiKey that is currently
+plugged into your computer will result in the key typing your WiFi password.
+</p>
+
+<p><img src="/Bilder/2014-07-10-215058_555x288_scrot.png" alt="pw-to-yubi in a terminal emulator" width="555" height="288"></p>
+
+</div></div></div></div></div></div></body>
+</html>

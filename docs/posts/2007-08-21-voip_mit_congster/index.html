@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VoIP mit congster und asterisk</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2007-08-21-voip_mit_congster/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">VoIP mit congster und asterisk</h2> (<span id="date">2007-08-21</span>) <div class="Artikel" id="content">
+<h2>Vorwort</h2>
+<ul>
+    <li>
+    <a href="http://www.asterisk.org/" title="asterisk"
+    target="_blank">Asterisk</a> ist eine freie Open-Source-Telefonanlage, die eine
+    sehr flexible Konfiguration und somit sehr viele Möglichkeiten bietet.
+    </li>
+    <li>
+    <a href="http://www.congster.de/" title="congster" target="_blank">Congster</a>
+    ist eine Tochterfirma der Telekom, die Internet-Flatrates/Zugänge und nun auch
+    eine VoIP-Flatrate ins deutsche Festnetz anbietet.
+    </li>
+</ul>
+
+<h2>VoIP mit congster und asterisk</h2>
+<p>
+Da congster auf der Website nur die Einrichtung der Internettelefonie auf den
+DSL-Routern der Speedport-Serie beschreibt und ich den ganzen Abend lang –
+letztendlich doch noch erfolgreich – damit verbrachte, asterisk zu
+konfigurieren, habe ich diese Schritte zu einem Artikel zusammengefasst, damit
+das lange Herumprobieren dem geneigten Benutzer erspart bleibt.
+</p>
+
+<h2>Die Zugangsdaten</h2>
+<p>
+Nachdem man im Kundenbereich bei congster die TelefonFlat zum Tarif
+hinzugebucht hat (oder diese neu bestellt, falls man noch keine Flatrate bei
+congster hat), wird man um die Einrichtung einer E-Mail-Adresse gebeten. Diese
+E-Mailadresse dient später auch zur Identifikation am Telefonieserver von
+congster.
+</p>
+
+<p>
+congster teilt einem also folgende Daten mit:
+</p>
+<ul>
+    <li>
+    Die eigene VoIP-Rufnummer, beginnend mit +49-32 oder 032: in unserem
+    Beispiel 032123456789
+    </li>
+    <li>
+    Die vollständige E-Mail-Adresse sowie das Passwort: in unserem Beispiel
+    „heinz@congster.de” und „geheim”
+    </li>
+    <li>
+    Die Serveradressen tel.congster.de und stun.congster.de
+    </li>
+</ul>
+
+<p>
+Soweit, so gut. Für Asterisk ist der stun-Server unwichtig, wir benötigen
+lediglich tel.congster.de. Dieser Server ist übrigens (momentan?) der selbe wie
+der, den T-Online verwendet:
+</p>
+<pre>tel.congster.de has address 217.0.132.118
+tel.t-online.de has address 217.0.132.118</pre>
+
+<h2>Einrichtung des Asteriskservers: sip.conf</h2>
+
+<p>
+In der Datei <code>sip.conf</code> muss im Bereich <code>general</code> die
+Einstellung <code>defaultexpirey</code> auf einen Wert, der größer oder gleich
+240 ist (standardmäß sind es 120 bei Asterisk) gesetzt werden, sonst akzeptiert
+der Server die Registration nicht mit der Fehlermeldung <code>423: Timeout too
+brief</code>:
+</p>
+<pre>defaultexpirey =&gt; 240</pre>
+
+<p>
+Der register-Eintrag, der ebenfalls in den general-Bereich muss, ist nach
+diesem Schema aufgebaut:
+</p>
+<pre>register =&gt; nummer:mail-passwort:mail-adresse@tel.congster.de/nummer</pre>
+<p>
+Für unseren Beispielnutzer sähe das dann also so aus:
+</p>
+<pre>register =&gt; 032123456789:geheim:heinz@congster.de@tel.congster.de/032123456789</pre>
+
+<p>
+Nach dem Starten des Asterisks kann man sich nun auf der
+Kommandozeilenoberfläche mit dem Befehl sip show registry den Status anzeigen
+lassen. Das sollte in etwa so aussehen:
+</p>
+<pre>*CLI&gt; sip show registry
+Host                            Username       Refresh State               
+tel.congster.de:5060            032123456789   1785    Registered</pre>
+
+<p>
+Anschließend legen wir uns noch den Abschnitt für ausgehende Gespräche an:
+</p>
+<pre>[congster.de]
+type        = friend
+secret      = passwort
+username    = email-adresse
+fromuser    = nummer
+fromdomain  = tel.congster.de
+host        = tel.congster.de
+canreinvite = no
+qualify     = no
+insecure    = port,invite</pre>
+
+<h2>Einrichtung des Asteriskservers: extensions.conf</h2>
+
+<p>
+In der Datei <code>extensions.conf</code> definieren wir dann noch, dass wir
+alle Anrufe über congster abwickeln möchten und beheben unsere Caller-ID:
+</p>
+<pre>exten =&gt; _X.,1,SetCallerID,nummer
+exten =&gt; _X.,2,Dial(SIP/${EXTEN}@congster.de,30,trg)
+exten =&gt; _X.,3,Hangup()</pre>
+
+<p>
+Viel Spaß beim Telefonieren! :-)
+</p>
+
+</div></div></div></div></div></div></body>
+</html>

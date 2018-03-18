@@ -1,0 +1,3431 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Michael Stapelbergs Website</title>
+  <link href="https://michael.stapelberg.de/feed.xml" rel="self"/>
+  <link href="https://michael.stapelberg.de/"/>
+  <updated>2017-12-11T10:05:00+01:00</updated>
+  <id>https://michael.stapelberg.de/</id>
+  <generator>Hugo -- gohugo.io</generator>
+  <entry>
+    <title type="html"><![CDATA[BSD license]]></title>
+    <link href="https://michael.stapelberg.de/bsd/"/>
+    <id>https://michael.stapelberg.de/bsd/</id>
+    <published>2018-03-17T22:31:29+01:00</published>
+    <updated>2018-03-17T22:31:29+01:00</updated>
+    <content type="html"><![CDATA[<pre>
+Copyright (c) 2006-2018, Michael Stapelberg
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name of Michael Stapelberg nor the names of its contributors may
+  be used to endorse or promote products derived from this software without
+  specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[cpu(1) with Linux]]></title>
+    <link href="https://michael.stapelberg.de/posts/2018-03-13-cpu/"/>
+    <id>https://michael.stapelberg.de/posts/2018-03-13-cpu/</id>
+    <published>2018-03-13T09:35:00+01:00</published>
+    <updated>2018-03-13T09:35:00+01:00</updated>
+    <content type="html"><![CDATA[
+
+<h3 id="motivation">motivation</h3>
+
+<p>To run the tests of my i3 Go package, I use the following command:</p>
+
+<pre><code>go test -v go.i3wm.org/...
+</code></pre>
+
+<p>To run the tests of my i3 Go package on a different architecture, the only thing
+I should need to change is to declare the architecture by setting
+<code>GOARCH=arm64</code>:</p>
+
+<pre><code>GOARCH=arm64 go test -v go.i3wm.org/...
+</code></pre>
+
+<p>“Easy!”, I hear you exclaim: “Just <code>apt install qemu</code>, and you can transparently
+emulate architectures”. But what if I want to run my tests on a native machine,
+such as the various <a href="https://db.debian.org/machines.cgi?sortby=purpose&amp;sortorder=dsc">Debian porter
+boxes</a>? Down
+the rabbit hole we go…</p>
+
+<h3 id="cpu-1">cpu(1)</h3>
+
+<p>On Plan 9, the <a href="http://man.cat-v.org/plan_9/1/cpu">cpu(1)</a> command allows
+transparently using the CPU of dedicated compute servers. This has fascinated me
+for a long time, so I tried to replicate the functionality in Linux.</p>
+
+<h3 id="reverse-sshfs">reverse sshfs</h3>
+
+<p>One of the key insights this project is built on is that
+<a href="https://manpages.debian.org/stretch/sshfs/sshfs.1"><code>sshfs(1)</code></a> can be used over
+an already-authenticated channel, so you don’t need to do awkward reverse
+port-forwardings or even allow the remote machine SSH access to your local
+machine.</p>
+
+<p>I learnt this trick from the 2014 <a href="https://blog.dhampir.no/content/reverse-sshfs-mounts-fs-push">boltblog post “Reverse SSHFS mounts (fs
+push)”</a>.</p>
+
+<p>The post uses <a href="https://manpages.debian.org/stretch/vde2/dpipe.1"><code>dpipe(1)</code></a>’s
+bidirectional wiring of stdin/stdout (as opposed to a unidirectional wiring like
+in UNIX pipes).</p>
+
+<p>Instead of clumsily running <code>dpipe</code> in a separate window, I encapsulated the
+necessary steps in a little Go program I call <code>cpu</code>. The reverse sshfs principle
+looks like this in Go:</p>
+
+<pre><code>sftp := exec.Command(&quot;/usr/lib/openssh/sftp-server&quot;)
+stdin, _ := sftp.StdinPipe()
+stdout, _ := sftp.StdoutPipe()
+session.Stdin = stdout
+session.Stdout = stdin
+sftp.Stderr = os.Stderr
+session.Stderr = os.Stderr
+const (
+	host = &quot;&quot;
+	src  = &quot;/&quot;
+	mnt  = &quot;/mnt&quot;
+)
+session.Start(fmt.Sprintf(&quot;sshfs %s:%s %s -o slave&quot;, host, src, mnt))
+sftp.Start()
+</code></pre>
+
+<p>Here’s how the tool looks in action:</p>
+
+<script src="https://asciinema.org/a/Q1BWLcdtIMOE5SCHOzu1eqcOE.js" id="asciicast-Q1BWLcdtIMOE5SCHOzu1eqcOE" async></script>
+
+<h3 id="binfmt-misc">binfmt_misc</h3>
+
+<p>Now that we have a tool which will make our local file system available on the
+remote machine, let’s integrate it into our <code>go test</code> invocation.</p>
+
+<p>While we don’t want to modify the <code>go</code> tool, we can easily teach our kernel how
+to run aarch64 ELF binaries using
+<a href="https://www.kernel.org/doc/html/v4.14/admin-guide/binfmt-misc.html">binfmt_misc</a>.</p>
+
+<p>I modified the existing <code>/var/lib/binfmts/qemu-aarch64</code>’s interpreter field to
+point to <code>/home/michael/go/bin/porterbox-aarch64</code>, followed by <code>update-binfmts
+--enable qemu-aarch64</code> to have the kernel pick up the changes.</p>
+
+<p><code>porterbox-aarch64</code> is a wrapper invoking <code>cpu</code> like so:</p>
+
+<pre><code>cpu \
+  -host=rpi3 \
+  unshare \
+    --user \
+    --map-root-user \
+    --mount-proc \
+    --pid \
+    --fork \
+    /bindmount.sh \
+      \$PWD \
+      $PWD \
+      $@
+</code></pre>
+
+<p>Because it’s subtle:
+* <code>\$PWD</code> refers to the directory in which the reverse sshfs was mounted by <code>cpu</code>.
+* <code>$PWD</code> refers to the working directory in which <code>porterbox-aarch64</code> was called.
+* <code>$@</code> refers to the original command with which <code>porterbox-aarch64</code> was called.</p>
+
+<h3 id="bindmount">bindmount</h3>
+
+<p>bindmount is a small shell script preparing the bind mounts:</p>
+
+<pre><code>#!/bin/sh
+
+set -e
+
+remote=&quot;$1&quot;
+shift
+wd=&quot;$1&quot;
+shift
+
+# Ensure the executable (usually within /tmp) is available:
+exedir=$(dirname &quot;$1&quot;)
+mkdir -p &quot;$exedir&quot;
+mount --rbind &quot;$remote$exedir&quot; &quot;$exedir&quot;
+
+# Ensure /home is available:
+mount --rbind &quot;$remote/home&quot; /home
+
+cd &quot;$wd&quot;
+&quot;$@&quot;
+</code></pre>
+
+<h3 id="demo">demo</h3>
+
+<p>This is what all of the above looks like in action:</p>
+
+<script src="https://asciinema.org/a/Mjb66iHIbBfGuK5lEMnLt0UzS.js" id="asciicast-Mjb66iHIbBfGuK5lEMnLt0UzS" async></script>
+
+<h3 id="layers">layers</h3>
+
+<p>Putting all of the above puzzle pieces together, we end up with the following
+picture:</p>
+
+<pre><code>go test
+├ compile test program for GOARCH=arm64
+└ exec test program (on host)
+  └ binfmt_misc
+    └ run porterbox-aarch64
+      └ cpu -host=rpi3
+        ├ reverse sshfs
+        └ bindmount.sh
+          └ unshare --user
+            ├ bind /home, /tmp
+            └ run test program (on target)
+</code></pre>
+
+<h3 id="requirements">requirements</h3>
+
+<p>On the remote host, the following requirements need to be fulfilled:</p>
+
+<ul>
+<li><code>apt install sshfs</code>, which also activates the FUSE kernel module</li>
+<li><code>sysctl -w kernel.unprivileged_userns_clone=1</code></li>
+</ul>
+
+<p>If the tests require any additional dependencies (the tests in question require
+<code>Xvfb</code> and <code>i3</code>), those need to be installed as well.</p>
+
+<p>On Debian porter boxes, you can install the dependencies in an <a href="https://dsa.debian.org/doc/schroot/"><code>schroot</code>
+session</a>. Note that I wasn’t able to test
+this yet, as porter boxes lacked all requirements at the time of writing.</p>
+
+<p>Unfortunately, <a href="https://wiki.debian.org/Multiarch">Debian’s Multi-Arch</a> does not
+yet include binaries. Otherwise, one might use it to help out with the
+dependencies: one could overlay the local <code>/usr/bin/aarch64-linux-gnu/</code> on the
+remote <code>/usr/bin</code>.</p>
+
+<h3 id="conclusion">conclusion</h3>
+
+<p>On first glance, this approach works as expected. Time will tell whether it’s
+useful in practice or just an interesting one-off exploration.</p>
+
+<p>From a design perspective, there are a few open questions:</p>
+
+<ul>
+<li>Making available only <code>/home</code> might not be sufficient. But making available
+<code>/</code> doesn’t work because <code>sshfs</code> does not support device nodes such as
+<code>/dev/null</code>.</li>
+<li>Is there a way to implement this without unprivileged user namespaces (which
+are disabled by default on Linux)? Essentially, I think I’m asking for <a href="https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs#Union_directories_and_namespaces">Plan
+9’s union directories and
+namespaces</a>.</li>
+<li>In similar spirit, can binfmt_misc be used per-process?</li>
+</ul>
+
+<p>Regardless, if this setup stands the test of time, I’ll polish and publish the
+tools.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Off-site backups with an apu2c4]]></title>
+    <link href="https://michael.stapelberg.de/posts/2018-01-13-offsite-backup-apu2c4/"/>
+    <id>https://michael.stapelberg.de/posts/2018-01-13-offsite-backup-apu2c4/</id>
+    <published>2018-01-13T17:30:00+01:00</published>
+    <updated>2018-01-13T17:30:00+01:00</updated>
+    <content type="html"><![CDATA[
+
+<h3 id="background">Background</h3>
+
+<p>A short summary of my backup strategy is: I run daily backups to my
+<a href="/Artikel/gigabit-nas-coreos">NAS</a>. In order to recover from risks like my
+apartment burning down or my belongings being stolen, I like to keep one copy of
+my data off-site, updated less frequently.</p>
+
+<p>I used to store off-site backups with the “unlimited storage” offerings of
+various cloud providers.</p>
+
+<p>These offers follow a similar pattern: they are announced, people sign up and
+use a large amount of storage, the provider realizes they cannot make enough
+money off of this pricing model, and finally the offer is cancelled.</p>
+
+<p>I went through this two times, and my friend Mark’s <a href="https://bryars.eu/2017/10/backup-pi/">similar experience and
+home-grown solution</a> inspired me to also
+build my own off-site backup.</p>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>I figured the office would make a good place for an external hard disk: I’m
+there every workday, it’s not too far away, and there is good internet
+connectivity for updating the off-site backup.</p>
+
+<p>Initially, I thought just leaving the external hard disk there and updating it
+over night by bringing my laptop to the office every couple of weeks would be
+sufficient.</p>
+
+<p>Now I know that strategy doesn’t work for me: the time would never be good
+(“maybe I’ll unexpectedly need my laptop tonight!”), I would forget, or I would
+not be in the mood.</p>
+
+<p>Lesson learnt: <strong>backups must not require continuous human involvement</strong>.</p>
+
+<p>The rest of this article covers the hardware I decided to use and the software
+setup.</p>
+
+<h3 id="hardware">Hardware</h3>
+
+<p>The external hard disk enclosure is a <a href="https://www.alternate.de/Sharkoon/Swift-Case-PRO-USB-3-0-Laufwerksgeh%C3%A4use/html/product/1148212">T3US41 Sharkoon Swift Case PRO USB
+3.0</a>
+for 25 €.</p>
+
+<p>The enclosed disk is a HGST 8TB drive for which I paid 290 € in mid 2017.</p>
+
+<p>For <a href="/Artikel/rgb2r-network">providing internet at our yearly retro computing
+event</a>, I still had a <a href="https://pcengines.ch/apu2c4.htm">PC Engines
+apu2c4</a> lying around, which I repurposed for my
+off-site backups. For this year’s retro computing event, I’ll either borrow it
+(setting it up is quick) or buy another one.</p>
+
+<p>The apu2c4 has two USB 3.0 ports, so I can connect my external hard disk to it
+without USB being a bottle-neck.</p>
+
+<h3 id="setup-installation">Setup: installation</h3>
+
+<p>On the apu2c4, I installed Debian “stretch” 9, the latest Debian stable version
+at the time of writing. I prepared a USB thumb drive with the netinst image:</p>
+
+<pre><code>% wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.2.1-amd64-netinst.iso
+% cp debian-9.2.1-amd64-netinst.iso /dev/sdb
+</code></pre>
+
+<p>Then, I…</p>
+
+<ul>
+<li>plugged the USB thumb drive into the apu2c4</li>
+<li>On the serial console, pressed F10 (boot menu), then 1 (boot from USB)</li>
+<li>In the Debian installer, selected Help, pressed F6 (special boot parameters), entered <code>install console=ttyS0,115200n8</code></li>
+<li>installed Debian as usual.</li>
+<li>Manually ran <code>update-grub</code>, so that GRUB refers to the boot disk by UUID instead of <code>root=/dev/sda1</code>. Especially once the external hard disk is connected, device nodes are unstable.</li>
+<li>On the serial console, pressed F10 (boot menu), then 4 (setup), then c to move the mSATA SSD to number 1 in boot order</li>
+<li>Connected the external hard disk</li>
+</ul>
+
+<h3 id="setup-persistent-reverse-ssh-tunnel">Setup: persistent reverse SSH tunnel</h3>
+
+<p>I’m connecting the apu2c4 to a guest network port in our office, to keep it
+completely separate from our corporate infrastructure. Since we don’t have
+permanently assigned publically reachable IP addresses on that guest network, I
+needed to set up a reverse tunnel.</p>
+
+<p>First, I created an SSH private/public keypair using <a href="https://manpages.debian.org/stretch/openssh-client/ssh-keygen.1"><code>ssh-keygen(1)</code></a>.</p>
+
+<p>Then, I created a user account for the apu2c4 on my NAS (using cloud-config),
+where the tunnel will be terminated. This account’s SSH usage is restricted to
+port forwardings only:</p>
+
+<pre><code>users:
+  - name: apu2c4
+    system: true
+    ssh-authorized-keys:
+      - &quot;restrict,command=\&quot;/bin/false\&quot;,port-forwarding ssh-rsa AAAA…== root@stapelberg-apu2c4&quot;
+</code></pre>
+
+<p>On the apu2c4, I installed the <code>autossh</code> Debian package (see the
+<a href="https://manpages.debian.org/stretch/autossh/autossh.1"><code>autossh(1)</code></a> manpage
+for details) and created the systemd unit file
+<code>/etc/systemd/system/autossh-nas.service</code> with the following content:</p>
+
+<pre><code>[Unit]
+Description=autossh reverse tunnel
+After=network.target
+Wants=network-online.target
+
+[Service]
+Restart=always
+StartLimitIntervalSec=0
+Environment=AUTOSSH_GATETIME=0
+ExecStart=/usr/bin/autossh -M 0 -N -o &quot;ServerAliveInterval 60&quot; -o &quot;ServerAliveCountMax 3&quot; -o &quot;ExitOnForwardFailure yes&quot; apu2c4@nas.example.net -R 2200:localhost:22
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>After enabling and starting the unit using <code>systemctl enable --now autossh-nas</code>,
+the apu2c4 connected to the NAS and set up a reverse port-forwarding.</p>
+
+<p>On the NAS, I configure SSH like so in my <code>/root/.ssh/config</code>:</p>
+
+<pre><code>Host apu2c4
+  Hostname localhost
+  Port 2200
+  User root
+  IdentitiesOnly yes
+</code></pre>
+
+<p>Finally, I authorized the public key of my NAS to connect to the apu2c4.</p>
+
+<p>Note that this concludes the setup of the apu2c4: the device’s only purpose is
+to make the external hard disk drive available remotely to my NAS, clean and
+simple.</p>
+
+<h3 id="setup-full-disk-encryption">Setup: full-disk encryption</h3>
+
+<p>I decided to not store the encryption key for the external hard disk on the
+apu2c4, to have piece of mind in case the hard disk gets misplaced or even
+stolen. Of course I trust my co-workers, but this is a matter of principle.</p>
+
+<p>Hence, I amended my NAS’s cloud-config setup like so (of course with a stronger
+key):</p>
+
+<pre><code>write_files:
+  - path: /root/apu2c4.lukskey
+    permissions: 0600
+    owner: root:root
+    content: |
+    ABCDEFGHIJKL0123456789
+</code></pre>
+
+<p>…and configured the second key slot of the external hard disk to use this key.</p>
+
+<h3 id="setup-backup-script">Setup: Backup script</h3>
+
+<p>I’m using a script roughly like the following to do the actual backups:</p>
+
+<pre><code>#!/bin/bash
+# vi:ts=4:sw=4:et
+set -e
+
+/bin/ssh apu2c4 cryptsetup luksOpen --key-file - /dev/disk/by-id/ata-HGST_HDN1234 offline_crypt &lt; /root/apu2c4.lukskey
+
+/bin/ssh apu2c4 mount /dev/mapper/offline_crypt /mnt/offsite
+
+# step 1: update everything but /backups
+echo &quot;$(date +'%c') syncing NAS data&quot;
+
+(cd /srv &amp;&amp; /usr/bin/rsync --filter 'exclude /backup' -e ssh -ax --relative --numeric-ids ./ apu2c4:/mnt/offsite)
+
+# step 2: copy the latest backup
+hosts=$(ls /srv/backup/)
+for host in $hosts
+do
+  latestremote=$(ls /srv/backup/${host}/ | tail -1)
+  latestlocal=$(/bin/ssh apu2c4 ls /mnt/offsite/backup/${host} | tail -1)
+  if [ &quot;$latestlocal&quot; != &quot;$latestremote&quot; ]
+  then
+    echo &quot;$(date +'%c') syncing $host (offline: ${latestlocal}, NAS: ${latestremote})&quot;
+    /bin/ssh apu2c4 mkdir -p /mnt/offsite/backup/${host}
+    (cd /srv &amp;&amp; /usr/bin/rsync -e ssh -ax --numeric-ids ./backup/${host}/${latestremote}/ apu2c4:/mnt/offsite/backup/${host}/${latestremote} --link-dest=../${latestlocal})
+
+    # step 3: delete all previous backups
+    echo &quot;$(date +'%c') deleting everything but ${latestremote} for host ${host}&quot;
+    ssh apu2c4 &quot;find /mnt/offsite/backup/${host} \! \( -path \&quot;/mnt/offsite/backup/${host}/${latestremote}/*\&quot; -or -path \&quot;/mnt/offsite/backup/${host}/${latestremote}\&quot; -or -path \&quot;/mnt/offsite/backup/${host}\&quot; \) -delete&quot;
+  fi
+done
+
+/bin/ssh apu2c4 umount /mnt/offsite
+/bin/ssh apu2c4 cryptsetup luksClose offline_crypt
+/bin/ssh apu2c4 hdparm -Y /dev/disk/by-id/ata-HGST_HDN1234
+</code></pre>
+
+<p>Note that this script is not idempotent, lacking in error handling and won’t be
+updated. It merely serves as an illustration of how things could work, but
+specifics depend on your backup.</p>
+
+<p>To run this script weekly, I created the following cloud-config on my NAS:</p>
+
+<pre><code>coreos:
+  units:
+    - name: sync-offsite.timer
+      command: start
+      content: |
+        [Unit]
+        Description=sync backups to off-site storage
+
+        [Timer]
+        OnCalendar=Sat 03:00
+
+    - name: sync-offsite.service
+      content: |
+        [Unit]
+        Description=sync backups to off-site storage
+        After=docker.service srv.mount
+        Requires=docker.service srv.mount
+
+        [Service]
+        Type=oneshot
+
+        ExecStart=/root/sync-offsite-backup.sh
+</code></pre>
+
+<h3 id="improvement-bandwidth-throttling">Improvement: bandwidth throttling</h3>
+
+<p>In case your office (or off-site place) doesn’t have a lot of bandwidth
+available, consider throttling your backups. Thus far, I haven’t had the need.</p>
+
+<h3 id="improvement-rtc-based-wake-up">Improvement: RTC-based wake-up</h3>
+
+<p>I couldn’t figure out whether the apu2c4 supports waking up based on a real-time
+clock (RTC), and if yes, whether that works across power outages.</p>
+
+<p>If so, one could keep it shut down (or suspended) during the week, and only
+power it up for the actual backup update. The downside of course is that
+any access (such as for restoring remotely) require physical presence.</p>
+
+<p>If you know the answer, please send me an email.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>The presented solution is easier to integrate than most cloud storage
+solutions.</p>
+
+<p>Of course my setup is less failure-tolerant than decent cloud storage providers,
+but given the low probability of a catastrophic event (e.g. apartment burning
+down), it’s fine to just order a new hard disk or apu2c4 when either of the two
+fails — for this specific class of backups, that’s an okay trade-off to make.</p>
+
+<p>The upside of my setup is that the running costs are very low: the apu2c4’s few
+watts of electricity usage are lost in the noise, and syncing a few hundred MB
+every week is cheap enough these days.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Dell 8K4K monitor (Dell UP3218K)]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-12-11-dell-up3218k/"/>
+    <id>https://michael.stapelberg.de/posts/2017-12-11-dell-up3218k/</id>
+    <published>2017-12-11T10:05:00+01:00</published>
+    <updated>2017-12-11T10:05:00+01:00</updated>
+    <content type="html"><![CDATA[
+
+<h3 id="background">Background</h3>
+
+<p>Ever since I first used a MacBook Pro with Retina display back in 2013, I’ve
+been madly in love with hi-DPI displays. I had seen the device before, and
+marvelled at brilliant font quality with which scientific papers would be
+rendered. But it wasn’t until I had a chance to use the device for a few hours
+to make i3 compatible with hi-DPI displays that I realized what a difference it
+makes in the day-to-day life.</p>
+
+<p>Note that when I say “hi-DPI display”, I mean displays with an integer multiple
+of 96 dpi, for example displays with 192 dpi or 288 dpi. I explain this because
+some people use the same term to mean “anything more than 96 dpi”.</p>
+
+<p>In other words, some people are looking for many pixels (e.g. running a 32 inch
+display with 3840x2160 pixels, i.e. 137 dpi, with 100% scaling), whereas I
+desire crisp/sharp text (i.e. 200% scaling).</p>
+
+<p>Hence, in 2014, I bought the Dell UP2414Q with 3840x2160 on 24&rdquo; (185 dpi), which
+was one of the first non-Apple devices to offer a dpi that Apple would market as
+“Retina”.</p>
+
+<p>After getting the Dell UP2414Q, I replaced all displays in my life with hi-DPI
+displays one by one. I upgraded my phone, my personal laptop, my work laptop and
+my monitor at work.</p>
+
+<h3 id="dell-up3218k">Dell UP3218K</h3>
+
+<p>In January 2017, Dell introduced the Dell Ultrasharp UP3218K monitor at the
+Consumer Electronics Show (CES). It is the world’s first available 8K monitor,
+meaning it has a resolution of 7680x4320 pixels at a refresh rate of 60 Hz. The
+display’s dimensions are 698.1mm by 392.7mm (80cm diagonal, or 31.5 inches),
+meaning the display shows 280 dpi.</p>
+
+<p>While the display was available in the US for quite some time, it took until
+October 2017 until it became available in Switzerland.</p>
+
+<h3 id="compatibility">Compatibility</h3>
+
+<p>The UP3218K requires connecting two separate DisplayPort 1.4 cables in order to
+reach the native resolution and refresh rate. When connecting only one cable,
+you will be limited to a refresh rate of 30 Hz, which is a very noticeable
+annoyance on any display: you can literally see your mouse cursor lag
+behind. Ugh.</p>
+
+<p>Note that this mode of connection does not use Multi-Stream Transport (MST),
+which was a trick that first-generation 4K displays used. Instead, it uses the
+regular Single-Stream Transport (SST), but two cables.</p>
+
+<p>As of November 2017, only latest-generation graphics cards support DisplayPort
+1.4 at all, with e.g. the <a href="https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1060/">nVidia GTX
+1060</a>
+being marketed as “DisplayPort 1.2 Certified, DisplayPort 1.<sup>3</sup>&frasl;<sub>1</sub>.4 Ready”.</p>
+
+<h4 id="amd-radeon-pro-wx7100">AMD Radeon Pro WX7100</h4>
+
+<p>Hence, I thought I would play it safe and buy a graphics card which is
+explicitly described as compatible with the UP3218K: I ordered an AMD Radeon Pro
+WX7100.</p>
+
+<p>Unfortunately, I have to report that the WX7100 is only able to drive the
+monitor at native resolution when using Windows. On Linux, I was limited to
+1920x1080 at 60Hz (!) when using the Open Source amdgpu driver. With the Closed
+Source amdgpu-pro driver, I reached 3840x2160 at 60Hz, which is still not the
+native resolution. Also, the amdgpu-pro driver is a hassle to install: it
+requires an older kernel and isn’t packaged well in Debian.</p>
+
+<h4 id="nvidia-geforce-gtx-1060">nVidia GeForce GTX 1060</h4>
+
+<p>I returned the WX7100 in exchange for the cheapest and most quiet GeForce 10
+series card with 2 DisplayPort outputs I could find. My choice was the <a href="https://www.msi.com/Graphics-card/GeForce-GTX-1060-GAMING-X-6G.html">MSI
+GeForce GTX 1060 GAMING X 6G (MSI
+V328-001R)</a>. The
+card seems like overkill, given that I don’t intend to play games on this
+machine, but lower-end cards all come with at most one DisplayPort output.</p>
+
+<p>Regardless, I am happy with the card. It indeed is silent, and with the Closed
+Source driver, it powers the UP3218K without any trouble. Notably, it supports
+RandR 1.5, which I’ll talk about a bit more later.</p>
+
+<h4 id="compatibility-matrix">Compatibility Matrix</h4>
+
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Graphics Card</th>
+<th align="center">Driver</th>
+<th>Resolution</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Windows</td>
+<td>Radeon WX7100</td>
+<td align="center">yes</td>
+<td>7680x4320 @ 60 Hz</td>
+</tr>
+
+<tr>
+<td>Windows</td>
+<td>GeForce 1060</td>
+<td align="center">yes</td>
+<td>7680x4320 @ 60 Hz</td>
+</tr>
+
+<tr>
+<td>Linux</td>
+<td>Radeon WX7100</td>
+<td align="center">amdgpu</td>
+<td>1920x1080 @ 60 Hz</td>
+</tr>
+
+<tr>
+<td>Linux</td>
+<td>Radeon WX7100</td>
+<td align="center">pro</td>
+<td>3840x2160 @ 60 Hz</td>
+</tr>
+
+<tr>
+<td>Linux</td>
+<td>GeForce 1060</td>
+<td align="center">nVidia</td>
+<td>7680x4320 @ 60 Hz</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="recommendation">Recommendation</h4>
+
+<p>If you want to play it safe, buy an nVidia card of the GeForce 10 series. Verify
+that it says “DisplayPort 1.4 Ready”, and that it comes with two DisplayPort
+outputs.</p>
+
+<p>I read about <a href="https://heise.de/-3900646">improvements of the amdgpu driver for the upcoming Linux
+4.15</a>, but I don’t know whether that will help with
+the problems at hand.</p>
+
+<h3 id="impressions">Impressions</h3>
+
+<p>The unboxing experience is well-designed, and all components make a good
+impression. All cables which you will need (two DisplayPort cables, a power
+cable, a USB cable) are included and seem to be of high quality.</p>
+
+<p>The display has a thin bezel, much thinner than my other monitors ViewSonic
+VX2475Smhl-4K or Dell UP2414Q.</p>
+
+<p>The power LED is white and not too bright. The on-screen menu reacts quickly and
+is reasonably intuitive.</p>
+
+<p>The built-in USB hub works flawlessy, even with devices which don’t work on my
+standalone USB3 hub (for reasons which I have yet to find out).</p>
+
+<h4 id="display-quality">Display Quality</h4>
+
+<p>The display quality of the screen is stunningly good.</p>
+
+<p>It was only when I configured 300% scaling that I realized why some Chromebooks
+had a distinctly different look and feel from other computers I had used: I
+always assumed they differed in font rendering somehow, but the actual
+difference is just the screen DPI: fonts look distinctly better with 288 dpi
+than with 192 dpi, which of course looks better than 96 dpi.</p>
+
+<p>Some people might wonder whether an 8K display is any better than a 4K display,
+and I now can answer that question with a decisive “yes, one can easily see the
+difference”. I’m not sure if the difference between a 288 dpi and a 384 dpi
+display would be visible, but we’ll see when we get there :-).</p>
+
+<h4 id="glossy">Glossy</h4>
+
+<p>What I didn’t expect is that the UP3218K is a glossy display, as opposed to a
+matte display. Depending on the brightness and colors, you might see
+reflections. With my preferred brightness of 50%, I can clearly see reflections
+when displaying darker colors, e.g. on a black terminal emulator background, or
+even in my grey Emacs theme.</p>
+
+<p>While one can mentally ignore the reflections after a little while, I still
+consider the glossyness a mild annoyance. I hope as 8K displays become more
+prevalent, display vendors will offer matte 8K displays as well.</p>
+
+<h4 id="scaling">Scaling</h4>
+
+<p>I found it interesting that the display works well in both 200% scaling and 300%
+scaling.</p>
+
+<p>When running the display at 200% scaling, you get 3840x2160 (4K resolution)
+“logical pixels”, but sharper.</p>
+
+<p>When running the display at 300% scaling, you get 2560x1440 “logical pixels”,
+but extremely sharp.</p>
+
+<p>I would say it is a subjective preference which of the two settings to use. Most
+likely, people who prefer many pixels would run the display at 200%, whereas I
+prefer the 300% scaling mode for the time being.</p>
+
+<h3 id="linux-compatibility-configuration">Linux compatibility / configuration</h3>
+
+<p>To use this display without gross hacks, ensure all relevant components in your
+software stack support RandR 1.5. My known working configuration is:</p>
+
+<ul>
+<li>Xorg 1.19.5</li>
+<li>nVidia driver 375.82</li>
+<li>libxcb 1.12</li>
+<li>i3 4.14</li>
+<li>i3lock 2.10</li>
+</ul>
+
+<p>With the following command, you can create a RandR MONITOR object spanning the
+DisplayPort outputs DP-4 and DP-2:</p>
+
+<pre><code>xrandr --setmonitor up3218k auto DP-4,DP-2
+</code></pre>
+
+<p>I place this command in my <code>~/.xsession</code> before starting <a href="https://i3wm.org/">i3</a>.</p>
+
+<p>Theoretically, Xorg could create a MONITOR object automatically. I filed <a href="https://bugzilla.freedesktop.org/show_bug.cgi?id=103794">a
+feature request</a> for
+this.</p>
+
+<h3 id="scaling-compatibility">Scaling compatibility</h3>
+
+<p>With regards to scaling issues, the situation is very similar to any other
+monitor which requires scaling. Applications which were updated to support 200%
+scaling seem to work with 300% scaling just as well.</p>
+
+<p>Of course, applications which were not yet updated to work with scaling look
+even smaller than on 200% displays, so it becomes more of a nuisance to use
+them. As far as I can tell, the most likely offender are Java applications such
+as JDownloader.</p>
+
+<h3 id="buzzing-noise">Buzzing noise</h3>
+
+<p>Unfortunately, the monitor emits a high-pitched buzzing noise, very similar to
+Coil Whine. The noise is loud enough to prevent focused work without listening
+to music.</p>
+
+<p>I verified that this symptom was happening with Windows and Linux, on two
+different computers, with default monitor settings, and even when no input
+source was connected at all.</p>
+
+<p>Finally, I contacted Dell support about it. In the call I received on the next
+business day, they were very forthcoming and offered to replace the monitor.</p>
+
+<p>The replacement monitor still emits some noise, but much less pronounced. I
+think I can easily ignore the noise.</p>
+
+<h3 id="wakeup-issues">Wakeup issues</h3>
+
+<p>Rarely (less than once a week), when waking up the monitor from DPMS standby
+mode, only the left half of the screen would appear on my monitor.</p>
+
+<p>This can be fixed by turning the monitor off and on again.</p>
+
+<p>My theory is that one of the scalers does not manage to synchronize with the
+video card, but I don’t know for sure.</p>
+
+<p>Interestingly enough, I also encountered this issue with the Dell UP2414Q I
+bought in 2014. My workaround is to power down that display using its power
+button in the evenings, and power it up in the mornings.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>For me, this monitor is worth it: I am okay with paying the hefty Research &amp;
+Development tax that first-to-market products such as this monitor have. I like
+to think that I’m voting with my wallet to make sure vendors notice my interest
+in “Retina” displays.</p>
+
+<p>For most people, I would recommend to wait until the second or third generation
+of 8K monitors. By then, I expect most issues to be resolved, compatibility to
+not be a concern, and vendors focusing on extra features. Hopefully, we’ll
+eventually see matte 8K monitors with higher refresh rates than 60 Hz.</p>
+
+<h3 id="technical-details">Technical details</h3>
+
+<p>In the hope the following is useful (perhaps for debugging?) to anyone:</p>
+
+<ul>
+<li><a href="/dell-up3218k/edid.hex.txt">hex dump of the EDID data block</a></li>
+<li><a href="/dell-up3218k/edid-decode.txt">decoded EDID block</a></li>
+<li><a href="/dell-up3218k/xrandr--prop.txt"><code>xrandr --prop</code> output</a></li>
+<li><a href="/dell-up3218k/xorg.0.log">Xorg.0.log</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Keyboard input latency]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-11-19-keyboard-latency/"/>
+    <id>https://michael.stapelberg.de/posts/2017-11-19-keyboard-latency/</id>
+    <published>2017-11-19T22:45:00+01:00</published>
+    <updated>2017-11-19T22:45:00+01:00</updated>
+    <content type="html"><![CDATA[
+
+<p>I positioned my keyboard as close as possible to the monitor, then used my
+iPhone to shoot a slo-mo video of me pressing keys while running <code>sm(1)</code>.</p>
+
+<p>To quickly get an unmodified copy, I opened Apple Photos (TODO) and shared the
+file with Google Drive and downloaded it from there. Side note: an upspin
+dirserver+fileserver iOS app would be amazing. TODO</p>
+
+<p>Converted the video from Apple’s H264 into individual JPG frames:</p>
+
+<pre><code>ffmpeg -i IMG_1748.MOV frame%05d.png
+</code></pre>
+
+<p>For conveniently moving through the recording frame-by-frame, I opened the file
+in <code>avidemux3_qt5</code>. Here is a timeline of frames:</p>
+
+<ol>
+<li>frame 1595 LED off, no characters</li>
+<li>frame 1596 LED on, no characters</li>
+<li>frame 1600 LED on, screen starts updating</li>
+<li>frame 1609 LED on, character appears (after animation)
+1610
+1611
+1612
+1613
+1614
+frame 1615 LED off</li>
+</ol>
+
+<p>Each frame is 4.16ms long, so a latency of 4 frames is equivalent to 16.6ms.</p>
+
+<p>frame 2796 led off
+frame 2797 led on
+frame 2798 led on, screen update
+2799
+2800
+frame 2801 led off (10ms after led on)
+latency of one is equivalent to 4.16ms</p>
+
+<h3 id="connectivity">Connectivity</h3>
+
+<p>TODO: measure whether the teensy code runs in &lt;1ms, otherwise we delay the poll rate
+TODO: change code to permanently scan, so that buffer is already full at poll time, and polls are shorter</p>
+
+<p>TODO: teensy++ 2.0 (which i’m using currently) has no DMA.</p>
+
+<p>Currently used pins: D0-D7, B0-B6, F0-F3 (leds), C0-C6
+8+7+7(+4) = 26</p>
+
+<p>Teensy 3.6 has: A9-A10 (10) + A22-A14 (8)</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Talks]]></title>
+    <link href="https://michael.stapelberg.de/talks/"/>
+    <id>https://michael.stapelberg.de/talks/</id>
+    <published>2017-11-14T09:44:04+01:00</published>
+    <updated>2017-11-14T09:44:04+01:00</updated>
+    <content type="html"><![CDATA[
+
+<p>I have given numerous presentations and talks over the years. As they are
+starting to vanish from the internet, I started collecting them here.</p>
+
+<h2 id="2017">2017</h2>
+
+<p>(en) Go Time #59: Improved Improved Improved (i3)</p>
+
+<ul>
+<li>Podcast <a href="https://changelog.com/gotime/59">abstract</a> <a href="https://cdn.changelog.com/uploads/gotime/59/go-time-59.mp3">mp3</a></li>
+</ul>
+
+<p>(de) gokrazy: ein Go userland für Raspberry Pi 3 appliances</p>
+
+<div markdown="0">
+<a href="https://youtu.be/52HiPsa5DY0">
+<picture class="talkthumb">
+
+<source type="image/webp" srcset="
+
+//i.ytimg.com/vi_webp/52HiPsa5DY0/maxresdefault.webp 1080w,
+
+
+//i.ytimg.com/vi_webp/52HiPsa5DY0/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/52HiPsa5DY0/mqdefault.webp 320w" />
+
+
+<source srcset="
+
+//i.ytimg.com/vi/52HiPsa5DY0/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/52HiPsa5DY0/hqdefault.jpg 480w,
+//i.ytimg.com/vi/52HiPsa5DY0/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/52HiPsa5DY0/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@PiAndMore10
+<a href="https://youtu.be/52HiPsa5DY0">YouTube</a></li>
+<li>@GPN17
+<a href="https://youtu.be/_O8pPkm9tZA">YouTube</a>
+<a href="https://entropia.de/GPN17:gokrazy:_ein_Go_userland_f%C3%BCr_Raspberry_Pi_3_appliances">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn17/h264-hd/gpn17-8511-deu-gokrazy_ein_Go_userland_fuer_Raspberry_Pi_3_appliances_hd.mp4">mp4</a></li>
+<li>@NoName e.V. 2017-05-25
+<a href="https://youtu.be/lojux_2ul4c">YouTube</a></li>
+<li>@easterhegg2017
+<a href="https://youtu.be/wb5nR3yQZP0">YouTube</a>
+<a href="https://eh17.easterhegg.eu/Fahrplan/events/8486.html">abstract</a>
+<a href="http://cdn.media.ccc.de/events/eh2017/h264-hd/eh17-8486-deu-gokrazy_ein_Go_userland_fuer_Raspberry_Pi_3_appliances_hd.mp4">mp4</a>
+<a href="https://eh17.easterhegg.eu/Fahrplan/system/event_attachments/attachments/000/003/172/original/gokrazy_(easterhegg_2017).pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left" /></p>
+
+<p>(de) die manpages.debian.org-Modernisierung</p>
+
+<div markdown="0">
+<a href="https://youtu.be/x-G72Krj2bU">
+<picture class="talkthumb">
+
+<source type="image/webp" srcset="
+
+//i.ytimg.com/vi_webp/x-G72Krj2bU/maxresdefault.webp 1080w,
+
+
+//i.ytimg.com/vi_webp/x-G72Krj2bU/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/x-G72Krj2bU/mqdefault.webp 320w" />
+
+
+<source srcset="
+
+//i.ytimg.com/vi/x-G72Krj2bU/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/x-G72Krj2bU/hqdefault.jpg 480w,
+//i.ytimg.com/vi/x-G72Krj2bU/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/x-G72Krj2bU/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li><p>@GPN17
+<a href="https://youtu.be/x-G72Krj2bU">YouTube</a>
+<a href="https://entropia.de/GPN17:Die_manpages.debian.org-Modernisierung">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn17/h264-hd/gpn17-8510-deu-Die_manpagesdebianorg-Modernisierung_hd.mp4">mp4</a></p></li>
+
+<li><p>@easterhegg2017
+<a href="https://youtu.be/NWBSuIEP5P8">YouTube</a>
+<a href="https://eh17.easterhegg.eu/Fahrplan/events/8477.html">abstract</a>
+<a href="https://cdn.media.ccc.de/events/eh2017/h264-hd/eh17-8477-deu-Die_manpagesdebianorg-Modernisierung_hd.mp4">mp4</a>
+<a href="https://eh17.easterhegg.eu/Fahrplan/system/event_attachments/attachments/000/003/173/original/manpages.d.o_(easterhegg_2017).pdf">pdf</a></p></li>
+</ul>
+
+<p><br style="clear: left" /></p>
+
+<p>(en) gokrazy: a Go userland for Raspberry Pi 3 appliances</p>
+
+<ul>
+<li>@Go meetup Zürich 2017-04-27</li>
+</ul>
+
+<h2 id="2016">2016</h2>
+
+<p>(de) RobustIRC</p>
+
+<div markdown="0">
+<a href="https://youtu.be/kh_NTibDM38">
+<picture class="talkthumb">
+
+<source type="image/webp" srcset="
+
+//i.ytimg.com/vi_webp/kh_NTibDM38/maxresdefault.webp 1080w,
+
+
+//i.ytimg.com/vi_webp/kh_NTibDM38/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/kh_NTibDM38/mqdefault.webp 320w" />
+
+
+<source srcset="
+
+//i.ytimg.com/vi/kh_NTibDM38/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/kh_NTibDM38/hqdefault.jpg 480w,
+//i.ytimg.com/vi/kh_NTibDM38/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/kh_NTibDM38/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@easterhegg2016
+<a href="https://youtu.be/kh_NTibDM38">YouTube</a>
+<a href="https://fahrplan.eh16.easterhegg.eu/events/42.html">abstract</a>
+<a href="http://cdn.media.ccc.de/events/eh2016/h264-sd/eh16-42-deu-RobustIRC_sd.mp4">mp4</a>
+<a href="https://fahrplan.eh16.easterhegg.eu/system/event_attachments/attachments/000/000/012/original/RobustIRC_%28Easterhegg_2016%29.pdf">pdf</a></li>
+<li>@GPN15
+<a href="https://youtu.be/LbR1dxuANM4">YouTube</a>
+<a href="https://entropia.de/GPN15:RobustIRC">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn15/h264-hq/gpn15-6643-de-RobustIRC_sd.mp4">mp4</a>
+<a href="https://entropia.de/Datei:RobustIRC_(GPN15).pdf">pdf</a></li>
+<li>@Google 2015-02-09
+<a href="https://youtu.be/eTlVgrjoukQ">YouTube</a></li>
+</ul>
+
+<p><br style="clear: left" /></p>
+
+<p>(de) Monitoring mit Prometheus</p>
+
+<div markdown="0">
+<a href="https://youtu.be/pd2R7opjQbA">
+<picture class="talkthumb">
+
+<source type="image/webp" srcset="
+
+//i.ytimg.com/vi_webp/pd2R7opjQbA/maxresdefault.webp 1080w,
+
+
+//i.ytimg.com/vi_webp/pd2R7opjQbA/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/pd2R7opjQbA/mqdefault.webp 320w" />
+
+
+<source srcset="
+
+//i.ytimg.com/vi/pd2R7opjQbA/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/pd2R7opjQbA/hqdefault.jpg 480w,
+//i.ytimg.com/vi/pd2R7opjQbA/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/pd2R7opjQbA/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@easterhegg2016
+<a href="https://youtu.be/16uN0I2wCeo">YouTube</a>
+<a href="https://fahrplan.eh16.easterhegg.eu/events/43.html">abstract</a>
+<a href="http://cdn.media.ccc.de/events/eh2016/h264-sd/eh16-43-deu-Monitoring_mit_Prometheus_sd.mp4">mp4</a>
+<a href="https://fahrplan.eh16.easterhegg.eu/system/event_attachments/attachments/000/000/013/original/Monitoring_mit_Prometheus_%28Easterhegg_2016%29.pdf">pdf</a></li>
+<li>@GPN15
+<a href="https://youtu.be/pd2R7opjQbA">YouTube</a>
+<a href="https://entropia.de/GPN15:Monitoring_mit_Prometheus">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn15/h264-hq/gpn15-6645-de-Monitoring_mit_Prometheus_sd.mp4">mp4</a>
+<a href="https://entropia.de/images/0/00/Monitoring_mit_Prometheus.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left" /></p>
+
+<h2 id="2015">2015</h2>
+
+<p>(en) RobustIRC</p>
+
+<div markdown="0">
+<a href="https://youtu.be/TjZeWUVlKd4">
+<picture class="talkthumb">
+
+<source type="image/webp" srcset="
+
+//i.ytimg.com/vi_webp/TjZeWUVlKd4/maxresdefault.webp 1080w,
+
+
+//i.ytimg.com/vi_webp/TjZeWUVlKd4/hqdefault.webp 480w,
+//i.ytimg.com/vi_webp/TjZeWUVlKd4/mqdefault.webp 320w" />
+
+
+<source srcset="
+
+//i.ytimg.com/vi/TjZeWUVlKd4/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/TjZeWUVlKd4/hqdefault.jpg 480w,
+//i.ytimg.com/vi/TjZeWUVlKd4/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/TjZeWUVlKd4/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@GopherCon2017
+<a href="https://youtu.be/TjZeWUVlKd4">YouTube</a></li>
+<li>@32C3 Lightning Talks (01:34:38)
+<a href="https://youtu.be/irT4xrk8XbM?t=1h34m37s">YouTube</a>
+<a href="http://cdn.media.ccc.de/congress/2015/h264-hd/32c3-7558-en-de-Lightning_Talks_Day_2_hd.mp4">mp4</a></li>
+<li>@Chaos Communication Camp 2015 Lightning Talks
+<a href="https://youtu.be/Ka2ib55hUgY?t=14s">YouTube</a>
+<a href="http://cdn.media.ccc.de/events/camp2015/h264-hd/cccamp15-6862-en-de-Lightning_Talks_Day_2_hd.mp4">mp4</a></li>
+</ul>
+
+<p><br style="clear: left" /></p>
+
+<p>(en, lightning talk) freetserv, a free terminal server
+(prepared, not presented)
+<a href="https://events.ccc.de/congress/2015/wiki/images/4/44/Freetserv.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2015-09-24) freetserv, a free terminal server
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_239">abstract</a></p>
+
+<p>(de @ GPN15) Debian Code Search Instant</p>
+
+<div markdown="0">
+<a href="https://youtu.be/eLkeLFhDz-E">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/eLkeLFhDz-E/hqdefault.jpg 480w,
+//i.ytimg.com/vi/eLkeLFhDz-E/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/eLkeLFhDz-E/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/eLkeLFhDz-E">YouTube</a>
+<a href="https://entropia.de/GPN15:Debian_Code_Search_Instant">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn15/h264-hq/gpn15-6644-de-Debian_Code_Search_Instant_sd.mp4">mp4</a>
+<a href="https://entropia.de/images/3/34/Debian_Code_Search_%282015%29.pdf">pdf</a></p>
+
+<p><br style="clear: left"></p>
+
+<h2 id="2014">2014</h2>
+
+<p>(de @ NoName e.V. 2014-10-30) U2F (Universal 2nd factor): how security keys work
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_178">abstract</a>
+<a href="https://www.noname-ev.de/w/File:C14h-u2f-how-security-keys-work.pdf">pdf</a></p>
+
+<p>(de @ GPN14) systemd und journald für Nutzer</p>
+
+<div markdown="0">
+<a href="https://youtu.be/2eXijNhMNXM">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/2eXijNhMNXM/hqdefault.jpg 480w,
+//i.ytimg.com/vi/2eXijNhMNXM/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/2eXijNhMNXM/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/2eXijNhMNXM">YouTube</a>
+<a href="https://entropia.de/GPN14:systemd_und_journald_f%C3%BCr_Nutzer">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn14/mp4/gpn14-5789-de-systemd_und_journald_f_r_Nutzer_h264-hq.mp4">mp4</a>
+<a href="https://entropia.de/images/b/b8/Gpn14_systemd_for_users.pdf">pdf</a></p>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ GPN14) Linux-based home NAS</p>
+
+<div markdown="0">
+<a href="https://youtu.be/8dNSJP4Xkh4">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/8dNSJP4Xkh4/hqdefault.jpg 480w,
+//i.ytimg.com/vi/8dNSJP4Xkh4/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/8dNSJP4Xkh4/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/8dNSJP4Xkh4">YouTube</a>
+<a href="https://entropia.de/GPN14:Linux-based_home_NAS">abstract</a>
+<a href="http://cdn.media.ccc.de/events/gpn/gpn14/mp4/gpn14-5801-de-Linux-based_home_NAS_h264-hq.mp4">mp4</a>
+<a href="https://entropia.de/images/6/6b/Gpn14_linux_based_home_nas.pdf">pdf</a></p>
+
+<p><br style="clear: left"></p>
+
+<h2 id="2013">2013</h2>
+
+<p>(en @ DebConf13) systemd myths debunked!</p>
+
+<div markdown="0">
+<a href="https://youtu.be/luY3HwJtOPY">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/luY3HwJtOPY/hqdefault.jpg 480w,
+//i.ytimg.com/vi/luY3HwJtOPY/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/luY3HwJtOPY/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/luY3HwJtOPY">YouTube</a>
+<a href="http://penta.debconf.org/dc13_schedule/events/980.en.html">abstract</a>
+<a href="https://ftp.acc.umu.se/pub/debian-meetings/2013/debconf13/high/980_systemd_myths_debunked.ogv">ogv</a>
+<a href="http://people.debian.org/~stapelberg/debconf13-systemd-myths-debunked.pdf">pdf</a></p>
+
+<p><br style="clear: left"></p>
+
+<p>(en @ DebConf13) Making your package work with systemd</p>
+
+<div markdown="0">
+<a href="https://youtu.be/gTfwGjddpGo">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/gTfwGjddpGo/hqdefault.jpg 480w,
+//i.ytimg.com/vi/gTfwGjddpGo/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/gTfwGjddpGo/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/gTfwGjddpGo">YouTube</a>
+<a href="http://penta.debconf.org/dc13_schedule/events/981.en.html">abstract</a>
+<a href="http://meetings-archive.debian.net/pub/debian-meetings/2013/debconf13/high/981_Making_your_package_work_with_systemd.ogv">ogv</a>
+<a href="http://people.debian.org/~stapelberg/debconf13-making-your-package-work-with-systemd.pdf">pdf</a></p>
+
+<p><br style="clear: left"></p>
+
+<p>(de) kanla: small-scale alerting</p>
+
+<div markdown="0">
+<a href="https://youtu.be/MIjN9fxyaqM">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/MIjN9fxyaqM/hqdefault.jpg 480w,
+//i.ytimg.com/vi/MIjN9fxyaqM/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/MIjN9fxyaqM/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@GPN13
+<a href="https://youtu.be/MIjN9fxyaqM">YouTube</a>
+<a href="https://entropia.de/GPN13:kanla:_small-scale_alerting">abstract</a>
+<a href="http://ftp.ccc.de/events/gpn/gpn13/gpn13-kanla.mp4">mp4</a>
+<a href="https://entropia.de/images/f/f2/Kanla.pdf">pdf</a></li>
+<li>@NoName e.V. 2012-10-18
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_50">abstract</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de) Debian Code Search</p>
+
+<div markdown="0">
+<a href="https://youtu.be/4B1Kcw0LrJ0">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/4B1Kcw0LrJ0/hqdefault.jpg 480w,
+//i.ytimg.com/vi/4B1Kcw0LrJ0/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/4B1Kcw0LrJ0/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@GPN13
+<a href="https://youtu.be/4B1Kcw0LrJ0">YouTube</a>
+<a href="https://entropia.de/GPN13:Debian_Code_Search">abstract</a>
+<a href="http://ftp.ccc.de/events/gpn/gpn13/gpn13-debian-code-search.mp4">mp4</a>
+<a href="https://ftp.acc.umu.se/pub/debian-meetings/2013/GPN13/gpn13-debian-code-search.mp4">mp4 (mirror)</a>
+<a href="https://ftp.acc.umu.se/pub/debian-meetings/2013/GPN13/gpn13-debian-code-search.srt">srt</a>
+<a href="https://entropia.de/images/1/10/Debian_Code_Search.pdf">pdf</a></li>
+<li>@NoName e.V. 2012-09-13
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_53">abstract</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ GPN13) Plan 9</p>
+
+<div markdown="0">
+<a href="https://youtu.be/s50Wl8WEMog">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/s50Wl8WEMog/hqdefault.jpg 480w,
+//i.ytimg.com/vi/s50Wl8WEMog/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/s50Wl8WEMog/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@GPN13
+<a href="https://youtu.be/s50Wl8WEMog">YouTube</a>
+<a href="https://entropia.de/GPN13:Plan_9">abstract</a>
+<a href="http://ftp.ccc.de/events/gpn/gpn13/gpn13-plan9.mp4">mp4</a>
+<a href="https://entropia.de/images/d/df/GPN13-Plan9.pdf">pdf</a></li>
+<li>@NoName e.V. 2013-01-31
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_39">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Plan9.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ NoName e.V. 2013-03-21) CHICKEN Scheme
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_34">abstract</a>
+<a href="https://www.noname-ev.de/w/File:C14h-chicken.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2013-03-14) notmuch
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_35">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Notmuch.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2013-01-24) IPv6
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_40">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Ipv6-slides.7z.gz">slides (7z)</a></p>
+
+<p>(de @ NoName e.V. 2013-01-17) DRBD
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_41">abstract</a>
+<a href="https://www.noname-ev.de/w/File:DRBD.pdf">pdf</a></p>
+
+<h2 id="2012">2012</h2>
+
+<p>(de @ NoName e.V. 2012-12-20) Ingress
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_43">abstract</a></p>
+
+<p>(de @ NoName e.V. 2012-11-22) Geschichten über WLAN an Bildungseinrichtungen
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_46">abstract</a></p>
+
+<p>(de @ NoName e.V. 2012-09-27) Podcasts
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_51">abstract</a></p>
+
+<p>(de @ NoName e.V. 2012-09-20) mitgliedsgebühren.pl
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_52">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Mitgliedsgeb%C3%BChren.pdf">pdf</a></p>
+
+<p>(de) systemd</p>
+
+<ul>
+<li>@mrmcd2012</li>
+<li>@GPN12
+<a href="https://entropia.de/GPN12:systemd">abstract</a>
+<a href="https://entropia.de/images/8/80/Slides-systemd.pdf">pdf</a></li>
+<li>@NoName e.V. 2011-08-18
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_76">abstract</a>
+<a href="https://www.noname-ev.de/w/File:C14h-Systemd.pdf">pdf</a></li>
+</ul>
+
+<p>(de @ NoName e.V. 2012-08-30) Yubikey
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_54">abstract</a></p>
+
+<p>(de @ NoName e.V. 2012-08-23) buildbot
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_55">abstract</a>
+<a href="https://www.noname-ev.de/w/File:C14-Buildbot.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2012-08-16) scaling the apache/php/postgresql-stack, a real-world example
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_56">abstract</a>
+<a href="https://www.noname-ev.de/w/File:C14h-Webscaling.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2012-07-26) Reverse Engineering, Teil 2
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_58">abstract</a></p>
+
+<p>(de @ NoName e.V. 2012-07-19) nVidia CUDA
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_59">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Cuda.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2012-06-28) Crackmes: Reverse-Engineering auf Assembler-Ebene
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_61">abstract</a></p>
+
+<p>(de) Linux Networking - Ninja Style</p>
+
+<div markdown="0">
+<a href="https://youtu.be/6ULFfo7kCQA">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/6ULFfo7kCQA/sddefault.jpg 640w,
+
+//i.ytimg.com/vi/6ULFfo7kCQA/hqdefault.jpg 480w,
+//i.ytimg.com/vi/6ULFfo7kCQA/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/6ULFfo7kCQA/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@GPN12
+<a href="https://youtu.be/6ULFfo7kCQA">YouTube</a>
+<a href="https://entropia.de/GPN12:Linux_Networking_-_Ninja_Style">abstract</a>
+<a href="http://ftp.ccc.de/events/gpn/gpn12/gpn12-linux-networking.mp4">mp4</a>
+<a href="https://entropia.de/images/6/6a/Slides-linux-networking-ninja-style.pdf">pdf</a></li>
+<li>@NoName e.V. 2012-03-29
+<a href="https://www.noname-ev.de/w/File:Linux-Networking-Ninja-Style.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de) Go – eine moderne Programmiersprache</p>
+
+<ul>
+<li>@GPN12
+<a href="https://entropia.de/GPN12:Go_%E2%80%93_eine_moderne_Programmiersprache">abstract</a>
+<a href="https://entropia.de/images/4/4f/Gpn12-Go.pdf">pdf</a></li>
+<li>@NoName e.V. 2012-05-31
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_64">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Go.pdf">pdf</a></li>
+</ul>
+
+<p>(de @ NoName e.V. 2012-05-17) Google App Engine (+Go)
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_66">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Appengine-go.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2012-04-26) Raspberry Pi
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_68">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Raspberry-pi-slides.pdf">pdf</a></p>
+
+<p>(de @ RaumZeitLabor 2012-04-24) Videoschnitt</p>
+
+<div markdown="0">
+<a href="https://youtu.be/b_Elq5JwWaY">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+//i.ytimg.com/vi/b_Elq5JwWaY/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/b_Elq5JwWaY/sddefault.jpg 640w,
+
+//i.ytimg.com/vi/b_Elq5JwWaY/hqdefault.jpg 480w,
+//i.ytimg.com/vi/b_Elq5JwWaY/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/b_Elq5JwWaY/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/b_Elq5JwWaY">YouTube</a></p>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ NoName e.V. 2012-04-12) Debian Packaging
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_70">abstract</a></p>
+
+<p>(de) Protocol Buffers</p>
+
+<div markdown="0">
+<a href="https://youtu.be/ngBUYX7abdk">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+//i.ytimg.com/vi/ngBUYX7abdk/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/ngBUYX7abdk/sddefault.jpg 640w,
+
+//i.ytimg.com/vi/ngBUYX7abdk/hqdefault.jpg 480w,
+//i.ytimg.com/vi/ngBUYX7abdk/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/ngBUYX7abdk/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@RaumZeitLabor 2012-03-27
+<a href="https://youtu.be/ngBUYX7abdk">YouTube</a></li>
+<li>@NoName e.V. 2012-03-22
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_72">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Protobuf.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ RaumZeitLabor 2012-03-20) BenutzerDB</p>
+
+<div markdown="0">
+<a href="https://youtu.be/cAuLB2FvKOA">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+//i.ytimg.com/vi/cAuLB2FvKOA/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/cAuLB2FvKOA/sddefault.jpg 640w,
+
+//i.ytimg.com/vi/cAuLB2FvKOA/hqdefault.jpg 480w,
+//i.ytimg.com/vi/cAuLB2FvKOA/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/cAuLB2FvKOA/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/cAuLB2FvKOA">YouTube</a></p>
+
+<p><br style="clear: left"></p>
+
+<p>(de) „AllKnowingDNS — Reverse DNS für 2^64 IPv6-Adressen“</p>
+
+<div markdown="0">
+<a href="https://youtu.be/PG_0gXp5Z4k">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+//i.ytimg.com/vi/PG_0gXp5Z4k/maxresdefault.jpg 1080w,
+
+
+//i.ytimg.com/vi/PG_0gXp5Z4k/sddefault.jpg 640w,
+
+//i.ytimg.com/vi/PG_0gXp5Z4k/hqdefault.jpg 480w,
+//i.ytimg.com/vi/PG_0gXp5Z4k/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/PG_0gXp5Z4k/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@NoName e.V. 2012-03-15
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_73">abstract</a>
+<a href="https://www.noname-ev.de/w/File:All-knowing-dns.pdf">pdf</a></li>
+<li>@RaumZeitLabor 2012-03-13
+<a href="https://youtu.be/PG_0gXp5Z4k">YouTube</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ NoName e.V. 2012-03-08) Live-Coding, oder warum Testsuites toll sind, oder sECuRE macht sich zum Affen.
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_74">abstract</a></p>
+
+<p>(de) Remote-upgrading microcontroller firmware like a boss</p>
+
+<div markdown="0">
+<a href="https://youtu.be/ZWmBBeYuT3M">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/ZWmBBeYuT3M/hqdefault.jpg 480w,
+//i.ytimg.com/vi/ZWmBBeYuT3M/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/ZWmBBeYuT3M/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@RaumZeitLabor 2012-02-28
+<a href="https://youtu.be/ZWmBBeYuT3M">YouTube</a></li>
+<li>@NoName e.V. 2012-02-23
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_75">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Firmware-pinpad.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(en @ Google 2012-01-25) i3 — An Improved Tiling Window Manager</p>
+
+<div markdown="0">
+<a href="https://youtu.be/QnYN2CTb1hM">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/QnYN2CTb1hM/hqdefault.jpg 480w,
+//i.ytimg.com/vi/QnYN2CTb1hM/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/QnYN2CTb1hM/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<p><a href="https://youtu.be/QnYN2CTb1hM">YouTube</a></p>
+
+<p><br style="clear: left"></p>
+
+<h2 id="2011">2011</h2>
+
+<p>(de) Lolpizza</p>
+
+<div markdown="0">
+<a href="https://youtu.be/itn10j-wZH0">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/itn10j-wZH0/hqdefault.jpg 480w,
+//i.ytimg.com/vi/itn10j-wZH0/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/itn10j-wZH0/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@GPN11
+<a href="https://youtu.be/itn10j-wZH0">YouTube</a>
+<a href="https://entropia.de/GPN11:Lolpizza">abstract</a>
+<a href="http://ftp.ccc.de/events/gpn11/gpn11-lolpizza.mkv">mkv</a>
+<a href="https://entropia.de/images/1/16/Lolpizza-slides.pdf">pdf</a></li>
+<li>@NoName e.V. 2011-03-31
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_79">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Lolpizza-slides.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ RaumZeitLabor 2011-02-12) IPv6-Grundlagen</p>
+
+<p>(de @ NoName e.V. 2011-04-07) X11-Visualisierung
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_78">abstract</a></p>
+
+<h2 id="2010">2010</h2>
+
+<p>(de @ NoName e.V. 2010-03-18) CouchDB, eine verteilte, dokumentbasierte Datenbank
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_83">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Couchdb.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2010-02-18) sup, ein Commandline-Mailclient auf Thread-Basis
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_84">abstract</a></p>
+
+<p>(de @ NoName e.V. 2010-01-14) dn42 - ein dynamisches VPN
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_87">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Dn42.pdf">pdf</a></p>
+
+<h2 id="2009">2009</h2>
+
+<p>(de @ NoName e.V. 2009-10-15) Vorstellung Hackerspace Rhein-Neckar
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_91">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Hackerspace-rn.pdf">pdf</a></p>
+
+<p>(de) Hacking your own Window Manager</p>
+
+<div markdown="0">
+<a href="https://youtu.be/NQJo7IwcLlY">
+<picture class="talkthumb">
+
+
+<source srcset="
+
+
+//i.ytimg.com/vi/NQJo7IwcLlY/hqdefault.jpg 480w,
+//i.ytimg.com/vi/NQJo7IwcLlY/mqdefault.jpg 320w" />
+
+<img src="//i.ytimg.com/vi/NQJo7IwcLlY/hqdefault.jpg">
+</picture>
+</a>
+</div>
+
+
+
+<ul>
+<li>@froscon2009
+<a href="https://youtu.be/NQJo7IwcLlY">YouTube</a>
+<a href="https://programm.froscon.org/2009/events/334.de.html">abstract</a>
+<a href="http://programm.froscon.org/2009/attachments/78_Hacking_your_own_window_manager.pdf">pdf</a></li>
+<li>@GPN8
+<a href="https://entropia.de/GPN8:Hacking_WMs">abstract</a>
+<a href="https://entropia.de/wiki/images/2/25/Hacking_your_own_window_manager.pdf">pdf</a></li>
+<li>@NoName e.V. 2009-03-12
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_104">abstract</a>
+<a href="https://www.noname-ev.de/w/File:I3.pdf">pdf</a></li>
+</ul>
+
+<p><br style="clear: left"></p>
+
+<p>(de @ NoName e.V. 2009-08-20) Warum modern perl toll ist
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_95">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Modern_Perl.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2009-05-21) Cloud Computing-Infrastruktur mit Eucalyptus
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_98">abstract</a>
+<a href="http://pvs.informatik.uni-heidelberg.de/Teaching/CLCP-09/CLCP_SS2009_Michael_Stapelberg_Eucalyptus.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2009-04-16) IPv6 – wie, wo, warum?
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_102">abstract</a>
+<a href="https://www.noname-ev.de/w/Image:Ipv6.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2009-02-26) Debuggen mit gdb
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_105">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Gdb.pdf">pdf</a></p>
+
+<h2 id="2008">2008</h2>
+
+<p>(de @ NoName e.V. 2008-06-12) git &ndash; the stupid content tracker. Wie arbeite ich mit git und warum ist es so viel cooler als subversion?
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_112">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Git-120608.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2008-06-05) Status von p2pdfs (peer-to-peer distributed filesystem), unserem bittorrent-gestützten FUSE-Filesystem - (Kurzform: Ja, da kommen Daten durch mittlerweile!)
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_113">abstract</a>
+<a href="https://www.noname-ev.de/w/File:P2pdfs-050608.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2008-05-08) mxallowd
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_114">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Mxallowd-08052008.pdf">pdf</a></p>
+
+<p>(de @ NoName e.V. 2008-03-27) Bacula-Vortrag, ebenfalls als 50% Vortrag/50%-Workshop
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_116">abstract</a>
+<a href="https://www.noname-ev.de/w/File:Bacula.pdf">pdf</a></p>
+
+<h2 id="2006">2006</h2>
+
+<p>(de @ NoName e.V. 2006-08-24) sECuRE und ch3ka stellen ihr (Python/PHP-)Script PIX vor, mit dem man Filme &ldquo;galleryzen&rdquo; kann.
+<a href="https://www.noname-ev.de/chaotische_viertelstunde.html?latest=329#c14h_122">abstract</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Network setup for our retro computing event RGB2Rv17]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-11-13-rgb2r-network/"/>
+    <id>https://michael.stapelberg.de/posts/2017-11-13-rgb2r-network/</id>
+    <published>2017-11-13T22:45:00+01:00</published>
+    <updated>2017-11-13T22:45:00+01:00</updated>
+    <content type="html"><![CDATA[
+
+<p>Our computer association <a href="https://www.noname-ev.de/">NoName e.V.</a> organizes a
+retro computing event called <a href="https://rgb2r.noname-ev.de/">RGB2R</a> every year,
+located in Heidelberg, Germany. This year’s version is called RGB2Rv17.</p>
+
+<p>This article describes the network setup I created for this year’s event.</p>
+
+<p>The intention is not so much to provide a fully working setup (even though the
+setup did work fine for us as-is), but rather inspire to you to create your own
+network, based vaguely on what’s provided here.</p>
+
+<h3 id="connectivity">Connectivity</h3>
+
+<p>The venue has a DSL connection with speeds reaching 1 Mbit/s if you’re
+lucky. Needless to say, that is not sufficient for the about 40 participants we
+had.</p>
+
+<p>Luckily, there is (almost) direct line of sight to my parent’s place, and my dad
+recently got a 400 Mbit/s cable internet connection, which he’s happy to share
+with us :-).</p>
+
+<p><img src="/Bilder/IMG_7157.jpg" width="640" height="480" alt="WiFi antenna pole"></p>
+
+<h3 id="hardware">Hardware</h3>
+
+<p>For the WiFi links to my parent’s place, we used 2 <a href="http://www.tp-link.com/us/products/details/cat-37_CPE510.html">tp-link
+CPE510</a> (CPE
+stands for Customer Premise Equipment) on each site. The devices only have 100
+Mbit/s ethernet ports, which is why we used two of them.</p>
+
+<p>The edge router for the event venue was a <a href="https://pcengines.ch/apu2c4.htm">PC Engines
+apu2c4</a>. For the Local Area Network (LAN)
+within the venue, we provided a few switches and WiFi using <a href="https://www.ubnt.com/">Ubiquiti
+Networks</a> access points.</p>
+
+<h3 id="software">Software</h3>
+
+<p>On the apu2c4, I installed Debian “stretch” 9, the latest Debian stable version
+at the time of writing. I prepared a USB thumb drive with the netinst image:</p>
+
+<pre><code>% wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.2.1-amd64-netinst.iso
+% cp debian-9.2.1-amd64-netinst.iso /dev/sdb
+</code></pre>
+
+<p>Then, I…</p>
+
+<ul>
+<li>plugged the USB thumb drive into the apu2c4</li>
+<li>On the serial console, pressed F10 (boot menu), then 1 (boot from USB)</li>
+<li>In the Debian installer, selected Help, pressed F6 (special boot parameters), entered <code>install console=ttyS0,115200n8</code></li>
+<li>installed Debian as usual.</li>
+</ul>
+
+<h4 id="initial-setup">Initial setup</h4>
+
+<p>Debian stretch comes with systemd by default, but not with
+<a href="https://manpages.debian.org/stretch/systemd/systemd-networkd.8.en.html"><code>systemd-networkd(8)</code></a>
+by default, so I changed that:</p>
+
+<pre><code>edge# systemctl enable systemd-networkd
+edge# systemctl disable networking
+</code></pre>
+
+<p>Also, I cleared the MOTD, placed <code>/tmp</code> on <code>tmpfs</code> and configured my usual
+environment:</p>
+
+<pre><code>edge# echo &gt; /etc/motd
+edge# echo 'tmpfs /tmp tmpfs defaults 0 0' &gt;&gt; /etc/fstab
+edge# wget -qO- https://d.zekjur.net | bash -s
+</code></pre>
+
+<p>I also installed a few troubleshooting tools which came in handy later:</p>
+
+<pre><code>edge# apt install tcpdump net-tools strace
+</code></pre>
+
+<h4 id="disabling-icmp-rate-limiting-for-debugging">Disabling ICMP rate-limiting for debugging</h4>
+
+<p>I had to learn the hard way that Linux imposes a rate-limit on outgoing ICMP
+packets by default. This manifests itself as spurious timeouts in the
+<code>traceroute</code> output. To ease debugging, I disabled the rate limit entirely:</p>
+
+<pre><code>edge# cat &gt;&gt; /etc/sysctl.conf &lt;&lt;'EOT'
+net.ipv4.icmp_ratelimit=0
+net.ipv6.icmp.ratelimit=0
+EOT
+edge# sysctl -p
+</code></pre>
+
+<h4 id="renaming-network-interfaces">Renaming network interfaces</h4>
+
+<p>Descriptive network interface names are helpful when debugging. I won’t remember
+whether <code>enp0s3</code> is the interface for an uplink or the LAN, so I assigned the
+names <code>uplink0</code>, <code>uplink1</code> and <code>lan0</code> to the apu2c4’s interfaces.</p>
+
+<p>To rename network interfaces, I created a corresponding <code>.link</code> file, had the
+initramfs pick it up, and rebooted:</p>
+
+<pre><code>edge# cat &gt;/etc/systemd/network/10-uplink0.link &lt;&lt;'EOT'
+[Match]
+MACAddress=00:0d:b9:49:db:18
+
+[Link]
+Name=uplink0
+EOT
+edge# update-initramfs -u
+edge# reboot
+</code></pre>
+
+<h3 id="network-topology">Network topology</h3>
+
+<p>Because our internet provider didn’t offer IPv6, and to keep my dad out of the
+loop in case any abuse issues should arise, we tunneled all of our traffic.</p>
+
+<p>We decided to set up one tunnel per WiFi link, so that we could easily
+load-balance over the two links by routing IP flows into one of the two tunnels.</p>
+
+<p>Here’s a screenshot from the topology dashboard which I made using the
+<a href="https://grafana.com/plugins/jdbranham-diagram-panel">Diagram</a> Grafana plugin:</p>
+
+<p><img src="/Bilder/rgb2rv17-network-topology.jpg" width="943" height="536"></p>
+
+<h3 id="network-interface-setup">Network interface setup</h3>
+
+<p>We configured IP addresses statically on the <code>uplink0</code> and <code>uplink1</code> interface
+because we needed to use static addresses in the tunnel setup anyway.</p>
+
+<p>Note that we placed a default route in route table 110. Later on, we used
+<a href="https://manpages.debian.org/stretch/iptables/iptables.8.en.html"><code>iptables(8)</code></a>
+to make traffic use either of these two default routes.</p>
+
+<pre><code>edge# cat &gt; /etc/systemd/network/uplink0.network &lt;&lt;'EOT'
+[Match]
+Name=uplink0
+
+[Network]
+Address=192.168.178.10/24
+IPForward=ipv4
+
+[Route]
+Gateway=192.168.178.1
+Table=110
+EOT
+</code></pre>
+
+<pre><code>edge# cat &gt; /etc/systemd/network/uplink1.network &lt;&lt;'EOT'
+[Match]
+Name=uplink1
+
+[Network]
+Address=192.168.178.11/24
+IPForward=ipv4
+
+[Route]
+Gateway=192.168.178.1
+Table=111
+EOT
+</code></pre>
+
+<h3 id="tunnel-setup">Tunnel setup</h3>
+
+<p>Originally, I configured OpenVPN for our tunnels. However, it turned out the
+apu2c4 tops out at 130 Mbit/s of traffic through OpenVPN. Notably, using two
+tunnels didn’t help — I couldn’t reach more than 130 Mbit/s in total. This is
+with authentication and crypto turned off.</p>
+
+<p>This surprised me, but doesn’t seem too uncommon: on the internet, I could find
+reports of similar speeds with the same hardware.</p>
+
+<p>Given that our setup didn’t require cryptography (applications are using TLS
+these days), I looked for light-weight alternatives and found Foo-over-UDP
+(fou), a UDP encapsulation protocol supporting IPIP, GRE and SIT tunnels.</p>
+
+<p>Each configured Foo-over-UDP tunnel only handles sending packets. For receiving,
+you need to configure a listening port. If you want two machines to talk to each
+other, you therefore need a listening port on each, and a tunnel on each.</p>
+
+<p>Note that you need one tunnel per address family: IPIP only supports IPv4, SIT
+only supports IPv6. In total, we ended up with 4 tunnels (2 WiFi uplinks with 2
+address families each).</p>
+
+<p>Also note that Foo-over-UDP provides no authentication: anyone who is able to
+send packets to your configured listening port can spoof any IP address. If you
+don’t restrict traffic in some way (e.g. by source IP), you are effectively
+running an open proxy.</p>
+
+<h4 id="tunnel-configuration">Tunnel configuration</h4>
+
+<p>First, load the kernel modules and set the corresponding interfaces to UP:</p>
+
+<pre><code>edge# modprobe fou
+edge# modprobe ipip
+edge# ip link set dev tunl0 up
+edge# modprobe sit
+edge# ip link set dev sit0 up
+</code></pre>
+
+<p>Configure the listening ports for receiving FOU packets:</p>
+
+<pre><code>edge# ip fou add port 1704 ipproto 4
+edge# ip fou add port 1706 ipproto 41
+
+edge# ip fou add port 1714 ipproto 4
+edge# ip fou add port 1716 ipproto 41
+</code></pre>
+
+<p>Configure the tunnels for sending FOU packets, using the local interface of the
+<code>uplink0</code> interface:</p>
+
+<pre><code>edge# ip link add name fou0v4 type ipip remote 203.0.113.1 local 192.168.178.10 encap fou encap-sport auto encap-dport 1704 dev uplink0
+edge# ip link set dev fou0v4 up
+edge# ip -4 address add 10.170.0.1/24 dev fou0v4
+
+edge# ip link add name fou0v6 type sit remote 203.0.113.1 local 192.168.178.10 encap fou encap-sport auto encap-dport 1706 dev uplink0
+edge# ip link set dev fou0v6 up
+edge# ip -6 address add fd00::10:170:0:1/112 dev fou0v6 preferred_lft 0
+</code></pre>
+
+<p>Repeat for the <code>uplink1</code> interface:</p>
+
+<pre><code># (IPv4) Set up the uplink1 transmit tunnel:
+edge# ip link add name fou1v4 type ipip remote 203.0.113.1 local 192.168.178.11 encap fou encap-sport auto encap-dport 1714 dev uplink1
+edge# ip link set dev fou1v4 up
+edge# ip -4 address add 10.171.0.1/24 dev fou1v4
+
+# (IPv6) Set up the uplink1 transmit tunnel:
+edge# ip link add name fou1v6 type sit remote 203.0.113.1 local 192.168.178.11 encap fou encap-sport auto encap-dport 1716 dev uplink1
+edge# ip link set dev fou1v6 up
+edge# ip -6 address add fd00::10:171:0:1/112 dev fou1v6 preferred_lft 0
+</code></pre>
+
+<h3 id="load-balancing-setup">Load-balancing setup</h3>
+
+<p>In previous years, we experimented with setups using MLVPN for load-balancing
+traffic on layer 2 across multiple uplinks. Unfortunately, we weren’t able to
+get good results: when aggregating links, bandwidth would be limited to the
+slowest link. I expect that MLVPN and others would work better this year, if we
+were to set it up directly before and after the WiFi uplinks, as the two links
+should be almost identical in terms of latency and throughput.</p>
+
+<p>Regardless, we didn’t want to take any chances and decided to go with IP flow
+based load-balancing. The downside is that any individual connection can never
+be faster than the uplink over which it is routed. Given the number of
+concurrent connections in a typical network, in practice we observed good
+utilization of both links regardless.</p>
+
+<p>Let’s tell iptables to mark packets coming from the LAN with one of two values
+based on the hash of their source IP, source port, destination IP and
+destination port properties:</p>
+
+<pre><code>edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -j HMARK --hmark-tuple src,sport,dst,dport --hmark-mod 2 --hmark-offset 10 --hmark-rnd 0xdeadbeef
+</code></pre>
+
+<p>Note that the <code>--hmark-offset</code> parameter is required: mark 0 is the default, so
+you need an offset of at least 1.</p>
+
+<p>For debugging, it is helpful to exempt the IP addresses we use on the tunnels
+themselves, otherwise we might not be able to ping an endpoint which is actually
+reachable:</p>
+
+<pre><code>edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -d 10.170.0.0/24 -m comment --comment &quot;for debugging&quot; -j MARK --set-mark 10
+edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -d 10.171.0.0/24 -m comment --comment &quot;for debugging&quot; -j MARK --set-mark 11
+</code></pre>
+
+<p>Now, we need to add a routing policy to select the correct default route based
+on the firewall mark:</p>
+
+<pre><code>edge# ip -4 rule add fwmark 10 table 10
+edge# ip -4 rule add fwmark 11 table 11
+</code></pre>
+
+<p>The steps for IPv6 are identical.</p>
+
+<p>Note that current OpenWrt (15.05) does not provide the HMARK iptables module. I
+filed <a href="https://github.com/openwrt/openwrt/issues/572">a GitHub issue with OpenWrt</a>.</p>
+
+<h4 id="connectivity-for-the-edge-router">Connectivity for the edge router</h4>
+
+<p>Because our default routes are placed in table 110 and 111, the router does not
+have upstream connectivity. This is mostly working as intended, as it makes it
+harder to accidentally route traffic outside of the tunnels.</p>
+
+<p>There is one exception: we need a route to our DNS server:</p>
+
+<pre><code>edge# ip -4 rule add to 8.8.8.8/32 lookup 110
+</code></pre>
+
+<p>It doesn’t matter which uplink we use for that, since DNS traffic is tiny.</p>
+
+<h4 id="connectivity-to-the-tunnel-endpoint">Connectivity to the tunnel endpoint</h4>
+
+<p>Of course, the tunnel endpoint itself must also be reachable:</p>
+
+<pre><code>edge# ip rule add fwmark 110 lookup 110
+edge# ip rule add fwmark 111 lookup 111
+
+edge# iptables -t mangle -A OUTPUT -d 203.0.113.1/32 -p udp --dport 1704 -j MARK --set-mark 110
+edge# iptables -t mangle -A OUTPUT -d 203.0.113.1/32 -p udp --dport 1714 -j MARK --set-mark 111
+edge# iptables -t mangle -A OUTPUT -d 203.0.113.1/32 -p udp --dport 1706 -j MARK --set-mark 110
+edge# iptables -t mangle -A OUTPUT -d 203.0.113.1/32 -p udp --dport 1716 -j MARK --set-mark 111
+</code></pre>
+
+<h4 id="connectivity-to-the-access-points">Connectivity to the access points</h4>
+
+<p>By clearing the firewall mark, we ensure traffic doesn’t get sent through our
+tunnel:</p>
+
+<pre><code>edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -d 192.168.178.250 -j MARK --set-mark 0 -m comment --comment &quot;for debugging&quot;
+edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -d 192.168.178.251 -j MARK --set-mark 0 -m comment --comment &quot;for debugging&quot;
+edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -d 192.168.178.252 -j MARK --set-mark 0 -m comment --comment &quot;for debugging&quot;
+edge# iptables -t mangle -A PREROUTING -s 10.17.0.0/24 -d 192.168.178.253 -j MARK --set-mark 0 -m comment --comment &quot;for debugging&quot;
+</code></pre>
+
+<p>Also, since the access points are all in the same subnet, we need to tell Linux
+on which interface to send the packets, otherwise packets might egress on the
+wrong link:</p>
+
+<pre><code>edge# ip -4 route add 192.168.178.252 dev uplink0 src 192.168.178.10
+edge# ip -4 route add 192.168.178.253 dev uplink1 src 192.168.178.11
+</code></pre>
+
+<h4 id="mtu-configuration">MTU configuration</h4>
+
+<pre><code>edge# ifconfig uplink0 mtu 1472
+edge# ifconfig uplink1 mtu 1472
+edge# ifconfig fou0v4 mtu 1416
+edge# ifconfig fou0v6 mtu 1416
+edge# ifconfig fou1v4 mtu 1416
+edge# ifconfig fou1v6 mtu 1416
+</code></pre>
+
+<h4 id="for-maintenance-temporarily-use-only-one-uplink">For maintenance: temporarily use only one uplink</h4>
+
+<p>It might come in handy to quickly be able to disable an uplink, be it for
+diagnosing issues, performing maintenance on a link, or to work around a broken
+uplink.</p>
+
+<p>Let’s create a separate iptables chain in which we can place temporary
+overrides:</p>
+
+<pre><code>edge# iptables -t mangle -N prerouting_override
+edge# iptables -t mangle -A PREROUTING -j prerouting_override
+edge# ip6tables -t mangle -N prerouting_override
+edge# ip6tables -t mangle -A PREROUTING -j prerouting_override
+</code></pre>
+
+<p>With the following shell script, we can then install such an override:</p>
+
+<pre><code>#!/bin/bash
+# vim:ts=4:sw=4
+# enforces using a single uplink
+# syntax:
+#	./uplink.sh 0  # use only uplink0
+#	./uplink.sh 1  # use only uplink1
+#	./uplink.sh    # use both uplinks again
+
+if [ &quot;$1&quot; = &quot;0&quot; ]; then
+	# Use only uplink0
+	MARK=10
+elif [ &quot;$1&quot; = &quot;1&quot; ]; then
+	# Use only uplink1
+	MARK=11
+else
+	# Use both uplinks again
+	iptables -t mangle -F prerouting_override
+	ip6tables -t mangle -F prerouting_override
+	ip -4 rule del to 8.8.8.8/32
+	ip -4 rule add to 8.8.8.8/32 lookup &quot;110&quot;
+	exit 0
+fi
+
+iptables -t mangle -F prerouting_override
+iptables -t mangle -A prerouting_override -s 10.17.0.0/24 -j MARK --set-mark &quot;${MARK}&quot;
+ip6tables -t mangle -F prerouting_override
+ip6tables -t mangle -A prerouting_override -j MARK --set-mark &quot;${MARK}&quot;
+
+ip -4 rule del to 8.8.8.8/32
+ip -4 rule add to 8.8.8.8/32 lookup &quot;1${MARK}&quot;
+</code></pre>
+
+<h3 id="mss-clamping">MSS clamping</h3>
+
+<p>Because Path MTU discovery is often broken on the internet, it’s best practice
+to limit the Maximum Segment Size (MSS) of each TCP connection, achieving the
+same effect (but only for TCP connections).</p>
+
+<p>This technique is called “MSS clamping”, and can be implemented in Linux like
+so:</p>
+
+<pre><code>edge# iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -o fou0v4 -j TCPMSS --clamp-mss-to-pmtu
+edge# iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -o fou1v4 -j TCPMSS --clamp-mss-to-pmtu
+edge# ip6tables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -o fou0v6 -j TCPMSS --clamp-mss-to-pmtu
+edge# ip6tables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -o fou1v6 -j TCPMSS --clamp-mss-to-pmtu
+</code></pre>
+
+<h3 id="traffic-shaping">Traffic shaping</h3>
+
+<h4 id="shaping-upstream">Shaping upstream</h4>
+
+<p>With asymmetric internet connections, such as the <sup>400</sup>&frasl;<sub>20</sub> cable connection we’re
+using, it’s necessary to shape traffic such that the upstream is never entirely
+saturated, otherwise the TCP ACK packets won’t reach their destination in time
+to saturate the downstream.</p>
+
+<p>While the FritzBox might already provide traffic shaping, we wanted to
+voluntarily restrict our upstream usage to leave some headroom for my parents.</p>
+
+<p>Hence, we’re shaping each uplink to 8 Mbit/s, which sums up to 16 Mbit/s, well
+below the available 20 Mbit/s:</p>
+
+<pre><code>edge# tc qdisc replace dev uplink0 root tbf rate 8mbit latency 50ms burst 4000
+edge# tc qdisc replace dev uplink1 root tbf rate 8mbit latency 50ms burst 4000
+</code></pre>
+
+<p>The specified <code>latency</code> value is a best guess, and the <code>burst</code> value is derived
+from the kernel internal timer frequency (<code>CONFIG_HZ</code>) (!), packet size and rate
+as per
+<a href="https://unix.stackexchange.com/questions/100785/bucket-size-in-tbf">https://unix.stackexchange.com/questions/100785/bucket-size-in-tbf</a>.</p>
+
+<p>Tip: keep in mind to disable shaping temporarily when you’re doing bandwidth
+tests ;-).</p>
+
+<h4 id="shaping-downstream">Shaping downstream</h4>
+
+<p>It’s somewhat of a mystery to me why this helped, but we achieved noticeably
+better bandwidth (50 Mbit/s without, 100 Mbit/s with shaping) when we also
+shaped the downstream traffic (i.e. made the tunnel endpoint shape traffic).</p>
+
+<h3 id="lan">LAN</h3>
+
+<p>For DHCP, DNS and IPv6 router advertisments, we set up
+<a href="https://manpages.debian.org/stretch/dnsmasq-base/dnsmasq.8.en.html"><code>dnsmasq(8)</code></a>,
+which worked beautifully and was way quicker to configure than the bigger ISC
+servers:</p>
+
+<pre><code>edge# apt install dnsmasq
+edge# cat &gt; /etc/dnsmasq.d/rgb2r &lt;&lt;'EOT'
+interface=lan0
+dhcp-range=10.17.0.10,10.17.0.250,30m
+dhcp-range=::,constructor:lan0,ra-only
+enable-ra
+cache-size=10000
+EOT
+</code></pre>
+
+<h3 id="monitoring">Monitoring</h3>
+
+<p>First, install and start Prometheus:</p>
+
+<pre><code>edge# apt install prometheus prometheus-node-exporter prometheus-blackbox-exporter
+edge# systemctl enable prometheus
+edge# systemctl restart prometheus
+edge# systemctl enable prometheus-node-exporter
+edge# systemctl restart prometheus-node-exporter
+edge# systemctl enable prometheus-blackbox-exporter
+edge# systemctl restart prometheus-blackbox-exporter
+</code></pre>
+
+<p>Then, install and start Grafana:</p>
+
+<pre><code>edge# apt install apt-transport-https
+edge# wget -qO- https://packagecloud.io/gpg.key | apt-key add -
+edge# echo deb https://packagecloud.io/grafana/stable/debian/ stretch main &gt; /etc/apt/sources.list.d/grafana.list
+edge# apt update
+edge# apt install grafana
+edge# systemctl enable grafana-server
+edge# systemctl restart grafana-server
+</code></pre>
+
+<p>Also, install the excellent
+<a href="https://grafana.com/plugins/jdbranham-diagram-panel">Diagram</a> Grafana plugin:</p>
+
+<pre><code>edge# grafana-cli plugins install jdbranham-diagram-panel
+edge# systemctl restart grafana-server
+</code></pre>
+
+<h3 id="config-files">Config files</h3>
+
+<p>I realize this post contains a lot of configuration excerpts which might be hard
+to put together. So, you can <a href="http://code.stapelberg.de/git/rgb2rv17-network-setup/">find all the config files in a git
+repository</a>. As I
+mentioned at the beginning of the article, please create your own network and
+don’t expect the config files to just work out of the box.</p>
+
+<h3 id="statistics">Statistics</h3>
+
+<ul>
+<li><p>We peaked at about 60 active DHCP leases.</p></li>
+
+<li><p>The connection tracking table (holding an entry for each IPv4 connection)
+never exceeded 4000 connections.</p></li>
+
+<li><p>DNS traffic peaked at about 12 queries/second.</p></li>
+
+<li><p>dnsmasq’s maximum cache size of 10000 records was sufficient: we did not have
+a single cache eviction over the entire event.</p></li>
+
+<li><p>We were able to obtain peaks of over 150 Mbit/s of download traffic.</p></li>
+
+<li><p>At peak, about 10% of our traffic was IPv6.</p></li>
+</ul>
+
+<h3 id="wifi-statistics">WiFi statistics</h3>
+
+<ul>
+<li><p>On link 1, our signal to noise ratio hovered between 31 dBm to 33 dBm. When it
+started raining, it dropped by 2-3 dBm.</p></li>
+
+<li><p>On link 2, our signal to noise ratio hovered between 34 dBm to 36 dBm. When it
+started raining, it dropped by 1 dBm.</p></li>
+</ul>
+
+<p>Despite the relatively bad signal/noise ratios, we could easily obtain about 140
+Mbps on the WiFi layer, which results in 100 Mbps on the ethernet layer.</p>
+
+<p>The difference in signal/noise ratio between the two links had no visible impact
+on bandwidth, but ICMP probes showed measurably more packet loss on link 1.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Making GitLab authenticate against dex]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-10-21-gitlab-with-dex/"/>
+    <id>https://michael.stapelberg.de/posts/2017-10-21-gitlab-with-dex/</id>
+    <published>2017-10-21T15:19:00+02:00</published>
+    <updated>2017-10-21T15:19:00+02:00</updated>
+    <content type="html"><![CDATA[
+
+<p>Because I found it frustratingly hard to make GitLab and dex talk to each other,
+this article walks you through what I did step-by-step.</p>
+
+<p>Let’s establish some terminology:</p>
+
+<ul>
+<li><p><a href="https://github.com/coreos/dex">dex</a> is our OpenID Connect (OIDC) “Provider
+(OP)”<br>in other words: the component which verifies usernames and passwords.</p></li>
+
+<li><p><a href="https://gitlab.com/">GitLab</a> is our OpenID Connect (OIDC) “Relying Party
+(RP)”<br>in other words: the component where the user actually wants to log
+in.</p></li>
+</ul>
+
+<h3 id="step-1-configure-dex">Step 1: configure dex</h3>
+
+<p>First, I followed dex’s <a href="https://github.com/coreos/dex/blob/master/Documentation/getting-started.md">Getting
+started</a>
+guide until I had dex serving the example config.</p>
+
+<p>Then, I made the following changes to
+<a href="https://github.com/coreos/dex/blob/master/examples/config-dev.yaml">examples/config-dev.yaml</a>:</p>
+
+<ol>
+<li>Change the issuer URL to be fully qualified and use HTTPS.</li>
+<li>Configure the HTTPS listener.</li>
+<li>Configure GitLab’s redirect URI.</li>
+</ol>
+
+<p>Here is a diff:</p>
+
+<pre><code class="language-diff">--- /proc/self/fd/11	2017-10-21 15:01:49.005587935 +0200
++++ /tmp/config-dev.yaml	2017-10-21 15:01:47.121632025 +0200
+@@ -1,7 +1,7 @@
+ # The base path of dex and the external name of the OpenID Connect service.
+ # This is the canonical URL that all clients MUST use to refer to dex. If a
+ # path is provided, dex's HTTP service will listen at a non-root URL.
+-issuer: http://127.0.0.1:5556/dex
++issuer: https://dex.example.net:5554/dex
+ 
+ # The storage configuration determines where dex stores its state. Supported
+ # options include SQL flavors and Kubernetes third party resources.
+@@ -14,11 +14,9 @@
+ 
+ # Configuration for the HTTP endpoints.
+ web:
+-  http: 0.0.0.0:5556
+-  # Uncomment for HTTPS options.
+-  # https: 127.0.0.1:5554
+-  # tlsCert: /etc/dex/tls.crt
+-  # tlsKey: /etc/dex/tls.key
++  https: dex.example.net:5554
++  tlsCert: /etc/letsencrypt/live/dex.example.net/fullchain.pem
++  tlsKey: /etc/letsencrypt/live/dex.example.net/privkey.pem
+ 
+ # Uncomment this block to enable the gRPC API. This values MUST be different
+ # from the HTTP endpoints.
+@@ -50,7 +48,7 @@
+ staticClients:
+ - id: example-app
+   redirectURIs:
+-  - 'http://127.0.0.1:5555/callback'
++  - 'http://gitlab.example.net/users/auth/mydex/callback'
+   name: 'Example App'
+   secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+</code></pre>
+
+<h3 id="step-2-configure-gitlab">Step 2: configure GitLab</h3>
+
+<p>First, I followed <a href="https://docs.gitlab.com/omnibus/docker/">GitLab Docker
+images</a> to get GitLab running in
+Docker.</p>
+
+<p>Then, I swapped out the image with
+<a href="https://hub.docker.com/r/computersciencehouse/gitlab-ce-oidc/">computersciencehouse/gitlab-ce-oidc</a>,
+which is based on the official image, but adds OpenID Connect support.</p>
+
+<p>I added the following config to <code>/srv/gitlab/config/gitlab.rb</code>:</p>
+
+<pre><code>gitlab_rails['omniauth_enabled'] = true
+
+# Must match the args.name (!) of our configured omniauth provider:
+gitlab_rails['omniauth_allow_single_sign_on'] = ['mydex']
+
+# By default, third-party authentication results in a newly created
+# user which needs to be unblocked by an admin. Disable this
+# additional safety mechanism and directly create users:
+gitlab_rails['omniauth_block_auto_created_users'] = false
+
+gitlab_rails['omniauth_providers'] = [
+  {
+    name: 'openid_connect',  # identifies the omniauth gem to use
+    label: 'OIDC',
+    args: {
+      # The name shows up in the GitLab UI in title-case, i.e. “Mydex”,
+      # and must match the name in client_options.redirect_uri below
+      # and omniauth_allow_single_sign_on above.
+      #
+      # NOTE that if you change the name after users have already
+      # signed up through the provider, you will need to update the
+      # “identities” PostgreSQL table accordingly:
+      # echo &quot;UPDATE identities SET provider = 'newdex' WHERE \
+      #   provider = 'mydex';&quot; | gitlab-psql gitlabhq_production
+      'name':          'mydex',
+
+      # Scope must contain “email”.
+      'scope':         ['openid', 'profile', 'email'],
+
+      # Discover all endpoints from the issuer, specifically from
+      # https://dex.example.net:5554/dex/.well-known/openid-configuration
+      'discovery':     true,
+
+      # Must match the issuer configured in dex:
+      # Note that http:// URLs did not work in my tests; use https://
+      'issuer':        'https://dex.example.net:5554/dex',
+
+      'client_options': {
+        # identifier, secret and redirect_uri must match a
+	# configured client in dex.
+        'identifier':   'example-app',
+        'secret':       'ZXhhbXBsZS1hcHAtc2VjcmV0',
+        'redirect_uri': 'https://gitlab.example.net/users/auth/mydex/callback'
+      }
+    }
+  }
+]
+
+</code></pre>
+
+<h3 id="step-3-patch-omniauth-openid-connect">Step 3: patch omniauth-openid-connect</h3>
+
+<p>Until <a href="https://github.com/coreos/dex/issues/376">dex issue #376</a> is fixed, the
+following patch for the omniauth-openid-connect gem is required:</p>
+
+<pre><code class="language-diff">--- /opt/gitlab/embedded/lib/ruby/gems/2.3.0/gems/omniauth-openid-connect-0.2.3/lib/omniauth/strategies/openid_connect.rb.orig	2017-10-21 12:31:50.777602847 +0000
++++ /opt/gitlab/embedded/lib/ruby/gems/2.3.0/gems/omniauth-openid-connect-0.2.3/lib/omniauth/strategies/openid_connect.rb	2017-10-21 12:34:20.063308560 +0000
+@@ -42,24 +42,13 @@
+       option :send_nonce, true
+       option :client_auth_method
+ 
+-      uid { user_info.sub }
+-
++      uid { @email }
+       info do
+-        {
+-          name: user_info.name,
+-          email: user_info.email,
+-          nickname: user_info.preferred_username,
+-          first_name: user_info.given_name,
+-          last_name: user_info.family_name,
+-          gender: user_info.gender,
+-          image: user_info.picture,
+-          phone: user_info.phone_number,
+-          urls: { website: user_info.website }
+-        }
++        { email: @email }
+       end
+ 
+       extra do
+-        {raw_info: user_info.raw_attributes}
++        {raw_info: {}}
+       end
+ 
+       credentials do
+@@ -165,6 +154,7 @@
+               client_id: client_options.identifier,
+               nonce: stored_nonce
+           )
++          @email = _id_token.raw_attributes['email']
+           _access_token
+         }.call()
+       end
+</code></pre>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Meine PCs]]></title>
+    <link href="https://michael.stapelberg.de/meinepcs/"/>
+    <id>https://michael.stapelberg.de/meinepcs/</id>
+    <published>2017-10-20T08:20:08+02:00</published>
+    <updated>2017-10-20T08:20:08+02:00</updated>
+    <content type="html"><![CDATA[<p>
+Hier findest du eine kurze Übersicht über meine Rechner und über die
+Probleme/Erfahrungen mit dem jeweiligen Rechner. Die verschiedenen Angaben
+sind jeweils das, was ich wichtig finde an den jeweiligen Computern.
+</p>
+
+<h3>Workstation</h3>
+
+<p><img src="/debian.svg" width="48" height="60" align="left" alt="Debian">
+<ul style="list-style-type: none; padding-left: 60px">
+<li><strong>CPU:</strong> Intel® Core™ i7-8700K</li>
+<li><strong>Mainboard:</strong> ASUS PRIME Z370-A</li>
+<li><strong>RAM:</strong> 64 GB DDR4-RAM</li>
+<li><strong>Festplatte:</strong> 1 TB Samsung 960 PRO M.2</li>
+<li><strong>Tastatur:</strong> Kinesis Advantage Contoured Black USB</li>
+<li><strong>Bildschirm:</strong> ViewSonic VX2475Smhl-4K (3840x2160)</li>
+</ul></p>
+
+<ul style="list-style-type: none">
+
+<li>
+<a href="/Artikel/supermicro_x11ssz-qf_workstation_mainboard" title="Supermicro
+X11SSZ-QF workstation mainboard">→ Supermicro X11SSZ-QF workstation
+mainboard</a>
+</li>
+<li>
+<a href="/Artikel/viewsonic_vx2475smhl_4k_linux/" title="ViewSonic
+VX2475Smhl-4K HiDPI display on Linux">→ ViewSonic VX2475Smhl-4K HiDPI display
+on Linux</a>
+</li>
+<li>
+<a href="/Artikel/kinesis_custom_controller" title="Hacking your own Kinesis
+keyboard controller">→ Hacking your own Kinesis keyboard controller</a>
+</li>
+<li>
+<a href="/Artikel/buying_linux_computer_2012" title="Buying a Linux computer
+(2012)">→ Buying a Linux computer (2012)</a>
+</li>
+</ul>
+
+<h3>ThinkPad X1 Carbon 2015</h3>
+
+<p><img src="/debian.svg" width="48" height="60" align="left" alt="Debian">
+<ul style="list-style-type: none; padding-left: 60px">
+<li><strong>CPU:</strong> Intel® Core™ i5-5200U (2.2 GHz)</li>
+<li><strong>RAM:</strong> 8 GB</li>
+<li><strong>Festplatte:</strong> 128 GB TOSHIBA THNSNJ12</li>
+<li><strong>Bildschirm:</strong> 14&rdquo; TFT (2560x1440)</li>
+</ul></p>
+
+<ul style="list-style-type: none">
+<li>
+<a href="/Artikel/x200" title="Thinkpad x200">
+→ Thinkpad x200</a>
+</li>
+</ul>
+
+<p><h3>Network Storage (NAS)</h3>
+<ul style="list-style-type: none"></p>
+
+<p><li><strong>Gehäuse:</strong> SILVERSTONE Sugo SST-SG05BB-LITE</li>
+<li><strong>Mainboard:</strong> ASROCK AM1H-ITX</li>
+<li><strong>Festplatte:</strong> HGST HUH728080AL (8TB)</li>
+</ul>
+<ul style="list-style-type: none">
+<li>
+<a href="/Artikel/gigabit-nas-coreos">→ Gigabit NAS (running CoreOS)</a>
+</li>
+<a
+href="https://media.ccc.de/browse/conferences/gpn/gpn14/gpn14_-_5801_-_de_-_studio_-_201406202130_-_linux-based_home_nas_-_secure.html"
+title="Präsentation: Linux-based home NAS">
+→ Präsentation: Linux-based home NAS</a>
+</li>
+<li>
+<a href="/Artikel/Festplattenverschluesselung_unter_Linux"
+title="(Festplatten)Verschlüsselung unter Linux">
+→ (Festplatten)Verschlüsselung unter Linux</a>
+</li>
+</ul></p>
+
+<p><h3>Network Infrastructure</h3>
+<ul style="list-style-type: none"></p>
+
+<p><li><strong>Router+WiFi:</strong> Turris Omnia</li>
+</ul>
+<ul style="list-style-type: none">
+<li>
+<a href="/Artikel/turris-omnia" title="Review: Turris Omnia (with Fiber7)">→ Review: Turris Omnia (with Fiber7)</a>
+</li>
+</ul></p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Why Go is my favorite programming language]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-08-19-golang_favorite/"/>
+    <id>https://michael.stapelberg.de/posts/2017-08-19-golang_favorite/</id>
+    <published>2017-08-19T13:00:00+02:00</published>
+    <updated>2017-08-19T13:00:00+02:00</updated>
+    <content type="html"><![CDATA[
+
+<p>I strive to respect everybody’s personal preferences, so I usually steer clear
+of debates about which is the best programming language, text editor or
+operating system.</p>
+
+<p>However, recently I was asked a couple of times why I like and use a lot of <a
+href="https://golang.org">Go</a>, so here is a coherent article to fill in the
+blanks of my ad-hoc in-person ramblings :-).</p>
+
+<h3 id="my-background">My background</h3>
+
+<p>I have used C and Perl for a number of decently sized projects. I have written
+programs in Python, Ruby, C++, CHICKEN Scheme, Emacs Lisp, Rust and Java (for
+Android only). I understand a bit of Lua, PHP, Erlang and Haskell. In a previous
+life, I developed a number of programs using
+<a href="https://en.wikipedia.org/wiki/Delphi_(programming_language)">Delphi</a>.</p>
+
+<p>I had a brief look at Go in 2009, when it was first released. I seriously
+started using the language when Go 1.0 was released in 2012, featuring the <a href="https://golang.org/doc/go1compat">Go 1
+compatibility guarantee</a>. I still have
+<a href="https://github.com/stapelberg/greetbot">code</a> running in production which I
+authored in 2012, largely untouched.</p>
+
+<h3 id="1-clarity">1. Clarity</h3>
+
+<h4 id="formatting">Formatting</h4>
+
+<p>Go code, by convention, is formatted using the
+<a href="https://golang.org/cmd/gofmt/"><code>gofmt</code></a> tool. Programmatically formatting code
+is not a new idea, but contrary to its predecessors, <code>gofmt</code> supports precisely
+one canonical style.</p>
+
+<p>Having all code formatted the same way makes reading code easier; the code feels
+familiar. This helps not only when reading the standard library or Go compiler,
+but also when working with many code bases — think Open Source, or big
+companies.</p>
+
+<p>Further, auto-formatting is a huge time-saver during code reviews, as it
+eliminates an entire dimension in which code could be reviewed before: now, you
+can just let your continuous integration system verify that <code>gofmt</code> produces no
+diffs.</p>
+
+<p>Interestingly enough, having my editor apply <code>gofmt</code> when saving a file has
+changed the way I write code. I used to attempt to match what the formatter
+would enforce, then have it correct my mistakes. Nowadays, I express my thought
+as quickly as possible and trust <code>gofmt</code> to make it pretty
+(<a href="https://play.golang.org/p/I6GJwiT77v">example</a> of what I would type, click
+Format).</p>
+
+<h4 id="high-quality-code">High-quality code</h4>
+
+<p>I use the standard library (<a href="https://golang.org/pkg/">docs</a>,
+<a href="https://github.com/golang/go/tree/master/src">source</a>) quite a bit, see below.</p>
+
+<p>All standard library code which I have read so far was of extremely high quality.</p>
+
+<p>One example is the <a href="https://golang.org/pkg/image/jpeg/"><code>image/jpeg</code></a> package: I
+didn’t know how JPEG worked at the time, but it was easy to pick up by switching
+between the <a href="https://en.wikipedia.org/wiki/JPEG">Wikipedia JPEG article</a> and the
+<code>image/jpeg</code> code. If the package had a few more comments, I would qualify it as
+a teaching implementation.</p>
+
+<h4 id="opinions">Opinions</h4>
+
+<p>I have come to agree with many opinions the Go community holds, such as:</p>
+
+<ul>
+<li><a href="https://github.com/golang/go/wiki/CodeReviewComments#variable-names">Variable names</a> should be short by default, and become more descriptive the further from its declaration a name is used.</li>
+<li>Keep the dependency tree small (to a reasonable degree): <a href="https://www.youtube.com/watch?v=PAAkCSZUG1c&amp;t=9m28s">a little copying is better than a little dependency</a></li>
+<li>There is a cost to introducing an abstraction layer. Go code is usually rather clear, at the cost of being a bit repetitive at times.</li>
+<li>See <a href="https://github.com/golang/go/wiki/CodeReviewComments">CodeReviewComments</a> and <a href="https://go-proverbs.github.io/">Go Proverbs</a> for more.</li>
+</ul>
+
+<h4 id="few-keywords-and-abstraction-layers">Few keywords and abstraction layers</h4>
+
+<p>The Go specification lists only <a href="https://golang.org/ref/spec#Keywords">25
+keywords</a>, which I can easily keep in my
+head.</p>
+
+<p>The same is true for <a href="https://golang.org/pkg/builtin/">builtin functions</a> and
+<a href="https://golang.org/ref/spec#Types">types</a>.</p>
+
+<p>In my experience, the small number of abstraction layers and concepts makes the
+language easy to pick up and quickly feel comfortable in.</p>
+
+<p>While we’re talking about it: I was surprised about how readable the <a href="https://golang.org/ref/spec">Go
+specification</a> is. It really seems to target
+programmers (rather than standards committees?).</p>
+
+<h3 id="2-speed">2. Speed</h3>
+
+<h4 id="quick-feedback-low-latency">Quick feedback / low latency</h4>
+
+<p>I love quick feedback: I appreciate websites which load quickly, I prefer fluent
+User Interfaces which don’t lag, and I will choose a quick tool over a more
+powerful tool any day. <a href="https://blog.gigaspaces.com/amazon-found-every-100ms-of-latency-cost-them-1-in-sales/">The
+findings</a>
+of large web properties confirm that this behavior is shared by many.</p>
+
+<p>The authors of the Go compiler respect my desire for low latency: compilation
+speed matters to them, and new optimizations are carefully weighed against
+whether they will slow down compilation.</p>
+
+<p>A friend of mine had not used Go before. After installing the
+<a href="https://robustirc.net">RobustIRC</a> bridge using <code>go get</code>, they concluded that Go
+must be an interpreted language and I had to correct them: no, the Go compiler
+just is that fast.</p>
+
+<p>Most Go tools are no exception, e.g. <code>gofmt</code> or <code>goimports</code> are blazingly fast.</p>
+
+<h4 id="maximum-resource-usage">Maximum resource usage</h4>
+
+<p>For batch applications (as opposed to interactive applications), utilizing the
+available resources to their fullest is usually more important than low latency.</p>
+
+<p>It is delightfully easy to profile and change a Go program to utilize all
+available IOPS, network bandwidth or compute. As an example, I wrote about
+<a href="https://people.debian.org/~stapelberg/2014/01/17/debmirror-rackspace.html">filling a 1 Gbps
+link</a>,
+and optimized <a href="https://github.com/Debian/debiman/">debiman</a> to utilize all
+available resources, reducing its runtime by hours.</p>
+
+<h3 id="3-rich-standard-library">3. Rich standard library</h3>
+
+<p>The <a href="https://golang.org/pkg">Go standard library</a> provides means to effectively
+use common communications protocols and data storage formats/mechanisms, such as
+TCP/IP, HTTP, JPEG, SQL, …</p>
+
+<p>Go’s standard library is the best one I have ever seen. I perceive it as
+well-organized, clean, small, yet comprehensive: I often find it possible to
+write reasonably sized programs with just the standard library, plus one or two
+external packages.</p>
+
+<p>Domain-specific data types and algorithms are (in general) not included and live
+outside the standard library,
+e.g. <a href="https://godoc.org/golang.org/x/net/html"><code>golang.org/x/net/html</code></a>. The
+<code>golang.org/x</code> namespace also serves as a staging area for new code before it
+enters the standard library: the Go 1 compatibility guarantee precludes any
+breaking changes, even if they are clearly worthwhile. A prominent example is
+<code>golang.org/x/crypto/ssh</code>, which had to break existing code to <a href="https://github.com/golang/crypto/commit/e4e2799dd7aab89f583e1d898300d96367750991">establish a more
+secure
+default</a>.</p>
+
+<h3 id="4-tooling">4. Tooling</h3>
+
+<p>To download, compile, install and update Go packages, I use the <code>go get</code> tool.</p>
+
+<p>All Go code bases I have worked with use the built-in
+<a href="https://golang.org/pkg/testing/"><code>testing</code></a> facilities. This results not only
+in easy and fast testing, but also in <a href="https://blog.golang.org/cover">coverage
+reports</a> being readily available.</p>
+
+<p>Whenever a program uses more resources than expected, I fire up <code>pprof</code>. See
+this <a href="https://blog.golang.org/profiling-go-programs">golang.org blog post about
+<code>pprof</code></a> for an introduction, or
+<a href="https://people.debian.org/~stapelberg/2014/12/23/code-search-taming-the-latency-tail.html">my blog post about optimizing Debian Code
+Search</a>. After
+importing the <a href="https://golang.org/pkg/net/http/pprof/"><code>net/http/pprof</code>
+package</a>, you can profile your server
+while it’s running, without recompilation or restarting.</p>
+
+<p>Cross-compilation is as easy as setting the <code>GOARCH</code> environment variable,
+e.g. <code>GOARCH=arm64</code> for targeting the Raspberry Pi 3. Notably, tools just work
+cross-platform, too! For example, I can profile <a href="https://gokrazy.org">gokrazy</a>
+from my amd64 computer: <code>go tool pprof ~/go/bin/linux_arm64/dhcp
+http://gokrazy:3112/debug/pprof/heap</code>.</p>
+
+<p><a href="https://godoc.org/golang.org/x/tools/cmd/godoc">godoc</a> displays documentation
+as plain text or serves it via HTTP. <a href="https://godoc.org">godoc.org</a> is a public
+instance, but I run a local one to use while offline or for not yet published
+packages.</p>
+
+<p>Note that these are standard tools coming with the language. Coming from C, each
+of the above would be a significant feat to accomplish. In Go, we take them for
+granted.</p>
+
+<h3 id="getting-started">Getting started</h3>
+
+<p>Hopefully I was able to convey why I’m happy working with Go.</p>
+
+<p>If you’re interested in getting started with Go, check out <a href="https://github.com/gopheracademy/gopher/blob/1cdbcd9fc3ba58efd628d4a6a552befc8e3912be/bot/bot.go#L516">the beginner’s
+resources</a>
+we point people to when they join the Gophers slack channel. See
+<a href="https://golang.org/help/">https://golang.org/help/</a>.</p>
+
+<h3 id="caveats">Caveats</h3>
+
+<p>Of course, no programming tool is entirely free of problems. Given that this
+article explains why Go is my favorite programming language, it focuses on the
+positives. I will mention a few issues in passing, though:</p>
+
+<ul>
+<li>If you use Go packages which don’t offer a stable API, you might want to use a specific, known-working version. Your best bet is the <a href="https://github.com/golang/dep">dep</a> tool, which is not part of the language at the time of writing.</li>
+<li>Idiomatic Go code does not necessarily translate to the highest performance machine code, and the runtime comes at a (small) cost. In the rare cases where I found performance lacking, I successfully resorted to <a href="https://golang.org/cmd/cgo/">cgo</a> or assembler. If your domain is hard-realtime applications or otherwise extremely performance-critical code, your mileage may vary, though.</li>
+<li>I wrote that the Go standard library is the best I have ever seen, but that doesn’t mean it doesn’t have any problems. One example is <a href="https://golang.org/issues/20744">complicated handling of comments</a> when modifying Go code programmatically via one of the standard library’s oldest packages, <code>go/ast</code>.</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Tipps]]></title>
+    <link href="https://michael.stapelberg.de/tipps/"/>
+    <id>https://michael.stapelberg.de/tipps/</id>
+    <published>2017-05-25T11:38:28+02:00</published>
+    <updated>2017-05-25T11:38:28+02:00</updated>
+    <content type="html"><![CDATA[
+
+<p>Die folgenden Programme finde ich empfehlenswert:</p>
+
+<h3 id="cgit">cgit</h3>
+
+<p><a href="http://git.zx2c4.com/cgit/">cgit</a> ist ein schnelles
+und gut-aussehendes Webinterface für git, welches in C geschrieben ist. Im
+Vergleich zu gitweb, trac oder anderen Interfaces ist es mindestens doppelt
+so schnell und (meiner Meinung nach) um Längen komfortabler.</p>
+
+<h3 id="notmuch">notmuch</h3>
+
+<p><a href="https://notmuchmail.org/">notmuch</a> ist ein netter Mailclient für die
+Kommandozeile (benutzt curses), der besonders für Nutzer von Google
+Mail interessant sein dürfte. Die Philosophie ist, dass man generell
+mit Threads arbeitet und nicht mit einzelnen Mails (letztendlich ist
+eine einzelne Nachricht auch nur ein Spezialfall eines
+Threads). Weiterhin ist die Oberfläche sehr intelligent gestaltet,
+zeigt also die wichtigen Dinge an (den ersten Teil der letzten
+Nachricht eines Threads in der Übersicht, bei Nachrichten wird die
+Signatur und Zitate aus vorherigen Mails standardmäßig ausgeblendet).</p>
+
+<p>Statt Nachrichten in Ordner einzusortieren, vergibt man in notmuch
+einfach Tags. Das Ordnerkonzept kann dadurch abgebildet werden, dass
+man einer Nachricht einfach genau einen Tag gibt. Man kann dann
+entweder nach Tags filtern oder direkt die Nachrichten
+durchsuchen. Beides dauert (bis zu einer gewissen Grenze an
+Nachrichten) nicht wirklich lange und ermuntert daher zum Vergeben von
+Tags.</p>
+
+<h3 id="collectd">collectd</h3>
+
+<p>Mit <a href="http://collectd.org/">collected</a> kann man Statistiken über das
+eigene System (oder entfernte Rechner via <code>network</code>-Plugin) sammeln
+lassen. Mit einem der Frontends oder eigenen rrdtool-Aufrufen kann man
+daraus dann hübsche Graphen bauen lassen. Ideal, um es in eine eigene
+Monitoring-Lösung einzubinden.</p>
+
+<h3 id="ncdu">ncdu</h3>
+
+<p><a href="http://dev.yorhel.nl/ncdu">ncdu</a> ist ein Programm,
+das einem die Größe der einzelnen Ordner anzeigt. Nie wieder
+<code>du -hs *</code> ;-).</p>
+
+<h3 id="asciidoc">asciidoc</h3>
+
+<p><a href="http://www.methods.co.nz/asciidoc/">asciidoc</a> ist ein Programm,
+welches aus Textdateien Dokumentation erzeugt (wahlweise HTML, LaTeX,
+manpages, …). Die Eingabe kann man sehr schnell lernen, die Ausgabe
+sieht gut aus. Mit asciidoc werden zum Beispiel die Manpages von git
+gemacht und auch dessen
+<a href="http://www.kernel.org/pub/software/scm/git/docs/">Online-Dokumentation</a>.</p>
+
+<h3 id="pmount">pmount</h3>
+
+<p>Mit pmount kann man Geräte im Userspace mounten. Diese werden dann in
+<code>/media</code> gemounted. Anstelle von fixen Einträgen in der <code>/etc/fstab</code>
+oder dem Arbeiten als root heißt es nun also:</p>
+
+<pre><code>$ pmount sdb1
+$ cp foo.pdf /media/sdb1/
+$ pumount sdb1
+</code></pre>
+
+<h3 id="app-ack">App::Ack</h3>
+
+<p><a href="http://betterthangrep.com/">ack</a> ist ein Programm, das besser als
+grep ist, wenn es darum geht, Quelltext zu durchsuchen. Es durchsucht
+standardmäßig rekursiv und ignoriert Dateien von
+Versionskontrollsystemen (git, svn, …). ack macht das Zurechtfinden in
+Sourcecode wirklich enorm viel einfacher.</p>
+
+<p><strong>UPDATE:</strong> Mittlerweile gibt es einige deutlich schnellere
+Alternativen wie
+z.B. <a href="https://github.com/ggreer/the_silver_searcher">silversearcher</a>
+oder <a href="https://github.com/BurntSushi/ripgrep">ripgrep</a>.</p>
+
+<h3 id="vnstat">vnstat</h3>
+
+<p><a href="http://humdi.net/vnstat/">vnstat</a> ist ein kleines Tool, welches den
+Traffic auf Netzwerkschnittstellen unter Linux oder BSD misst und
+speichert. Wer ein schlankes Tool ohne viel Schnickschnack für ein
+bisschen Übersicht beim verbrauchten Traffic braucht ist hiermit gut
+beraten.</p>
+
+<h3 id="neo-layout">NEO-Layout</h3>
+
+<p>Das <a href="http://www.neo-layout.org/">NEO-Layout</a> ist ein besonders
+ergonomisches Layout, welches für deutsche Texte optimiert
+wurde. Insbesondere sind dabei nicht nur Algorithmen, sondern auch
+praktische Erfahrungen in die Positionierung der Buchstaben
+geflossen. Weiter interessant ist die große Menge an Sonderzeichen auf
+den zusätzlichen Ebenen. So wird zum Beispiel korrekte Typographie
+(mit Unicode) oder das Aufschreiben mathematischer Formeln zum
+Kinderspiel.</p>
+
+<p>Über meine Erfahrungen mit dem NEO-Layout gehe ich in meinem Artikel
+<a href="/Artikel/Neo_Kinesis">NEO-Layout auf einer Kinesis
+Advantage-Tastatur</a> genauer ein.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Auto-opening portal pages with NetworkManager]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-05-25-network-manager-portal/"/>
+    <id>https://michael.stapelberg.de/posts/2017-05-25-network-manager-portal/</id>
+    <published>2017-05-25T11:37:17+02:00</published>
+    <updated>2017-05-25T11:37:17+02:00</updated>
+    <content type="html"><![CDATA[<p>
+Modern desktop environments like GNOME offer UI for this, but if you’re using a
+more bare-bones window manager, you’re on your own. This article outlines how
+to get a login page opened in your browser when you’re behind a portal.
+</p>
+
+<p>
+If your distribution does not automatically enable it (Fedora does, Debian
+doesn’t), you’ll first need to enable connectivity checking in NetworkManager:
+</p>
+
+<pre>
+# cat &gt;&gt; /etc/NetworkManager/NetworkManager.conf &lt;&lt;'EOT'
+[connectivity]
+uri=http://network-test.debian.org/nm
+EOT
+</pre>
+
+<p>
+Then, add a dispatcher hook which will open a browser when NetworkManager
+detects you’re behind a portal. Note that the username must be hard-coded
+because the hook runs as root, so this hook will not work as-is on multi-user
+systems. The URL I’m using is an always-http URL, also used by Android (I
+expect it to be somewhat stable). Portals will redirect you to their login page
+when you open this URL.
+</p>
+
+<pre>
+# cat &gt; /etc/NetworkManager/dispatcher.d/99portal &lt;&lt;EOT
+#!/bin/bash
+
+[ "$CONNECTIVITY_STATE" = "PORTAL" ] || exit 0
+
+USER=michael
+USERHOME=$(eval echo "~$USER")
+export XAUTHORITY="$USERHOME/.Xauthority"
+export DISPLAY=":0"
+su $USER -c "x-www-browser http://www.gstatic.com/generate_204"
+EOT
+</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[HomeMatic re-implementation]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-04-16-homematic-reimplementation/"/>
+    <id>https://michael.stapelberg.de/posts/2017-04-16-homematic-reimplementation/</id>
+    <published>2017-04-16T10:20:00+00:00</published>
+    <updated>2017-04-16T10:20:00+00:00</updated>
+    <content type="html"><![CDATA[<p>
+A while ago, I got myself a bunch of HomeMatic home automation gear (valve drives, temperature and humidity sensors, power switches). The gear itself works reasonably well, but I found the management software painfully lacking. Hence, I re-implemented my own management software. In this article, I’ll describe my method, in the hope that others will pick up a few nifty tricks to make future re-implementation projects easier.
+</p>
+
+<h3>Motivation</h3>
+
+<p>
+When buying my HomeMatic devices, I decided to use the wide-spread <a href="http://www.eq-3.com/products/homematic/control-units-and-gateways/homematic-central-control-unit-ccu2.html">HomeMatic Central Control Unit (CCU2)</a>. This embedded device runs the proprietary <code>rfd</code> wireless daemon, which offers an XML-RPC interface, used by the web interface.
+</p>
+
+<p>
+I find the CCU2’s web interface really unpleasant. It doesn’t look modern, it takes ages to load, and it doesn’t indicate progress. I frequently find myself clicking on a button, only to realize that my previous click was still not processed entirely, and then my current click ends up on a different element that I intended to click. Ugh.
+</p>
+
+<p>
+More importantly, even if you avoid the CCU2’s web interface altogether and only want to extract sensor values, you’ll come to realize that the device crashes every few weeks. Due to memory pressure, the <code>rfd</code> is killed and doesn’t come back. As a band-aid, I wrote a watchdog cronjob which would just reboot the device. I also reported the bug to the vendor, but never got a reply.
+</p>
+
+<p>
+When I tried to update the software to a more recent version, things went so wrong that I decided to downgrade and not touch the device anymore. This is not a good state to be in, so eventually I started my project to replace the device entirely. The replacement is <a href="https://github.com/stapelberg/hmgo">hmgo</a>, a central control unit implemented in Go, deployed to a Raspberry Pi running <a href="https://gokrazy.github.io/">gokrazy</a>. The radio module I’m using is HomeMatic’s <a href="https://www.elv.de/homematic-funkmodul-fuer-raspberry-pi-bausatz.html">HM-MOD-RPI-PCB</a>, which is connected to a serial port, much like in the CCU2 itself.
+</p>
+
+<h3>Preparation: gather and visualize traces</h3>
+
+<p>
+In order to compare the behavior of the CCU2 stock firmware against my software, I wanted to capture some traces. Looking at what goes on over the air (or on the wire) is also a good learning opportunity to understand the protocol.
+</p>
+
+<ol>
+<li>I wrote a <a href="https://www.wireshark.org">Wireshark</a> dissector (see <a href="https://github.com/stapelberg/hmgo/blob/master/contrib/wireshark/homematic.lua">contrib/homematic.lua</a>). It is a quick &amp; dirty hack, does not properly dissect everything, but it works for the majority of packets. This step alone will make the upcoming work so much easier, because you won’t need to decode packets in your head (and make mistakes!) so often.</li>
+<li>I captured traffic from the working system. Conveniently, the CCU2 allows SSH'ing in as <code>root</code> after setting a password. Once logged in, I used <code>lsof</code> and <code>ls /proc/$(pidof rfd)/fd</code> to identify the file descriptors which <code>rfd</code> uses to talk to the serial port. Then, I used <code>strace -e read=7,write=7 -f -p $(pidof rfd)</code> to get hex dumps of each read/write. These hex dumps can directly be fed into <code>text2pcap</code> and can be analyzed with Wireshark.</li>
+<li>I also wrote a little Perl script to extract and convert packet hex dumps from homegear debug logs to text2pcap-compatible format. More on that in a bit.</li>
+</ol>
+
+<h3>Preparation: research</h3>
+
+<p>
+Then, I gathered as much material as possible. I found and ended up using the following resources (in order of frequency):
+</p>
+<ol>
+<li><a href="https://github.com/Homegear/Homegear">homegear source</a></li>
+<li><a href="https://svn.fhem.de/">FHEM source</a></li>
+<li><a href="https://media.ccc.de/v/30C3_-_5444_-_en_-_saal_g_-_201312301600_-_attacking_homematic_-_sathya_-_malli">homegear presentation</a></li>
+<li><a href="https://git.zerfleddert.de/cgi-bin/gitweb.cgi/hmcfgusb">hmcfgusb source</a></li>
+<li><a href="https://wiki.fhem.de/wiki/Hauptseite">FHEM wiki</a></li>
+</ol>
+
+<h3>Preparation: lab setup</h3>
+
+<p>
+Next, I got the hardware to work with a known-good software. I set up homegear on a Raspberry Pi, which took a few hours of compilation time because there were no pre-built Debian stretch arm64 binaries. This step established that the hardware itself was working fine.
+</p>
+
+<p>
+Also, I got myself another set of traces from homegear, which is always useful.
+</p>
+
+<h3>Implementation</h3>
+
+<p>
+Now the actual implementation can begin. Note that up until this point, I hadn’t written a single line of actual program code. I defined a few milestones which I wanted to reach:
+</p>
+
+<ol>
+<li>Talk to the serial port.</li>
+<li>Successfully initialize the HM-MOD-RPI-PCB</li>
+<li>Receive any BidCoS broadcast packet</li>
+<li>Decode any BidCoS broadcast packet (can largely be done in a unit test)</li>
+<li>Talk to an already-paired device (re-using the address/key from my homegear setup)</li>
+<li>Configure an already-paired device</li>
+<li>Pair a device</li>
+</ol>
+
+<p>
+To make the implementation process more convenient, I changed the compilation command of my editor to cross-compile the program, <code>scp</code> it to the Raspberry Pi and run it there. This allowed me to test my code with one keyboard shortcut, and I love quick feedback.
+</p>
+
+<h3>Retrospective</h3>
+
+<p>
+The entire project took a few weeks of my spare time. If I had taken some time off of work, I’m confident I could have implemented it in about a week of full-time work.
+</p>
+
+<p>
+Consciously doing research, preparation and milestone planning was helpful. It gave me good sense of my progress and achievable goals.
+</p>
+
+<p>
+As I’ve learnt previously, investing in tools pays off quickly, even for one-off projects like this one. I’d recommend everyone who’s doing protocol-related work to invest some time in learning to use Wireshark and writing custom Wireshark dissectors.
+</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Review: Turris Omnia (with Fiber7)]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-03-25-turris-omnia/"/>
+    <id>https://michael.stapelberg.de/posts/2017-03-25-turris-omnia/</id>
+    <published>2017-03-25T09:40:00+00:00</published>
+    <updated>2017-03-25T09:40:00+00:00</updated>
+    <content type="html"><![CDATA[<p>
+The <a href="https://omnia.turris.cz/en/">Turris Omnia</a> is an open source
+(an <a href="https://openwrt.org/">OpenWrt</a> fork) open hardware internet
+router created and supported by nic.cz, the registry for the Czech Republic.
+It’s the successor to their <a
+href="https://project.turris.cz/en/">Project Turris</a>, but with better specs.
+</p>
+
+<p>
+I was made aware of the Turris Omnia while it was being crowd-funded on
+Indiegogo and decided to support the cause. I’ve been using OpenWrt on my
+wireless infrastructure for many years now, and finding a decent router with
+enough RAM and storage for the occasional experiment used to not be an easy
+task. As a result, I had been using a very stable but also very old tp-link
+WDR4300 for over 4 years.
+</p>
+
+<p>
+For the last 2 years, I had been using <a href="/Artikel/fiber7_ubnt_erlite">a
+Ubiquiti EdgeRouter Lite (Erlite-3)</a> with a tp-link MC220L media converter
+and the aforementioned tp-link WDR4300 access point. Back then, that was one of
+the few setups which delivered 1 Gigabit in passively cooled (quiet!) devices
+running open source software.
+</p>
+
+<p>
+With its hardware specs, the Turris Omnia promised to be a big upgrade over my
+old setup: the project pages described the router to be capable of processing 1
+Gigabit, equipped with a 802.11ac WiFi card and having an SFP slot for the
+fiber transceiver I use to get online. Without sacrificing performance, the
+Turris Omnia would replace 3 devices (media converter, router, WiFi access
+point), which yields nice space and power savings.
+</p>
+
+<h3>Performance</h3>
+
+<h4>Wired performance</h4>
+
+<p>
+As expected, the Turris Omnia delivers a full Gigabit. A typical <a
+href="http://www.speedtest.net/result/6158405365">speedtest.net result</a> is
+2ms ping, 935 Mbps down, 936 Mbps up. Speeds displayed by <code>wget</code> and
+other tools max out at the same values as with the Ubiquiti EdgeRouter Lite.
+Latency to well-connected targets such as Google remains at 0.7ms.
+</p>
+
+<h4>WiFi performance</h4>
+
+<p>
+I did a few quick tests on speedtest.net with the devices I had available, and
+here are the results:
+</p>
+
+<table width="100%" style="max-width: 40em">
+<tr>
+<th>Client</th>
+<th>Down (WDR4300)</th>
+<th>Down (Omnia)</th>
+<th>Up</th>
+</tr>
+<tr>
+<td>ThinkPad X1 Carbon 2015</td>
+<td>35 Mbps</td>
+<td>470 Mbps</td>
+<td>143 Mbps</td>
+</tr>
+<tr>
+<td>MacBook Pro 13" Retina 2014</td>
+<td>127 Mbps</td>
+<td>540 Mbps</td>
+<td>270 Mbps</td>
+</tr>
+<tr>
+<td>iPhone SE</td>
+<td>—</td>
+<td>226 Mbps</td>
+<td>227 Mbps</td>
+</tr>
+</table>
+
+<h3>Compatibility (software/setup)</h3>
+
+<p>
+OpenWrt’s default setup at the time when I set up this router was the most
+pleasant surprise of all: using <strong>the Turris Omnia with fiber7 is
+literally Plug & Play</strong>. After opening the router’s wizard page in your
+web browser, you literally need to click “Next” a few times and you’re online
+with IPv4 and IPv6 configured in a way that will be good enough for many
+people.
+</p>
+
+<p>
+I realize this is due to Fiber7 using “just” DHCPv4 and DHCPv6 without
+requiring credentials, but man is this nice to see. Open source/hardware
+devices which just work out of the box are not something I’m used to :-).
+</p>
+
+<p>
+One thing I ended up changing, though: in the default setup (at the time when I
+tried it), hostnames sent to the DHCP server would not automatically
+<strong>resolve locally via DNS</strong>. I.e., I could not use <code>ping
+beast</code> without any further setup to send ping probes to my gaming
+computer. To fix that, for now one needs <a
+href="https://forum.turris.cz/t/how-to-configure-local-address-dns-resoultion-on-omnia/1000/4">to
+disable KnotDNS in favor of dnsmasq’s built-in DNS resolver</a>. This will
+leave you without KnotDNS’s DNSSEC support. But I prefer ease of use in this
+particular trade-off.
+</p>
+
+<h3>Compatibility (hardware)</h3>
+
+<p>
+Unfortunately, the <a
+href="https://forum.turris.cz/t/fiber7-switzerland-sfp-compatibility/995">SFPs
+which Fiber7 sells/requires are not immediately compatible with the Turris
+Omnia</a>. If I understand correctly, the issue is related to speed
+negotiation.
+</p>
+
+<p>
+After months of discussion in the Turris forum and not much success on fixing
+the issue, Fiber7 now offers to disable speed negotiation on your port if you
+send them an email. Afterwards, your SFPs will work in media converters such as
+the tp-link MC220L <strong>and</strong> the Turris Omnia.
+</p>
+
+<p>
+The downside is that debugging issues with your port becomes harder, as Fiber7
+will no longer be able to see whether your device correctly negotiates speed,
+the link will just always be forced to “up”.
+</p>
+
+<h3>Updates</h3>
+
+<p>
+The Turris Omnia’s automated updates are a big differentiator: without
+having to do anything, the Turris Omnia will install new software versions
+automatically. This feature alone will likely improve your home network’s
+security and this feature alone justifies buying the router in my eyes.
+</p>
+
+<p>
+Of course, automated upgrades constitute a certain risk: if the new software
+version or the upgrade process has a bug, things might break. This <a
+href="https://forum.turris.cz/t/turris-os-3-6-out-now/3605/69?u=secure">happened
+once to me</a> in the 6 months that I have been using this router. I still
+haven’t seen a statement from the Turris developers about this particular
+breakage — I wish they would communicate more.
+</p>
+
+<p>
+Since you can easily restore your configuration from a backup, I’m not too
+worried about this. In case you’re travelling and really need to access your
+devices at home, I would recommend to temporarily disable the automated
+upgrades, though.
+</p>
+
+<h3>Product Excellence</h3>
+
+<p>
+One feature I love is that the <strong>brightness of the LEDs</strong> can be
+controlled, to the point where you can turn them off entirely. It sounds
+trivial, but the result is that I don’t have to apply tape to this device to
+dim its LEDs. To not disturb watching movies, playing games or having guests
+crash on the living room couch, I can turn the LEDs off and only turn them back
+on when I actually need to look at them for something — in practice, that’s
+never, because the router just works.
+</p>
+
+<p>
+<strong>Recovering</strong> the software after horribly messing up an
+experiment is pretty easy: when holding the reset button for a certain number
+of seconds, the device enters a mode where a new firmware file is flashed to
+the device from a plugged-in USB memory stick. What’s really nice is that the
+mode is indicated by the color of the LEDs, saving you other device’s tedious
+counting which I tend to always start at the wrong second. This is a very good
+compromise between saving cost and pleasing developers.
+</p>
+
+<p>
+The Turris Omnia has a <strong>serial port</strong> readily accessible via a
+pin header that’s reachable after opening the device. I definitely expected an
+easily accessible serial port in a device which targets open source/hardware
+enthusiasts. In fact, I have two ideas to make that serial port even better:
+</p>
+<ol>
+<li>
+Label the pins on the board — that doesn’t cost a cent more and spares some
+annoying googling for a page which isn’t highly ranked in the search results.
+Sparing some googling is a good move for an internet router: chances are that
+accessing the internet will be inconvenient while you’re debugging your
+router.
+</li>
+<li>
+Expose the serial port via USB-C. The HP 2530-48G switch does this: you don’t
+have to connect a USB2serial to a pin header yourself, rather you just plug in
+a USB cable which you’ll probably carry anyway. Super convenient!
+</li>
+</ol>
+
+<h3>Conclusion</h3>
+
+<p>
+tl;dr: if you can afford it, buy it!
+</p>
+
+<p>
+I’m very satisfied with the Turris Omnia. I like how it is both open source and
+open hardware. I rarely want to do development with my main internet router,
+but when I do, the Turris Omnia makes it pleasant. The performance is as good
+as advertised, and I have not noticed any stability problems with neither the
+router itself nor the WiFi.
+</p>
+
+<p>
+I outlined above how the next revision of the router could be made ever so
+slightly more perfect, and I described the issues I ran into (SFP compatibility
+and an update breaking my non-standard setup). If these aren’t deal-breakers to
+you, which sounds unlikely, you should definitely consider the Turris Omnia!
+</p>
+]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Atomically writing files in Go]]></title>
+    <link href="https://michael.stapelberg.de/posts/2017-01-28-golang_atomically_writing/"/>
+    <id>https://michael.stapelberg.de/posts/2017-01-28-golang_atomically_writing/</id>
+    <published>2017-01-28T21:29:00+00:00</published>
+    <updated>2017-01-28T21:29:00+00:00</updated>
+    <content type="html"><![CDATA[<p>
+Writing files is simple, but correctly writing files atomically in a performant
+way might not be as trivial as one might think. Here’s an extensively commented
+function to atomically write compressed files (taken from <a
+href="https://github.com/Debian/debiman">debiman</a>, the software behind <a
+href="https://manpages.debian.org/">manpages.debian.org</a>):
+<p>
+
+<pre>
+package main
+
+import (
+    "bufio"
+    "compress/gzip"
+    "io"
+    "io/ioutil"
+    "log"
+    "os"
+    "path/filepath"
+)
+
+func tempDir(dest string) string {
+    tempdir := os.Getenv("TMPDIR")
+    if tempdir == "" {
+        // Convenient for development: decreases the chance that we
+        // cannot move files due to TMPDIR being on a different file
+        // system than dest.
+        tempdir = filepath.Dir(dest)
+    }
+    return tempdir
+}
+
+func writeAtomically(dest string, compress bool, write func(w io.Writer) error) (err error) {
+    f, err := ioutil.TempFile(tempDir(dest), "atomic-")
+    if err != nil {
+        return err
+    }
+    defer func() {
+        // Clean up (best effort) in case we are returning with an error:
+        if err != nil {
+            // Prevent file descriptor leaks.
+            f.Close()
+            // Remove the tempfile to avoid filling up the file system.
+            os.Remove(f.Name())
+        }
+    }()
+
+    // Use a buffered writer to minimize write(2) syscalls.
+    bufw := bufio.NewWriter(f)
+
+    w := io.Writer(bufw)
+    var gzipw *gzip.Writer
+    if compress {
+        // NOTE: gzip’s decompression phase takes the same time,
+        // regardless of compression level. Hence, we invest the
+        // maximum CPU time once to achieve the best compression.
+        gzipw, err = gzip.NewWriterLevel(bufw, gzip.BestCompression)
+        if err != nil {
+            return err
+        }
+        defer gzipw.Close()
+        w = gzipw
+    }
+
+    if err := write(w); err != nil {
+        return err
+    }
+
+    if compress {
+        if err := gzipw.Close(); err != nil {
+            return err
+        }
+    }
+
+    if err := bufw.Flush(); err != nil {
+        return err
+    }
+
+    // Chmod the file world-readable (ioutil.TempFile creates files with
+    // mode 0600) before renaming.
+    if err := f.Chmod(0644); err != nil {
+        return err
+    }
+
+    // fsync(2) after fchmod(2) orders writes as per
+    // https://lwn.net/Articles/270891/. Can be skipped for performance
+    // for idempotent applications (which only ever atomically write new
+    // files and tolerate file loss) on an ordered file systems. ext3,
+    // ext4, XFS, Btrfs, ZFS are ordered by default.
+    f.Sync()
+
+    if err := f.Close(); err != nil {
+        return err
+    }
+
+    return os.Rename(f.Name(), dest)
+}
+
+func main() {
+    if err := writeAtomically("demo.txt.gz", true, func(w io.Writer) error {
+        _, err := w.Write([]byte("demo"))
+        return err
+    }); err != nil {
+        log.Fatal(err)
+    }
+}
+</pre>
+
+<p>
+<a href="https://manpages.debian.org/rsync.1">rsync(1)</a> will fail when it
+lacks permission to read files. Hence, if you are synchronizing a repository of
+files while updating it, you’ll need to set <code>TMPDIR</code> to point to a
+directory on the same file system (for <a
+href="https://manpages.debian.org/rename.2">rename(2)</a> to work) which is not
+covered by your <a href="https://manpages.debian.org/rsync.1">rsync(1)</a>
+invocation.
+</p>
+
+<p>
+When calling <code>writeAtomically</code> repeatedly to create lots of small
+files, you’ll notice that creating <code>gzip.Writer</code>s is actually rather
+expensive. Modifying the function to re-use the same <code>gzip.Writer</code>
+<a
+href="https://github.com/Debian/debiman/commit/2f891341daa6c2b24dc9b0bacd3b722b057d8e9b">yielded
+a significant decrease in wall-clock time</a>.
+</p>
+
+<p>
+Of course, if you’re looking for maximum write performance (as opposed to
+minimum resulting file size), you should use a different gzip level than
+<code>gzip.BestCompression</code>.
+</p>
+]]></content>
+  </entry>
+</feed>

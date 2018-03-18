@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kurz-Howto: Videos aufnehmen mit einer USB-Webcam und GStreamer</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2011-09-25-capture_uvc_gstreamer/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Kurz-Howto: Videos aufnehmen mit einer USB-Webcam und GStreamer</h2> (<span id="date">2011-09-25</span>) <div class="Artikel" id="content">
+<p>
+Gelegentlich möchte man ein Video aufnehmen. Doch welches Programm verwendet
+man dafür? Wie erreicht man die beste Qualität bei kleinster Dateigröße? Diese
+kurze Anleitung erklärt, wie man mit GStreamer und FFmpeg eine Video-Aufnahme
+von einer USB-Webcam (die VF0610 Live! Cam Socialize HD in meinem Fall)
+aufzeichnet und enkodiert.
+</p>
+
+<h2>Auflösung/Bildrate herausfinden</h2>
+
+<p>
+Mit uvcdynctrl -f sieht man, welche Auflösungen und zugehörigen Bildraten die
+Kamera unterstützt. In meinem Fall sieht das so aus:
+</p>
+
+<pre>
+Listing available frame formats for device video0:
+Pixel format: YUYV (YUV 4:2:2 (YUYV); MIME type: video/x-raw-yuv)
+  Frame size: 640x360
+    Frame rates: 30, 25, 20, 15, 10, 5
+  Frame size: 1280x720
+    Frame rates: 10, 5
+  Frame size: 800x448
+    Frame rates: 30, 20, 15, 10, 5
+  Frame size: 640x480
+    Frame rates: 30, 25, 20, 15, 10, 5
+  Frame size: 960x544
+    Frame rates: 15, 10, 5
+  Frame size: 432x240
+    Frame rates: 30, 25, 20, 15, 10, 5
+  Frame size: 320x240
+    Frame rates: 30, 25, 20, 15, 10, 5
+</pre>
+
+<p>
+In <code>guvcview</code> habe ich ausprobiert, welche Auflösung am besten aussieht
+(also wie groß der gefühlte Unterschied ist). Hierbei wirkte 800x448 am besten
+auf mich. Meine Kamera unterstützt bei dieser Auflösung eine Bildrate von 30
+fps oder 20 fps. Die niedrigeren Bildraten würde ich nicht nutzen, es sei denn,
+die Aufnahme enthält kaum Bewegungen. Wenn man 30 fps statt 20 fps nutzt,
+kostet einen das 5,2 MB mehr Speicherplatz pro Sekunde (in der Roh-Aufnahme).
+</p>
+
+<p>
+Weiterhin kann man in guvcview die einzelnen Parameter der Kamera so
+einstellen, dass sie für die jeweilige Kamera und Umgebung ein gutes Bild
+liefern. In meinem Fall funktionierten folgende Einstellungen am besten:
+</p>
+
+<pre>
+Brightness: 35
+Contrast: 133
+Saturation: 110
+Hue: 0
+White Balance Temperature, Auto: disabled
+Gamma: 183
+Gain: 0
+Power Line Frequency: disabled
+White Balance Temperature: 5692
+Sharpness: 0
+Backlight Compensation: 4
+Exposure (Absolute): 625
+</pre>
+
+<h2>Aufnehmen (roh)</h2>
+
+<p>
+Mit folgendem Befehl erzeugen wir die Aufnahme, bei der die Bilddaten direkt
+als AVI-Datei (ohne Enkodierung) gespeichert werden. Zusätzlich wird ein
+Zeitstempel über das Bild gelegt, damit man weiß, wie lange man schon aufnimmt.
+Weiterhin wird das Bild nicht nur gespeichert, sondern auch am Bildschirm
+angezeigt:
+</p>
+
+<pre>
+gst-launch v4l2src ! 'video/x-raw-yuv,width=800,height=448,framerate=20/1' ! \
+    timeoverlay halign=right valign=top shaded-background=true ! \
+    tee name=t_vid ! queue ! \
+    xvimagesink sync=false t_vid. ! queue ! \
+    videorate ! 'video/x-raw-yuv,framerate=20/1' ! queue ! mux. \
+    alsasrc device=hw:1 ! queue ! \
+    audioconvert ! queue ! mux. avimux name=mux ! \
+    filesink location=rohvideo.avi
+</pre>
+
+<p>
+Nachdem man das Fenster schließt, kann man verifizieren, dass man eine Datei
+namens rohvideo.avi hat.
+</p>
+
+<h2>Enkodieren</h2>
+
+<p>
+Die rohen Bilddaten nehmen ca. 10 MB pro Sekunde ein. Sofern man das Video
+anschließend über das Internet teilen möchte, ist das natürlich enorm viel.
+Deshalb enkodieren wir mit <code>ffmpeg</code> die rohen Videodaten zu einem
+H264-Video in einem MP4-Container:
+</p>
+
+<pre>
+ffmpeg -i rohvideo.avi -y -f mp4 -vcodec libx264 -crf 28 -threads 0 \
+    -flags +loop -cmp +chroma -deblockalpha -1 -deblockbeta -1 -refs 3 \
+    -bf 3 -coder 1 -me_method hex -me_range 18 -subq 7 -partitions \
+    +parti4x4+parti8x8+partp8x8+partb8x8 -g 320 -keyint_min 25 -level 41 \
+    -qmin 10 -qmax 51 -qcomp 0.7 -trellis 1 -sc_threshold 40 -i_qfactor \
+    0.71 -flags2 +mixed_refs+dct8x8+wpred+bpyramid -acodec libfaac -ab \
+    80k -ar 48000 -ac 2 video.mp4
+</pre>
+
+<p>
+Kurze Zeit später (das Enkodieren dauert auf meinem Core 2 Duo-Laptop ca. 10s
+für ein Video mit 16s Länge) erhält man die Datei video.mp4, welche in meinem
+Fall nurnoch 0,05 MB pro Sekunde benötigt.
+</p>
+
+</div></div></div></div></div></div></body>
+</html>

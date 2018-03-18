@@ -1,0 +1,71 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>SelfProfan&sup2;</title>
+	</head>
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+		<table border="0" cellpadding="0" cellspacing="2">
+			<tr>
+				<td><img src="logo.gif" width="311" height="76"><br>
+					<a href="menu.html">SelfProfan&sup2;</a>:Texte<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#ffff46">		<h3>Texte</h3>
+		<p><br>
+		Um Texte oder Bl&auml;tter(auch Zahlen) wieder auszugeben(anzeigen) kann ich den<br>
+		Befehl <i>print</i> benutzen.Er gibt einen Text aus.<br>
+		<i>print &quot;Beliebiger Text&quot;<br>
+		print blatt1$<br>
+		print zahl1%<br>
+		print &quot;Text mit Blatt/Zahl kombiniert:&quot;;blatt1$;&quot;und die Zahl&quot;;zahl1%;&quot;!&quot;<br>
+		print &quot;Text mit Blatt/Zahl:&quot;,blatt1$<br>
+		<img height="72" width="638" src="ls1_1.jpg"><br>
+		</i>Der auszugebende Text muss immer in Anf&uuml;hrungszeichen(&quot;&quot;) stehen und damit<br>
+		auch wieder enden.Falls ein Blatt/Zahl angezeigt werden soll,wird ein Semikolons(;) verwendet.<br>
+		Falls danach noch Text stehen soll,muss noch ein Semikolon(nach dem Blattname) folgen,und danach<br>
+		(ebenfalls in Anf&uuml;hrungszeichen) der Text.<br>
+		3.Bl&auml;tter und Zahlen bestimmen<br>
+		Bl&auml;tter und Zahlen bestimmen(etwas hineinschreiben).<br>
+		Angenommen,ich will bei jedem Start des Programmes den Name und die Version ausgeben.<br>
+		Da weder Name,noch Version feststehen/sich &auml;ndern k&ouml;nnen muss ich das irgendwie anders schaffen,<br>
+		als mit einem einfachen <i>Print</i>.Dazu benutze ich <i>Print</i> in verbindung mit einem Blatt/Zahl,wie es oben<br>
+		beschrieben ist.Hier ein kleiner Ausschnitt aus meinem Programm:<br>
+		<i>Declare name$,version%<br>
+		name$ = &quot;Mein erstes Programm&quot;<br>
+		version% = 1<br>
+		print name$;&quot;Version:&quot;;version%<br>
+		print name$,&quot;Version:&quot;,version%<br>
+		<font color="red">Das hier bewirkt,dass entweder (Beispiel 1) zusammengeh&auml;ngte W&ouml;rter<br>
+		ausgegeben werden,oder (Beispiel 2),durch ein Leerzeichen getrennte W&ouml;rter<br>
+		ausgegeben werden.Ausgabe beider Beispiele:<br>
+		(1) Mein erstes ProgrammVersion:1<br>
+		(2) Mein erstes Programm Version: 1</font></i><br>
+		Die Ausgabe lautet:<br>
+		<u>Mein erstes Programm Version:1<br>
+		</u>Erl&auml;uterung:<br>
+		name$ = &quot;Wert&quot;<br>
+		version% = 1<br>
+		Bei Bl&auml;ttern wird erst der Name des Blattes hingeschrieben,danach ein = und dann der neuen Wert in Anf&uuml;hrungszeichen.Diese sind wichtig,da es sonst kein Blatt mehr ist.<br>
+		Bei Zahlen wird ebenfalls der Name und das = benutzt,aber hier m&uuml;ssen die Anf&uuml;hrungszeichen weg!Sonst wird die Zahl nicht als Zahl verstanden,und es gibt einen Fehler.<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+					<hr>
+				</td>
+			</tr>
+		</table>
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+		</body>
+

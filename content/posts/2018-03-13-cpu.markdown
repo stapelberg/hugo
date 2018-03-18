@@ -1,0 +1,200 @@
+---
+layout: post
+title:  "cpu(1) with Linux"
+date:   2018-03-13 09:35:00 +01:00
+categories: Artikel
+Aliases:
+  - /Artikel/cpu
+---
+
+### motivation
+
+To run the tests of my i3 Go package, I use the following command:
+
+```
+go test -v go.i3wm.org/...
+```
+
+To run the tests of my i3 Go package on a different architecture, the only thing
+I should need to change is to declare the architecture by setting
+`GOARCH=arm64`:
+
+```
+GOARCH=arm64 go test -v go.i3wm.org/...
+```
+
+“Easy!”, I hear you exclaim: “Just `apt install qemu`, and you can transparently
+emulate architectures”. But what if I want to run my tests on a native machine,
+such as the various [Debian porter
+boxes](https://db.debian.org/machines.cgi?sortby=purpose&sortorder=dsc)? Down
+the rabbit hole we go…
+
+### cpu(1)
+
+On Plan 9, the [cpu(1)](http://man.cat-v.org/plan_9/1/cpu) command allows
+transparently using the CPU of dedicated compute servers. This has fascinated me
+for a long time, so I tried to replicate the functionality in Linux.
+
+### reverse sshfs
+
+One of the key insights this project is built on is that
+[`sshfs(1)`](https://manpages.debian.org/stretch/sshfs/sshfs.1) can be used over
+an already-authenticated channel, so you don’t need to do awkward reverse
+port-forwardings or even allow the remote machine SSH access to your local
+machine.
+
+I learnt this trick from the 2014 [boltblog post “Reverse SSHFS mounts (fs
+push)”](https://blog.dhampir.no/content/reverse-sshfs-mounts-fs-push).
+
+The post uses [`dpipe(1)`](https://manpages.debian.org/stretch/vde2/dpipe.1)’s
+bidirectional wiring of stdin/stdout (as opposed to a unidirectional wiring like
+in UNIX pipes).
+
+Instead of clumsily running `dpipe` in a separate window, I encapsulated the
+necessary steps in a little Go program I call `cpu`. The reverse sshfs principle
+looks like this in Go:
+
+```
+sftp := exec.Command("/usr/lib/openssh/sftp-server")
+stdin, _ := sftp.StdinPipe()
+stdout, _ := sftp.StdoutPipe()
+session.Stdin = stdout
+session.Stdout = stdin
+sftp.Stderr = os.Stderr
+session.Stderr = os.Stderr
+const (
+	host = ""
+	src  = "/"
+	mnt  = "/mnt"
+)
+session.Start(fmt.Sprintf("sshfs %s:%s %s -o slave", host, src, mnt))
+sftp.Start()
+```
+
+Here’s how the tool looks in action:
+
+<script src="https://asciinema.org/a/Q1BWLcdtIMOE5SCHOzu1eqcOE.js" id="asciicast-Q1BWLcdtIMOE5SCHOzu1eqcOE" async></script>
+
+### binfmt_misc
+
+Now that we have a tool which will make our local file system available on the
+remote machine, let’s integrate it into our `go test` invocation.
+
+While we don’t want to modify the `go` tool, we can easily teach our kernel how
+to run aarch64 ELF binaries using
+[binfmt_misc](https://www.kernel.org/doc/html/v4.14/admin-guide/binfmt-misc.html).
+
+I modified the existing `/var/lib/binfmts/qemu-aarch64`’s interpreter field to
+point to `/home/michael/go/bin/porterbox-aarch64`, followed by `update-binfmts
+--enable qemu-aarch64` to have the kernel pick up the changes.
+
+`porterbox-aarch64` is a wrapper invoking `cpu` like so:
+
+```
+cpu \
+  -host=rpi3 \
+  unshare \
+    --user \
+    --map-root-user \
+    --mount-proc \
+    --pid \
+    --fork \
+    /bindmount.sh \
+      \$PWD \
+      $PWD \
+      $@
+```
+
+Because it’s subtle:
+* `\$PWD` refers to the directory in which the reverse sshfs was mounted by `cpu`.
+* `$PWD` refers to the working directory in which `porterbox-aarch64` was called.
+* `$@` refers to the original command with which `porterbox-aarch64` was called.
+
+### bindmount
+
+bindmount is a small shell script preparing the bind mounts:
+
+```
+#!/bin/sh
+
+set -e
+
+remote="$1"
+shift
+wd="$1"
+shift
+
+# Ensure the executable (usually within /tmp) is available:
+exedir=$(dirname "$1")
+mkdir -p "$exedir"
+mount --rbind "$remote$exedir" "$exedir"
+
+# Ensure /home is available:
+mount --rbind "$remote/home" /home
+
+cd "$wd"
+"$@"
+```
+
+### demo
+
+This is what all of the above looks like in action:
+
+<script src="https://asciinema.org/a/Mjb66iHIbBfGuK5lEMnLt0UzS.js" id="asciicast-Mjb66iHIbBfGuK5lEMnLt0UzS" async></script>
+
+### layers
+
+Putting all of the above puzzle pieces together, we end up with the following
+picture:
+
+```
+go test
+├ compile test program for GOARCH=arm64
+└ exec test program (on host)
+  └ binfmt_misc
+    └ run porterbox-aarch64
+      └ cpu -host=rpi3
+        ├ reverse sshfs
+        └ bindmount.sh
+          └ unshare --user
+            ├ bind /home, /tmp
+            └ run test program (on target)
+```
+
+### requirements
+
+On the remote host, the following requirements need to be fulfilled:
+
+* `apt install sshfs`, which also activates the FUSE kernel module
+* `sysctl -w kernel.unprivileged_userns_clone=1`
+
+If the tests require any additional dependencies (the tests in question require
+`Xvfb` and `i3`), those need to be installed as well.
+
+On Debian porter boxes, you can install the dependencies in an [`schroot`
+session](https://dsa.debian.org/doc/schroot/). Note that I wasn’t able to test
+this yet, as porter boxes lacked all requirements at the time of writing.
+
+Unfortunately, [Debian’s Multi-Arch](https://wiki.debian.org/Multiarch) does not
+yet include binaries. Otherwise, one might use it to help out with the
+dependencies: one could overlay the local `/usr/bin/aarch64-linux-gnu/` on the
+remote `/usr/bin`.
+
+### conclusion
+
+On first glance, this approach works as expected. Time will tell whether it’s
+useful in practice or just an interesting one-off exploration.
+
+From a design perspective, there are a few open questions:
+
+* Making available only `/home` might not be sufficient. But making available
+  `/` doesn’t work because `sshfs` does not support device nodes such as
+  `/dev/null`.
+* Is there a way to implement this without unprivileged user namespaces (which
+  are disabled by default on Linux)? Essentially, I think I’m asking for [Plan
+  9’s union directories and
+  namespaces](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs#Union_directories_and_namespaces).
+* In similar spirit, can binfmt_misc be used per-process?
+
+Regardless, if this setup stands the test of time, I’ll polish and publish the
+tools.

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Super Talent Solid State Disk im Test</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2009-12-13-ssd/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Super Talent Solid State Disk im Test</h2> (<span id="date">2009-12-13</span>) <div class="Artikel" id="content">
+<p>
+  Da mir Volker freundlicherweise seine brandneue Solid State Disk ausgeliehen
+  hat um damit ein paar Tests durchzuführen, möchte ich meine Erfahrungen hier
+  festhalten.
+</p>
+
+<p>
+  Solid State Disks sind „Festplatten”, die nicht magnetisch funktionieren,
+  sondern stattdessen Flash-Speicher verwenden. Durch die starke Nachfrage nach
+  Flash-Speicher in den letzten Jahren (beispielsweise durch USB-Sticks) wurden
+  die Chips mit immer mehr Kapazität zu immer günstigeren Preisen verfügbar,
+  was sie schließlich auch für Endkunden als Festplattenersatz in einigen
+  Szenarien attraktiv macht (nichtsdestotrotz sprechen wir immernoch von ca.
+  180 € für eine 80 GB große SSD, Stand Dezember 2009).
+</p>
+
+<p>
+  Im Vergleich mit magnetischen Festplatten haben Solid State Disks einige
+  Vorteile, beispielsweise sind sie deutlich robuster (keine beweglichen
+  Teile, also insbesondere keinen Motor wie in einer herkömmlichen Festplatte),
+  lautlos (aus dem selben Grund), verbrauchen weniger Strom und sind vor allem
+  schneller. Der größte Geschwindigkeitsvorteil für den Alltagsbetrieb kommt
+  daher, dass bei einer SSD auf Daten aus dem gesamten Speicherbereich
+  zugegriffen werden kann, ohne dass erst ein Lesekopf positioniert werden
+  muss. Das lässt die Zugriffszeiten bei Random Seeks von 10ms auf weniger als
+  0.1ms fallen, zu den Auswirkungen später mehr…
+</p>
+
+<p>
+  In diesem Artikel geht es darum, wie groß der Geschwindigkeitsvorteil in
+  reellen Szenarien und in Benchmarks tatsächlich ist und insbesondere wie
+  sich Vollverschlüsselung auswirkt. Als Betriebssystem kam Linux mit einem
+  Standard-2.6.32-Kernel zum Einsatz, das Testgerät ist ein Thinkpad x200
+  mit einer Intel® Core™ 2 Duo P8400-CPU (2,26 GHz). Die getestete Solid State
+  Disk ist die Super Talent Ultradrive GX MLC 256GB (2.5"), unter Linux als
+  STT_FTM56GX25H (Firmware-Version 1819) erkannt.
+</p>
+
+<h1>Testbedingungen</h1>
+
+<p>
+  Alle Tests wurden jeweils direkt nach dem Systemstart ausgeführt, sodass
+  der Filesystem Cache keinen Einfluss hatte. Gemessen wurde auf einem zweiten
+  Computer mit einer sekundengenauen Uhr (eine bessere Auflösung ist nicht
+  nötig, da die Messungen in einigen Tests manuell durchgeführt wurden). Die
+  einzelnen Tests wurden folgendermaßen ausgewählt und durchgeführt:
+</p>
+
+<ol>
+  <li>
+    <strong>Bootzeit:</strong> Die Zeit, die das System zum Hochfahren braucht,
+    also direkt nach dem Eingeben des Crypto-Passworts bis hin zum
+    Anmeldebildschirm von <code>xdm</code>. Die Zeit davor ist irrelevant, da
+    sie maßgeblich vom Kernel bestimmt wird (der wiederum wenige MB groß ist
+    und dessen Ladezeit somit keine Rolle spielt). Die Zeit danach ist wiederum
+    sehr von der Desktop-Umgebung des Nutzers abhängig. Bei mir startet i3
+    in weniger als einer Sekunde, unabhängig von der benutzten Festplatte. In
+    diesem Test werden also die verschiedenen Initscripts ausgeführt und
+    Systemdienste gestartet.
+  </li>
+  <li>
+    <strong>Debian-Paket i3:</strong> Hier wurde die Zeit gemessen, die der
+    Befehl <code>dpkg-buildpackage</code> brauchte, um die Version 3.d von
+    i3 zu kompilieren. Der Unterschied zwischen SSD und HDD ist hier
+    hauptsächlich das Zusammensetzen des Debian-Pakets, welches beispielsweise
+    die nötigen Dependencies automatisch herausfindet, indem es sich die
+    entsprechenden Libraries auf dem System anschaut. Dieser Test soll
+    repräsentativ für das Kompilieren von Software und das Bauen von Paketen
+    für verschiedene Distributionen sein.
+  </li>
+  <li>
+    <strong>Firefox-Start:</strong> In diesem Test wird Firefox 3.5 gestartet
+    (mit einigen Plugins, es geht hier nicht um die absolute Startzeit von
+    Firefox, sondern um die Tendenzen bei einer SSD). Die Messung erfolgt ab
+    dem Start bis hin zu dem Moment, ab dem die Session geladen wurde und
+    der Browser auf Tastendrücke reagiert. Dieser Test ist stellvertretend
+    für eine typische Desktopanwendung.
+  </li>
+  <li>
+    <strong>Paketinstallation:</strong> Zuletzt wird das Suchen, Installieren
+    und Entfernen von Debian-Paketen gemessen. Als Paket für diesen Test habe
+    ich Blender gewählt, welches mit 11 MB zu den eher größeren Paketen gehört.
+    Alle nötigen Dependencies sind natürlich vorher bereits installiert,
+    sodass der Test bei wiederholter Anwendung nicht verfälscht wird. Weiterhin
+    wird das Paket nicht aus dem Netz geladen, sondern von der lokalen
+    Festplatte. Dieser Test ähnelt dem typischen Systemupgrade oder dem
+    Hinzufügen von neuen Paketen.
+  </li>
+</ol>
+
+<p>
+  Die interne Festplatte, gegen welche die SSD antreten muss, ist eine
+  FUJITSU MHZ2250BH G1.
+</p>
+
+<h1>Test 1: Fragmentierung bei ext4</h1>
+
+<p>
+  Ich besitze mein Notebook nun etwas länger als ein Jahr und habe vor etwas
+  weniger als einem Jahr das Dateisystem nach ext4 konvertiert. Über die Zeit
+  hinweg wurde das System wöchentlich aktualisiert und beinhaltete unter
+  anderem mehrere male den Linux-Sourcecode sowie einen kompletten
+  Debian-Mirror. Es sind also zahlreiche Dateien vorhanden, was zu einer
+  gewissen Fragmentierung führt. Den Grad der Fragmentierung habe ich nicht
+  gemessen, da mir dazu keine Tools bekannt sind.
+</p>
+
+<p>
+  Im ersten Test möchte ich also wissen, wieviel schneller mein System wird,
+  wenn ich alle Dateien kopiere, ein frisches ext4 anlege, und alle Dateien
+  wiederherstelle. Da die SSD später ebenso befüllt wird, ist dies eine gute
+  Vergleichsbasis.
+</p>
+
+<h2>Alltags-Szenarien mit fragmentiertem ext4 (LVM + dmcrypt)</h2>
+
+<ol>
+  <li>
+    <strong>Bootzeit:</strong> 40 Sekunden
+  </li>
+  <li>
+    <strong>Debian-Paket i3:</strong> 71 Sekunden
+  </li>
+  <li>
+    <strong>Firefox-Start:</strong> 14 Sekunden
+  </li>
+  <li>
+    <strong>Paketinstallation:</strong>
+    <ul>
+      <li>apt-cache search blender: 3 Sekunden</li>
+      <li>apt-get install blender: 83 Sekunden</li>
+      <li>apt-get purge -y blender: 8 Sekunden</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Alltags-Szenarien mit frischem ext4 (LVM + dmcrypt)</h2>
+
+<ol>
+  <li>
+    <strong>Bootzeit:</strong> 32 Sekunden
+  </li>
+  <li>
+    <strong>Debian-Paket i3:</strong> 52 Sekunden
+  </li>
+  <li>
+    <strong>Firefox-Start:</strong> 13 Sekunden
+  </li>
+  <li>
+    <strong>Paketinstallation:</strong>
+    <ul>
+      <li>apt-cache search blender: 2 Sekunden</li>
+      <li>apt-get install blender: 49 Sekunden</li>
+      <li>apt-get purge -y blender: 8 Sekunden</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Vergleich und Fazit</h2>
+
+<p><img src="/Bilder/ssd/ssd_ext4_fragment.png" style="border: 1px solid black"
+ alt="Fragmentierung" border="0" width="700" height="525"></p>
+
+<p>
+  Es lohnt sich durchaus sein Dateisystem jedes halbe Jahr neu zu befüllen,
+  solange es noch keine Programme gibt, um ext4 zu Defragmentieren (daran wird
+  aber gearbeitet). Das ist dann eine ganz gute Gelegenheit, um zu testen, ob
+  die Restore-Funktion deines Backup-Programms auch tatsächlich funktioniert
+  :-).
+</p>
+
+<h1>Test 2: Partitionstabelle, LVM und Crypto auf der Solid State Disk</h1>
+
+<p>
+  Bevor ich die SSD mit meinem System bespielt habe, habe ich <a
+  href="http://www.grml.org/">grml</a> von einem USB-Stick gestartet und damit
+  ein paar Tests durchgeführt. Bei SSDs sollte man besonders darauf achten,
+  dass die Blöcke, die geschrieben werden, 128 KB groß sind, denn ansonsten
+  muss die SSD einen Lese-Schreib-Zyklus mehr ausführen (nicht nur der
+  eigentliche Block muss geschrieben, sondern der benachbarte Block muss
+  gelesen, verändert und erneut geschrieben werden).
+</p>
+
+<p>
+  Dazu gibt es verschiedene Stellen, an denen man ansetzen muss. Zum einen die
+  Partitionstabelle, die angibt, wo die einzelnen Partitionen anfangen. Ein
+  Zylinder sollte dabei ein Vielfaches von 128 KB sein (sofern die
+  entsprechende SSD wirklich 128 KB große Blöcke hat). <a
+  href="http://thunk.org/tytso/blog/2009/02/20/aligning-filesystems-to-an-ssds-erase-block-size/">Theodore
+  Ts'o</a> schreibt, dass 224 Köpfe und 56 Sektoren derzeit die sinnvollste
+  Variante sind, somit ergibt sich folgender Befehl:
+</p>
+
+<pre># fdisk <strong>-H 224 -S 56</strong> /dev/sda</pre>
+
+<p>
+  Der Debian-Installer legt nun üblicherweise (sofern man sein System komplett
+  verschlüsselt) eine kleine Partition für <code>/boot</code> an und eine
+  verschlüsselte Partition für den Rest. Letztere enthält zunächst ein PV
+  (Physical Volume) mit einer VG (Volume Group), die genauso heißt, wie das
+  System. Darin befinden sich wiederum ein LV (Logical Volume) namens „root”,
+  welches das eigentliche Dateisystem enthält, sowie ein LV namens „swap” für
+  den Swapspace.
+</p>
+
+<p>
+  Wir haben also wiederum drei weitere Stellen, die angepasst werden müssen:
+  Zunächst stellen wir sicher, dass <code>dmcrypt</code> die Nutzdaten (im
+  Gegensatz zum Header) an einem 128 KB-Block abspeichert:
+</p>
+
+<pre># cryptsetup -c aes-xts-plain -s 512 -y luksFormat /dev/sda2 <strong>--align-payload=256</strong>
+# cryptsetup luksOpen /dev/sda2 sda2_crypt</pre>
+
+<p>
+  Anschließend erstellen wir ein PV und geben an, dass die Metadaten insgesamt
+  256 KB umfassen sollen, sodass die Nutzdaten also wieder an einem 128
+  KB-Block anfangen (das LV für swap lege ich in diesem Beispiel nicht an):
+</p>
+
+<pre># pvcreate <strong>--metadatasize 250k</strong> /dev/mapper/sda2_crypt
+# vgcreate x200 /dev/mapper/sda2_crypt
+# lvcreate -n root -L 230G x200
+
+# Um die LVs zu finden und zu aktivieren:
+# pvscan /dev/mapper/sda2_crypt
+# vgchange -ay
+</pre>
+
+<p>
+  Als letzten Schritt erstellen wir das Dateisystem, welches die Daten in 32 *
+  4 KB-Blöcke, also 128 KB-Blöcke verteilen soll.
+</p>
+
+<pre># mkfs.ext4 <strong>-E stripe-width=32</strong> /dev/mapper/x200-root</pre>
+
+<p>
+  Weiterhin ist es erwähnenswert, dass man als I/O-Scheduler <code>noop</code>
+  benutzen sollte, also kein Scheduling, da dies bei einer SSD nicht nötig ist
+  (der Lesekopf muss nicht positioniert werden). Man startet also sein System
+  mit folgendem Parameter in GRUB:
+</p>
+
+<pre>elevator=noop</pre>
+
+<p>
+  Zum Testen habe ich nun Bonnie++ benutzt.
+</p>
+
+<h2>Vergleich und Fazit</h2>
+
+<p><img src="/Bilder/ssd/ssd_alignment_data.png" style="border: 1px solid black;
+margin-bottom: 15px" border="0" alt="Alignment" width="700" height="525">
+<br>
+<img src="/Bilder/ssd/ssd_alignment_seeks.png" style="border: 1px solid black"
+ alt="Alignment" width="700" height="525"></p>
+
+<p>
+  Fazit: In der Praxis sind die Optimierungen auf Blockgröße nicht wirklich
+  spürbar (die leichten Unterschiede lassen sich wohl am besten als
+  Messungenauigkeiten erklären), einzig der Einbruch bei Nutzung von dmcrypt
+  war erwartet und messbar. Trotzdem würde ich natürlich empfehlen, die
+  jeweiligen Parameter zu setzen, schließlich ist es ja schnell gemacht und
+  schlechter als garnicht ausgerichtet geht nicht…
+</p>
+
+<h1>Test 3: Solid State Disk und Vollverschlüsselung</h1>
+
+<p>
+  Nachdem im vorigen Test die Datenrate stark einbrach und die Random Seeks
+  etwas weniger, aber immer noch recht deutlich einbrachen, stellt sich die
+  Frage: Wie sehr wirkt sich das auf die Alltagsszenarien aus?
+</p>
+
+<p>
+  Zum Test habe ich also einmal das System ohne Verschlüsselung auf die
+  SSD kopiert und anschließend mit Verschlüsselung. Dann wurden dieselben
+  Testfälle wie in Test 1 durchgeführt:
+</p>
+
+<h2>Solid State Disk ohne LVM und ohne Verschlüsselung</h2>
+
+<ol>
+  <li>
+    <strong>Bootzeit:</strong> 9 Sekunden
+  </li>
+  <li>
+    <strong>Debian-Paket i3:</strong> 27 Sekunden
+  </li>
+  <li>
+    <strong>Firefox-Start:</strong> 6 Sekunden
+  </li>
+  <li>
+    <strong>Paketinstallation:</strong>
+    <ul>
+      <li>apt-cache search blender: &lt; 1 Sekunden</li>
+      <li>apt-get install blender: 11 Sekunden</li>
+      <li>apt-get purge -y blender: 5 Sekunden</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Solid State Disk mit LVM und Verschlüsselung</h2>
+
+<ol>
+  <li>
+    <strong>Bootzeit:</strong> 9 Sekunden
+  </li>
+  <li>
+    <strong>Debian-Paket i3:</strong> 27 Sekunden
+  </li>
+  <li>
+    <strong>Firefox-Start:</strong> 6 Sekunden
+  </li>
+  <li>
+    <strong>Paketinstallation:</strong>
+    <ul>
+      <li>apt-cache search blender: 1 Sekunde</li>
+      <li>apt-get install blender: 13 Sekunden</li>
+      <li>apt-get purge -y blender: 6 Sekunden</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Vergleich und Fazit</h2>
+
+<p><img src="/Bilder/ssd/ssd_crypto.png" style="border: 1px solid black"
+ border="0" alt="Vollverschlüsselung" width="700" height="525"></p>
+
+<p>
+  Glücklicherweise macht sich die Vollverschlüsselung in den Alltagsszenarien
+  kaum bemerkbar. Lediglich die Paketinstallation ist überhaupt messbar
+  langsamer (um insgesamt 3 Sekunden). Zum einfacheren Vergleich habe ich
+  die Werte des frisch befüllten (ebenfalls verschlüsselten) ext4 auf meiner
+  herkömmlichen Festplatte in die Grafik integriert.
+</p>
+
+<h1>Fazit</h1>
+
+<p>
+  Die Solid State Disk von Super Talent ist ohne Zweifel sehr schnell (ich
+  habe leider keinen direkten Vergleich zu anderen SSDs in meinem System)
+  und kann einen deutlichen Leistungsschub verschaffen. Je nach Anwendungsfall
+  ist die Vollverschlüsselung des Systems kaum merkbar, andererseits wird
+  deutlich, dass nun wieder die Rechenleistung den Flaschenhals des Systems
+  darstellt.  Die 2010 erscheinenden Intel-CPUs der Westmere-Generation werden
+  die zur Durchführung von AES nötigen Befehle direkt im Instruktionsset
+  beinhalten (AES-NI) und dadurch hoffentlich deutlich mehr leisten. Da man auf
+  einem System mit einer SSD aber vermutlich ohnehin eher arbeitet als viele
+  Daten abzulegen (dafür sind magnet-basierte Datenträger derzeit doch deutlich
+  günstiger), dürfte dieses Manko nur bei wenigen Anwendungsfällen ins Gewicht
+  fallen.
+</p>
+
+<p>
+  Positiv aufgefallen ist mir, dass die SSD wirklich lautlos ist (oder die
+  Geräusche komplett von den sonstigen Geräuschen wie CPU-Lüfter übertönt
+  werden). Das macht das Arbeiten sehr angenehm, auch bei zugriffsintensiven
+  Anwendungen (Suchen einer Datei beispielsweise).
+</p>
+
+<p>
+  Der geringere Stromverbrauch zeigt sich nicht sehr deutlich, lediglich ein
+  halbes Watt weniger frisst die SSD (bei der herkömmlichen Festplatte war
+  SATA power link management auf <code>min_power</code> eingestellt, sodass
+  die Festplatte die meiste Zeit im idle-Modus verbringen dürfte). Je nach
+  Akku und Gerät kann das ca. eine halbe Stunde mehr Laufzeit bringen.
+</p>
+
+<p>
+  Mir persönlich sind es die Vorteile noch nicht wert, mir eine SSD für mein
+  Notebook zuzulegen. Oftmals möchte ich größere Dateien kopieren, wenn ich
+  unterwegs bin und häufig macht sich der komplette Debian-Mirror bezahlt.
+  Mit weniger als 200 GB möchte ich also im Notebook nicht ausgestattet sein,
+  und für eine entsprechende SSD ist mir der derzeitige Preis von mehr als
+  500 € zu teuer. In meiner Workstation würde allerdings eine SSD als
+  Systemplatte, ergänzt durch eine herkömmliche Festplatte für die Daten,
+  durchaus Sinn ergeben :-).
+</p>
+
+<h1>PS</h1>
+
+<p>
+  Übrigens: Die STT_FTM56GX25H (Firmware-Version 1819) hatte bei mir das
+  Problem, dass sie, sobald SATA power link management auf
+  <code>min_power</code> gestellt wurde, des öfteren hing (System steht,
+  Festplatten-LED dauerhaft an, dann gibt es eine SATA Exception mit
+  anschließendem Reset des Ports und es geht weiter). Als Lösung sollte
+  man daher sicherstellen, dass die Einstellung nicht von ihrem Standardwert
+  geändert wird. Beliebte Orte zum Ändern dieser Einstellung sind
+  beispielsweise <code>/etc/rc.local</code> oder <code>/etc/sysfs.conf</code>.
+</p>
+
+<h1>Weitere Links</h1>
+
+<ul>
+  <li>
+    <a href="http://thunk.org/tytso/blog/2009/02/20/aligning-filesystems-to-an-ssds-erase-block-size/">
+    Theodore Ts'o: Aligning filesystems to an SSD’s erase block size
+    </a> (insbesondere wegen der Erklärung des Wear-Leveling-Problems
+    interessant, auf das ich in diesem Artikel nicht eingegangen bin.)
+  </li>
+  <li>
+    <a href="http://en.wikipedia.org/wiki/Solid_State_Disk">
+    Wikipedia: Solid State Disk
+    </a>
+  </li>
+  <li>
+    <a href="http://software.intel.com/en-us/articles/advanced-encryption-standard-aes-instructions-set/">
+    Intel AES-NI
+    </a>
+  </li>
+  <li>
+    <a href="http://www.heise.de/preisvergleich/a390429.html">
+    Heise Preisvergleich: Super Talent Ultradrive GX MLC 256GB
+    </a>
+  </li>
+  <li>
+    <a href="/ssd.txt">
+    ssd.txt: die rohen Testergebnisse von Bonnie++
+    </a>
+</ul>
+
+</div></div></div></div></div></div></body>
+</html>

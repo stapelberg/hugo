@@ -1,0 +1,126 @@
+---
+layout: post
+title:  "DV zu DVD (mit Mac OS X und Linux)"
+date:   2007-08-21 10:00:00
+categories: Artikel
+Aliases:
+  - /Artikel/DV_zu_DVD
+---
+
+
+
+<p>
+Eigentlich müsste der Titel dieses Artikels „Von VHS zu DVD” lauten, aber da
+die Anleitung auch auf alle anderen Eingangsmedien zutreffend ist, die man über
+Firewire/DV in den Rechner einlesen kann, habe ich das etwas verallgemeinert.
+</p>
+
+<p>
+Die Aufgabe klingt zunächst recht simpel: Ein VHS-Band auf DVD digitalisieren.
+Das erste Programm, was ich hierfür auf meinem Mac startete, war iMovie. Damit
+kann man recht problemlos Daten via Firewire einlesen und auch hinterher via
+iDVD auf DVD brennen.
+</p>
+
+<p>
+Nach dem Einlesen wollte ich gerne den Film etwas beschneiden und den störenden
+(durch Teletext verursachten) Streifen unten wegschneiden, fand aber leider
+keine Möglichkeit dazu. Einfacher ging das entfernen des Rauschens aus der
+Audiospur (durch das Anwenden eines Sound-Effekts).
+</p>
+
+<p>
+Ungünstigerweise war der Ton (schon beim Einlesen) sehr leise und ich fand
+keine Möglichkeit, ihn lauter zu machen. Somit schied also iMovie/iDVD für die
+Weiterverarbeitung aus.
+</p>
+
+<p>
+Auf Windows hat man nun das Problem, dass kaum ein Programm mit DV-Dateien
+umgehen kann (die ich mir übrigens aus dem Media-Ordner des iMovie-Projekts
+holte). Weder VirtualDub noch Ulead VideoStudio wollten die Dateien öffnen.
+</p>
+
+<p>
+Unter Linux ist mir kein Programm bekannt, welches alle diese Arbeitsschritte
+ausführen kann, somit werden wir diese eben aufteilen:
+</p>
+
+<h3>Ränder entfernen, Lautstärke anheben und die DV-Dateien in MPEG-2 konvertieren</h3>
+<p>
+Hierfür kommt das Programm <code>mplayer</code> beziehungsweise dessen
+Enkodierprogramm <code>mencoder</code> zum Einsatz. Es wird folgendermaßen
+aufgerufen:
+</p>
+
+<pre>/usr/src/MPlayer-1.0rc1/mencoder \
+	-af lavcresample=48000,volume=20 \
+	-vf crop=694:560:12:4,expand=720:576 \
+	-of mpeg \
+	-mpegopts format=dvd:tsaf \
+	-oac lavc \
+	-ovc lavc \
+	-lavcopts vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=15:
+acodec=ac3:abitrate=192:aspect=1.37:threads=4 \
+	-o c2.mpg \
+	Clip\ 02.dv</pre>
+<p>
+(Der Zeilenumbruch in den lavc-Optionen ist nur zur besseren Lesbarkeit
+eingefügt worden, beim Aufrufen müssen diese Optionen in einer Zeile angegeben
+werden).
+</p>
+<p>
+Die MPEG-spezifischen Optionen habe ich aus dem <a
+href="http://www.mplayerhq.hu/DOCS/HTML/de/menc-feat-vcd-dvd.html"
+title="Handbuch: Verwendung von MEncoder zum Erzeugen VCD/SVCD/DVD-konformer
+Dateien"><code>mplayer</code>-Handbuch </a>.
+</p>
+
+<p>
+<strong>Update:</strong> Vorher habe ich hier fälschlicherweise den Parameter
+<code>lavcresample=41100</code> angegeben, dies ist aber nicht korrekt für
+DVDs! Manche DVD-Player haben mit dieser falschen Samplerate Probleme und
+stocken dann bei der Audio-Wiedergabe. Auf anderen hingegen hab’ ich keine
+Probleme bemerkt.
+</p>
+
+<p>
+Folgende Optionen müssen hierbei angepasst werden für andere
+Videodaten/Rechner:
+</p>
+<ul>
+	<li><code>threads</code> bei den Optionen für libavcodec (-lavcopts): Am besten auf die Anzahl an CPU-Cores setzen</li>
+	<li><code>ratio</code> auf die Ratio des Films setzen (sieht man beim starten von MPlayer)</li>
+	<li><code>crop</code> bei den Videofiltern (<code>-vf</code>): Wieviel Pixel weggeschnitten werden sollen (Tipp: der Filter <code>cropdetect</code> ermittelt das)</li>
+	<li><code>volume</code> bei den Audiofiltern (<code>-af</code>) ist die Lautstärkeerhöhung in dB. Diese Option muss man in der Regel nicht angeben, sondern nur, wenn das Quellmaterial zu leise ist.</li>
+</ul>
+
+<h3>Das Rauschen aus der Audiospur entfernen</h3>
+<p>
+Um die Audiospur aus der MPEG-2-Datei zu entfernen benutzen wir MPlayer mit
+folgendem Aufruf:
+</p>
+<pre>mplayer -vo none -ao pcm:wavheader:file=s1.wav c1.mpg
+mplayer -vo none -ao pcm:wavheader:file=s2.wav c2.mpg</pre>
+
+<p>
+Mit dem Programm <code>audacity</code> können wir nun das Rauschen entfernen
+und beide Datei wieder als eine WAVE-Datei sichern. Im nächsten Schritt werden
+wir diese dann dem Film unterlegen.
+</p>
+
+<h3>Die Dateien aneinanderhängen und im DVD-Format ausgeben</h3>
+<p>
+Mit <code>avidemux</code> (und <code>dvdauthor</code>) kann man, wie ich auch
+schon in meinem <a href="/Artikel/Video_DVDs_unter_Linux" title="Video-DVDs
+unter Linux">anderen Artikel (Video-DVDs unter Linux)</a> beschrieben habe,
+recht einfach DVDs erstellen. Der einzige Unterschied beim Vorgehen diesmal
+ist, dass wir bei „Audio” → „Main Track” als Audiospur „External PCM (Wav)”
+auswählen und nach dem Bestätigen des Dialogs die zuvor mit
+<code>audacity</code> gespeicherte Datei auswählen.
+</p>
+
+<p>
+Nach einer Weile rendern und dem erstellen der DVD-Struktur mit
+<code>dvdauthor</code> haben wir dann unsere fertige DVD :-).
+</p>

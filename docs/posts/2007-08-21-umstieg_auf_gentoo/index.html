@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Umstieg auf Gentoo</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2007-08-21-umstieg_auf_gentoo/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Umstieg auf Gentoo</h2> (<span id="date">2007-08-21</span>) <div class="Artikel" id="content">
+<p>
+Mit dem laufenden Xubuntu auf meinem Rechner war ich eigentlich recht
+zufrieden. Es gab keine Probleme (wenn man mal von <a
+href="/Artikel/Unannehmlichkeiten_bei_der_Linuxinstallation" title="Artikel:
+Unannehmlichkeiten bei der Linux-Installation">der Installation</a> absieht),
+außer, dass ich im Laufe der Zeit immer mehr Software selbst kompilieren
+musste. Sei es, weil sie einfach nicht in den offiziellen Repositories
+verfügbar waren, oder weil sie hoffnungslos veraltet waren (gerade beim
+Enkodieren bringen aktuelle Versionen viele Verbesserungen).
+</p>
+
+<p>
+Außerdem ist nun genug Zeit seit der Einführung des AMD 64 vergangen, sodass
+man ein einigermaßen ausgereiftes System erwarten kann. Diesmal sollte es also
+eine echte 64-bit-Distribution werden. Der Umstieg auf eine solche könnte unter
+Gentoo einfacher sein, da man nie das Problem hat, dass Programme nicht in den
+64-bit-Repositories sind, schließlich kompiliert man sie sich ja selbst.
+</p>
+
+<p>
+Dazu kommt, dass ich nun wieder auf die schnellere WD Raptor-Festplatte
+umsteigen wollte, auf der sich noch immer die Überbleibsel der
+Windowsinstallation befanden. Da sich herausgestellt hat, dass Linux wunderbar
+läuft, können diese also gefahrlos im Nirvana verschwinden :-).
+</p>
+
+<p>
+Und zu guter letzt wollte ich ohnehin die Blowfish-Verschlüsselung auf Twofish
+umstellen, was nochmals schneller ist als Blowfish.
+</p>
+
+<p>
+Bei der Gelegenheit wollte ich auch gleich eine Backuplösung einrichten und
+zuvor meine Daten sauber strukturieren, sodass die Backuplösung nur die
+wirklich wichtigen Daten erfasst und nicht die ganzen großen Dateien wie
+VMWare-Images und Filme.
+</p>
+
+<h2>Planung</h2>
+
+<p>
+Zuerst stellte ich mir eine Liste an Software zusammen, die ich momentan
+verwende, sodass ich später die gesamte Software einfach über Nacht kompilieren
+lassen kann und nicht bei Bedarf dauernd nachinstallieren muss.
+</p>
+
+<p>
+Dabei zeigte sich, dass die einzigen Closed-Source-Programme, die ich noch
+benutze, die nVidia-Treiber, VMWare und Opera sind.
+</p>
+
+<p>
+Ansonsten ist es natürlich immer ganz gut, wenn man mit dem neuen System schon
+mal ein bisschen in vmware rumgespielt hat oder ein anderes System damit
+aufgesetzt hat.
+</p>
+
+<h2>Genaue Vorgehensweise</h2>
+
+<h3>Live-CD</h3>
+
+<p>
+<code>fdisk</code> auf <code>/dev/sda</code> (die einzige zu dem Zeitpunkt am
+System angeschlossene Festplatte, aus den Erfahrungen bei der
+Xubuntu-Installation habe ich gelernt…). Hier wurden drei Partitionen
+eingerichtet:
+</p>
+<ul>
+    <li>20 MB für <code>/boot</code>, wo Kernel, initrd und GRUB-Konfiguration liegen</li>
+    <li>2 GB für <code>swap</code></li>
+    <li>der Rest für <code>/</code></li>
+</ul></p>
+
+<p>
+Nun wird das Dateisystem erstellt, mit 0 reservierten Blöcken, da wir auf
+<code>/boot</code> lieber den kompletten Speicher zur Verfügung haben:
+</p>
+<pre># mkfs.ext2 -m 0 /dev/sda1</pre>
+
+<p>
+Danach wird die Verschlüsselung aufgesetzt:
+</p>
+<pre># cryptsetup -c twofish-cbc-essiv:sha256 -y -s 256 luksFormat /dev/sda3
+# cryptsetup luksOpen /dev/sda3 root
+# mkfs.ext3 /dev/mapper/root</pre>
+
+<p>
+…und die Installation ganz normal fortgeführt, wie im Gentoo-Handbuch
+beschrieben:
+</p>
+<pre># mount /dev/mapper/root /mnt/gentoo
+# ifconfig eth0 192.168.1.23 &amp;&amp; route add default gw 192.168.1.1
+# mkdir /mnt/gentoo/boot
+# mount /dev/sda1 /mnt/gentoo/boot
+
+# links http://mirrors.sec.informatik.tu-darmstadt.de/gentoo/snapshots/portage-latest.tar.bz2
+# links http://mirrors.sec.informatik.tu-darmstadt.de/gentoo/snapshots/stages/amd64/current/stage3*
+
+# cd /mnt/gentoo
+
+# tar xvjpf stage3-*.tar.bz2
+# tar xvjf portage-latest.tar.bz2 -C usr
+
+# mount -t proc none /mnt/gentoo/proc
+# mount -o bind /dev /mnt/gentoo/dev
+# chroot /mnt/gentoo /bin/bash
+# env-update
+# source /etc/profile
+
+# nano /etc/make.conf
+# nano /etc/locale.gen
+# cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+</pre>
+
+<p>
+Die <code>/etc/make.conf</code> habe ich im Laufe des Installationsprozesses
+ergänzt, ich liste hier aber trotzdem schonmal ihren Inhalt:
+</p>
+<p class="filenameHeader">/etc/make.conf</p>
+<pre>CFLAGS="-march=k8 -O2 -pipe"
+CXXFLAGS="${CFLAGS}"
+CHOST="x86_64-pc-linux-gnu"
+USE="-nls -unicode -ldap -kde -ipv6 -perl ssl jpg jpeg png cups ogg theora truetype x264 xinerama caps alsa mp3 \
+aac xv xvid mad esd 3dnow mmx sdl"
+GENTOO_MIRRORS="http://mirrors.sec.informatik.tu-darmstadt.de/gentoo/ "
+VIDEO_CARDS="nvidia"
+INPUT_DEVICES="keyboard mouse"
+PORTDIR_OVERLAY="/usr/local/portage"
+source /usr/portage/local/layman/make.conf</pre>
+
+<p class="filenameHeader">/etc/locale.gen</p>
+<pre>en_US ISO-8859-1
+de_DE ISO-8859-1
+de_DE@euro ISO-8859-15</pre>
+
+<p>
+Nun geht’s an das Konfigurieren und Bauen des Kernels. Die von Gentoo
+mitgelieferten Quellen sind aktuell genug (2.6.20), sodass ich nicht den
+Aufwand treibe und die neuste Version herunterlade, um dann die Gentoo-Patches
+manuell zu integrieren.
+</p>
+<p>Optionen, auf die man achten sollte:
+<ul>
+    <li>CONFIG_FB_NVIDIA (nVidia Framebuffer) sollte deaktiviert sein, wenn man den binären nVidia-Treiber verwenden will</li>
+    <li>CONFIG_FUSE_FS sollte man aktivieren, wenn man FUSE verwenden will (für sshfs zB)</li>
+    <li>CONFIG_DM_CRYPT, CONFIG_CRYPTO_TWOFISH_X86_64, CONFIG_CRYPTO_SHA256 müssen für die Verschlüsselung aktiviert sein</li>
+    <li>CONFIG_FORCEDETH für die Onboard-Netzwerkkarte des ASUS A8N-SLI</li>
+    <li>CONFIG_SND_EMU10K1 für die Soundblaster Audigy 2</li>
+    <li>CONFIG_SATA_NV für den SATA-Controller des A8N</li>
+    <li>CONFIG_BLK_DEV_RAM für die initrd zur Initialisierung der Verschlüsselung</li>
+    <li>CONFIG_BLK_DEV_SIZE=8192, damit wir auch genug Platz für umfangreiche initrds haben</li>
+    <li>CONFIG_I2C_NFORCE2, CONFIG_I2C_ISA, CONFIG_SENSORS_EEPROM, CONFIG_SENSORS_K8TEMP, CONFIG_HWMON, CONFIG_SENSORS_IT87 für das Auslesen der Sensoren (Temperaturen und Spannungen) des Mainboards</li>
+    <li>CONFIG_UFS_FS für das Mounten von DVD-Images</li>
+    <li>CONFIG_BLK_DEV_NBD, damit vmware seine Disk-Images loopmounten kann</li>
+</ul>
+</p>
+<pre># emerge gentoo-sources
+# cd /usr/src/linux
+# make &amp;&amp; make modules_install
+# cp arch/x86_64/boot/bzImage /boot/kernel-2.6.20</pre>
+<p>
+Das war’s – nach nur 7 Minuten ist der Kernel fertig und gehört damit zu den
+schnelleren Paketen ;-).
+</p>
+
+<p>
+Nun passen wir noch ein paar Konfigurationsdateien an:
+</p>
+<pre># nano /etc/fstab
+# nano /etc/conf.d/hostname
+# nano /etc/conf.d/net
+# nano /etc/conf.d/clock
+# nano /etc/hosts
+# nano /etc/rc.conf</pre>
+
+<p>
+Dann installieren wir die notwendige Software und setzen ein Passwort. Zuerst
+müssen wir aber die <code>multipath-tools</code> für amd64 unmasken:
+</p>
+<pre># echo "sys-fs/multipath-tools ~amd64" &gt; /etc/portage/package.keywords</pre>
+
+<pre># emerge syslog-ng vixie-cron multipath-tools grub
+# rc-update add {net.eth0,syslog-ng,vixie-cron} default</pre>
+
+<p>
+Wichtig ist hierbei, <code>multipath-tools</code> zu installieren, denn ohne
+dieses Paket werden die Device-Mapper-Nodes nicht in <code>/dev/mapper</code>
+erstellt beim Booten.
+</p>
+
+<p>
+Nun konfigurieren wir grub und installieren ihn:
+</p>
+<pre># nano /boot/grub/grub.conf
+# grep -v rootfs /proc/mounts &gt; /etc/mtab
+# grub-install --no-floppy /dev/sda</pre>
+
+<p>
+Zeit für einen Reboot ins neue System :-).
+</p>
+<pre># exit
+# umount /mnt/gentoo/{proc,dev,boot}
+# umount /mnt/gentoo
+# cryptsetup luksClose root
+# reboot</pre>
+
+<h3>Nach dem Reboot</h3>
+
+<p>
+Wenn nun alles geklappt hat (in der Regel vergisst man etwas), geht’s weiter
+mit Benutzer einrichten und Software installieren:
+</p>
+<pre># groupadd -g 1001 staff
+# useradd -m -G staff,audio,cdrom,portage,usb,video,wheel -s /bin/zsh michael -u 101 -g 1001
+
+# rm /stage3* /portage*
+
+# nano /etc/portage/package.use
+# nano /etc/portage/package.unmask
+# nano /etc/portage/package.keywords</pre>
+
+<p class="filenameHeader">/etc/portage/package.use</p>
+<pre>app-editors/vim -nls -gpm -acl -python
+media-video/mplayer mmxext vorbis dvd encode X 3dnowext opengl dvdread gtk
+net-misc/openssh hpn
+media-video/avidemux vorbis a52 encode sdl
+app-office/dia cairo
+media-gfx/gimp svg png
+app-text/evince dvi
+net-misc/curl ares
+media-video/vlc opengl stream a52 X vcd matroska flac
+dev-lang/php xml zip pdo postgres mysql gd sockets mhash apache2 bzip2
+www-client/seamonkey mozdevelop moznocompose moznoirc moznomail
+x11-libs/cairo X
+media-gfx/imagemagick X
+media-libs/imlib2 X
+dev-lang/spidermonkey threadsafe
+app-text/poppler-bindings gtk
+x11-libs/wxGTK gtk X
+net-misc/vnc -server
+www-servers/lighttpd fastcgi memcache bzip2
+app-backup/bacula bacula-clientonly bacula-console bacula-nodir bacula-nosd -python
+dev-util/git curl
+net-im/gaim gtk console
+media-sound/cmus ao
+media-gfx/gphoto2 exif
+media-gfx/sane-backends gphoto2 usb
+media-gfx/sane-frontends gimp
+media-gfx/xsane gimp tiff
+sys-devel/gcc objc</pre>
+
+<p class="filenameHeader">/etc/portage/package.unmask</p>
+<pre>media-video/avidemux</pre>
+
+<p class="filenameHeader">/etc/portage/package.keywords</p>
+<pre>sys-fs/multipath-tools ~amd64
+x11-wm/e ~amd64
+x11-libs/ecore ~amd64
+x11-libs/evas ~amd64
+dev-libs/eet ~amd64
+dev-libs/embryo ~amd64
+media-libs/edje ~amd64
+media-sound/cmus ~amd64
+media-video/avidemux ~amd64
+dev-lang/spidermonkey ~amd64
+app-backup/bacula ~amd64
+sys-kernel/git-sources ~amd64
+media-libs/exiftool
+media-video/dvbsnoop ~amd64</pre>
+
+<p>
+OK, jetzt noch folgender Befehl und dann erstmal schlafen gehen oder sich sonst
+irgendwie einige Stunden beschäftigen ;-)
+</p>
+<pre># emerge ccache gentoolkit
+# emerge spidermonkey poppler-bindings x11-libs/wxGTK
+# emerge vim nvidia-drivers xdm rtorrent wget openssh mplayer rsync subversion cmus unrar zsh lftp vsftpd \ 
+avidemux dvd+rw-tools tcpdump rxvt-unicode hdparm audacity id3ed lame mpg123 gtetrinet dvdauthor dia evince \
+bchunk esound ekiga tetex screen samba smartmontools cdrtools cups vlc mysql apache php gnustep-base \
+gnustep-make python ipython seamonkey opera pciutils usbutils ntp alsa-utils app-admin/sudo elinks cvs \
+lm_sensors scrot slocate xmodmap cryptsetup-luks imagemagick sshfs-fuse vnc corefonts lsof bc whois \
+netkit-telnetd pwgen bacula gimp exiftool dev-util/git gphoto2 esd gqview ntp sloccount strace dvbsnoop \
+libmpeg2 rdesktop netcat gcc
+# rc-update add {sshd,esound,ntpd,xdm} default</pre>
+
+<p>
+Was man von Hand kompilieren sollte, ist <a href="http://enlightenment.org/"
+target="_blank" title="Enlightenment"><code>e17</code></a>, da das Overlay
+dafür irgendwie nicht funktioniert (und einen Snapshot zu installieren
+versucht, anstatt aus dem CVS auszuchecken).
+</p>
+
+<p>
+Sehr positiv aufgefallen ist mir die Installation von <code>vsftpd</code>,
+welches auf überfrachtete Tools wie autoconf und automake verzichtet und auch
+den Bildschirm nicht mit 4 Zeilen langen gcc-Aufrufen füllt, sondern schnell,
+einfach und zuverlässig kompiliert und installiert wird. So sollten alle Pakete
+kompiliert werden.
+</p>
+
+<h3>Letzte Anpassungen</h3>
+
+<p>
+Der Prozess <code>kcryptd</code> hat standardmäßig zuviel Priorität und lässt
+so das System bei hoher I/O-Belastung ab und an stocken (das ist wohl
+allerdings nur ein Workaround für einen <a
+href="http://bugzilla.kernel.org/show_bug.cgi?id=7372" target="_blank">Bug im
+Kernel</a>). Mit folgendem Befehl als root kann man das beheben:
+</p>
+<pre># renice -p `ps ax | grep kcryptd/0 | awk '{print $1}'`</pre>
+
+<p>
+Außerdem sollte man noch den X-Server mit <code>-nolisten</code> starten, wenn
+man nicht über’s Netz auf seinen X-Server zugreifen will:
+</p>
+<p class="filenameHeader">/etc/X11/xdm/Xservers</p>
+<pre>:0 local /usr/bin/X :0 -nolisten tcp vt7</pre>
+
+<h3>Konfiguration der ZSH</h3>
+
+<p>
+Bei Debian kommt mit der <code>zsh</code> standardmäßig die sehr
+fortgeschrittene Vervollständigung einher. Bei Gentoo ist diese nicht
+aktiviert. Das kann man jedoch einfach beheben, indem man mit den Befehlen
+<code>autoload compinit</code> und <code>compinit</code> die Datei
+<code>.zcompdump</code> erzeugt. In der eigenen zsh-Konfiguration (oder in der
+Systemweiten, je nach Einsatzzweck des Rechners) kann man dann die beiden
+Befehle einbauen, allerdings sollte man die Option <code>-C</code> angeben,
+denn ansonsten wird die Datei jedes Mal neu erzeugt.
+</p>
+
+<h2>Backup</h2>
+
+<p>
+Als Backuplösung habe ich mich für <a href="http://bacula.org/" target="_blank"
+title="bacula"><code>bacula</code></a> entschieden, von dem ich auf einem
+Vortrag hörte. Man kann damit Linux-, Mac OS X- und Windows-Rechner über das
+Netzwerk auf beliebige Medien (Bänder, Festplatten, DVDs…) sichern.
+</p>
+
+<p>
+Was mir an <code>bacula</code> gefällt, ist die Möglichkeit, einzelne
+Dateien/Ordner wiederherzustellen (das ersetzt bei mir für ein paar kleine
+Projekte die Versionskontrolle) sowie die Möglichkeit, Backups auch zu
+verschlüsseln. Ein Backupjob über’s Netz wird folgen, denkbar wäre zum Beispiel
+auch, seine Rootserver damit zu sichern. Bei einem guten Rescue-System des
+Hosters könnte man dann ohne viel Aufwand im Notfall das System zurückspielen
+(zum Beispiel auf eine neue Festplatte). Außerdem ist <code>bacula</code> freie
+Open-Source-Software :-).
+</p>
+
+<p>
+Bei meiner Konfiguration wird jeden Samstag ein komplettes Backup angelegt
+(Full), dann inkrementelle Backups bis zum nächsten Samstag. Die gesicherten
+Daten werden zwei Wochen lang aufgehoben (mehr lässt derzeit mein Speicherplatz
+nicht zu).
+</p>
+
+<h2>Fazit</h2>
+
+<p>
+Mein System ist nun viel schneller. Das kann vielerlei Gründe haben, ob es nun
+die Tatsache ist, dass alle Programme (und die meisten Libraries) selbst
+kompiliert und optimiert wurden, oder ob es der Umstieg von 32-bit auf 64-bit
+ist, oder die schnellere Festplatte, oder <a
+href="/Artikel/Startschwierigkeiten">der schnellere RAM</a>, oder die
+aktuellere Software, oder der Umstieg auf Twofish – letztendlich ist der genaue
+Grund auch nicht so wichtig, solange ich mit dem System zufrieden bin :-).
+</p>
+
+<p>
+Die CPU-Auslastung ist jedenfalls deutlich niedriger. Diese lag bei 5-15% auf
+dem alten System, wenn ich allein die üblichen Anwendungen laufen hatte (Opera,
+einige Terminals, VMWare). Nun liegt sie zwischen 0 und 5%.
+</p>
+
+<p>
+Sehr positiv ist auch die problemlose Übernahme sämtlicher
+Konfigurationsdateien zu bemerken, welche auf Anhieb funktionierten. Alles war
+wie gewohnt :-).
+</p>
+
+</div></div></div></div></div></div></body>
+</html>

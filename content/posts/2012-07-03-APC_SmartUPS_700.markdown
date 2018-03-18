@@ -1,0 +1,98 @@
+---
+layout: post
+title:  "APC Smart UPS 700: Serielle Schnittstelle"
+date:   2012-07-03 23:11:00
+categories: Artikel
+Aliases:
+  - /Artikel/APC_SmartUPS_700
+---
+
+
+<p>
+Vor einer Weile habe ich eine alte APC Smart UPS 700 bekommen, für die ich neue
+Batterien gekauft und eingebaut habe. Nun bin ich dazu gekommen, zu testen, ob
+die UPS läuft.
+</p>
+
+<p>
+Wichtig zu erwähnen ist dabei, dass die APCs <strong>keine</strong> normale
+Belegung der Seriellen Schnittstelle benutzen. Sofern man ein 1:1- oder
+Nullmodemkabel anschließt, schaltet sich die APC direkt aus (und damit alle
+Geräte, die angeschlossen sind!).
+</p>
+
+<p>
+Stattdessen liefert APC ein Kabel mit, welches die Bezeichnung 940-0024C hat.
+Bei diesem Kabel sind einfach RX, TX und GND anders verdrahtet, als bei
+normalen RS232-Schnittstellen.
+</p>
+
+<p>
+Wenn man so ein Kabel gerade nicht greifbar hat, kann man sich selbst eins
+basteln, wie das geht steht <a
+href="http://lists.alioth.debian.org/pipermail/nut-upsuser/2005-August/000118.html">in
+diesem Post von Stepan Novotill</a>. Hierbei beachten: Der Post bezieht sich
+auf ein Kabel (!), nicht auf die Buchsenbelegung am Gerät.
+</p>
+
+<p>
+Weiterhin wichtig: Die serielle Schnittstelle arbeitet mit 12V-Pegeln. Ein
+USB-to-Serial-Adapter, der nur mit 5V oder gar 3,3V klarkommt, wird hier nicht
+(richtig) funktionieren.
+</p>
+
+<p>
+Ihr braucht also einen geeigneten seriellen Port, z.B. in eurem Rechner. Da
+moderne Rechner keinen seriellen Port mehr direkt auf dem Mainboard
+herausgeführt haben, gibts dafür meist eine Stiftleiste und einen zusätzlichen
+Adapter. Zu beachten ist hierbei, dass Intel eine Belegung für die Stiftleiste
+verwendet, die mit dem Adapter, den ich hier habe, nicht übereinstimmt. Hier
+empfiehlt sich also der Abgleich der Belegung, eventuell mit dem
+Durchgangsprüfer eines Multimeters.
+</p>
+
+<p>
+Nachdem das dann alles erledigt ist, müsste das Programm <code>apctest</code>
+die APC erkennen, das sieht dann so aus:
+</p>
+
+<pre>
+2012-07-03 22:37:35 apctest 3.14.10 (13 September 2011) debian
+Checking configuration ...
+Attached to driver: apcsmart
+sharenet.type = Network & ShareUPS Disabled
+cable.type = Custom Cable Smart
+mode.type = APC Smart UPS (any)
+Setting up the port ...
+Doing prep_device() ...
+
+You are using a SMART cable type, so I'm entering SMART test mode
+Hello, this is the apcupsd Cable Test program.
+This part of apctest is for testing Smart UPSes.
+Please select the function you want to perform.
+
+1) Query the UPS for all known values
+2) Perform a Battery Runtime Calibration
+3) Abort Battery Calibration
+4) Monitor Battery Calibration progress
+5) Program EEPROM
+6) Enter TTY mode communicating with UPS
+Q) Quit
+</pre>
+
+<p>
+Intern sendet apctest dazu zunächst ein "Y" zur APC und wartet, ob es "SM" (für
+Smart Mode) zurückbekommt.
+</p>
+
+<p>
+Bei mir war die Konfigurationsdatei <code>/etc/apcupsd/apcupsd.conf</code> wie
+sie in Debian ausgeliefert wird schon direkt nutzbar. Hier der Vollständigkeit
+halber die relevanten Parameter:
+</p>
+
+<pre>
+UPSCABLE smart
+UPSTYPE apcsmart
+DEVICE /dev/ttyS0
+</pre>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The C write() pattern</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2013-01-19-c_write_pattern/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">The C write() pattern</h2> (<span id="date">2013-01-19</span>) <div class="Artikel" id="content">
+<p>
+When writing data to a file descriptor (file, socket, …) in C, it is
+recommended to use a loop to write the entire buffer and keep track of how many
+bytes <code>write()</code> could actually write to the file descriptor. This is
+how to write data to a file in C in a naive way:
+</p>
+
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;err.h&gt;
+#include &lt;errno.h&gt;
+
+int main() {
+    int fd = open("/tmp/pattern.example",
+                  O_CREAT | O_TRUNC | O_RDWR,
+          S_IRUSR | S_IWUSR);
+    if (fd == -1)
+        err(EXIT_FAILURE, "Could not open() file");
+
+    const char *data = "This data illustrates my point.";
+    /* This is WRONG, don’t do that: */
+    write(fd, data, strlen(data));
+
+    close(fd);
+    return 0;
+}
+</pre>
+
+<p>
+…and here is how to write data with the aforementioned pattern:
+</p>
+
+<pre>
+const char *data = "This data illustrates my point.";
+int written = 0;
+int n;
+while (written < strlen(data)) {
+    if ((n = write(fd, data + written, strlen(data) - written)) < 0) {
+        err(EXIT_FAILURE, "Could not write() data");
+    }
+
+    written += n;
+}
+</pre>
+
+<p>
+In case it is not entirely obvious what happens here:
+<code>write()</code> returns the amount of bytes it wrote, and that
+might be less than you specified. Therefore, we keep track of how many
+bytes were written and try to write the rest, until finally all data
+was written successfully. Be careful, though: a return value of -1
+signals an error, so you need to handle these carefully.
+</p>
+
+<p>
+The reason I am writing about this pattern is to illustrate it with
+real-world examples. We recently received a bug report for i3 (ticket
+#896, direct link omitted due to spam bots) which stated that i3bar
+would crash in a certain setup when switching workspaces. This report
+was only reproducible on OpenBSD, which tends to use conservative
+buffer sizes for many things.
+</p>
+
+<p>
+It turned out that the cause for the crash was <a
+href="http://code.stapelberg.de/git/i3/commit/?h=next&id=f5b7bfb12ef74ddbf250e5076bbfaafd0027474c">an
+error in our write code</a>, which would fail to properly call
+<code>write()</code> multiple times. This never came to our attention
+previously because the data we send upon workspace switches got larger only
+recently and the buffer sizes on Linux still fit all of the data in a single
+<code>write()</code> call.
+</p>
+
+<p>
+Another interesting behavior of some system calls is that they might return an
+error which means that you should just repeat that call. Two such error codes
+come to mind: <code>EAGAIN</code> and <code>EINTR</code>. The former is only
+relevant for non-blocking file descriptors, and means that performing that
+<code>write()</code> would block the process. <code>EINTR</code> means the
+system call was interrupted by a signal.
+</p>
+
+<p>
+The same piece of code which contained the bug I talked about earlier was also
+not prepared to handle <code>EAGAIN</code>: when you switched workspaces often
+enough, the scheduler might give i3 so much CPU time — and none to i3bar — that
+i3 filled up the socket buffer and <code>write()</code> returned -1 with errno
+set to <code>EAGAIN</code>.
+</p>
+
+<p>
+In conclusion, the correct write pattern looks like this:
+</p>
+
+<pre>
+const char *data = "This data illustrates my point.";
+int written = 0;
+int n;
+while (written < strlen(data)) {
+    if ((n = write(0, data + written, strlen(data) - written)) < 0) {
+        if (errno == EINTR || errno == EAGAIN)
+            continue;
+        err(EXIT_FAILURE, "Could not write() data");
+    }
+
+    written += n;
+}
+</pre>
+
+</div></div></div></div></div></div></body>
+</html>

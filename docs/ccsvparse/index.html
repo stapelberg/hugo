@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>cCSVParse</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/ccsvparse/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">cCSVParse</h2> (<span id="date">2014-11-07</span>) <div class="Artikel" id="content">
+<div id="content">
+<p style="border: 2px solid red; padding: 1em">
+cCSVParse is maintained by Jan Weiß on <a
+href="https://github.com/JanX2/cCSVParse">github.com/JanX2/cCSVParse</a> now
+since I don’t do Apple stuff since many years.
+</p>
+
+<p>
+cCSVParse ist eine Cocoa-Klasse (Apples Objective-C Framework), welche
+CSV-Dateien schnell und effizient einliest. Es wurde darauf geachtet, dass die
+Klasse mit allen typischen Eigenheiten des standardlosen CSV-Formats umgehen
+kann. Dazu gehören:
+</p>
+
+<ul>
+  <li>Das korrekte Erkennen von Trennzeichen innerhalb von Werten in Anführungszeichen</li>
+  <li>Anführungszeichen innerhalb Anführungszeichen</li>
+  <li>Zeilenumbrüche innerhalb von Feldern</li>
+  <li>Die Wahl eines beliebigen Trennzeichens inklusive automatischer Erkennung desselbigen</li>
+</ul>
+
+<p>
+Diese Eigenheiten sind der Grund, warum das simple Aufteilen eines NSStrings
+nicht genügt, um CSV-Dateien einzulesen ;-).
+</p>
+
+<p>
+Die eigentliche Funktion, welche die Daten prüft, ist in C geschrieben und
+benutzt C-Strings, damit die größtmögliche Geschwindigkeit erreicht wird.
+Zurückgegeben werden die eingelesenen Werte als NSStrings innerhalb eines
+NSMutableArray pro Zeile.
+</p>
+
+<p>
+Die gesamte Klasse (inklusive Headerdatei) ist nur 218 Quelltextzeilen lang
+(laut SLOCCount) und lässt sich somit bedenkenlos in jedes Projekt integrieren
+oder zumindest als Basis verwenden.
+</p>
+
+<p>
+Mit der Methode -(void)setEncoding:(NSStringEncoding)newEncoding kann man das
+Encoding der zu verarbeitenden Datei angeben, sodass man nicht hinterher die
+eingelesenen Daten konvertieren muss.
+</p>
+
+<h2>Beispielaufruf</h2>
+
+<pre>
+CSVParser *parser = [CSVParser new];
+[parser openFile: @"./sample.csv"];
+NSMutableArray *csvContent = [parser parseFile];
+int c;
+for (c = 0; c < [csvContent count]; c++) {
+    NSLog(@"content of line %d: %@", c, [csvContent objectAtIndex: c]);
+}
+[parser closeFile];
+</pre>
+
+<h2>Geschwindigkeit</h2>
+
+<p>
+In meinem Test wurde eine 115 KB große, ca 1500 Zeilen beinhaltende Datei in
+0,2 Sekunden komplett eingelesen und (auf Konsole) ausgegeben.
+</p>
+</div>
+    <h3>Herunterladen</h3>
+    <ul id="downloads"><li><a class="download_filename" href="/cCSVParse-1.2.tar.gz"><span class="download_name">cCSVParse 1.2</span></a> (<span class="download_size">3.5K</span>, <a class="download_gpg" href="/cCSVParse-1.2.tar.gz.asc">GPG-Signatur</a>)</li></ul>
+    <h3>Lizenz</h3>
+    <p><span class="name">cCSVParse</span> ist freie Open-Source-Software unter der <span class="license">BSD-Lizenz</span>.</p>
+    <div id="development">
+        <h3>Entwicklung</h3>
+        <p>Der aktuelle Entwicklungsstand kann <a class="dev_url" href="https://github.com/JanX2/cCSVParse">in gitweb</a> verfolgt werden.</p>
+    </div>
+    <h3>Feedback</h3>
+    <p>Solltest du mir eine Nachricht zukommen lassen wollen, <a href="/Impressum">schreib mir doch bitte eine E-Mail</a>.</p>
+</div>
+
+</div></div></div></div></div></div></body>
+</html>

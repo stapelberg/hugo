@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kurze Info: Wintec WBT300 GPS unter Linux</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2008-09-17-info_wbt300_linux/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Kurze Info: Wintec WBT300 GPS unter Linux</h2> (<span id="date">2008-09-17</span>) <div class="Artikel" id="content">
+<p>
+Hier eine kurze Info, dass der WBT300 GPS problemlos unter Linux funktioniert.
+Im Inneren steckt ein Antaris 4, der auch als u-blox 0625 bekannt ist.
+</p>
+
+<p>
+Erhältlich ist der WBT300 zum Beispiel bei <a
+href="http://www.pdamax.de/">www.pdamax.de</a> für 69 €.
+</p>
+
+<h2>USB</h2>
+
+<p>
+Nach dem Anstecken via USB meldet sich der Empfänger in dmesg:
+</p>
+
+<pre>
+usb 6-1: new full speed USB device using uhci_hcd and address 2
+usb 6-1: configuration #1 chosen from 1 choice
+cdc_acm 6-1:1.0: ttyACM0: USB ACM device
+usbcore: registered new interface driver cdc_acm
+cdc_acm: v0.26:USB Abstract Control Model driver for USB modems and ISDN adapters
+</pre>
+
+<p>
+Echtes Plug und Play eben. Unter Windows braucht man dafür einen Treiber :-).
+</p>
+
+<p>
+<strong>UPDATE:</strong> Da war ich wohl etwas zu sehr geprägt von der
+Bluetooth-Methode. Die hotplug-Scripts funktionieren natürlich auch ohne dass
+man sie manuell aufruft. Also: WBT300 einschalten und alles läuft. Höchstens
+xgps muss man noch per Hand starten ;-). Der Vollständigkeit halber und zum
+Debuggen lasse ich die beiden Scripts aber noch hier stehen:
+</p>
+
+<p>
+Mit folgendem simplen Script aktiviere ich gpsd und lasse mir die GPS-Daten in
+xgps anzeigen:
+</p>
+
+<pre>
+#!/bin/sh
+sudo gpsd -F /var/run/gpsd.sock
+sudo /lib/udev/gpsd.hotplug add /dev/ttyACM0
+xgps &
+</pre>
+
+<p>
+Ebenso kann man ihn natürlich auch wieder deaktivieren:
+</p>
+
+<pre>
+#!/bin/sh
+sudo killall gpsd
+killall xgps
+</pre>
+
+<h2>Bluetooth</h2>
+
+<p>
+Via Bluetooth wird die Sache natürlich etwas komplizierter, allerdings braucht
+man dafür kein lästiges Kabel und kann zum Beispiel das Notebook im Rucksack
+verstauen oder den GPS-Empfänger am Autodach befestigen. Ich empfehle aber
+dringend, vor längeren Mappingtouren zu testen, ob das mit dem Bluetooth
+wirklich gut klappt (bei mir hat er anfangs gelegentlich einen kurzen
+Aussetzer, woraufhin man Bluetooth neu aktivieren muss), bevor man am Ende
+umsonst durch die Gegend gefahren ist ;-).
+</p>
+
+<pre>
+#!/bin/sh
+# Folgende Zeile ist nur bei Thinkpads notwendig:
+sudo sh -c "echo enable > /proc/acpi/ibm/bluetooth"
+sudo /etc/init.d/bluetooth start
+# Hier die Bluetooth-Adresse deines Geräts einsetzen, du findest sie via hcitool scan:
+sudo rfcomm bind 0 00:01:22:33:44:55
+sudo gpsd -F /var/run/gpsd.sock
+sudo /lib/udev/gpsd.hotplug add /dev/rfcomm0
+xgps &
+</pre>
+
+<p>
+Ebenso das deaktivieren:
+</p>
+
+<pre>
+#!/bin/sh
+sudo rfcomm release 0
+sudo /etc/init.d/bluetooth stop
+sudo killall gpsd
+sudo sh -c "echo disable > /proc/acpi/ibm/bluetooth"
+</pre>
+
+<h2>Screenshot</h2>
+
+<p><p>Mit vergleichsweise schlechtem, aber ausreichendem Empfang in der Wohnung (am Fensterbrett):</p>
+<img src="/Bilder/wbt300_xgps.png" alt="Wintec WBT300 in xgps" width="536" height="788"></p>
+
+<h2>Weitere Links</h2>
+
+<ul>
+<li><a href="http://www.insidepda.de/gps-empfaenger,Wintec-G-Rays-I-WBT300,testbericht,198.html">http://www.insidepda.de/gps-empfaenger,Wintec-G-Rays-I-WBT300,testbericht,198.html</a></li>
+<li><a href="http://www.karomue.homepage.t-online.de/nav/WBT300.pdf">http://www.karomue.homepage.t-online.de/nav/WBT300.pdf</a></li>
+</ul>
+
+</div></div></div></div></div></div></body>
+</html>

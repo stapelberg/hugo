@@ -1,0 +1,60 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>SelfProfan&sup2;</title>
+	</head>
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+		<table border="0" cellpadding="0" cellspacing="2">
+			<tr>
+				<td><img src="logo.gif" width="311" height="76"><br>
+					<a href="menu.html">SelfProfan&sup2;</a>:Ereignissbehandlung<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#ffff46"><h1>Ereignissbehandlung</h1>
+Die Ereignissbehandlung ist in jeder grafischen Anwendung das wichtigste. Sie reagiert<br>
+auf jeden Klick, auf jeden Tastendruck. In Profan² wird vieles automatisch geregelt, <br>
+z.B. bei Mehrzeiligen Editierfeldern wird automatisch festgestellt,ob der Scrollbalken <br>
+rechts oder unten aktiv werden muss. Vieles muss man aber selber programmieren.<br>
+Ein kleines Beispiel:<br>
+<i>Declare button&,button2&,exit%<br>
+Window 150,150-640,480<br>
+WindowTitle "Test-Anwendung"<br>
+button&=Create("Button",%hwnd,"Knopf",10,10,75,25)<br>
+button2&=Create("Button",%hwnd,"Ende",10,40,75,25)<br>
+WhileNot exit%<br>
+WaitInput<br>
+If GetFocus(button&)<br>
+<... hier Ereigniss,wenn der Knopf gedrückt wurde ...><br>
+ElseIf GetFocus(button2&)<br>
+exit%=1<br>
+EndIf<br>
+Wend<br>
+</i>
+In diesem Beispiel wird ein Fenster mit 2 Knöpfen erstellt. Das Ereigniss des ersten Knopfes<br>
+ist <b>dir</b> frei überlassen, während das Ereigniss für den zweiten Knopf<br>
+festegelegt ist:Ende. Mit exit%=1 wird die Schleife verlassen, da die Schleife sich nur<br>
+ausführt, wenn Ende nicht größer als 0 ist. So aufgebaut sind eigentlich alle Programme,nur<br>
+dass die Ereignissehandlung ziemlich groß ist, oder vorher mit Proc Prozeduren festgelegt<br>
+wurden.
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+					<hr>
+				</td>
+			</tr>
+		</table>
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+		</body>
+

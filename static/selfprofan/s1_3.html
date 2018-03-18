@@ -1,0 +1,142 @@
+<html>
+
+
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+
+		<meta name="generator" content="Adobe GoLive 4">
+
+		<title>SelfProfan&sup2;</title>
+
+	</head>
+
+
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+
+		<table border="0" cellpadding="0" cellspacing="2">
+
+			<tr>
+
+				<td><img src="logo.gif" width="311" height="76"><br>
+
+					<a href="menu.html">SelfProfan&sup2;</a>:Tips Tricks<br>
+
+					<hr>
+
+				</td>
+
+			</tr>
+
+			<tr>
+
+				<td bgcolor="#ffff46"><h1>Tips und Tricks</h1>
+
+<p>Hier finden sich allerlei Tips und Tricks zu Profan&sup2;.Wer seine eigenen Tips<br>
+
+ver&ouml;ffentlichen will,kann mir <a href="http://michael.stapelberg.de/Kontakt.php">schreiben</a>.<br>
+
+<hr>
+
+Fehlender Windows-Look?<br>
+
+Deine Anwendung hat zwar ein Fenster,aber es sieht nicht aus wie eine typische<br>
+
+Windows-anwendung?Mit diesem Quelltext wird abhilfe geschafft:<br>
+
+<br>
+
+<i><b>Def</b> GetSysColor(1) !&quot;USER32&quot;,&quot;GetSysColor&quot;<br>
+
+WindowStyle $003F <font color="red">' Fensterstil: Hintergrund=Transparent</font><br>
+
+Window 0,0-640,480 <font color="red">' Fenster unter 0,0-640,480</font><br>
+
+SetTrueColor 1 <font color="red">' Farbe auf 16 Millionen setzen</font><br>
+
+Cls GetSysColor(15) <font color="red">' Perfekte Hintergrundfarbe</font><br>
+
+UseFont &quot;MS Sans Serif&quot;,15,0,0,0,0 <font color="red">' Schriftart &quot;MS Sans Serif&quot; verwenden<br>
+
+</font>'<font color="red"> Sie ist die Standart-Schriftart bei Window-Anwendungen</font><br>
+
+SetDialogFont 1 <font color="red">' Diese Schrift nun auf das Fenster und die Dialoge<br>
+
+'&uuml;bertragen</font><br>
+
+<font color="red">' Dies hier ist nur ein&nbsp;Beispiel,der erforderliche Quelltext ist oben /\<br>
+
+' beschrieben:</font><br>
+
+<font color="blue">Declare</font> 1&amp;<br>
+
+1&amp;=CreateButton(%hwnd,&quot;Button&quot;,0,0,75,25)</i><br>
+
+<img height="190" width="634" src="s1_3.jpg"><br>
+
+<hr>
+
+<b>Name</b>:Das Copyright(C) aus der Runtime von Profan&sup2; entfernen<br>
+
+Dies geschieht auf eigene Verantwortung.Die Runtime kann davon Sch&auml;den nehmen<br>
+
+und dann muss sie neu installiert werden.Weiterhin ist nicht sicher,ob das legal ist.<br>
+
+Ich &uuml;bernehme keine Verantwortung!<br>
+
+<b>Ben&ouml;tigt</b>: <a href="rhacker.exe">Resource Hacker</a><br>
+
+Starte den Resource Hacker und &ouml;ffne die Runtime &quot;Prfrun32.exe&quot;(sie hei&szlig;t auch<br>
+
+profrun.exe oder anders).&Ouml;ffne nun (links) den Ordner &quot;Men&uuml;&quot;. Nun wird ein<br>
+
+weiterer Ordner mit dem Namen &quot;LEER&quot; erscheinen. Klappe ihn auf und du siehst ein<br>
+
+Zahnrad, sowie eine &quot;0&quot; dahinter. Klicke auf die 0 und du siehst rechts ein Textfeld.<br>
+
+Entferne den kompletten Text und klicke auf &quot;Abspeichern&quot;. Nun wählst du das Men&uuml;<br>
+
+&quot;Datei&quot;-&quot;Speichern unter&quot;.Du wählst die selbe Datei aus, die du auch geöffnet hast,<br>
+
+also Prfrun32.exe(oder Profrun.exe). Nun hast du kein Menü mehr in deiner Runtime.<br>
+
+
+
+					<hr>
+
+				</td>
+
+			</tr>
+
+			<tr>
+
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+
+
+
+					<hr>
+
+				</td>
+
+			</tr>
+
+		</table>
+
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+
+		</body>
+
+
+
+</html>
+

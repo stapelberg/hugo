@@ -1,0 +1,70 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta name="generator" content="Adobe GoLive 4">
+		<title>SelfProfan&sup2;</title>
+	</head>
+
+	<body link="blue" alink="red" bgcolor="#ffffe2">
+		<table border="0" cellpadding="0" cellspacing="2">
+			<tr>
+				<td><img src="logo.gif" width="311" height="76"><br>
+					<a href="menu.html">SelfProfan&sup2;</a>:Schleifen<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#ffff46"><h1>Schleifen</h1>
+Schleifen sind in jeder Programmiersprache enthalten und sind eigentliche die wichtigsten<br>
+Anweisungen. In Profan² hat jedes Programm, dass mehrere Eingaben in gemischter Reihenfolge<br>
+immer wieder verarbeitet mindestens eine Schleife. Bei jedem Beispiel mit einer Datei wurde<br>
+eine Schleife verwendet. Ein kleines Beispiel mit Schleifen:<br>
+<i>Declare buf$,zahl%,exit%<br>
+Assign #1,"datei.txt"<br>
+Reset #1<br>
+<b>WhileNot</b> Eof(#1)<br>
+Input #1,buf$<br>
+print buf$<br>
+<b>Wend</b><br>
+close #1<br>
+zahl%=0<br>
+<b>While</b> Lt(zahl%,10)<br>
+zahl%=Add(zahl%,10)
+MessageBox(Add$("Zahl beträgt:",Str$(zahl%)),"Nachricht",64)<br>
+<b>Wend</b><br>
+<b>WhileLoop</b> 5<br>
+print &loop<br>
+<b>Wend</b><br>
+<b>WhileNot</b> exit%<br>
+WaitInput<br>
+If Equ(%key,90)<br>
+exit%=1<br>
+EndIf<br>
+<b>Wend</b>
+</i>
+Hier wurden 3 Arten von Schleifen gezeigt:<br>
+While,WhileNot und WhileLoop.<br>
+<b>While</b>:Danach muss (wie bei If) eine Bedienung stehen.Solange,wie diese Bedienung erfüllt ist,<br>
+wird das Ausgeführt,was zwischen While und Wend steht.<br>
+<b>WhileNot</b>:Wie While,nur wird der zwischen WhileNot und Wend stehende Text ausgeführt,wenn<br>
+die Bedienung nicht in Erfüllung geht.<br>
+<b>WhileLoop</b>:Hier ist keine Bedienung,sondern eine Zahl.Sie bestimmt die Anzahl der Durchläufe.<br>
+Bei einem Durchlauf wird der Text ausgeführt, der zwischen WhileLoop und Wend steht.<br>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td><img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu1.html">Einf&uuml;hrung</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu2.html">Grundlagen</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu3.html">Windows-Modus</a><br>
+<img src="vzzu-1.gif" width="16" height="16" border="0"> <a href="menu4.html">Anhang</a><br>
+
+
+					<hr>
+				</td>
+			</tr>
+		</table>
+		<a href="http://michael.stapelberg.de/Kontakt.php">(&copy;) Michael Stapelberg</a><br>
+		</body>
+

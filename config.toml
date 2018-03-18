@@ -1,0 +1,21 @@
+baseURL = "https://michael.stapelberg.de/"
+languageCode = "en-us"
+title = "Michael Stapelbergs Website"
+theme = "stapelberg"
+disableKinds = ["taxonomy", "taxonomyTerm", "sitemap"]
+publishDir = "docs"
+
+[params]
+  description = "Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux."
+
+[mediaTypes]
+[mediaTypes."application/atom"]
+suffix = "xml"
+
+[outputFormats.Atom]
+mediaType = "application/atom"
+baseName = "feed"
+isPlainText = false
+
+[outputs]
+home = [ "HTML", "Atom" ]

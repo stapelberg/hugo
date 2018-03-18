@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>UMTS mit T-Mobile web&#39;n&#39;walk DayFlat und einer Vodafone Mobile Connect-Expresscard</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2009-01-04-umts_tmobile_dayflat/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">UMTS mit T-Mobile web&#39;n&#39;walk DayFlat und einer Vodafone Mobile Connect-Expresscard</h2> (<span id="date">2009-01-04</span>) <div class="Artikel" id="content">
+<p>
+  Da Fonic (o2) in manchen Gegenden kein Netz ausgebaut hat (so auch bei meinen Verwandten),
+  kaufte ich mir kürzlich eine T-Mobile xtra web'n'walk DayFlat. Der Tarif ist ganz
+  ähnlich zu dem Fonic-Tarif: Für 4,95 € pro Kalendertag (!) kann man das
+  T-Mobile-Netz verwenden. Das Guthaben wird ebenfalls im Voraus aufgeladen, eine
+  Grundgebühr oder Einrichtungsgebühr gibt es nicht. Für die Karte inklusive
+  10 € Startguthaben zahlt man 20 €. Man muss sich dabei mit dem Personalausweis
+  identifizieren, gespeichert werden Vorname, Nachname, Straße, Hausnummer,
+  Postleitzahl, Wohnort, Ablaufdatum- und Nummer des Personalausweises.
+</p>
+
+<h2>Aktivierung</h2>
+
+<p>
+  Bis die Karte benutzt (und auch aufgeladen) werden kann, vergehen mindestens ein paar
+  Minuten bis hin zu einem Tag. Falls du die Karte in einem T-Mobile-Laden kaufst, können
+  die Mitarbeiter dir nicht sagen, wie lange die Karte noch braucht, bis sie benutzbar ist
+  – bei ihnen wird angezeigt, dass die Karte bereits aktiv sei.
+</p>
+
+<p>
+  Bei der ersten Verbindung wird man entweder auf www.t-mobile.de geleitet oder muss diese
+  Seite manuell aufrufen, das weiß ich nicht, da dies der Mitarbeiter im T-Mobile-Laden
+  für mich erledigte. Dort bekommt man dann die Auswahl gestellt, ob man den Speed-
+  Manager benutzen möchte, was ich unter Linux natürlich nicht möchte ;-).
+  Vermutlich schaltet diese Option einen transparenten Proxy ein, der Grafiken und
+  Dateien zusätzlich komprimiert, sodass alles schneller geladen wird.
+</p>
+
+<h2>Hardware/Konfiguration</h2>
+<p>
+  Ich benutze die SIM-Karte in einer Vodafone Mobile Connect UMTS-Expresscard (Qualcomm 3G,
+  Merlin U630), mit der ich bereits die Fonic-Karte benutzte.
+</p>
+
+<p>
+  Die Konfiguration (<a href="/Config/wvdial.conf">wvdial.conf, direkt herunterladen</a>)
+  stammt von <a href="http://www.xxzz.de" target="_blank">SdK</a> und wurde nur unwesentlich
+  verändert:
+</p>
+<pre>
+[Dialer defaults]
+Init1 = ATZ
+Init2 = AT Q0 V1 E1 S0=0 &C1 &D2 &V +FCLASS=0
+Init3 = AT+CGEQMIN=1,4,64,384,64,384
+Init4 = AT+CGEQREQ=1,4,64,384,64,384
+Init5 = AT+CGQREQ=1,3,4,3,7,31
+Init6 = AT+IFC=2,2
+Init7 = AT+CGDCONT=3,"IP","internet.t-mobile","",0,0
+Dial Command = ATDT
+Phone = "*99***1#"
+Modem = /dev/ttyUSB0
+ 
+Baud = 230400
+Stupid Mode = 1
+FlowControl = NOFLOW
+SetVolume = 0
+ISDN = 0
+Password = tm
+Username = t-mobile
+Model Type = Analog Model
+Modem Type = Analog Modem
+Dial Attempts = 3
+Auto DNS = 0
+Check DNS = 0
+New PPPD = yes
+ 
+[Dialer sig]
+Modem = /dev/ttyUSB0
+Init2 = AT+CSQ
+</pre>
+
+<h2>Fakten</h2>
+
+<ul class="wide_list">
+  <li>
+    Entgegen der Aussage einer Mitarbeiterin beim T-Mobile-Support (Kurzwahl 2202) funktioniert
+    die Karte nicht nur mit dem Surfstick von T-Mobile, sondern mit jeder Karte (mindestens
+    mit der oben erwähnten Vodafone Mobile Connect und der Ericsson F3507g).
+  </li>
+  <li>
+    Eine Zwangstrennung um 24:00 (Beginn einer neuen Abrechnungsphase) findet nicht statt
+    (bei Fonic übrigens auch nicht).
+  </li>
+  <li>
+    Der Support, an den sich die Mitarbeiter bei T-Mobile wenden (die übrigens sehr nett
+    waren), bezeichnet Linux als „Selbstbau-Betriebssystem”. Dass einige große
+    Firmen hinter Linux stehen und auch T-Mobile vermutlich mehr Linux verwendet als sie
+    denken, kam ihnen wohl nicht in den Sinn.
+  </li>
+  <li>
+    Wenn man die Karte in ein normales Mobiltelefon (Nokia 6230i) steckt, kommt nach kurzer
+    Zeit eine Abfrage, ob die SIM-Karte eine Nachricht senden dürfe. Weiterhin kommt
+    später eine Nachricht, die die eigene Nummer beinhaltet. Wenn jemand weiß,
+    was das ist und wozu es gut ist, möge er mich bitte informieren ;-).
+  </li>
+</ul>
+
+</div></div></div></div></div></div></body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Der H264-Codec unter Linux (x264)</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux.">
+    <link rel="canonical" href="https://michael.stapelberg.de/posts/2008-09-15-x264/">
+    <meta name="author" content="Michael Stapelberg">
+    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
+    <style type="text/css">
+@font-face {
+  font-family: 'Yanone Kaffeesatz Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+}
+
+body, td, th {
+  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #000;
+} 
+    </style>
+    <link rel="stylesheet" href="/2.css" type="text/css">
+    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+</head>
+
+
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1><ul class="menu_open">
+<li><a class="menu_item" href="/"><span class="menu_title">Startseite</span></a></li>
+<li><a class="menu_item" href="/Artikel/"><span class="menu_title">Artikel</span></a></li>
+<li><a class="menu_item" href="/Dokumente/"><span class="menu_title">Dokumente</span></a></li>
+<li><a class="menu_item" href="/Programme/"><span class="menu_title">Programme</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://gokrazy.github.io/"><span class="menu_title">gokrazy</span></a></li>
+  <li><a class="menu_item" href="https://i3wm.org/"><span class="menu_title">i3</span></a></li>
+<li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
+<li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
+<li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="https://www.debian.org/"><span class="menu_title">Debian</span></a>
+<div class="subitem">
+<ul class="menu_open">
+  <li><a class="menu_item" href="https://codesearch.debian.net/"><span class="menu_title">Debian Code Search</span></a></li>
+  <li><a class="menu_item" href="https://manpages.debian.org/"><span class="menu_title">manpages.debian.org</span></a></li>
+</ul>
+</div>
+</li>
+
+<li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
+
+<li><a class="menu_item" href="/Tipps"><span class="menu_title">Tipps</span></a></li>
+
+<li><a class="menu_item" href="/MeinePCs"><span class="menu_title">Hardware</span></a></li>
+<li><a class="menu_item" href="/Impressum"><span class="menu_title">Impressum</span></a></li></ul>
+
+</div><div id="contentBox" class="col-md-10"><h2 class="title">Der H264-Codec unter Linux (x264)</h2> (<span id="date">2008-09-15</span>) <div class="Artikel" id="content">
+
+
+<p>
+Zum Enkodieren meiner aufgenommenen DVB-Streams benutze ich in der Regel den
+MPEG4-Codec (XviD) mit <code>mencoder</code>. Letztens habe ich aber etwas vom
+H264-Codec gelesen, der angeblich bei geringerer Bitrate ein sehr viel besseres
+Ergebnis produzieren würde. Hier möchte ich einen kurzen Qualitätsvergleich
+anhand eines praktischen Beispiels geben und ein Script vorstellen, welches das
+Encoding einer MPEG TS-Datei in x264/ogg in einen Matroska-Container vornimmt.
+</p>
+
+<h2>Unterstützung</h2>
+
+<h3>…für’s Enkodieren</h3>
+
+<p>
+Die mitgelieferte <code>mencoder</code>-Version von XUbuntu unterstützt
+(momentan) kein x264, daher muss man sich seine eigene aus dem
+Subversion-Repository bauen (somit hat man dann auch garantiert die aktuelle
+x264-Version). Außerdem kann man dabei viel genauer angeben, welche Codecs man
+(nicht) braucht und erhält am Ende eine optimierte Version :-).
+</p>
+
+<p>
+Dafür richten wir uns zunächst ein eigenes Verzeichnis an und gehen hinein:
+</p>
+
+<pre>$ mkdir mplayerSVN &amp;&amp; cd mplayerSVN</pre>
+
+<p>
+Wir brauchen auch den Sourcecode der <code>libx264</code>, damit sie mit der
+aktuellen <code>mplayer</code>-Version zusammenarbeitet:
+</p>
+
+<pre>$ svn co svn://svn.videolan.org/x264/trunk x264</pre>
+
+<p>
+Zum Kompilieren muss <code>nasm</code> installiert sein (ein
+Assembler-Compiler):
+</p>
+
+<pre>$ sudo apt-get install nasm</pre>
+
+<p>
+Anschließend konfigurieren wir den Sourcecode, bauen ihn und installieren ihn:
+</p>
+
+<pre>$ cd x264 &amp;&amp; ./configure --enable-shared &amp;&amp; make &amp;&amp; make install</pre>
+
+<p>
+Nun wieder ein Verzeichnis zurück. Wir laden uns den aktuellen
+Entwicklungsstand aus dem Subversion-Repository und gehen in das dann erstellte
+Verzeichnis:
+</p>
+
+<pre>$ cd .. &amp;&amp; svn co svn://svn.mplayerhq.hu/mplayer mplayer &amp;&amp; cd mplayer</pre>
+
+<p>
+Wir konfigurieren den Sourcecode nun folgendermaßen:
+</p>
+
+<pre>./configure --enable-gui \
+    --enable-largefiles \
+    --disable-lirc \
+    --disable-lircc \
+    --disable-joystick \
+    --disable-tv \
+    --disable-tv-v4l1 \
+    --disable-tv-v4l2 \
+    --disable-tv-bsdbt848 \
+    --disable-radio-v4l2 \
+    --disable-radio-bsdbt848 \
+    --enable-menu \
+    --disable-macosx \
+    --disable-inet6 \
+    --enable-png \
+    --enable-x264 \
+    --disable-real \
+    --enable-qtx \
+    --enable-theora \
+    --disable-sdl \
+    --disable-dvb \
+    --disable-dvbhead \
+    --disable-ivtv \
+    --disable-directx \
+    --disable-mga \
+    --disable-xmga \
+    --disable-vidix-internal \
+    --disable-vidix-external</pre>
+
+<p>
+Alle Optionen gibt’s mit <code>./configure --help | less</code>. Die Optionen
+im Einzelnen bedeuten:
+</p>
+<ul>
+    <li><strong>enable-gui</strong>: Grafische Oberfläche (<code>gmplayer</code>) aktivieren</li>
+    <li><strong>disable-lirc und disable-lircc</strong>: Unterstützung für LIRC-Fernbedienungen deaktivieren</li>
+    <li><strong>disable-joystick</strong>: Ich hab nur Tastatur und Maus :-)</li>
+    <li><strong>disable-tv*, disable-radio* und disable-dvb*</strong>: Jeglichen TV/DVB-Support deaktivieren, das läuft in einer anderen Kiste</li>
+    <li><strong>enable-menu</strong>: On-Screen-Menus aktivieren</li>
+    <li><strong>disable-macosx</strong>: Wir kompilieren für Linux momentan</li>
+    <li><strong>disable-inet6</strong>: Zumindest ich benutze es noch nicht im lokalen Netz, im Internet hat man als DSL-Endkunde wohl noch keine Chance, echtes IPv6 geroutet zu bekommen :-(</li>
+    <li><strong>enable-png</strong>: Grafikausgabe von PNG-Dateien aktivieren</li>
+    <li><strong>enable-x264</strong>: Die wichtigste Option und Sinn und Zweck des Kompilierens ;-)</li>
+    <li><strong>disable-real</strong>: RealMedia? Nein, Danke</li>
+    <li><strong>enable-qtx</strong>: QuickTime-Support aktivieren. Könnte höchstens für die Get-a-Mac-Werbespots nützlich sein… ;-)</li>
+    <li><strong>enable-theora</strong>: Theora-Unterstützung (ebenfalls ein freier Codec) aktivieren</li>
+    <li><strong>disable-{sdl, ivtv, directx, mga, xmga, vidix-internal, vidix-external}</strong>: Alle Displaytreiber deaktivieren, die wir nicht brauchen (nur XV eigentlich)</li>
+</ul>
+
+<p>
+Und nun kompilieren wir <code>mplayer</code> und <code>mencoder</code>:
+</p>
+
+<pre>$ make</pre>
+
+<p>
+Nun kann man via <code>./mplayer &lt;Datei&gt;</code> ausprobieren, ob
+<code>mplayer</code> funktioniert und ihn anschließend Systemweit installieren:
+</p>
+
+<pre>$ sudo make install</pre>
+
+<h3>…für’s Abspielen</h3>
+<p>
+Um h264-Dateien abzuspielen, benötigt man relativ aktuelle Versionen der
+jeweiligen Player.
+</p>
+<ul>
+    <li><a href="http://www.videolan.org/" title="VideoLAN Client" target="_blank">VLC 0.8.6a (Windows, Linux, Mac OS X)</a></li>
+    <li><a href="http://www.mplayerhq.hu/" title="MPlayer" target="_blank">MPlayer 1.0rc1 (Windows, Linux, Mac OS X)</a></li>
+    <li>Angeblich kann auch <a href="http://www.xine-project.org/" title="Xine" target="_blank">Xine</a> damit umgehen, das habe ich aber nicht getestet.</li>
+</ul>
+
+<h2>Dauer des Enkodierens</h2>
+<p>
+Auf meinem Athlon 64 3000+ dauert das Enkodieren von 20 MB MPEG-TS mit den
+höchsten Qualitätseinstellungen in H264 ca. 2,55 Minuten. Auf einem Dual Xeon
+3,2 GHz dauert das Enkodieren der selben Datei (jedoch mit 4 Threads, damit die
+CPUs optimal belastet werden) nur 1 Minute. Mein Athlon XP 2400+ reiht sich mit
+2,49 Minuten dazwischen ein.
+</p>
+
+<div style="text-align: center">
+    <img src="/Bilder/x264/performance.png" alt="Grafik: Performance meiner Systeme" title="Performance meiner Systeme" width="407" height="529"><br>
+    <small><i>Grafik: Performance meiner Systeme</i></small>
+</div>
+
+<h2>Qualitätsvergleich</h2>
+<p>
+Man muss die einzelnen Bilder natürlich vergrößern (durch Anklicken), sonst
+werden die Unterschiede nicht deutlich. Die Bilder sind jeweils 1024x576 Pixel
+groß.
+</p>
+
+<div class="bigImage" style="height: 160px">
+<h3>XviD</h3>
+
+<table style="width: 100%">
+<tr>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/xvid_1.jpg" title="Großansicht: Frame 5 als
+    XviD"><img src="/Bilder/x264/xvid_1_thumb.jpg" width="256" height="144"
+    alt="Frame 5 als XviD" title="Frame 5 als XviD"></a><br><small><i>Frame
+    5</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/xvid_2.jpg" title="Großansicht: Frame 40 als
+    XviD"><img src="/Bilder/x264/xvid_2_thumb.jpg" width="256" height="144"
+    alt="Frame 40 als XviD" title="Frame 40 als XviD"
+    ></a><br><small><i>Frame 40</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/xvid_3.jpg" title="Großansicht: Frame 100 als
+    XviD"><img src="/Bilder/x264/xvid_3_thumb.jpg" width="256" height="144"
+    alt="Frame 100 als XviD" title="Frame 100 als XviD"
+    ></a><br><small><i>Frame 100</i></small>
+  </td>
+</tr>
+</table>
+
+<p></div></p>
+
+<div class="bigImage" style="height: 160px">
+<h3>H264</h3>
+<table style="width: 100%">
+<tr>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_1.jpg" title="Großansicht: Frame 5 als
+    H264"><img src="/Bilder/x264/x264_1_thumb.jpg" width="256" height="144"
+    alt="Frame 5 als H264" title="Frame 5 als H264"
+    ></a><br><small><i>Frame 5</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_2.jpg" title="Großansicht: Frame 40 als
+    H264"><img src="/Bilder/x264/x264_2_thumb.jpg" width="256" height="144"
+    alt="Frame 40 als H264" title="Frame 40 als H264"
+    ></a><br><small><i>Frame 40</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_3.jpg" title="Großansicht: Frame 100 als
+    H264"><img src="/Bilder/x264/x264_3_thumb.jpg" width="256" height="144"
+    alt="Frame 100 als H264" title="Frame 100 als H264"
+    ></a><br><small><i>Frame 100</i></small>
+  </td>
+</tr>
+</table>
+</div>
+
+<div class="bigImage" style="height: 160px">
+<h3>H264 Two-Pass</h3>
+<table style="width: 100%">
+<tr>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_tp_1.jpg" title="Großansicht: Frame 5 als H264
+    Two-Pass"><img src="/Bilder/x264/x264_tp_1_thumb.jpg" width="256"
+    height="144" alt="Frame 5 als H264 Two-Pass" title="Frame 5 als H264
+    Two-Pass" ></a><br><small><i>Frame 5</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_tp_2.jpg" title="Großansicht: Frame 40 als H264
+    Two-Pass"><img src="/Bilder/x264/x264_tp_2_thumb.jpg" width="256"
+    height="144" alt="Frame 40 als H264 Two-Pass" title="Frame 40 als H264
+    Two-Pass" ></a><br><small><i>Frame 40</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_tp_3.jpg" title="Großansicht: Frame 100 als H264
+    Two-Pass"><img src="/Bilder/x264/x264_tp_3_thumb.jpg" width="256"
+    height="144" alt="Frame 100 als H264 Two-Pass" title="Frame 100 als H264
+    Two-Pass" ></a><br><small><i>Frame 100</i></small>
+  </td>
+</tr>
+</table>
+</div>
+
+<div class="bigImage" style="height: 160px">
+<h3>H264 High-Quality</h3>
+<table style="width: 100%">
+<tr>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_hq_1.jpg" title="Großansicht: Frame 5 als H264
+    High-Quality"><img src="/Bilder/x264/x264_hq_1_thumb.jpg" width="256"
+    height="144" alt="Frame 5 als H264 High-Quality" title="Frame 5 als H264
+    High-Quality" ></a><br><small><i>Frame 5</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_hq_2.jpg" title="Großansicht: Frame 40 als H264
+    High-Quality"><img src="/Bilder/x264/x264_hq_2_thumb.jpg" width="256"
+    height="144" alt="Frame 40 als H264 High-Quality" title="Frame 40 als H264
+    High-Quality" ></a><br><small><i>Frame 40</i></small>
+  </td>
+  <td style="text-align: center">
+    <a href="/Bilder/x264/x264_hq_3.jpg" title="Großansicht: Frame 100 als H264
+    High-Quality"><img src="/Bilder/x264/x264_hq_3_thumb.jpg" width="256"
+    height="144" alt="Frame 100 als H264 High-Quality" title="Frame 100 als
+    H264 High-Quality" ></a><br><small><i>Frame 100</i></small>
+  </td>
+</tr>
+</table>
+</div>
+
+<p>Die Bilder stammen übrigens aus der auf arte ausgestrahlten Dokumentation „Wer hat Angst vor Google?”.
+
+<h2>Pro/Contra h264/XviD</h2>
+<p>
+Beide Formate sind Open-Source (DivX allerdings nicht). Bei h264 ist die
+Qualität bei geringerere Dateigröße deutlich besser, andererseits können sehr
+viele PCs und vor allem Standalone-Player (wie DVD-Player) mittlerweile XviD
+abspielen – bis diese auch h264 können, wird noch etwas Zeit vergehen. Der
+Rechenaufwand beim Abspielen von h264-Dateien ist in der Regel höher, sodass
+Geräte mit schwachen Prozessoren eventuell Probleme haben.
+</p>
+
+<p>
+Weiterhin zu beachten ist, dass x264 momentan noch nicht fertig entwickelt ist,
+sodass es eventuell passieren kann, dass enkodierte Dateien nicht mehr
+fehlerfrei abgespielt werden können. Um das zu vermeiden, kann man sich den
+mplayer-Sourcecode zum Zeitpunkt des Enkodierens aufheben (oder zu späterem
+Zeitpunkt aus dem Subversion-Repository auschecken).
+</p>
+
+<p>
+Für das reine Verteilen von Videos über das Internet, die hauptsächlich auf PC
+oder Laptop angeschaut werden sollen (und idealerweise als Zielgruppe die
+Open-Source-Gemeinde haben, da zum Beispiel <code>mplayer</code> super mit h264
+umgehen kann), ist daher h264 meiner Meinung nach die bessere Wahl.
+</p>
+
+<p>
+Geht es allerdings darum, Filme auch für’s Ansehen im Wohnzimmer zu
+archivieren, sollte man momentan noch XviD verwenden. Man kann natürlich auch
+eine XviD-Version aus einem h264-Video erstellen, dies bringt aber
+Qualitätsverluste mit sich…
+</p>
+
+<p><h2>Encoding</h2>
+<p>
+Das Script könnt ihr euch auch <a href="/encodeMKV.sh" title="Direkt
+herunterladen">direkt herunterladen</a>.
+</p>
+<pre>
+#!/bin/sh</p>
+
+<h1 id="c-2007-michael-stapelberg">&copy; 2007 Michael Stapelberg</h1>
+
+<h1 id="http-michael-stapelberg-de-artikel-x264"><a href="http://michael.stapelberg.de/Artikel/x264">http://michael.stapelberg.de/Artikel/x264</a></h1>
+
+<p>#</p>
+
+<h1 id="return-codes">Return codes:</h1>
+
+<h1 id="0-everything-was-ok">0 Everything was OK</h1>
+
+<h1 id="1-not-all-necessary-programs-have-been-installed">1 Not all necessary programs have been installed</h1>
+
+<h1 id="2-encoding-failed">2 Encoding failed</h1>
+
+<p>#</p>
+
+<h1 id="syntax-is">Syntax is:</h1>
+
+<h1 id="encodemkv-sh-lt-source-file-gt-lt-title-gt-output-file">encodeMKV.sh &lt;source-file&gt; &lt;title&gt; [output-file]</h1>
+
+<h1 id="toc_8">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h1>
+
+<h1 id="configuration">Configuration</h1>
+
+<h1 id="toc_10">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h1>
+
+<h1 id="ogg-quality-from-0-to-10">Ogg-Quality (from 0 to 10)</h1>
+
+<p>OGG_QUALITY=5</p>
+
+<h1 id="bitrate-for-x264-video">Bitrate for x264-video</h1>
+
+<p>X264_BITRATE=1000</p>
+
+<h1 id="if-you-do-not-want-to-install-the-programs-in-path-you-can">If you do not want to install the programs in $PATH, you can</h1>
+
+<h1 id="specify-their-path-here-hard-coded">specify their path here hard-coded&hellip;</h1>
+
+<p>MENCODER=<code>which mencoder</code>
+MPLAYER=<code>which mplayer</code>
+OGGENC=<code>which oggenc</code>
+MKVMERGE=<code>which mkvmerge</code></p>
+
+<h1 id="toc_15">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h1>
+
+<h1 id="don-t-touch-the-script-below-if-you-do-not-know-what-you-re-doing">Don&rsquo;t touch the script below if you do not know what you&rsquo;re doing :)</h1>
+
+<h1 id="toc_17">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h1>
+
+<h1 id="check-if-all-programs-are-here-before-starting-the-work">Check if all programs are here before starting the work</h1>
+
+<p>if [ -z &ldquo;${MENCODER}&rdquo; -o -z &ldquo;${MPLAYER}&rdquo; ]; then
+    echo &ldquo;Error: mencoder or mplayer was not found. Please install it&rdquo;
+    exit 1
+fi</p>
+
+<p>if [ -z &ldquo;${OGGENC}&rdquo; ]; then
+    echo &ldquo;Error: oggenc was not found. Please install it&rdquo;
+    exit 1
+fi</p>
+
+<p>if [ -z &ldquo;${MKVMERGE}&rdquo; ]; then
+    echo &ldquo;Error: mkvmerge was not found. Please install it&rdquo;
+    exit 1
+fi</p>
+
+<h1 id="check-if-the-necessary-parameters-were-given">Check if the necessary parameters were given</h1>
+
+<p>if [ -z &ldquo;${2}&rdquo; ]; then
+    echo &ldquo;Syntax: ${0} &lt;source-file&gt; &lt;title&gt; [output-file]&rdquo;
+    exit 1
+fi</p>
+
+<h1 id="define-filenames">Define filenames</h1>
+
+<p>SRC_VID=${1}
+TMP_VID=${1}.tmpv
+TMP_AUD=${1}.tmpa</p>
+
+<p>TITLE=${2}
+if [ -z &ldquo;${3}&rdquo; ]; then
+    MKV=${1}.mkv
+else
+    MKV=${3}
+fi</p>
+
+<p>if [ ! -f &ldquo;${SRC_VID}&rdquo; ]; then
+    echo &ldquo;Error: Sourcefile does not exist&rdquo;
+    exit 2
+fi</p>
+
+<p>echo -e &ldquo;\nx264/matroska-encode-script\n&rdquo;
+echo &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&rdquo;
+echo &ldquo;Encoding \&ldquo;${SRC_VID}\&rdquo; to \&ldquo;${MKV}\&ldquo;&hellip;&rdquo;
+echo -e &ldquo;\tTitle: ${TITLE}&rdquo;
+echo -e &ldquo;\t(Temporary video file: ${TMP_VID})&rdquo;
+echo -e &ldquo;\t(Temporary audio file: ${TMP_AUD})&rdquo;
+echo -e &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;\n&rdquo;</p>
+
+<h1 id="delete-the-tempfiles">Delete the tempfiles</h1>
+
+<p>rm -f &ldquo;${TMP_VID}&rdquo; &ldquo;${TMP_AUD}&rdquo; &ldquo;${TMP_AUD}.ogg&rdquo;</p>
+
+<h1 id="encode-video">Encode video</h1>
+
+<p>${MENCODER} -really-quiet -ovc x264 -x264encopts <br />
+bitrate=${X264_BITRATE}:subq=6:partitions=all:8x8dct:me=umh:frameref=5:bframes=3:b_pyramid:weight_b:pass=1 <br />
+-oac copy -of rawvideo -o &ldquo;${TMP_VID}&rdquo; &ldquo;${SRC_VID}&rdquo; 1&gt;&amp;- || {
+    echo -e &ldquo;\nError: mencoder could not encode the file. Check the printed errors&rdquo;
+    exit 2
+}
+${MENCODER} -really-quiet -ovc x264 -x264encopts <br />
+bitrate=${X264_BITRATE}:subq=6:partitions=all:8x8dct:me=umh:frameref=5:bframes=3:b_pyramid:weight_b:pass=2 <br />
+-oac copy -of rawvideo -o &ldquo;${TMP_VID}&rdquo; &ldquo;${SRC_VID}&rdquo; 1&gt;&amp;- || {
+    echo -e &ldquo;\nError: mencoder could not encode the file. Check the printed errors&rdquo;
+    exit 2
+}</p>
+
+<h1 id="extract-audio">Extract audio</h1>
+
+<p>${MPLAYER} -really-quiet -vo null -ao pcm:fast:file=&ldquo;${TMP_AUD}&rdquo; &ldquo;${SRC_VID}&rdquo; || {
+    echo -e &ldquo;\nError: Audio-track could not be extracted via mplayer. Check the printed errors&rdquo;
+    exit 2
+}</p>
+
+<h1 id="encode-audio">Encode audio</h1>
+
+<p>${OGGENC} -Q -q${OGG_QUALITY} &ldquo;${TMP_AUD}&rdquo; -o &ldquo;${TMP_AUD}.ogg&rdquo; || {
+    echo -e &ldquo;\nError: Audio-track could not be converted to ogg. Check the printed errors&rdquo;
+    exit 2
+}</p>
+
+<h1 id="mux-files-to-mkv">Mux files to MKV</h1>
+
+<p>${MKVMERGE} -q -o &ldquo;${MKV}&rdquo; &ndash;title &ldquo;${TITLE}&rdquo; &ndash;default-language ger &ldquo;${TMP_VID}&rdquo; &ldquo;${TMP_AUD}.ogg&rdquo; || {
+    echo -e &ldquo;\nError: Files could not be muxed to mkv. Check the printed erorrs&rdquo;
+    exit 2
+}</p>
+
+<h1 id="delete-tempfiles">Delete tempfiles</h1>
+
+<p>rm &ldquo;${TMP_VID}&rdquo; &ldquo;${TMP_AUD}&rdquo; &ldquo;${TMP_AUD}.ogg&rdquo;</p>
+
+<p>echo -e &ldquo;\n&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&rdquo;
+echo &ldquo;Created videofile \&ldquo;${MKV}\&ldquo;!&rdquo;
+echo &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&rdquo;
+</pre></p>
+
+</div></div></div></div></div></div></body>
+</html>
