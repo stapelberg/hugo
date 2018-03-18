@@ -1,6 +1,6 @@
 ---
 title: "BSD license"
-date: 2018-03-17T22:31:29+01:00
+date: 2014-11-07T09:49:22+01:00
 aliases:
   - /BSD
 ---
