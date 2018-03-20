@@ -5,6 +5,10 @@ theme = "stapelberg"
 disableKinds = ["taxonomy", "taxonomyTerm", "sitemap"]
 publishDir = "docs"
 
+[blackfriday]
+  # Disable turning regular quotes into smart quotes (harmful for code blocks):
+  smartypants = false
+
 [params]
   description = "Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux."
 
