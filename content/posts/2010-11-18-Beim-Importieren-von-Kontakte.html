@@ -1,0 +1,39 @@
+---
+permalink: /post/34
+layout: post
+date: 2010-11-18 21:56:44 +01:00
+title: "
+Beim Importieren von Kontakte…"
+---
+<p>
+Beim Importieren von Kontakten aus einer VCF-Datei (generiert aus dem Android
+2.1-Adressbuch) werden trotz en_DE Locale die Telefonnummern mit Bindestrichen
+formatiert. Um das zu fixen, kann man folgendermaßen in der SQLite-Datenbank
+herumstochern:
+</p>
+
+<pre>
+# cd /data/data/com.android.providers.contacts/databases
+# cp contacts2.db /sdcard/contacts2.db
+</pre>
+
+<pre>
+$ adb pull /sdcard/contacts2.db .
+$ sqlite3 contacts2.db 'SELECT _id,data1 FROM data WHERE mimetype_id = 5' | \
+perl -nlE 'my ($id, $num) = split(/\|/); $num =~ s/-//g; say "UPDATE data SET data1 = \"$num\" WHERE _id = $id;";' > updates.txt
+$ sqlite3 contacts2.db < updates.txt
+$ adb push updates.txt /sdcard/updates.txt
+</pre>
+
+<pre>
+# cd /data/data/com.android.providers.contacts/databases
+# export HOME=/root
+# sqlite3 contacts2.db < /sdcard/updates.txt
+</pre>
+
+<p>
+Die etwas umständliche Methode UPDATE-Befehle erzeugen statt direkt die
+Datenbank zu modifizieren habe ich gewählt um sicherzustellen, dass es keine
+Race Conditions gibt.
+</p>
+

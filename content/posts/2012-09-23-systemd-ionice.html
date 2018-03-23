@@ -1,0 +1,55 @@
+---
+layout: post
+date: 2012-09-23 00:22:00 +02:00
+title: "systemd: modify IO scheduling"
+---
+<p>
+One of the nice things about systemd is that you can change the Nice level and
+IO scheduling class/priority in a very simple way. I have recently configured
+<code>bacula-fd</code> on my server in such a way that it will not put a lot of
+load on the machine:
+</p>
+
+<pre>
+cp /lib/systemd/system/bacula-fd.service /etc/systemd/system/bacula-fd.service
+</pre>
+
+<p>
+Then, open the file with an editor and change the following paragraph:
+</p>
+
+<pre>
+[Service]
+Type=forking
+PIDFile=/var/run/bacula/bacula-fd.9102.pid
+StandardOutput=syslog
+ExecStart=/usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+</pre>
+
+<p>
+To look like this:
+</p>
+
+<pre>
+[Service]
+<strong>Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7</strong>
+Type=forking
+PIDFile=/var/run/bacula/bacula-fd.9102.pid
+StandardOutput=syslog
+ExecStart=/usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+</pre>
+
+<p>
+And that’s it. See <code>nice(1)</code> and <code>ionice(1)</code> for the
+possible values. Of course, these attributes are passed on to child processs:
+</p>
+
+<pre>
+USER       PID PRI  NI %CPU %MEM COMMAND
+root      3522  30  10  0.0  0.0 /usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+root     23380  30  10  0.0  0.0  \_ /bin/sh /root/bin/xen-lvm-snapshot/foreach-domu.sh mount
+root     23607  30  10  0.0  0.0      \_ /bin/sh /root/bin/xen-lvm-snapshot/mount-snapshot.sh plana/domu-web
+root     23665  30  10  0.0  0.0          \_ /sbin/fsck.ext3 -y /dev/loop3
+</pre>

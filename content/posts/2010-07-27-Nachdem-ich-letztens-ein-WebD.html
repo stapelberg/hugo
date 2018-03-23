@@ -1,0 +1,52 @@
+---
+permalink: /post/23
+layout: post
+date: 2010-07-27 21:44:39 +02:00
+title: "
+Nachdem ich letztens ein WebD…"
+---
+<p>
+Nachdem ich letztens <a href="/post/21">ein WebDAV-plugin für Maemo</a> gehackt
+habe, wollte ich das nun hochladen. Dazu registriert man sich bei maemo.org und
+stellt dann einen Request auf Upload-Rechte für das extras-devel-Repository.
+Nachdem man diese Rechte bekommt lädt man seinen SSH-Public-Key hoch und kann
+danach Pakete in den Autobuilder laden.
+</p>
+
+<p>
+Wer von Debian kommt, würde jetzt sein Paket bauen und signiert hochladen.
+Allerdings wies der Autobuilder mein signiertes Paket zurück mit der Meldung,
+dass er meinen public key nicht kenne und somit die Signatur nicht verifizieren
+könne. Das ist ein bisschen merkwürdig, da mein Key im debian-maintainers-Paket
+ist, aber gut. Allerdings gibt es auch keine Möglichkeit, einen GPG-Public-Key
+über das Webinterface hochzuladen. <a
+href="http://talk.maemo.org/showthread.php?p=757175">Ein Post auf
+talk.maemo.org</a> offenbart, dass der GPG-Public-Key anscheinend automatisch
+hinzugefügt wird, sobald man die Upload-Rechte nach extras-devel bekommt. Das
+klappt natürlich nicht, wenn man zur Registration eine andere Mailadresse
+verwendet, als diejenige, mit denen man dann die Pakete veröffentlicht. Die
+Lösung aus demselben Thread lautet dann: Pakete muss man eigentlich garnicht
+signieren, die kann man auch einfach so hochladen. Na dann.
+</p>
+
+<p>
+Während man die fehlende Authentifizierung durch Signaturen noch verschmerzen
+kann (immerhin dürfen nur Nutzer mit Upload-Rechten hochladen, was durch
+SSH-Keys gesichert ist, aber naja…) ist folgendes Problem schon kritischer:
+Die Version von dpkg-dev im SDK (scratchbox + Xephyr) ist älter als die auf den
+Autobuildern. Im SDK gibts beim Bauen des Pakets eine Warnung, weil libneon die
+shlibs-Datei fehlt. Auf dem Autobuilder ist das jedoch ein Fehler. Um das
+Problem zu lösen, gibt es den Parameter <code>--ignore-missing-info</code> für
+<code>dh_shlibdeps</code>. Allerdings ist dieser bei der dpkg-dev-Version im SDK
+nicht verfügbar. Nun könnte man also das Paket entweder auf dem Autobuilder
+bauen oder im SDK. Ich will aber natürlich beides.
+</p>
+
+<p>
+Wie löst man das Problem nun? Mit folgendem hässlichen Hack in
+<code>debian/rules</code>:
+</p>
+<pre>
+	dh_shlibdeps -- --ignore-missing-info || dh_shlibdeps
+</pre>
+

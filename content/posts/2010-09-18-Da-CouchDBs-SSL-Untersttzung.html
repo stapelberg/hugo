@@ -1,0 +1,79 @@
+---
+permalink: /post/29
+layout: post
+date: 2010-09-18 15:24:42 +02:00
+title: "
+Da CouchDBs SSL-Unterstützung…"
+---
+<p>
+Da CouchDBs SSL-Unterstützung bei der Replikation <a href="/post/28">derzeit
+nutzlos ist</a> (für das Szenario, dass ich in einem fremden Netz unterwegs bin
+und der Netzbetreiber Man-in-the-middle spielt um meine Daten abzugreifen),
+musste ich mir eine Alternative überlegen.
+</p>
+
+<p>
+Folgende Punkte gilt es zu beachten:
+<ul>
+  <li>
+    Die Kommunikation darf nicht unverschlüsselt das Telefon verlassen und darf
+    erst in einem vertrauenswürdigen Netz entschlüsselt werden.
+  </li>
+  <li>
+    Die Kommunikation darf nicht an das falsche Ziel (Man-in-the-middle)
+    geschickt werden.
+  </li>
+  <li>
+    Nach Möglichkeit sollte die Lösung ressourcensparend sein.
+  </li>
+</ul>
+</p>
+
+<p>
+Meine Wahl ist ein OpenVPN-Tunnel, über den nicht die Defaultroute läuft,
+sondern eine spezifische Route für alle IPs, auf denen ich später eine CouchDB
+laufen lassen möchte. Das sieht in etwa so aus:
+</p>
+<pre>
+$ cat /etc/openvpn/n900.up.sh
+#!/bin/sh
+ip -6 a a 2001::vpn:1/48 dev $1
+ip -6 r a 2001::couch:1/112 via 2001::gw:1 dev $1
+</pre>
+
+<p>
+Damit das OpenVPN einigermaßen performant läuft, sollte man laut <a
+href="http://www.cs.wustl.edu/~jain/cse567-08/ftp/ovpn/index.html">diesem
+Paper</a> die Parameter <code>cipher AES-256-CBC</code> und
+<code>comp-lzo</code> wählen.
+</p>
+
+<p>
+Auf der Gegenseite, also auf <code>2001::couch:1</code> konfiguriert man nun
+die zusätzliche Adresse und grenzt den Zugriff via <code>ip6tables</code> auf
+den VPN-Client ein:
+</p>
+<pre>
+# ip -6 a a 2001::couch:1/112 dev eth0 preferred_lft 0
+# ip6tables -N couch
+# ip6tables -A couch -d 2001::couch:1/128 -s 2001::vpn:1/128 -j ACCEPT
+# ip6tables -A couch -d 2001::couch:1/128 -j REJECT
+# ip6tables -I INPUT 5 -j couch
+</pre>
+
+<p>
+Die Angabe <code>preferred_lft 0</code> bewirkt, dass diese IP nicht als
+Source-IP für ausgehende Verbindungen benutzt wird (sondern nur als zusätzliche
+IP zur Verfügung steht).
+</p>
+
+<p>
+Auf meinem Telefon muss nun sichergestellt sein, dass OpenVPN dauerhaft läuft,
+damit die einzig mögliche Route zu <code>2001::couch:1</code> durch das VPN
+läuft. Auf der Gegenseite wäre die einzige Möglichkeit, an die Daten zu kommen,
+sich als <code>2001::vpn:1</code> auszugeben (IP address spoofing), was aber in
+meinem Fall nicht funktioniert, da mein IPv6-Tunnel und das VPN sich im selben
+Netz befinden. Falls das nicht so wäre, müsste man <code>2001::couch:1</code>
+auch in das VPN stecken.
+</p>
+

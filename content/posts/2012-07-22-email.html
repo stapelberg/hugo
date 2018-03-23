@@ -1,0 +1,123 @@
+---
+layout: post
+date: 2012-07-22 15:53:00 +02:00
+title: "Mein aktuelles E-Mail-Setup"
+---
+<p>
+Da die Entwicklung von sup (und dessen Nachfolger heliotrope/turnsole) absolut
+untragbar für ein OSS-Projekt ist, bin ich vor einer Weile auf den „Konkurrent“
+<a href="http://notmuchmail.org/">notmuch</a> umgestiegen. Da notmuch nur ein
+Mail-Index ohne Frontend ist, hat man die Wahl zwischen verschiedenen
+Frontends. Mit notmuch mitgeliefert wird das emacs-frontend, was mir aber nicht
+besonders gut gefällt.
+</p>
+
+<p>
+Ehemalige Nutzer von sup werden sich in dem notmuch-Frontend <a
+href="https://github.com/pazz/alot">alot</a> schnell heimisch fühlen. alot kann
+noch nicht alles, was man von einem anständigen CLI-Mailer erwarten würde (z.B.
+GPG Encryption/Decryption oder Folding), aber ist für mich derzeit benutzbar
+genug. Der Entwickler pazz ist ziemlich responsiv was Patches angeht, daher
+prophezeie ich dem Projekt eine deutlich bessere Zukunft als sup.
+</p>
+
+<p>
+Da notmuch mit Maildirs umgehen kann benutze ich offlineimap in Kombination mit
+einem eigenen IMAP-Server. Es ist abzusehen, dass ich nie wieder auf das
+Folder-Modell von IMAP zurückwechseln werde, weswegen ich nun folgende
+offlineimap-Zeile nutze:
+<pre>
+folderfilter = lambda name: name == 'INBOX'
+</pre>
+Diese sorgt dafür, dass nur das INBOX-Folder synchronisiert wird, was einen
+offlineimap-Lauf (insbesondere mit dem <code>-q</code>-Parameter) erheblich
+beschleunigt.
+</p>
+
+<p>
+Zusätzlich hilft es natürlich, die Datenmenge relativ klein zu halten, weswegen
+ich mein INBOX-Folder auf dem IMAP-Server regelmäßig aufräumen möchte. Dazu
+nutze ich das Script <a
+href="http://www.dovecot.org/list/dovecot/2010-December/055835.html">archivemail.sh
+von David Woodhouse</a>.
+</p>
+
+<p>
+Damit eingehende Mails ordentlich gefiltert werden und gekillte Threads auch
+gekillt bleiben benutze ich <a
+href="https://github.com/teythoon/afew/">afew</a>. Eine minimal Config dafür
+sieht so aus:
+</p>
+
+<pre>
+[global]
+[KillThreadsFilter]
+</pre>
+
+<p>
+Beim Abholen von Mails nutzt man dann:
+</p>
+
+<pre>
+offlineimap -q &amp;&amp; notmuch new &amp;&amp; afew -n -t
+</pre>
+
+<p>
+Als Anti-Spam-Lösung benutze ich <a
+href="http://dspam.nuclearelephant.com/">DSPAM</a>. Mein Filter für afew sieht
+folgendermaßen aus:
+</p>
+<pre>
+# coding=utf-8
+# vim:ts=4:sw=4:expandtab
+from __future__ import print_function, absolute_import, unicode_literals
+
+from ..Filter import Filter, register_filter
+
+@register_filter
+class DSPAMFilter(Filter):
+    message = 'Tagging messages according to their DSPAM-header'
+
+    def __init__(self, spam_tag='is-spam'):
+        super(DSPAMFilter, self).__init__()
+        self.spam_tag = spam_tag
+
+    def handle_message(self, message):
+        if (message.get_header('X-DSPAM-Result') == 'Spam' and
+            float(message.get_header('X-DSPAM-Probability')) &gt; 0.5):
+            self.add_tags(message, self.spam_tag)
+</pre>
+
+<p>
+(Man steckt den Filter in <code>afew/afew/filters/DSPAMFilter.py</code> und
+fügt <code>[DSPAMFilter]</code> in der Config hinzu).
+</p>
+
+<p>
+Ich setze dann für alle Threads den <code>is-spam</code>-Tag entsprechend und
+trainiere DSPAM mit folgendem Script periodisch:
+</p>
+
+<pre>
+#!/bin/zsh
+# script to prepare the DSPAM training based on the current notmuch tags.
+
+# The timestamp used below is 2012-07-21, when I configured the 'S' keybinding
+# and afew filter to make use of the X-DSPAM headers again.
+
+rm -rf /tmp/spam /tmp/ham
+mkdir /tmp/spam /tmp/ham
+
+# Extract all SPAM emails
+notmuch search --output=files tag:is-spam 1342884032.. | \
+	tar cf - -P -T - --transform 's,.*/,,g' | \
+	tar xf - -C /tmp/spam
+
+# Extract all HAM emails
+notmuch search --output=files -tag:is-spam 1342884032.. | \
+	tar cf - -P -T - --transform 's,.*/,,g' | \
+	tar xf - -C /tmp/ham
+
+# Now run the training
+dspam_train michael --client /tmp/spam /tmp/ham
+</pre>
