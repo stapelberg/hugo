@@ -1,0 +1,25 @@
+---
+layout: post
+title:  "kinX: overview"
+date:   2018-04-17 17:49:00 +02:00
+categories: Artikel
+---
+
+The kinX project is described in a series of blog posts:
+
+* While not strictly a part of this series, [“Hacking your own Kinesis keyboard
+controller”](/posts/2013-03-21-kinesis_custom_controller/) describes the first
+controller I built in 2013 (maybe interesting for context).
+
+* The [first post introduces the kinX, a keyboard
+  controller](/posts/2018-04-17-kinx-keyboard-controller/) with merely 0.2ms of
+  input latency (including USB).
+
+* The [second post motivates and describes building a drop-in replacement USB
+  hub](/posts/2018-04-17-kinx-usb-hub/) for the Kinesis Advantage keyboard.
+
+* The [last post introduces the processing latency measurement firmware for the
+  FRDM-K66F development board](/posts/2018-04-17-kinx-latency-measurement/) and
+  draws a conclusion.
+
+You can find the project’s artifacts at https://github.com/kinx-project.
