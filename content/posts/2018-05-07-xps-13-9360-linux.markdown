@@ -1,0 +1,138 @@
+---
+layout: post
+title:  "Installing Dell’s Ubuntu image on an XPS 9360"
+date:   2018-05-07 09:10:00 +02:00
+categories: Artikel
+---
+
+Warning: if you don’t understand one of the steps, don’t blindly follow them,
+but ask a friend for help instead! Be sure to have a known-working backup
+before messing with your system.
+
+### Motivation
+
+I recently got a Dell XPS 13 9360 (2017), which of course I would like to use
+with Linux. I figured I’d give Dell’s Ubuntu version a try, as it is the closest
+I can get to a supported Linux offering on a modern laptop.
+
+Unfortunately, Dell doesn’t sell the XPS 9360 in its shop anymore (and I don’t
+like its successor due to the lack of USB A ports), so I had to resort to buying
+a version that comes with Windows.
+
+You can obtain the recovery image
+`dell-bto-xenial-dino2-mlk-A00-iso-20161021-0.iso` from
+http://www.dell.com/support/home/us/en/19/Drivers/OSISO/W764, provided you have
+the system tag of an XPS 9360 that came with Linux — ask a friend if you
+accidentally purchased the Windows version. Tip: the service tag is the BIOS
+serial number, which is included in the output of
+[`lshw(1)`](https://manpages.debian.org/stretch/lshw/lshw.1.en) and similar
+tools.
+
+### Making the image bootable
+
+I don’t understand why this image is not bootable by default. The device it was
+generated for never had a CD/DVD drive, so what good is using an ISO 9660 image?
+
+Anyway, to make the image bootable, I formatted a USB thumb drive with a FAT
+file system and installed GRUB in such a way that it will loopback-boot into the
+ISO image (this is option 2 from [https://askubuntu.com/a/395880](https://askubuntu.com/a/395880)):
+
+```
+grub-mkimage -o bootx64.efi -p /efi/boot -O x86_64-efi \
+ fat iso9660 part_gpt part_msdos \
+ normal boot linux configfile loopback chain \
+ efifwsetup efi_gop efi_uga \
+ ls search search_label search_fs_uuid search_fs_file \
+ gfxterm gfxterm_background gfxterm_menu test all_video loadenv \
+ exfat ext2 ntfs btrfs hfsplus udf
+cat >grub.cfg <<'EOT'
+set timeout=3
+set color_highlight=black/light-magenta
+
+menuentry 'Ubuntu ISO' {
+        set isofile="/efi/boot/dell-bto-xenial-dino2-mlk-A00-iso-20161021-0.iso"
+        loopback loop $isofile
+        linux (loop)/casper/vmlinuz.efi boot=casper iso-scan/filename=$isofile noprompt noeject quiet splash persistent --
+        initrd (loop)/casper/initrd.lz
+}
+EOT
+
+sudo mkfs.vfat /dev/sdc
+pmount /dev/sdc
+mkdir -p /media/sdc/efi/boot
+cp bootx64.efi *.iso grub.cfg /media/sdc/efi/boot
+pumount sdc
+```
+
+### Making the installer work
+
+To get the installer to work, I had to comment out the `self.genuine` checks in
+`/usr/lib/ubiquity/plugins/dell-{bootstrap,recovery}.py`, then start `ubiquity`
+from the terminal.
+
+### Switch to LUKS full-disk encryption
+
+Unfortunately, the recovery installation only offers you to encrypt your
+homedir, whereas I would like to encrypt my entire disk. Here are the steps I
+took to enable LUKS full-disk encryption.
+
+First, I copied the root file system’s data to my backup storage. Pay attention
+to copying the files as root, otherwise setuid and setgid bits might get lost.
+
+```
+# mount /dev/mapper/nvme0n1p3 /mnt/root
+# rsync -aXx --relative --numeric-ids /mnt/root/ root@storage:xps/
+# umount /mnt/root
+```
+
+Then, I created a new boot partition, encrypted the root partition and re-created the file system:
+```
+# cat <<'EOT' | sfdisk /dev/nvme0n1
+label: gpt
+label-id: C64A87D1-CA61-4BF2-81E6-0216EE6BC4C0
+device: /dev/nvme0n1
+unit: sectors
+first-lba: 34
+last-lba: 2000409230
+
+/dev/nvme0n1p1 : start=          34, size=      488248, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B, name="EFI System Partition"
+/dev/nvme0n1p2 : start=      488282, size=     5380681, type=EBD0A0A2-B9E5-4433-87C0-68B6B72699C7, name="fat32"
+/dev/nvme0n1p3 : start=     5869568, size=     2097152, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4
+/dev/nvme0n1p4 : start=     7966720, size=  1992442511, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4
+EOT
+# mkfs.ext2 /dev/nvme0n1p3
+# cryptsetup luksFormat /dev/nvme0n1p4
+# cryptsetup luksOpen /dev/nvme0n1p4 nvme0n1p3_crypt
+# mkfs.ext4 /dev/mapper/nvme0n1p4_crypt
+```
+
+Next, I restored the data:
+```
+# mount /dev/mapper/nvme0n1p4_crypt /mnt/root
+# mount /dev/nvme0n1p3 /mnt/root/boot
+# mkdir /mnt/root/boot/efi
+# mount /dev/nvme0n1p1 /mnt/root/boot/efi
+# rsync -aXx --numeric-ids storage:xps/ /mnt/root
+```
+
+And finally, I fixed the boot partition:
+
+```
+# mount -o bind /dev /mnt/root/dev
+# mount -t sysfs sysfs /mnt/root/sys
+# mount -t proc proc /mnt/root/proc
+# chroot /mnt/root /bin/bash
+
+# apt install cryptsetup
+# echo nvme0n1p4_crypt UUID=$(blkid -o value -s UUID /dev/nvme0n1p4) none luks,discard > /etc/crypttab
+# cat >/etc/fstab <<EOT
+UUID=$(blkid -o value -s UUID /dev/mapper/nvme0n1p4_crypt) / ext4 errors=remount-ro 0 1
+UUID=$(blkid -o value -s UUID /dev/nvme0n1p3) /boot ext2 defaults 0 0
+UUID=$(blkid -o value -s UUID /dev/nvme0n1p1) /boot/efi vfat umask=0077 0 1
+EOT
+# update-initramfs -u
+# update-grub
+# grub-install
+
+# umount /mnt/root/{proc,sys,dev,boot/efi,boot,}
+```
