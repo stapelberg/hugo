@@ -2,7 +2,7 @@ baseURL = "https://michael.stapelberg.de/"
 languageCode = "en-us"
 title = "Michael Stapelbergs Website"
 theme = "stapelberg"
-disableKinds = ["taxonomy", "taxonomyTerm", "sitemap"]
+disableKinds = ["taxonomy", "taxonomyTerm", "sitemap", "RSS"]
 publishDir = "docs"
 
 [blackfriday]
