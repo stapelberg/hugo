@@ -161,7 +161,7 @@ export LC_MESSAGES=C
 export LC_TIME=en_DK.UTF-8
 EOT
 
-echo 'source ~/.my_locale_env' >> ~/.zshrc
+echo 'source ~/.my_locale_env' >> ~/.zshenv
 sed -i '2isource ~/.my_locale_env' ~/.xsession
 </pre>
 
