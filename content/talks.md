@@ -1,10 +1,34 @@
 ---
 title: "Talks"
-date: 2017-11-14T09:44:04+01:00
+date: 2018-05-17T21:45:00+01:00
 ---
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
+
+## 2018
+
+(de @ GPN18) kinX: keyboard hacking
+
+{{< talkthumb id="H2fipGm2ysY" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/H2fipGm2ysY)
+  [abstract](https://entropia.de/GPN18:kinX:_keyboard_hacking)
+  [mp4](https://cdn.media.ccc.de/events/gpn/gpn18/h264-hd/gpn18-19-deu-kinX_keyboard_hacking_hd.mp4)
+  [pdf](https://entropia.de/Datei:KinX_(GPN_2018).pdf)
+
+<br style="clear: left" />
+
+(de @ GPN18) Go für Programmierer
+
+{{< talkthumb id="Bq9zubsyPSg" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/Bq9zubsyPSg)
+  [abstract](https://entropia.de/GPN18:Go_f%C3%BCr_ProgrammiererInnen)
+  [mp4](https://cdn.media.ccc.de/events/gpn/gpn18/h264-hd/gpn18-23-deu-Go_fuer_Programmierer_hd.mp4)
+  [pdf](https://entropia.de/Datei:Go_f%C3%BCr_Programmierer_(GPN_2018).pdf)
+
+<br style="clear: left" />
 
 ## 2017
 
