@@ -8,6 +8,15 @@ starting to vanish from the internet, I started collecting them here.
 
 ## 2018
 
+(en @ Google) kinX: keyboard hacking
+
+{{< talkthumb id="6bX6iqqR3XY" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/6bX6iqqR3XY)
+  [slides](https://docs.google.com/presentation/d/1bp53WFR5xnELxQ-oZMDGNNiWYUHSjyyGvBMcd5EPzzc/edit?usp=sharing﻿)
+
+<br style="clear: left" />
+
 (de @ GPN18) kinX: keyboard hacking
 
 {{< talkthumb id="H2fipGm2ysY" maxresdefault="1" webp="1" >}}
