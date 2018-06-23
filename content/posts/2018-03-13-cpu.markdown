@@ -106,6 +106,7 @@ cpu \
 ```
 
 Because it’s subtle:
+
 * `\$PWD` refers to the directory in which the reverse sshfs was mounted by `cpu`.
 * `$PWD` refers to the working directory in which `porterbox-aarch64` was called.
 * `$@` refers to the original command with which `porterbox-aarch64` was called.
