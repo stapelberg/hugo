@@ -1,12 +1,21 @@
 ---
 title: "Talks"
-date: 2018-05-17T21:45:00+02:00
+date: 2018-09-11T19:08:00+02:00
 ---
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
 ## 2018
+
+(en @ GopherCon) router7: A Pure Go Home Router
+
+{{< talkthumb id="HdyLD4HSBH8" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/HdyLD4HSBH8)
+  [slides](https://docs.google.com/presentation/d/1MZF-rASTzoZGf4kb2ymV19294sfg3DzVbsWVPoZFzsA/edit)
+
+<br style="clear: left" />
 
 (en @ GopherCon) Go in Debian
 
