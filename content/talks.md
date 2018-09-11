@@ -8,6 +8,15 @@ starting to vanish from the internet, I started collecting them here.
 
 ## 2018
 
+(en @ GopherCon) Go in Debian
+
+{{< talkthumb id="xQNWrFw2bQw" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/xQNWrFw2bQw)
+  [slides](https://docs.google.com/presentation/d/1W0xjmh85A8DoGvQa2-MrLayyEec7ivArCus1YvruHiI/edit?usp=sharing﻿)
+
+<br style="clear: left" />
+
 (en @ Google) kinX: keyboard hacking
 
 {{< talkthumb id="6bX6iqqR3XY" maxresdefault="1" webp="1" >}}
