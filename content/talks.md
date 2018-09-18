@@ -19,9 +19,9 @@ starting to vanish from the internet, I started collecting them here.
 
 (en @ GopherCon) Go in Debian
 
-{{< talkthumb id="xQNWrFw2bQw" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="A1QNlu1eiBc" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/xQNWrFw2bQw)
+  [YouTube](https://youtu.be/A1QNlu1eiBc)
   [slides](https://docs.google.com/presentation/d/1W0xjmh85A8DoGvQa2-MrLayyEec7ivArCus1YvruHiI/edit?usp=sharing﻿)
 
 <br style="clear: left" />
