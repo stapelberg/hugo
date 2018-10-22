@@ -473,12 +473,8 @@ First, install and start Prometheus:
 
 ```
 edge# apt install prometheus prometheus-node-exporter prometheus-blackbox-exporter
-edge# systemctl enable prometheus
-edge# systemctl restart prometheus
-edge# systemctl enable prometheus-node-exporter
-edge# systemctl restart prometheus-node-exporter
-edge# systemctl enable prometheus-blackbox-exporter
-edge# systemctl restart prometheus-blackbox-exporter
+edge# setcap CAP_NET_RAW=ep /usr/bin/prometheus-blackbox-exporter
+edge# systemctl enable --now prometheus prometheus-node-exporter prometheus-blackbox-exporter
 ```
 
 Then, install and start Grafana:
@@ -489,8 +485,7 @@ edge# wget -qO- https://packagecloud.io/gpg.key | apt-key add -
 edge# echo deb https://packagecloud.io/grafana/stable/debian/ stretch main > /etc/apt/sources.list.d/grafana.list
 edge# apt update
 edge# apt install grafana
-edge# systemctl enable grafana-server
-edge# systemctl restart grafana-server
+edge# systemctl enable --now grafana-server
 ```
 
 Also, install the excellent
