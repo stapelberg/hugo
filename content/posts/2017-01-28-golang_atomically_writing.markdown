@@ -7,6 +7,10 @@ Aliases:
   - /Artikel/golang_atomically_writing
 ---
 <p>
+<strong>NOTE </strong> that the documented assumptions about fsync skipping are incorrect in the code below. Prefer using <a href="https://github.com/google/go-write">the go-write package</a>.
+</p>
+
+<p>
 Writing files is simple, but correctly writing files atomically in a performant
 way might not be as trivial as one might think. Here’s an extensively commented
 function to atomically write compressed files (taken from <a
