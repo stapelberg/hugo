@@ -1,0 +1,114 @@
+---
+layout: post
+title:  "Docker and IPv6"
+date:   2018-12-12 09:54:00 +01:00
+categories: Artikel
+---
+
+My use-case is seemingly very simple: I want to run a webserver in a Docker
+container, and it should be reachable via IPv4 and IPv6. The webserver has
+multiple virtual hosts, some of which just serve static files, while others
+proxy to, say, a [Grafana](https://grafana.com) instance, which is also running
+in a Docker container.
+
+This article walks through the required steps, which are a bit cumbersome to
+puzzle together from Docker’s official documentation.
+
+I’m using documentation-only IPs ([RFC3849](https://tools.ietf.org/html/rfc3849)
+and [RFC5737](https://tools.ietf.org/html/rfc5737)) throughout the
+article. Let’s say that my provider gives me a routed IPv6 subnet
+`2001:db8:13b:330::/64` and the IPv4 address `203.0.113.1`.
+
+### Enabling IPv6 in Docker
+
+The Docker daemon defaults to IPv4-only. To enable IPv6, create the
+configuration file `/etc/docker/daemon.json` with the following content:
+
+```
+{
+  "ipv6": true,
+  "fixed-cidr-v6": "2001:db8:13b:330:ffff::/80"
+}
+```
+
+After restarting the Docker daemon, containers will now get IPv6 addresses based
+on their MAC address, which is picked sequentially from the range
+`02:42:ac:11:00:00` to `02:42:ac:11:ff:ff`. That is, the first container you
+start will use the IPv6 address `2001:db8:13b:330:ffff:0242:ac11:0002`.
+
+### Publishing ports and remote addresses
+
+When publishing port 80 of a webserver, notice the remote address when accessing
+the port via IPv4 and IPv6:
+
+```
+% docker run -p 80:80 nginx
+198.51.100.7 - - [12/Dec/2018:07:38:19 +0000] "GET / HTTP/1.1" 200 612
+172.17.0.1 - - [12/Dec/2018:07:38:40 +0000] "GET / HTTP/1.1" 200 612
+```
+
+The first request (IPv4) has the correct remote address, but not the second one
+(IPv6). This is because Docker publishes ports with
+[NAT](https://en.wikipedia.org/wiki/Network_address_translation) for IPv4, and a
+TCP proxy for IPv6.
+
+Of course, not having access to the actual remote address breaks rate limiting,
+abuse blocking, address-based geo location, etc.
+
+Some people resort to using Docker’s `host` network option, but that’s not a
+good solution: your container will not be able to talk to other containers by
+name anymore, so you will need lots of static, host-specific configuration.
+
+A better solution is to only publish the port via IPv4 and connect to the
+container’s IPv6 address directly:
+
+```
+% docker run --publish 203.0.113.1:80:80 --name nginx nginx
+```
+
+You can obtain the container’s IPv6 address using:
+
+```
+% docker inspect -f '{{.NetworkSettings.GlobalIPv6Address}}' nginx
+```
+
+### Static IPv6 addresses
+
+Above, I explained that we need to use the container’s IPv6 address directly,
+and that the address is derived from the MAC address, which is chosen
+sequentially at container start time.
+
+Having addresses depend on the order in which containers come up isn’t a robust
+solution for my simple setup, where I want to statically configure a DNS record.
+
+Docker allows specifying an IPv6 address, but only when you’re using a [user-defined bridge network](https://docs.docker.com/network/network-tutorial-standalone/#use-user-defined-bridge-networks) with an IPv6 subnet carved out for the network, like so:
+
+```
+% docker network create --subnet 2001:db8:13b:330:dd::/80 --ipv6 nginx
+
+% docker run \
+  --network nginx \
+  --ip6 2001:db8:13b:330:dd:ff::1 \
+  --publish 203.0.113.1:80:80 \
+  nginx
+```
+
+Note that I’m using an IPv6 address from the far end of the address space
+(`ff::1`), so as to not conflict with the addresses that Docker sequentially
+allocates from the network we created.
+
+Now, create a DNS record with the container’s addresses and you’ll be able to
+access it via IPv4 and IPv6 with correct remote addresses, while still being
+able to reach other containers:
+
+```
+www.example.net A    203.0.113.1
+www.example.net AAAA 2001:db8:13b:330:dd:ff::1
+```
+
+Note that all other Docker containers that you want to reach from the nginx
+container must also use the nginx network. This is the recommended solution over
+the old `--link` flag anyway.
+
+One disadvantage of this solution is that you cannot offer services from
+multiple Docker containers on the same IPv6 address (e.g. www and git).
