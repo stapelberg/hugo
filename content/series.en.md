@@ -65,6 +65,16 @@ official trailer was available), the text typically leads to Wikipedia.
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Breaking_Bad">Breaking Bad</a></p>
 </div>
 
+<div style="text-align: center">
+{{< talkthumb id="LQ_aSFebyDA" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/The_IT_Crowd">The IT Crowd</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="bfQkIuMQBkc" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Archer_(2009_TV_series)">Archer</a></p>
+</div>
+
 </div>
 
 ## Netflix: good
@@ -155,16 +165,6 @@ official trailer was available), the text typically leads to Wikipedia.
 <div style="text-align: center">
 {{< talkthumb id="0rY0HJT_CvM" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Futurama">Futurama</a></p>
-</div>
-
-<div style="text-align: center">
-{{< talkthumb id="bfQkIuMQBkc" webp="1" >}}
-<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Archer_(2009_TV_series)">Archer</a></p>
-</div>
-
-<div style="text-align: center">
-{{< talkthumb id="LQ_aSFebyDA" webp="1" >}}
-<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/The_IT_Crowd">The IT Crowd</a></p>
 </div>
 
 <div style="text-align: center">
