@@ -3,6 +3,8 @@ layout: post
 title:  "Network setup for our retro computing event RGB2Rv18"
 date:   2018-10-30 23:00:00 +01:00
 categories: Artikel
+tags:
+- rgb2r
 ---
 
 Our computer association [NoName e.V.](https://www.noname-ev.de/) organizes a

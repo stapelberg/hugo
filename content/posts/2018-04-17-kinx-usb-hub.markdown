@@ -3,6 +3,8 @@ layout: post
 title:  "kinX: USB Hub"
 date:   2018-04-17 17:49:00 +02:00
 categories: Artikel
+tags:
+- kinX
 ---
 
 This post is part of a [series of posts about the kinX project](/posts/2018-04-17-kinx).

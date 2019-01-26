@@ -3,6 +3,8 @@ layout: post
 title:  "kinX: overview"
 date:   2018-04-17 17:49:00 +02:00
 categories: Artikel
+tags:
+- kinX
 ---
 
 The kinX project is described in a series of blog posts:

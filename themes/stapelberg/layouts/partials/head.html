@@ -38,5 +38,9 @@ body, td, th {
     </style>
     <link rel="stylesheet" href="/2.css" type="text/css">
     <link rel="stylesheet" href="/1.css" type="text/css">
-    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM Feed">
+    {{- if (eq .Kind "taxonomy") }}
+    <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
+    {{- else -}}
+    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM feed">
+    {{- end -}}
 </head>

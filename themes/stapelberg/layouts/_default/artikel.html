@@ -3,10 +3,17 @@
 
   {{ partial "head.html" . }}
 
-<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1>{{ partial "menu.html" . }}</div><div id="contentBox" class="col-md-10"><h2 class="title">Artikel</h2><div class="Artikel" id="content">
+<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1>{{ partial "menu.html" . }}</div><div id="contentBox" class="col-md-10"><h2 class="title">Posts</h2><div class="Artikel" id="content">
 <ul class="ArticleList">
 {{ range .Data.Pages }}
-<li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+<li>
+  <a href="{{ .Permalink }}">{{ .Title }}</a>
+  {{ if .Params.tags }}
+  {{ range $idx, $tag := .Params.tags }}
+  <span class="tag"><a href="/posts/tags/{{ $tag | urlize }}/">{{ $tag }}</a></span>
+  {{ end }}
+  {{ end }}
+</li>
 {{ end }}
 </ul>
 </div></div></div></div></div></div></body>

@@ -5,6 +5,8 @@ date:   2017-11-13 22:45:00 +01:00
 categories: Artikel
 Aliases:
   - /Artikel/rgb2r-network
+tags:
+- rgb2r
 ---
 
 Our computer association [NoName e.V.](https://www.noname-ev.de/) organizes a

@@ -2,8 +2,14 @@ baseURL = "https://michael.stapelberg.de/"
 languageCode = "en-us"
 title = "Michael Stapelbergs Website"
 theme = "stapelberg"
-disableKinds = ["taxonomy", "taxonomyTerm", "sitemap", "RSS"]
+disableKinds = ["sitemap", "RSS"]
 publishDir = "docs"
+
+[taxonomies]
+tag = "tags"
+
+[permalinks]
+tags = "/posts/tags/:slug/"
 
 [blackfriday]
   # Disable turning regular quotes into smart quotes (harmful for code blocks):
@@ -12,9 +18,8 @@ publishDir = "docs"
 [params]
   description = "Michael Stapelberg’s private website, containing articles about computers and programming, mostly focused on Linux."
 
-[mediaTypes]
 [mediaTypes."application/atom"]
-suffix = "xml"
+suffixes = ["xml"]
 
 [outputFormats.Atom]
 mediaType = "application/atom"
@@ -23,3 +28,4 @@ isPlainText = false
 
 [outputs]
 home = [ "HTML", "Atom" ]
+taxonomy = [ "HTML", "Atom" ]
