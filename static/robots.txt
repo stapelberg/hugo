@@ -3,3 +3,4 @@ Disallow: /Feed/*
 Disallow: /Bilder/*
 Disallow: /favicon.ico
 Disallow: /Style/*
+Sitemap: https://michael.stapelberg.de/sitemap.xml
