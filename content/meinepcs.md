@@ -1,6 +1,6 @@
 ---
 title: "Meine PCs"
-date: 2017-10-20T08:20:08+02:00
+date: 2019-02-02T16:20:00+01:00
 aliases:
   - /MeinePCs
 ---
@@ -18,13 +18,15 @@ sind jeweils das, was ich wichtig finde an den jeweiligen Computern.
 <li><strong>CPU:</strong> Intel® Core™ i7-8700K</li>
 <li><strong>Mainboard:</strong> ASUS PRIME Z370-A</li>
 <li><strong>RAM:</strong> 64 GB DDR4-RAM</li>
-<li><strong>Festplatte:</strong> 1 TB Samsung 960 PRO M.2</li>
+<li><strong>Festplatte:</strong> 1 TB Samsung 970 PRO M.2</li>
 <li><strong>Tastatur:</strong> Kinesis Advantage Contoured Black USB</li>
-<li><strong>Bildschirm:</strong> ViewSonic VX2475Smhl-4K (3840x2160)</li>
+<li><strong>Bildschirm:</strong> Dell 8K4K monitor (Dell UP3218K) (7680x4320)</li>
 </ul>
 
 <ul style="list-style-type: none">
-
+<li>
+<a href="/posts/2017-12-11-dell-up3218k/" title="Dell 8K4K monitor (Dell UP3218K)">→ Dell 8K4K monitor (Dell UP3218K)</a>
+</li>
 <li>
 <a href="/Artikel/supermicro_x11ssz-qf_workstation_mainboard" title="Supermicro
 X11SSZ-QF workstation mainboard">→ Supermicro X11SSZ-QF workstation
@@ -45,20 +47,19 @@ keyboard controller">→ Hacking your own Kinesis keyboard controller</a>
 </li>
 </ul>
 
-<h3>ThinkPad X1 Carbon 2015</h3>
+<h3>Dell XPS 13" (9360)</h3>
 
 <img src="/debian.svg" width="48" height="60" align="left" alt="Debian">
 <ul style="list-style-type: none; padding-left: 60px">
-<li><strong>CPU:</strong> Intel® Core™ i5-5200U (2.2 GHz)</li>
-<li><strong>RAM:</strong> 8 GB</li>
-<li><strong>Festplatte:</strong> 128 GB TOSHIBA THNSNJ12</li>
-<li><strong>Bildschirm:</strong> 14" TFT (2560x1440)</li>
+<li><strong>CPU:</strong> Intel® Core™ i7-8550U</li>
+<li><strong>RAM:</strong> 16 GB</li>
+<li><strong>Festplatte:</strong> 1 TB SSD</li>
+<li><strong>Bildschirm:</strong> 13.3" (3200x1800)</li>
 </ul>
 
 <ul style="list-style-type: none">
 <li>
-<a href="/Artikel/x200" title="Thinkpad x200">
-→ Thinkpad x200</a>
+<a href="/posts/2018-05-07-xps-13-9360-linux/" title="Installing Dell’s Ubuntu image on an XPS 9360">→ Installing Dell’s Ubuntu image on an XPS 9360</a>
 </li>
 </ul>
 
@@ -88,7 +89,8 @@ title="(Festplatten)Verschlüsselung unter Linux">
 <h3>Network Infrastructure</h3>
 <ul style="list-style-type: none">
 
-<li><strong>Router+WiFi:</strong> Turris Omnia</li>
+<li><strong>Router:</strong> https://github.com/rtr7/router7</li>
+<li><strong>WiFi:</strong> <a href="https://store.ui.com/collections/wireless/products/unifi-hd">Ubiquiti UAP-AC-HD</a></li>
 </ul>
 <ul style="list-style-type: none">
 <li>
