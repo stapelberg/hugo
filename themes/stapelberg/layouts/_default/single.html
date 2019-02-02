@@ -3,7 +3,18 @@
 
   {{ partial "head.html" . }}
 
-<body><div class="container-fluid"><div class="row"><div id="menu" class="col-md-2"><h1>Michael Stapelberg</h1>{{ partial "menu.html" . }}</div><div id="contentBox" class="col-md-10"><h2 class="title">{{ .Title }}</h2> (<span id="date">{{ .Date.Format "2006-01-02" }}</span>) <div class="Artikel" id="content">
-{{ .Content }}
-</div></div></div></div></div></div></body>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+	{{ partial "menu.html" . }}
+	<div id="contentBox" class="col-md-10">
+	  <h2 class="title">{{ .Title }}</h2>
+	  (<span id="date">{{ .Date.Format "2006-01-02" }}</span>)
+	  <div class="Artikel" id="content">
+	    {{ .Content }}
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
 </html>
