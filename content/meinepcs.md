@@ -15,7 +15,7 @@ sind jeweils das, was ich wichtig finde an den jeweiligen Computern.
 
 <img src="/debian.svg" width="48" height="60" align="left" alt="Debian">
 <ul style="list-style-type: none; padding-left: 60px">
-<li><strong>CPU:</strong> Intel® Core™ i7-8700K</li>
+<li><strong>CPU:</strong> Intel® Core™ i9-9900K</li>
 <li><strong>Mainboard:</strong> ASUS PRIME Z370-A</li>
 <li><strong>RAM:</strong> 64 GB DDR4-RAM</li>
 <li><strong>Festplatte:</strong> 1 TB Samsung 970 PRO M.2</li>
