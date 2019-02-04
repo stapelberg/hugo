@@ -1,0 +1,34 @@
+---
+layout: post
+date: 2012-12-01 17:27:00 +0100
+title: "rc bug #694670: kscd does not play any CD"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+Dear Lazyweb,
+</p>
+
+<p>
+I recently investigated <a
+href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=694670">#694670 - kscd
+does not play any CD</a> — essentially, at least on my machine, phonon-based
+applications such as kscd won’t play Audio CDs when your CD drive is not called
+<code>/dev/cdrom</code>, but e.g. <code>/dev/cdrom5</code> because I have had
+multiple CD drives connected to my machine.
+</p>
+
+<p>
+Now, I am not very deeply involved into KDE or phonon in particular. Therefore,
+I am asking: Is there anyone who could have a look into this issue? It should
+be easy to reproduce, you can simply append "5" to "cdrom" in
+<code>/etc/udev/rules.d/70-persistent-cd.rules</code> and reboot afterwards.
+</p>
+
+<p>
+As an outsider, I am somewhat baffled by the complexity of C++, phonon,
+gstreamer, etc. All these layers of abstraction are not that easy to debug, at
+least not for me. Good blog posts about digging into this issue are appreciated
+:-).
+</p>

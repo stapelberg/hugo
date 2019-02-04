@@ -1,0 +1,49 @@
+---
+layout: post
+date: 2013-01-02 10:36:00 +0100
+title: "WIT in Debian"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I just uploaded wit-2.10a to Debian experimental (it has to pass the NEW queue
+first, though).
+</p>
+
+<p>
+WIT (Wiimms ISO Tools) is a set of command-line tools to manipulate Wii and
+GameCube ISO images and WBFS containers. It is useful (for me) to store backups
+of my Wii games on a USB hard disk drive. This saves me the optical disc
+juggling, doesn’t wear off the discs as fast and gives faster load times.
+</p>
+
+<p>
+Here is an example session where I format one partition of the USB hard disk
+with WBFS and then copy my old WBFS image over to it:
+</p>
+
+<pre>
+$ wwt format -v --force /dev/sde3
+
+wwt: Wiimms WBFS Tool v2.10a r0 x86_64 - Dirk Clemens - 2013-01-02
+
+FORMAT BLOCK DEVICE /dev/sde3 [172 GiB, hss=512]
+** 1 file formatted.
+
+$ wwt add --part /dev/sde3 /media/sde1/wbfs/The\ Legend\ of\ Zelda\ Skyward\ Sword\ \[SOUP01\]/*.wbfs
+*****  wwt: Wiimms WBFS Tool v2.10a r0 x86_64 - Dirk Clemens - 2013-01-02  *****
+WBFSv1 #1/1 opened: /dev/sde3
+ - ADD 1/1 [SOUP01] WBFS:/media/sde1/wbfs/The Legend of Zelda Skyward Sword [SOUP01]/SOUP01.wbfs/#0
+* WBFS #1: 1 disc added.
+wwt add --part /dev/sde3   0,02s user 7,66s system 2% cpu 5:02,68 total
+
+$ wwt list
+
+ID6     1/500 discs (4 GiB)
+---------------------------------------------------------------------
+SOUP01  The Legend of Zelda Skyward Sword
+---------------------------------------------------------------------
+Total: 1/500 discs, 4176 MiB ~ 4 GiB used, 171444 MiB ~ 167 GiB free.
+
+</pre>

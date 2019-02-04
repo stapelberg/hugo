@@ -1,0 +1,80 @@
+---
+layout: post
+date: 2016-07-17 14:00:00 +0200
+title: "mergebot: easily merging contributions"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+Recently, I was wondering why I was pushing off accepting contributions in Debian for longer than in other projects. It occurred to me that the effort to accept a contribution in Debian is way higher than in other FOSS projects. My remaining FOSS projects are on GitHub, where I can just click the “Merge” button after deciding a contribution looks good. In Debian, merging is actually a lot of work: I need to clone the repository, configure it, merge the patch, update the changelog, build and upload.
+</p>
+
+<p>
+I wondered how close we can bring Debian to a model where accepting a contribution is just a single click as well. In principle, I think it can be done.
+</p>
+
+<p>
+To demonstrate the feasibility and collect some feedback, I wrote a program called <code>mergebot</code>. The first stage is done: <code>mergebot</code> can be used on your local machine as a command-line tool. You provide it with the source package and bug number which contains the patch in question, and it will do the rest:
+</p>
+
+<pre style="background-color: black; color: white; padding: 0.1em; overflow-x: auto">
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">~</span> $ mergebot -source_package=wit -bug=#831331
+2016/07/17 12:06:06 will work on package "wit", bug "831331"
+2016/07/17 12:06:07 Skipping MIME part with invalid Content-Disposition header (mime: no media type)
+2016/07/17 12:06:07 gbp clone --pristine-tar git+ssh://git.debian.org/git/collab-maint/wit.git /tmp/mergebot-743062986/repo
+2016/07/17 12:06:09 git config push.default matching
+2016/07/17 12:06:09 git config --add remote.origin.push +refs/heads/*:refs/heads/*
+2016/07/17 12:06:09 git config --add remote.origin.push +refs/tags/*:refs/tags/*
+2016/07/17 12:06:09 git config user.email stapelberg AT debian DOT org
+2016/07/17 12:06:09 patch -p1 -i ../latest.patch
+2016/07/17 12:06:09 git add .
+2016/07/17 12:06:09 git commit -a --author Chris Lamb &lt;lamby AT debian DOT org&gt; --message Fix for “wit: please make the build reproducible” (Closes: #831331)
+2016/07/17 12:06:09 gbp dch --release --git-author --commit
+2016/07/17 12:06:09 gbp buildpackage --git-tag --git-export-dir=../export --git-builder=sbuild -v -As --dist=unstable
+2016/07/17 12:07:16 Merge and build successful!
+2016/07/17 12:07:16 Please introspect the resulting Debian package and git repository, then push and upload:
+2016/07/17 12:07:16 cd "/tmp/mergebot-743062986"
+2016/07/17 12:07:16 (cd repo &amp;&amp; git push)
+2016/07/17 12:07:16 (cd export &amp;&amp; debsign *.changes &amp;&amp; dput *.changes)
+
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">~</span> $ cd /tmp/mergebot-743062986/repo
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/mergebot-743062986/repo</span> $ git log HEAD~2..
+commit d983d242ee546b2249a866afe664bac002a06859
+Author: Michael Stapelberg &lt;stapelberg AT debian DOT org&gt;
+Date:   Sun Jul 17 13:32:41 2016 +0200
+
+    Update changelog for 2.31a-3 release
+
+commit 5a327f5d66e924afc656ad71d3bfb242a9bd6ddc
+Author: Chris Lamb &lt;lamby AT debian DOT org&gt;
+Date:   Sun Jul 17 13:32:41 2016 +0200
+
+    Fix for “wit: please make the build reproducible” (Closes: #831331)
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/mergebot-743062986/repo</span> $ git push
+Counting objects: 11, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (11/11), 1.59 KiB | 0 bytes/s, done.
+Total 11 (delta 6), reused 0 (delta 0)
+remote: Sending notification emails to: dispatch+wit_vcs@tracker.debian.org
+remote: Sending notification emails to: dispatch+wit_vcs@tracker.debian.org
+To git+ssh://git.debian.org/git/collab-maint/wit.git
+   650ee05..d983d24  master -&gt; master
+ * [new tag]         debian/2.31a-3 -&gt; debian/2.31a-3
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/mergebot-743062986/repo</span> $ cd ../export
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/mergebot-743062986/export</span> $ debsign *.changes &amp;&amp; dput *.changes
+[…]
+Uploading wit_2.31a-3.dsc
+Uploading wit_2.31a-3.debian.tar.xz
+Uploading wit_2.31a-3_amd64.deb
+Uploading wit_2.31a-3_amd64.changes
+</pre>
+
+<p>
+Of course, this is not quite as convenient as clicking a “Merge” button yet. I have <a href="https://github.com/Debian/mergebot#future-ideas">some ideas</a> on how to make that happen, but I need to know whether people are interested before I spend more time on this.
+</p>
+
+<p>
+Please see <a href="https://github.com/Debian/mergebot">github.com/Debian/mergebot</a> for more details, and please get in touch if you think this is worthwhile or would even like to help. Feedback is accepted in the GitHub issue tracker for mergebot or <a href="https://lists.alioth.debian.org/cgi-bin/mailman/listinfo/mergebot-discuss">the project mailing list mergebot-discuss</a>. Thanks!
+</p>

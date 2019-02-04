@@ -1,0 +1,197 @@
+---
+layout: post
+date: 2014-01-17 21:00:00 +0100
+title: "debmirror 6x speed-up, or how to fill a 1 GBps Rackspace link"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+As explained in more detail in my <a
+href="http://people.debian.org/~stapelberg/2013/12/25/codesearch-rackspace.html">my
+last blog post</a>, Rackspace is providing hosting for <a
+href="http://codesearch.debian.net/">Debian Code Search</a>. For those of you
+who don’t know, Rackspace is a cloud company that provides (among other
+services) a public cloud based on <a
+href="http://www.openstack.org/">OpenStack</a>. That means you can easily (and
+programmatically, if you want) bring up virtual servers, block storage volumes,
+configure the network between them, etc.
+</p>
+
+<p>
+As part of my initial performance experiments, I was running <a
+href="http://packages.debian.org/sid/debmirror">debmirror</a> to clone a full
+Debian source mirror, and I noticed this took about one hour. Given that the
+peak network and storage write rates I have observed in my benchmarks are much
+higher, I wondered why it took so long. About 43 GB (that’s how big the Debian
+sid sources are) in 60 minutes means ≈&nbsp;12&nbsp;MB/s download rate, which
+is a bit more than a sustained 100&nbsp;MBit/s connection. Luckily, at least
+the Rackspace servers I looked at are connected with 1&nbsp;GBit/s to the
+internet, so more should be possible. Note that these are the old Rackspace
+servers. There is a new generation of servers, which I have not yet tried, that
+apparently offer even higher performance.
+</p>
+
+<p>
+After a brief look at the debmirror source code, I concluded that it can only
+use a single mirror and downloads files sequentially. There is some obvious
+potential for improvement here, and the fact that I could come up with a proof
+of concept written in <a href="http://www.golang.org/">Go</a> to determine the
+files to download in a couple of minutes encouraged me to spend my saturday on
+this “problem” :-).
+</p>
+
+<p>
+About 7 hours later, my prototype had gone through various iterations and the
+code could sustain about 115&nbsp;MB/s incoming bandwidth for most of the time.
+Here is a screenshot of <a href="http://dag.wiee.rs/home-made/dstat/">dstat</a>
+measuring the performance:
+</p>
+
+<img src="{{ site.url }}screenshots/2013-10-12-213243_1151x1131_scrot.png">
+
+<p>
+Another 3 hours later, the most obvious bugs were weeded out and the code
+successfully cloned an entire mirror for the first time. I verified the
+correctness by running debmirror afterwards, and no files were downloaded that
+had not actually arrived on the mirror in the meantime.
+</p>
+
+<h3>Features</h3>
+<ol>
+<li>
+<strong>Parallel downloading from multiple mirrors.</strong><br>
+Of course, it is not guaranteed that the mirrors are consistent, but that is a
+solvable problem: whenever a non-200 HTTP response is encountered, the file is
+put back into the queue and gets rescheduled onto any mirror. Eventually, it
+will be rescheduled onto the mirror from which the sources.gz was downloaded,
+and that mirror has to have it.
+</li>
+
+<li>
+<strong>HTTP keep-alive and pipelining.</strong><br>
+debmirror also does HTTP keep-alive (I read that in the source, did not verify
+it), but it downloads files sequentially, i.e. it downloads one file, then
+sends the request for the next file. This means that after one file was
+received, no data is being received until another round-trip finished. For a
+lot of small files (think of .dsc and .debian.tar.gz files or small orig
+tarballs) that really adds up.<br>
+Therefore, I use HTTP pipelining: I send 99 requests and then just receive all
+the responses at full speed. The magic number 99 comes from the fact that this
+is the smallest common denominator that all mirrors I have tested allow. nginx
+by default allows 100 requests.
+</li>
+
+<li>
+<strong>Request ordering.</strong><br>
+Instead of sending requests at random, I sort the download queue by size and
+make sure that the first request on each connection is for a big file. The
+intention is that TCP will adapt to that quickly and use a bigger window size
+as soon as possible instead of ramping up slower later on. Note that I have not
+actually measured the window sizes, so this is just a hunch.<br>
+Another nice side-effect of the ordering is that the amount of data that is
+being sent through each connection is roughly equal. This means we don’t waste
+TCP connections by sending 99 requests for small files only.
+</li>
+
+<li>
+<strong>(Goroutines).</strong><br>
+I’m a bit hesitant to even write about it, so let’s make it quick: Perl (and
+thus debmirror) is typically single-threaded, whereas Goroutines scale nicely
+on multi-core systems. I don’t think it makes a big difference on the machines
+I am running this on as they have only two cores and are not maxed out on CPU
+usage at all. But maybe this will be more important for saturating 10 GBit/s?
+:-)
+</li>
+
+<li>
+<strong>(Mirror selection).</strong><br>
+It’s not a feature of the code, but certainly relevant: of course I selected
+mirrors that are connected to the internet with at least a Gigabit link, serve
+files reasonably fast and have low latency to Rackspace’s Chicago presence.<br>
+Interestingly, while I used to think that universities have access to big
+uplinks and beefy machines, none of the mirrors that I use are located at a
+university. In fact, every mirror ending in <code>.edu</code> that I tried was
+really slow — most of them providing something like 2-4 MB/s.
+</li>
+</ol>
+
+<h3>Results</h3>
+
+<p>
+With the latest iteration of the code, I can clone an entire Debian source
+mirror with ≈ 43 GB of data in about 11.5 minutes, which corresponds to a
+≈&nbsp;63&nbsp;MB/s download rate:
+</p>
+
+<pre>
+GOMAXPROCS=20 ./dcs-debmirror -num_workers=20
+68,24s user 384,90s system 66% cpu 11:25,97 total
+</pre>
+
+<p>
+It should be noted that the download rate is
+very low in the first couple of seconds since the sources.gz file is downloaded
+from a single mirror, then unpacked and analyzed.
+</p>
+
+<p>
+The peak download rate is about 115 MB/s (= 920 MBit/s) which is reasonably
+close at what you can achieve with a Gigabit link, I think. If the entire
+uplink was available to me at all time, the Rackspace hardware would be able to
+saturate that easily, both in terms of reading from the network and in terms of
+writing to block storage. I tested this on an SSD volume, but I see about 113
+MB/s throughput with the internal hard disk, so I think that should work, too.
+</p>
+
+<p>
+There is <a href="{{ site.url }}screenshots/2013-10-12-213844_1151x1131_scrot.png">another
+dstat screenshot of the final version (writing to disk)</a>.
+</p>
+
+<p>
+Perhaps even more interesting to some readers is the time for an incremental
+update:
+</p>
+
+<pre>
+GOMAXPROCS=20 ./dcs-debmirror -tcp_conns=20
+2013/10/13 11:09:55 Downloading 307 files (447 MB total)
+…
+2013/10/13 11:10:04 All 307 files downloaded in 9.105605931s. Download rate is 49.186567 MB/s
+4,91s user 3,99s system 67% cpu 13,205 total
+</pre>
+
+<p>
+The wall clock time is higher than the time reported by the code because the
+code does not count the time for downloading and parsing the sources.gz file.
+</p>
+
+<p>
+The entire program is about 400 lines (not SLOC) of Go code. It’s part of <a
+href="https://github.com/Debian/dcs">the Debian Code Search source</a>. If
+you’re interested, you can <a
+href="https://github.com/Debian/dcs/blob/master/cmd/dcs-debmirror/dcs-debmirror.go">read
+dcs-debmirror.go in your browser</a>.
+</p>
+
+<h3>Conclusions</h3>
+
+<p>
+The outcome of this experiment is that I now know (and have shown!) that there
+are significantly more efficient ways of cloning a Debian mirror than what
+debmirror does. Furthermore, I have a good grasp on what kind of performance
+the Rackspace cloud offers and I am fairly happy with the numbers :-).
+</p>
+
+<p>
+My code is useful to me in context of Debian Code Search, but unless you need a
+sid-only source-only mirror, it will not be useful to you directly. Of course
+you can take the ideas that I implemented and implement them elsewhere —
+personally, I don’t plan to do that.
+</p>
+
+<p>
+If you have hardware, bandwidth and a use-case for 10 GBit/s+ mirroring, I’d
+like to hear about it! :-)
+</p>

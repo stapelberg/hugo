@@ -1,0 +1,34 @@
+---
+layout: post
+date: 2012-10-27 00:38:00 +0200
+title: "RC bugs"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I recently worked on the following RC bugs:
+<ul>
+<li>
+<a href="http://bugs.debian.org/691125">#691125 — ejabberd: package installation creates /root/.erlang.cookie</a><br>
+I tracked down the cause of this and provided a patch. Now I also know how
+piuparts works in detail :-).
+</li>
+
+<li>
+<a href="http://bugs.debian.org/691180">#691180 — connman: Connman won't run due to missing libxtables.so.7</a><br>
+Since this bug does not affect testing and it doesn’t look like iptables
+1.4.16.3-1 (a new upstream release) will go into wheezy (no freeze unblock
+filed), I tagged this with wheezy-ignore. I hope this was right, if not, feel
+free to correct me.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/684645">#684645 — liblockfile1: Order of fcntl and dotlock in maillock</a><br>
+I identified the piece of code which does locking the wrong way. Since I’m not
+familiar enough with either sendmail or NFS-safe locking, I did not send a
+patch. In case you have experience with this, please have a look!
+</li>
+
+</ul>
+</p>

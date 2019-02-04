@@ -1,0 +1,36 @@
+---
+layout: post
+date: 2014-11-09 22:50:00 +0100
+title: "Upcoming Debian Code Search features"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I’ve been working on a significant rearchitecture of Debian Code Search during
+the last few months (off and on, as time permits). This will enable us to
+provide a couple of features that have been often requested but were not
+possible with the old architecture, such as grouping search results by
+Debian source package (#1 feature request) and performing queries that take a
+longer time than the default execution limit of a minute (#2 feature request).
+Oh, and it also will be a lot faster :-).
+</p>
+
+<p>
+All of this (unfortunately?) also requires a redesign of the user interface as
+the old way of displaying results is just fundamentally incompatible with the
+new architecture. This is why it’s taking longer than I’d like (never redesign
+both backend and frontend at the same time), but I’m implementing various nice
+improvements along the way and I think the result will be worth the wait.
+</p>
+
+<p>
+Lea has helped me a lot re-designing the visual appearence of the search
+results page, and the new look (of the upcoming “group by package” feature!) is
+what I want to share in this blog post. If you have any comments, please let me
+know (via email to my debian address, stapelberg@). Enjoy:
+</p>
+
+<p>
+<img src="{{ site.url }}screenshots/dcs-upcoming-2014-11-09-1x.png" srcset="{{ site.url }}screenshots/dcs-upcoming-2014-11-09-2x.png 2x">
+</p>

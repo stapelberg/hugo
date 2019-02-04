@@ -1,0 +1,38 @@
+---
+layout: post
+date: 2012-12-04 00:36:00 +0100
+title: "RC bugs"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I recently worked on the following RC bugs:
+<ul>
+<li>
+<a href="http://bugs.debian.org/694976">#694976 — sigit: doesn't work on amd64</a><br>
+Filed a <a href="http://bugs.debian.org/695065">removal request</a>.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694796">#694796 — kscd: crash with no optical drive</a><br>
+Downgraded severity, it’s not RC.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/672926">#672926 — oidentd: Missing dependency on net-tools</a><br>
+Merged the patch, added the dependencies, NMUed.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694024">#694024 — zutils: Don't print the file name if only one file is grepped</a><br>
+Provided a patch. Reviews welcome.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694972">#694972 — imposm: missing source for imposm/cache/kc.c</a><br>
+Provided further analysis.
+</li>
+
+</ul>
+</p>

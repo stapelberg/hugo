@@ -1,0 +1,65 @@
+---
+layout: post
+date: 2012-11-25 23:27:00 +0100
+title: "RC bugs"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I recently worked on the following RC bugs:
+<ul>
+<li>
+<a href="http://bugs.debian.org/677861">#677861 — lftp: FTBFS[kfreebsd-i386]: error: conflicting declaration 'typedef __int32_t gl_intptr_t'</a><br>
+I provided some analysis. By rebuilding lftp’s configure script with recent
+autotools, this should be fixed.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/676229">#676229 — gnustep-make: should depend on a chosen version of gobjc, not just "gobjc"</a><br>
+This issue was fixed by an upload, but not marked as closed. I tried to
+reproduce it and failed (as expected), so I closed the bug.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694091">#694091 — bcrypt: Tries to load whole file into memory regardless of the size</a><br>
+I patched bcrypt to use a window of 256K over the input and output file instead
+of loading it into memory. I also fixed the offset types so that it works with
+files &gt; 2 GiB on 32-bit platforms.
+</li>
+
+</ul>
+</p>
+
+<p>
+I have to say that I find the BTS to be very hard to read from the perspective
+of a newcomer who wants to help squashing RC bugs, both from a technical and a
+social standpoint.
+</p>
+
+<p>
+As an example for the technical side: blocking bugs are very
+easy to miss, so innocent bugreports which seem actionable turn out to just
+wait for another bug with lots of discussion. Also, it seems like the best
+interface to the BTS for RC bugs is UDD, so <a
+href="http://richardhartmann.de/blog/posts/2012/11/24-Debian_Release_Critical_Bug_report_for_Week_47/">RichiH’s
+RC report</a> was quite helpful.
+</p>
+
+<p>
+For the social side: Bugreports often are in a state in which it is not clear
+what the next course of action is, e.g. <a
+href="http://bugs.debian.org/634261">#634261</a> (the bug is not considered RC,
+but still has severity: grave) or <a
+href="http://bugs.debian.org/684633">#684633</a> (dropping from testing
+suggested but not clear whether a removal request has been filed or not).
+</p>
+
+<p>
+I’m aware that this is very vague critic. I suppose what I am missing is a way
+in which we can make the list of RC bugs more actionable. When I am browsing
+through RC bugs, I often open bugreports and figure out that there’s nothing I
+can do. Possibly a way to improve this situation is by letting people claim
+ownership of a bug and then filtering for un-owned bugs and those which have an
+owner but have not seen any activity for some period of time.
+</p>

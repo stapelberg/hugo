@@ -1,0 +1,39 @@
+---
+layout: post
+date: 2013-07-31 10:20:00 +0200
+title: "dh-golang in unstable"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+Good news, everyone! <a
+href="http://packages.qa.debian.org/d/dh-golang.html">dh-golang</a> is now in
+Debian unstable. With this debhelper addon, packaging software written in <a
+href="http://www.golang.org/">Go</a> is very simple.
+</p>
+
+<p>
+Have a look at <a
+href="http://anonscm.debian.org/gitweb/?p=collab-maint/dh-golang.git;a=tree;f=example">the
+example/ directory</a> in dh-golang to see how it is meant to be used.
+Essentially, export the DH_GOPKG variable containing the canonical upstream
+location of the package (e.g. <a
+href="https://github.com/stapelberg/godebiancontrol">github.com/stapelberg/godebiancontrol</a>)
+and then use <code>dh $@ --buildsystem=golang --with=golang</code>. That’s it!
+</p>
+
+<p>
+Now, given that this package is very new and only two packages use it so far
+(both of which are not yet in Debian, but real soon™), there are most likely
+bugs and missing features. This is where you come in: when packaging software
+written in Go, please contact me and tell me whether dh-golang worked for you
+and what could be improved. In case something does not work, definitely report
+it. Even if everything worked, I’d be happy to have a look at your packaging
+before you upload.
+</p>
+
+<p>
+Also see <a
+href="https://wiki.debian.org/MichaelStapelberg/GoPackaging">https://wiki.debian.org/MichaelStapelberg/GoPackaging</a>.
+</p>

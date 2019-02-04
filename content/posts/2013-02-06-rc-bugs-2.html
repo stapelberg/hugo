@@ -1,0 +1,75 @@
+---
+layout: post
+date: 2013-02-06 21:08:00 +0100
+title: "RC bugs"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I recently worked on the following RC bugs:
+<ul>
+
+<li>
+<a href="http://bugs.debian.org/696532">#696532 — isdnlog: /etc/isdn/isdnlog.isdnctrl0 is easily destroyed in squeeze to wheezy upgrade</a><br>
+Pinged the maintainer about uploading a fix to unstable, too (was only fixed in experimental).
+</li>
+
+<li>
+<a href="http://bugs.debian.org/693208">#693208 — clang: unable to link trivial test program on armhf</a><br>
+Filed a request to upload a new version to testing-proposed-updates.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694986">#694986 — flash-kernel: postinst modifies /etc/default/rcS</a><br>
+Pinged.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694352">#694352 — lcdf-typetool include non free adobe data; glyph list</a><br>
+Filed a request to upload a new version to testing-proposed-updates.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/593607">#593607 — pcmanfm wrongly deleted some files in a failed move operation</a><br>
+Updated the bugreport status to reflect reality.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/698137">#698137 — destroys icinga.cfg on postinst when it's a symlink</a><br>
+Reproduced, asked whether to NMU.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694622">#694622 — nut-snmp: Can't connect to UPS [apcpdu] (snmp-ups-apcpdu): No such file or directory</a><br>
+Reproduced, asked for more info.
+</li>
+
+
+</ul>
+</p>
+
+<p>
+By the way, in case anyone needs to reproduce an armhf bug and wants to do so
+in a chroot with qemu, here are the steps I used:
+</p>
+
+<pre>
+sudo qemu-debootstrap --arch=armhf --foreign wheezy armhf http://ftp.de.debian.org/debian
+sudo LC_ALL=C chroot armhf /bin/bash
+echo 'deb http://ftp.de.debian.org/debian wheezy main' &gt; /etc/apt/sources.list
+echo 'nameserver 8.8.8.8' &gt; /etc/resolv.conf
+apt-get update
+apt-get install clang
+</pre>
+
+<p>
+Also, here are UDD queries which I prefer to those posted by RichiH. Note that
+they don’t display all bugs, but ignore those which were created in the last 7
+days.
+</p>
+
+<ul>
+<li><a href="http://udd.debian.org/bugs.cgi?release=wheezy_and_sid&patch=only&pending=ign&merged=ign&fnewer=ign&fnewerval=7&rc=1&sortby=last_modified&sorto=asc&ctags=1&cdeferred=1">Bugreports with patches</a></li>
+<li><a href="http://udd.debian.org/bugs.cgi?release=wheezy_and_sid&patch=ign&pending=ign&merged=ign&done=ign&fnewer=ign&fnewerval=7&rc=1&sortby=last_modified&sorto=asc&ctags=1&cdeferred=1">Bugreports without a patch</a></li>
+</ul>

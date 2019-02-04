@@ -1,0 +1,40 @@
+---
+layout: post
+date: 2013-02-06 00:25:00 +0100
+title: "RC bugs"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I recently worked on the following RC bugs:
+<ul>
+
+<li>
+<a href="http://bugs.debian.org/696187">#696187 — squid-cgi: CVE-2012-5643: cachemgr.cgi denial of service</a><br>
+NMUed the upstream patches after nearly 2 months of no maintainer reaction on the bugreport.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/684645">#684645 — sendmail-bin: Order of fcntl and dotlock in maillock</a><br>
+Coordinated with the soon-to-be maintainer and explained (in private) that the
+upload should only contain a minimum amount of changes in order to be
+unblocked.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/690075">#690075 — unblock: dnsmasq/2.63-4</a><br>
+Pinged the maintainer about the current situation.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/693208">#693208 — clang: unable to link trivial test program on armhf</a><br>
+Reproduced the issue, now building clang on qemu-armhf… This takes quite a while.
+</li>
+
+</ul>
+</p>
+
+<p>
+It is getting hard to find RC bugs to work on. If you have access to ia64 hardware, have a look at <a href="http://bugs.debian.org/694971">#694971 — Epiphany browser crashes within JSC::JSArray::increaseVectorLength()</a> or <a href="http://bugs.debian.org/697172">#697172 — sporadic crashes of epiphany browser due to a thread-unsafe favicon database</a>. Both have patches available that just need to be tested.
+</p>

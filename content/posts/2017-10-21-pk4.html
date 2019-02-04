@@ -1,0 +1,93 @@
+---
+layout: post
+date: 2017-10-21 10:05:00 +0200
+title: "pk4: a new tool to avail the Debian source package producing the specified package"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+  UNIX distributions used to come with the system source code
+  in <code>/usr/src</code>. This is a concept which fascinates me: if you want
+  to change something in any part of your system, just make your change in the
+  corresponding directory, recomile, reinstall, and you can immediately see your
+  changes in action.
+</p>
+
+<p>
+  So, I decided I wanted to build a tool which can give you the impression of
+  that, without the downsides of additional disk space usage and slower update
+  times because of <code>/usr/src</code> maintenance.
+</p>
+
+<p>
+  The result of this effort is a tool called <code>pk4</code> (mnemonic: get me
+  the package for…) which I just uploaded to Debian.
+</p>
+
+<p>
+  What distinguishes this tool from an <code>apt source</code> call is the
+  combination of a number of features:
+</p>
+
+<ul>
+  <li>
+    pk4 defaults to the version of the package which is installed on your
+    system. This means when installing the resulting packages, you won’t be
+    forced to upgrade your system in case you’re not running the latest
+    available version.
+    <br>
+    In case the package is not installed on your system, the candidate
+    (see <code>apt policy</code>) will be used.
+  </li>
+  <li>
+    pk4 tries hard to resolve the provided argument(s): you can specify Debian
+    binary package names, Debian source package names, or file paths on your
+    system (in which case the owning package will be used).
+  </li>
+  <li>
+    pk4 comes with tab completion for bash and zsh.
+  </li>
+  <li>
+    pk4 caps the disk usage of the checked out packages by deleting the oldest ones
+    after crossing a limit (default: 2GiB).
+  </li>
+  <li>
+    pk4 allows users to enable supplied or shipped-with-pk4 hooks, e.g. git-init.
+    <br>
+    The git-init hook in particular results in an experience that reminds of
+    <a href="https://manpages.debian.org/stretch/dgit/dgit.1.en.html">dgit</a>,
+    and in fact it might be useful to combine the two tools in some way.
+  </li>
+  <li>
+    pk4 optimizes for low latency of each operation.
+  </li>
+  <li>
+    pk4 respects your APT configuration, i.e. should work in company intranets.
+  </li>
+  <li>
+    tries hard to download source packages, with fallback to snapshot.debian.org.
+  </li>
+</ul>
+
+<p>
+  If you don’t want to wait for the package to clear the NEW queue, you can get
+  it from here in the meantime:
+</p>
+<pre>
+wget https://people.debian.org/~stapelberg/pk4/pk4_1_amd64.deb
+sudo apt install ./pk4_1_amd64.deb
+</pre>
+
+<p>
+  You can find the sources and issue tracker
+  at <a href="https://github.com/Debian/pk4">https://github.com/Debian/pk4</a>.
+</p>
+
+<p>
+  Here is a terminal screencast of the tool in action, availing the sources of
+  i3, applying a patch, rebuilding the package and replacing the installed
+  binary packages:
+</p>
+
+<script type="text/javascript" src="https://asciinema.org/a/TgYn2wkABiob14WKb2UefNl9f.js" id="asciicast-TgYn2wkABiob14WKb2UefNl9f" async></script>

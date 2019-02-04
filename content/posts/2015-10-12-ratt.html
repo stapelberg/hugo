@@ -1,0 +1,81 @@
+---
+layout: post
+date: 2015-10-12 09:15:00 +0200
+title: "ratt: Rebuild All The Things!"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+When uploading a new library package which changes its API/behavior in a subtle
+way, typically you will only hear about the downstream breakage after you’ve
+uploaded the new library package (via bug reports telling you that your package
+FTBFS, fails to build from source).
+</p>
+
+<p>
+I prefer quality-assurance to happen proactively rather than reactively
+whenever possible, so I set out to write a tool which automates the rebuild of
+reverse-build-dependencies, i.e. all packages whose build process could be
+affected by the package one is about to upload.
+</p>
+
+<p>
+The result is a tool called <a href="https://github.com/Debian/ratt">ratt</a>,
+which is short for “Rebuild All The Things!”. It injects the newly-built Debian
+package you provide it, figures out all the reverse-build-dependencies, invokes
+sbuild for all of them, and finally presents you with a list of packages that
+failed to build.
+</p>
+
+<p>
+To demonstrate how the tool works, let’s assume we want to upload a new version of the
+Go library <a
+href="https://github.com/jacobsa/gcloud">github.com/jacobsa/gcloud</a>. To keep
+this example brief, we don’t actually do anything to the package but bump its
+version number:
+</p>
+
+<pre style="background-color: black; color: white; padding: 0.1em; overflow-x: auto">
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp</span> $ debcheckout golang-github-jacobsa-gcloud-dev
+declared git repository at git://anonscm.debian.org/pkg-go/packages/golang-github-jacobsa-gcloud.git
+git clone git://anonscm.debian.org/pkg-go/packages/golang-github-jacobsa-gcloud.git golang-github-jacobsa-gcloud-dev ...
+Cloning into 'golang-github-jacobsa-gcloud-dev'...
+remote: Counting objects: 84, done.
+remote: Compressing objects: 100% (73/73), done.
+remote: Total 84 (delta 19), reused 0 (delta 0)
+Receiving objects: 100% (84/84), 87.70 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (19/19), done.
+Checking connectivity... done.
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp</span> $ cd golang-github-jacobsa-gcloud-dev
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/golang-github-jacobsa-gcloud-dev</span> $ dch -i -m 'dummy new version'
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/golang-github-jacobsa-gcloud-dev</span> $ git commit -a -m 'dummy new version'
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/golang-github-jacobsa-gcloud-dev</span> $ gbp buildpackage --git-pbuilder
+[…]
+</pre>
+
+<p>
+So far, so good. Now let’s invoke ratt to rebuild all reverse-build-dependencies:
+</p>
+
+<pre style="background-color: black; color: white; padding: 0.1em; overflow-x: auto">
+<span style="background-color: #04B5B8; color: black">midna</span> <span style="color: #8AE234">/tmp/golang-github-jacobsa-gcloud-dev</span> $ ratt golang-github-jacobsa-gcloud_0.0\~git20150709-2_amd64.changes         
+2015/08/16 11:48:41 Loading changes file "golang-github-jacobsa-gcloud_0.0~git20150709-2_amd64.changes"
+2015/08/16 11:48:41  - 1 binary packages: golang-github-jacobsa-gcloud-dev
+2015/08/16 11:48:41  - corresponding .debs (will be injected when building):
+2015/08/16 11:48:41     golang-github-jacobsa-gcloud-dev_0.0~git20150709-2_all.deb
+2015/08/16 11:48:41 Loading sources index "/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_sid_contrib_source_Sources"
+2015/08/16 11:48:41 Loading sources index "/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_sid_main_source_Sources"
+2015/08/16 11:48:43 Loading sources index "/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_sid_non-free_source_Sources"
+2015/08/16 11:48:43 Building golang-github-jacobsa-ratelimit_0.0~git20150723.0.2ca5e0c-1 (commandline: [sbuild --arch-all --dist=sid --nolog golang-github-jacobsa-ratelimit_0.0~git20150723.0.2ca5e0c-1 --extra-package=golang-github-jacobsa-gcloud-dev_0.0~git20150709-2_all.deb])
+2015/08/16 11:49:19 Build results:
+2015/08/16 11:49:19 PASSED: golang-github-jacobsa-ratelimit_0.0~git20150723.0.2ca5e0c-1
+</pre>
+
+<p>
+Thanks for reading this far, and I hope ratt makes your life a tiny
+bit easier. As <a
+href="https://packages.debian.org/sid/ratt">ratt just
+entered Debian unstable</a>, you can install it using <code>apt-get install
+ratt</code>. If you have any feedback, I’m eager to hear it.
+</p>

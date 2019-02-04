@@ -1,0 +1,82 @@
+---
+layout: post
+date: 2013-05-25 20:35:00 +0200
+title: "Cloning git-buildpackage repositories"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+Whenever I want to work on some package, I usually clone its git repository,
+make my changes, then push and upload the Debian package. I don’t keep those
+repositories around in order to avoid cruft and also to have a 100% clean,
+up-to-date setup whenever I start working on something.
+</p>
+
+<p>
+Everytime I clone such a repository, I struggle with the setup. For example, I
+usually forget the --pristine-tar flag for gbp-clone. Also, I usually forget to
+push other branches (working on “debian”, forgetting “upstream”) and, even more
+often, I forget pushing tags.
+</p>
+
+<p>
+I spent some time on this and figured out that one can use the following to
+make --pristine-tar the default:
+</p>
+
+<pre>
+cat &gt;&gt; ~/.gbp.conf &lt;EOF
+[DEFAULT]
+pristine-tar = True
+EOF
+</pre>
+
+<p>
+Avoiding my other pain points is not so easy apparently, so I wrote a little
+shell function (only tested with zsh!) which uses debcheckout to get the git
+URL, gbp-clone to actually clone it and a few git config calls to make me able
+to just “git push” when I am done and not worry about anything:
+</p>
+
+<pre>
+# Clones the git sources of a Debian package
+# needs debcheckout from devscripts and gbp-clone from git-buildpackage
+function d-clone() {
+    local package=$1
+    if debcheckout --print $package &gt;/dev/null
+    then
+        set -- $(debcheckout --print $package)
+        if [ "$1" != "git" ]
+        then
+            echo "$package does not use git, but $1 instead."
+            return
+        fi
+
+        echo "cloning $2"
+        gbp-clone $2 || return
+
+        # Change to the newest git repository
+        cd $(dirname $(ls -1td */.git | head -1)) || return
+
+        # This tells git to push all branches at once,
+        # i.e. if you changed upstream and debian (after git-import-orig),
+        # both upstream and debian will be pushed when running “git push”.
+        git config push.default matching || return
+
+        # This tells git to push tags automatically,
+        # so you don’t have to use “git push; git push --tags”.
+        git config --add remote.origin.push "+refs/heads/*:refs/heads/*" || return
+        git config --add remote.origin.push "+refs/tags/*:refs/tags/*" || return
+
+        echo "d-clone set up everything successfully."
+    else
+        echo "debcheckout $package failed. Is $package missing Vcs tags?"
+    fi
+}
+</pre>
+
+<p>
+With that function, starting work on a package becomes as easy as
+<code>“d-clone golang-doc”</code>.
+</p>

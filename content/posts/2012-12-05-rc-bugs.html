@@ -1,0 +1,34 @@
+---
+layout: post
+date: 2012-12-05 22:15:00 +0100
+title: "RC bugs"
+categories: Artikel
+tags:
+- debian
+---
+<p>
+I recently worked on the following RC bugs:
+<ul>
+<li>
+<a href="http://bugs.debian.org/669513">#669513 — gnat-4.4: FTBFS: unsatisfiable build-dependency</a><br>
+Closed, no longer reproducible with the version in testing.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/694810">#694810 — plib: CVE-2012-4552</a><br>
+Uploaded an NMU to unstable.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/684130">#684130 — digikam: crash when starts</a><br>
+Closed, not reproducible with the version in testing.
+</li>
+
+<li>
+<a href="http://bugs.debian.org/645133">#645133 — simile-timeline: source package should use proper source</a><br>
+Repackaged the orig tarball to generate all files at build-time (instead of
+using the pre-minified files).
+</li>
+
+</ul>
+</p>
