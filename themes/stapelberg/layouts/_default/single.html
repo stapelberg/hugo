@@ -27,6 +27,9 @@
 	  <span class="tag"><a href="/posts/tags/{{ $tag | urlize }}/">{{ $tag }}</a></span>
 	  {{ end }}
 	  {{ end }}
+	  <span style="background-color: black; border-radius: 25%; padding-left: 0.1em; padding-right: 0.1em">
+	    <a style="text-decoration: none; color: white" href="https://github.com/stapelberg/hugo/edit/master/content/posts/{{ .File.LogicalName }}">✎</a>
+	  </span>
 	  </div>
 	  <div class="Artikel" id="content">
 	    {{ .Content }}
