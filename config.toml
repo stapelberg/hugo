@@ -5,6 +5,7 @@ theme = "stapelberg"
 disableKinds = ["RSS"]
 publishDir = "docs"
 ignoreFiles = ["\\.svgo\\.svg$", "turbopfor/Makefile$"]
+enableGitInfo = true
 
 [taxonomies]
 tag = "tags"

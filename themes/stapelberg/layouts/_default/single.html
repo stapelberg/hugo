@@ -9,7 +9,25 @@
 	{{ partial "menu.html" . }}
 	<div id="contentBox" class="col-md-10">
 	  <h2 class="title">{{ .Title }}</h2>
-	  (<span id="date">{{ .Date.Format "2006-01-02" }}</span>)
+	  <div style="margin-bottom: 2em">
+	    {{ $pub := .Date.Format "2006-01-02" }}
+	    {{ $mod := .Page.Lastmod.Format "2006-01-02" }}
+	    {{ if eq $pub $mod }}
+	    <span id="date">published {{ $pub }}</span>
+	    {{ else }}
+	    <span id="date">published {{ $pub }}, last modified {{ $mod }}</span>
+	    {{ end }}
+	  {{ if .Params.tags }}
+	  {{ if eq (len .Params.tags) 1 }}
+	  in tag
+	  {{ else }}
+	  in tags
+	  {{ end }}
+	  {{ range $idx, $tag := .Params.tags }}
+	  <span class="tag"><a href="/posts/tags/{{ $tag | urlize }}/">{{ $tag }}</a></span>
+	  {{ end }}
+	  {{ end }}
+	  </div>
 	  <div class="Artikel" id="content">
 	    {{ .Content }}
 	  </div>
