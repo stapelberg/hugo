@@ -4,7 +4,7 @@ title = "Michael Stapelbergs Website"
 theme = "stapelberg"
 disableKinds = ["RSS"]
 publishDir = "docs"
-ignoreFiles = ["\\.svgo\\.svg$", "turbopfor/Makefile$"]
+ignoreFiles = ["turbopfor/[^s][^v][^g][^o]\\.svg$", "turbopfor/Makefile$"]
 enableGitInfo = true
 
 [taxonomies]
