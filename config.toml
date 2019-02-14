@@ -6,6 +6,10 @@ disableKinds = ["RSS"]
 publishDir = "docs"
 ignoreFiles = ["turbopfor/[^s][^v][^g][^o]\\.svg$", "turbopfor/Makefile$"]
 enableGitInfo = true
+# TODO: this wipes .git of docs/ :O
+# fix that in hugo/commands/hugo.go
+# Delete files in docs/ if they vanish:
+# cleanDestinationDir = true
 
 [taxonomies]
 tag = "tags"
