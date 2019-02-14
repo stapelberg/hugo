@@ -32,7 +32,7 @@
 	  </span>
 	  </div>
 	  <div class="Artikel" id="content">
-	    {{ if gt .WordCount 1000 }}
+	    {{- if gt .WordCount 1000 }}
 	    <style type="text/css">
 	      #TableOfContents > ul, #TableOfContents > ul > li > ul {
 		  list-style: none;
@@ -44,7 +44,7 @@
 	      <summary>Table of contents</summary>
 	      {{ .TableOfContents }}
 	    </details>
-	    {{ end }}
+	    {{- end }}
 	    {{ .Content }}
 	  </div>
 	</div>
