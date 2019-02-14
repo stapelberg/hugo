@@ -1,4 +1,4 @@
-baseURL = "https://michael.stapelberg.de/"
+baseURL = "https://michael.stapelberg.ch/"
 languageCode = "en-us"
 title = "Michael Stapelbergs Website"
 theme = "stapelberg"

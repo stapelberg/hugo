@@ -14,7 +14,7 @@ aliases:
 <li><a class="filename" href="/Dokumente/DNA_Beweis.pdf"><span class="titel">Beweis: DNA ist Träger der Erbinformation</span></a> <a class="quellen" href="/Dokumente/DNA_Beweis.tex.gz">(TeX-Quellen)</a></li>
 <li><a class="filename" href="/Dokumente/NS_Ideologie.pdf"><span class="titel">Ideologie des Nationalsozialismus</span></a> <a class="quellen" href="/Dokumente/NS_Ideologie.tex.gz">(TeX-Quellen)</a></li>
 <li><a class="filename" href="/Dokumente/Raeuber_Brittnacher.pdf"><span class="titel">Referat über Sekundärliteratur zu den „Räubern” von Hans Richard Brittnacher</span></a> <a class="quellen" href="/Dokumente/Raeuber_Brittnacher.tar.gz">(TeX-Quellen)</a></li>
-<li><a class="filename" href="http://michael.stapelberg.de/ipv6-beispiele.tar.bz2"><span class="titel">Portieren von C-Programmen auf IPv6</span></a> <a class="quellen" href="http://michael.stapelberg.de/ipv6-beispiele.tar.bz2">(TeX-Quellen)</a></li>
+<li><a class="filename" href="/ipv6-beispiele.tar.bz2"><span class="titel">Portieren von C-Programmen auf IPv6</span></a> <a class="quellen" href="/ipv6-beispiele.tar.bz2">(TeX-Quellen)</a></li>
 <li><a class="filename" href="http://code.stapelberg.de/git/la-mitschrieb/"><span class="titel">Mitschrieb der Linearen Algebra 1 bei Herr Banagl</span></a> <a class="quellen" href="http://code.stapelberg.de/git/la-mitschrieb/">(TeX-Quellen)</a></li>
 <li><a class="filename" href="/Dokumente/debian-code-search.pdf"><span class="titel">Bachelorarbeit: Debian Code Search</span></a> <a class="quellen" href="/Dokumente/dcs-bsc-thesis-2012-12-19.tar.bz2">(TeX-Quellen)</a></li>
 </ul>
