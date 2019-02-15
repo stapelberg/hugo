@@ -5,6 +5,7 @@ title: "Debugging experience in Debian"
 categories: Artikel
 tags:
 - debian
+
 ---
 
 Recently, a user reported that [they don’t see window titles in i3 when running
