@@ -24,3 +24,6 @@ My early adoptions are IPv6 and HiDPI, so I contributed patches to numerous
 programs (chromium, apt, radvd, vsftpd, etc.)
 
 I sometimes give [talks](/talks).
+
+To email me, replace the first dot with an @ symbol in this site’s domain. If
+you decide to GPG-encrypt your email, expect a delayed clear-text response.
