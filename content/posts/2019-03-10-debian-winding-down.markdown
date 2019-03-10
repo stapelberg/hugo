@@ -9,7 +9,7 @@ tags:
 
 This post is hard to write, both in the emotional sense but also in the “I would
 have written a shorter letter, but I didn’t have the time” sense. Hence, please
-assume the best of intentions when reading it — it is not my intention to make
+assume the best of intentions when reading it—it is not my intention to make
 anyone feel bad about their contributions, but rather to provide some insight
 into why my frustration level ultimately exceeded the threshold.
 
@@ -56,7 +56,7 @@ personally like my computer systems. I am very conscious of how I spend the
 little spare time that I have these days.
 
 The following sections each deal with what I consider a major pain point, in no
-particular order. Some of them influence each other — for example, if changes
+particular order. Some of them influence each other—for example, if changes
 worked better, we could have a chance at transitioning packages to be more
 easily machine readable.
 
