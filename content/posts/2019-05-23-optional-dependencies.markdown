@@ -101,3 +101,4 @@ If you do decide to make dependencies optional, please:
 1. Set up automated testing for **all** code path combinations.
 2. Fail the build until packagers explicitly pass a `--disable` flag.
 3. Tell users their version is missing a dependency at runtime, e.g. in `--version`.
+
