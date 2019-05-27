@@ -10,8 +10,13 @@
 	<div id="contentBox" class="col-md-10">
 	  <h2 class="title">{{ .Title }}</h2>
 	  <div style="margin-bottom: 2em">
-	    {{ $pub := .Date.Format "2006-01-02" }}
-	    {{ $mod := .Page.GitInfo.CommitDate.Format "2006-01-02" }}
+	    {{- $pub := .Date.Format "2006-01-02" -}}
+	    {{- $mod := "" -}}
+	    {{- if (not .GitInfo) }}
+            {{- $mod = .Lastmod.Format "2006-01-02" -}}
+	    {{ else }}
+            {{- $mod = .Page.GitInfo.CommitDate.Format "2006-01-02" -}}
+	    {{ end -}}
 	    {{ if eq $pub $mod }}
 	    <span id="date">published {{ $pub }}</span>
 	    {{ else }}
