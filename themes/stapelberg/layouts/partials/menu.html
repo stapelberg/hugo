@@ -1,12 +1,12 @@
 <div id="menu" class="col-md-2">
   <div style="display: flex; align-items: center">
-    <img src="/logo1x.jpg" srcset="/logo2x.jpg 2x, /logo3x.jpg 3x" width="45" style="border-radius: 40%; margin-right: .25em">
+    <img src="{{ "/logo1x.jpg" | relURL }}" srcset="{{ "/logo2x.jpg" | relURL }} 2x, {{ "/logo3x.jpg" | relURL }} 3x" width="45" style="border-radius: 40%; margin-right: .25em">
     <h1 style="letter-spacing: .75px">Michael Stapelberg</h1>
   </div>
 
   <ul class="menu_open">
-    <li><a class="menu_item" href="/"><span class="menu_title">About</span></a></li>
-    <li><a class="menu_item" href="/posts/"><span class="menu_title">Blog</span></a></li>
+    <li><a class="menu_item" href="{{ "/" | relURL }}"><span class="menu_title">About</span></a></li>
+    <li><a class="menu_item" href="{{ "/posts/" | relURL }}"><span class="menu_title">Blog</span></a></li>
     <li><span class="menu_title">Programs</span>
       <div class="subitem">
 	<ul class="menu_open">
@@ -15,7 +15,7 @@
 	  <li><a class="menu_item" href="https://robustirc.net/"><span class="menu_title">RobustIRC</span></a></li>
 	  <li><a class="menu_item" href="https://github.com/rtr7/router7/"><span class="menu_title">router7</span></a></li>
 	  <li><a class="menu_item" href="https://www.x11vis.org/"><span class="menu_title">x11vis</span></a></li>
-	  <li><a class="menu_item" href="/c128_kasse"><span class="menu_title">c128_kasse</span></a></li>
+	  <li><a class="menu_item" href="{{ "/c128_kasse" | relURL }}"><span class="menu_title">c128_kasse</span></a></li>
 	</ul>
       </div>
     </li>
@@ -29,7 +29,7 @@
       </div>
     </li>
 
-    <li><a class="menu_item" href="/talks"><span class="menu_title">Talks</span></a></li>
-    <li><a class="menu_item" href="/series"><span class="menu_title">TV series</span></a></li>
+    <li><a class="menu_item" href="{{ "/talks" | relURL }}"><span class="menu_title">Talks</span></a></li>
+    <li><a class="menu_item" href="{{ "/series" | relURL }}"><span class="menu_title">TV series</span></a></li>
   </ul>
 </div>

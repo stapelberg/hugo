@@ -3,7 +3,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ .Title }}</title>
     <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="{{ "/favicon.ico" | relURL }}" />
     <meta name="description" content="{{ .Site.Params.description }}">
     <link rel="canonical" href="{{ absURL .URL }}">
     <meta name="author" content="Michael Stapelberg">
@@ -13,21 +13,21 @@
   font-family: 'Yanone Kaffeesatz Regular';
   font-style: normal;
   font-weight: 400;
-  src: local('Yanone Kaffeesatz Regular'), url('/YanoneKaffeesatz-Regular.ttf') format('truetype');
+  src: local('Yanone Kaffeesatz Regular'), url('{{ "/YanoneKaffeesatz-Regular.ttf" | relURL }}') format('truetype');
 }
 
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
   font-weight: normal;
-  src: local('Droid Sans'), local('DroidSans'), url('/droid_sans.ttf') format('truetype');
+  src: local('Droid Sans'), local('DroidSans'), url('{{ "/droid_sans.ttf" | relURL }}') format('truetype');
 }
 
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
   font-weight: bold;
-  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/droid_sans_bold.ttf') format('truetype');
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('{{ "/droid_sans_bold.ttf" | relURL }}') format('truetype');
 }
 
 body, td, th {
@@ -36,11 +36,11 @@ body, td, th {
   color: #000;
 } 
     </style>
-    <link rel="stylesheet" href="/2.css" type="text/css">
-    <link rel="stylesheet" href="/1.css" type="text/css">
+    <link rel="stylesheet" href="{{ "/2.css" | relURL }}" type="text/css">
+    <link rel="stylesheet" href="{{ "/1.css" | relURL }}" type="text/css">
     {{- if (eq .Kind "taxonomy") }}
     <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
     {{- else -}}
-    <link rel="alternate" href="/feed.xml" type="application/atom+xml" title="ATOM feed">
+    <link rel="alternate" href="{{ "/feed.xml" | relURL }}" type="application/atom+xml" title="ATOM feed">
     {{- end -}}
 </head>
