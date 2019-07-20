@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2019-07-20
-title: "Can we do without hooks and triggers?"
+title: "Linux distributions: Can we do without hooks and triggers?"
 categories: Artikel
 tags:
 - debian
