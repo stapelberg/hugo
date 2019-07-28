@@ -37,7 +37,8 @@ body, td, th {
 } 
     </style>
     <link rel="stylesheet" href="{{ "/2.css" | relURL }}" type="text/css">
-    <link rel="stylesheet" href="{{ "/1.css" | relURL }}" type="text/css">
+    {{ $style := resources.Get "/1.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}" type="text/css">
     {{- if (eq .Kind "taxonomy") }}
     <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
     {{- else -}}
