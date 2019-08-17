@@ -367,3 +367,35 @@ span.tag a:link,span.tag a:visited {
         flex-direction: column-reverse;
     }
 }
+
+.note,
+.warning {
+  display: grid;
+  grid-template-columns: 20px auto;
+  max-width: 40em;
+}
+
+.note #exclamation-icon,
+.warning #exclamation-icon {
+  fill: #0594CB;
+  margin-right: 2em;
+}
+
+.admonition-content {
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-color: #0594CB;
+
+  display: block;
+  margin: 0px;
+  padding: .125em 1em;
+  margin-left: .5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  overflow-x: auto;
+  background-color: rgba(0, 0, 0, .05);
+}
+
+#content table {
+    margin-bottom: 1em;
+}
