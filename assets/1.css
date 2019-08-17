@@ -399,3 +399,7 @@ span.tag a:link,span.tag a:visited {
 #content table {
     margin-bottom: 1em;
 }
+
+summary {
+    display: list-item !important;
+}
