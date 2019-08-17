@@ -4,8 +4,8 @@ date: 2019-07-20
 title: "Linux distributions: Can we do without hooks and triggers?"
 categories: Artikel
 tags:
+- distri
 - debian
-
 ---
 
 Hooks are an extension feature provided by all package managers that are used in
