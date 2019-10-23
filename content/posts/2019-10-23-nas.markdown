@@ -1,0 +1,111 @@
+---
+layout: post
+date: 2019-10-23
+title: "Network Storage PC Hardware (2019)"
+categories: Artikel
+---
+
+One of my two NAS builds recently died, so I bought a new one until I find some
+time to debug the old one. Since a couple of people have been asking me what I
+would recommend nowadays based on my [November 2016 article “Gigabit NAS
+(running CoreOS)”](/posts/2016-11-21-gigabit-nas-coreos/), I figured I would
+share the new hardware listing:
+
+<table width="100%" style="margin-top: 1.5em; margin-bottom: 1.5em; margin-left: 2em">
+<tr>
+<th>Price</th>
+<th>Type</th>
+<th>Article</th>
+</tr>
+
+<tr>
+<td>54.00 CHF</td>
+<td>Case</td>
+<td><a href="https://www.digitec.ch/en/s1/product/silverstone-sst-sg05bb-lite-cube-pc-cases-3525365">Silverstone SST-SG05BB-Lite (cube)</a></td>
+</tr>
+
+<tr>
+<td valign="top">60.40 CHF</td>
+<td valign="top">Mainboard</td>
+<td><a href="https://www.digitec.ch/en/s1/product/asrock-ab350-gaming-itxac-am4-amd-b350-mini-itx-motherboards-7022839">AsRock AB350 Gaming-ITX/ac (AM4, AMD B350, Mini ITX)</a><br>
+<strong>Be sure to <a href="https://www.asrock.com/MB/AMD/Fatal1ty%20AB350%20Gaming-ITXac/index.asp#BIOS">update the UEFI</a> to the latest version (6.00)!</strong></td>
+</tr>
+
+<tr>
+<td>62.30 CHF</td>
+<td>CPU</td>
+<td><a href="https://www.digitec.ch/en/s1/product/amd-a6-9500e-2-am4-3ghz-processors-6436852">AMD A6-9500E (2, AM4, 3GHz)</a></td>
+</tr>
+
+<tr>
+<td>20.10 CHF</td>
+<td>Cooler</td>
+<td><a href="https://www.digitec.ch/en/s1/product/arctic-alpine-690cm-cpu-coolers-11053306">Arctic Alpine AM4 Passive</a></td>
+</tr>
+
+<tr>
+<td>42.80 CHF</td>
+<td>RAM</td>
+<td><a href="https://www.digitec.ch/en/s1/product/kingston-valueram-1x-8gb-ddr4-2400-dimm-288-memory-6149789">Kingston ValueRAM (1x, 8GB, DDR4-2400, DIMM 288)</a></td>
+</tr>
+
+<tr>
+<td>29.00 CHF</td>
+<td>Fan</td>
+<td><a href="https://www.digitec.ch/en/s1/product/noctua-nf-s12a-uln-120mm-1x-pc-fans-2451401">Noctua Nf-s12a ULN (120mm, 1x)</a></td>
+</tr>
+
+<tr>
+<td valign="top">55.00 CHF</td>
+<td valign="top">PSU</td>
+<td><a href="https://www.digitec.ch/en/s1/product/silverstone-st30sf-300w-sfx-300w-power-supply-computer-5808725">Silverstone ST30SF 300W SFX (300W)</a></td>
+</tr>
+
+<tr>
+<td valign="top">27.50 CHF</td>
+<td valign="top">System disk</td>
+<td><a href="https://www.digitec.ch/en/s1/product/intenso-high-performance-120gb-25-ssd-5984710?tagIds=76-535">Intenso High Performance (120GB, 2.5") SATA</a></td>
+</tr>
+
+<tr>
+<td>351.10 CHF</td>
+<td colspan="2"><strong>total sum</strong></td>
+</tr>
+</table>
+
+In [November 2016 I paid only 225 CHF](/posts/2016-11-21-gigabit-nas-coreos/), i.e. 126 CHF less.
+
+Why is this build so much more expensive? There are two major reasons:
+
+### The AM4 platform
+
+The AM4 platform replaced the AM1 APU series as the cheapest broadly available
+AMD platform.
+
+As you might have gathered from the links in the hardware listing above, I
+define “broadly available” as available at digitec, a large electronics shop in
+Zürich.
+
+They offer same-day orders for pick-up in their Zürich location during Weekdays
+and on Saturdays, so it is kind of like being on a hardware support plan :-)
+
+Unfortunately, the cheapest AM4 CPU is a lot more expensive (+ 23.31 CHF).
+
+Also, there are (currently?) no AM4 mainboards with DC barrel power plugs,
+meaning more expensive ATX power supplies (+ 26.30 CHF) become necessary.
+
+### Additional components: fan and system disk
+
+Definitely invest in the Noctua 120mm ULN (Ultra Low Noise) fan (+ 29.00
+CHF). The fan that comes in the Silverstone case is pretty noisy, and that might
+be bothersome if you don’t have the luxury of stashing your NAS away in the
+basement.
+
+In my last build, I had an SSD lying around that I used as system disk, this
+time I had to buy one (+ 27.50 CHF).
+
+Note that I intentionally picked a SATA SSD over an M.2 SSD: the M.2 slot of the
+AB350 is on the back of the mainboard, so an M.2 SSD is harder to reach. The
+performance disadvantage of a SATA SSD compared to an M.2 SSD might be
+measurable, but irrelevant for my day-to-day usage. Quickly accessing the
+physical hardware is more important.
