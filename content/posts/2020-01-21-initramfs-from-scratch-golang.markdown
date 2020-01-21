@@ -127,9 +127,11 @@ Hence, for the initial round of module loading, it is sufficient to locate all
 `modalias` files within `sysfs` and load the responsible modules.
 
 Loading a kernel module can result in new devices appearing. When that happens,
-the kernel sends a uevent, which the uevent consumer in userspace receives via a
-netlink socket. Typically, this consumer is {{< man name="udev" section="7" >}},
-but in our case, it’s `minitrd`.
+the kernel sends a
+[uevent](https://stackoverflow.com/questions/22803469/uevent-sent-from-kernel-to-user-space-udev),
+which the uevent consumer in userspace receives via a netlink socket. Typically,
+this consumer is {{< man name="udev" section="7" >}}, but in our case, it’s
+`minitrd`.
 
 For each uevent messages that comes with a `MODALIAS` variable, `minitrd` will
 load the relevant kernel module(s).
