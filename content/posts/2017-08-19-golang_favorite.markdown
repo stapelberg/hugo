@@ -5,6 +5,8 @@ date:   2017-08-19 13:00:00 +02:00
 categories: Artikel
 Aliases:
   - /Artikel/golang_favorite
+tags:
+- golang
 ---
 
 I strive to respect everybody’s personal preferences, so I usually steer clear

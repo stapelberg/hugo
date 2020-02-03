@@ -6,6 +6,7 @@ categories: Artikel
 tags:
 - distri
 - debian
+- golang
 ---
 
 Over the last year or so I have worked on a research linux distribution in my

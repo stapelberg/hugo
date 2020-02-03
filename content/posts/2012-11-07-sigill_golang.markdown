@@ -5,6 +5,8 @@ date:   2012-11-07 17:50:00
 categories: Artikel
 Aliases:
   - /Artikel/sigill_golang
+tags:
+- golang
 ---
 
 

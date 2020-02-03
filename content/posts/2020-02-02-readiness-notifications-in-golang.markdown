@@ -3,6 +3,8 @@ layout: post
 date: 2020-02-02
 title: "Readiness notifications in Go"
 categories: Artikel
+tags:
+- golang
 ---
 
 When spawning a child program, for example in an integration test, it is often

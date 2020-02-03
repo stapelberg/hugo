@@ -5,9 +5,11 @@ date:   2017-01-28 21:29:00
 categories: Artikel
 Aliases:
   - /Artikel/golang_atomically_writing
+tags:
+- golang
 ---
 <p>
-<strong>NOTE </strong> that the documented assumptions about fsync skipping are incorrect in the code below. Prefer using <a href="https://github.com/google/go-write">the go-write package</a>.
+<strong>NOTE </strong> that the documented assumptions about fsync skipping are incorrect in the code below. Prefer using <a href="https://github.com/google/renameio">the renameio package</a>.
 </p>
 
 <p>
