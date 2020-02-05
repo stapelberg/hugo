@@ -1,10 +1,29 @@
 ---
 title: "Talks"
-date: 2018-09-11T19:08:00+02:00
+date: 2020-02-05T08:43:00+01:00
 ---
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
+
+## 2019
+
+(en @ Go meetup Zürich) distri: researching fast Linux package management
+
+{{< talkthumb id="yx2jCg8y57I" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/yx2jCg8y57I)
+  [slides](https://docs.google.com/presentation/d/1iyroWwfiJHYSKplg7daaM50Zh12f4fekSDimSeGFlyE/edit?usp=sharing)
+
+<br style="clear: left" />
+
+(en @ 36c3 lightning talks) distri: researching fast Linux package management
+
+{{< talkthumb id="qbtr_a7vBXw" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/qbtr_a7vBXw?t=382)
+
+<br style="clear: left" />
 
 ## 2018
 
