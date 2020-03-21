@@ -46,7 +46,7 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="yPa1JNgyQkk" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="ff-XiZzJLxw" maxresdefault="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Elementary_(TV_series)">Elementary</a></p>
 </div>
 
@@ -75,6 +75,21 @@ official trailer was available), the text typically leads to Wikipedia.
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Archer_(2009_TV_series)">Archer</a></p>
 </div>
 
+<div style="text-align: center">
+{{< talkthumb id="UK1Tj07c_co" >}}
+<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Crazy_Ex-Girlfriend">Crazy Ex-Girlfriend</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="YHcKoAMGGvY" >}}
+<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Russian_Doll_(TV_series)">Russian Doll</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="qZhb0Vl_BaM" >}}
+<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Sex_Education_(TV_series)">Sex Education</a></p>
+</div>
+
 </div>
 
 ## Netflix: good
@@ -82,7 +97,7 @@ official trailer was available), the text typically leads to Wikipedia.
 <div style="display: flex; flex-wrap: wrap">
 
 <div style="text-align: center">
-{{< talkthumb id="mNKEKlXY3Z4" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="Hl4bOuGNMwo" maxresdefault="1" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Unbreakable_Kimmy_Schmidt">Unbreakable Kimmy Schmidt</a></p>
 </div>
 
@@ -92,12 +107,12 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="6bFvb3WKISk" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="BHODdNs8vSo" maxresdefault="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Master_of_None">Master of None</a></p>
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="dhFM8akm9a4" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="M8PsZki6NGU" maxresdefault="1" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Altered_Carbon_(TV_series)">Altered Carbon</a></p>
 </div>
 
@@ -137,17 +152,17 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="oTC7wQMHHEA" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="hk_BoK0OwZs" maxresdefault="1" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Big_Mouth_(TV_series)">Big Mouth</a></p>
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="ULwUzF1q5w4" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="SvSkxBYuoQY" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/House_of_Cards_(U.S._TV_series)">House of Cards (US)</a></p>
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="ly019ZF0lsk" webp="1" >}}
+{{< talkthumb id="XIVNayzLdTQ" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Disjointed">Disjointed</a></p>
 </div>
 
@@ -155,6 +170,43 @@ official trailer was available), the text typically leads to Wikipedia.
 {{< talkthumb id="aRAQDNnmGRU" >}}
 <p style="width: 200px; text-align: center"><a href="https://de.wikipedia.org/wiki/Der_Tatortreiniger">Der Tatortreiniger</a></p>
 </div>
+
+</div>
+
+## YouTube
+
+<div style="display: flex; flex-wrap: wrap">
+
+<div style="text-align: center">
+{{< talkthumb id="BtN-goy9VOY" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://www.youtube.com/user/Kurzgesagt">Kurzgesagt (In a Nutshell)</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="Z0xDAUXPc8c" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://www.youtube.com/playlist?list=PLnPDn1Lb79JG7zKvGrmBMKDp4hZO8PfYU">Munchies: The Pizza Show</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="cdvZC91YpMs" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://www.youtube.com/playlist?list=PLAzrgbu8gEMLWkhRQxRwNeKcXS3SZOBkV">Munchies: The Burger Show</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="lF2sKFnuALw" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://www.youtube.com/user/BonAppetitDotCom">Bon Appétit</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="yYUUobrsFDs" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://www.youtube.com/channel/UCJHA_jMfCvEnv-3kRjTCQXw">Binging With Babish</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="egvnmbPkRwY" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://www.youtube.com/channel/UCyEA3vUnlpg0xzkECEq1rOA">My Name Is Andong</a></p>
+</div>
+
 
 </div>
 
@@ -198,7 +250,7 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="sMXpGBiC6xo" maxresdefault="1" webp="1" >}}
+{{< talkthumb id="jz1omRneAGg" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/The_Office_(U.S._TV_series)">The Office (US)</a></p>
 </div>
 
@@ -225,6 +277,7 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 ## Elsewhere: good
+
 
 <div style="display: flex; flex-wrap: wrap">
 
@@ -287,5 +340,11 @@ official trailer was available), the text typically leads to Wikipedia.
 {{< talkthumb id="blV61SAoqGQ" webp="1" >}}
 <p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Better_Off_Ted">Better Off Ted</a></p>
 </div>
+
+<div style="text-align: center">
+{{< talkthumb id="Fp9LMsI6uJ8" webp="1" >}}
+<p style="width: 200px; text-align: center"><a href="https://en.wikipedia.org/wiki/Devs_(miniseries)">Devs</a></p>
+</div>
+
 
 </div>
