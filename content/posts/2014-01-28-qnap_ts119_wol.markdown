@@ -87,7 +87,7 @@ Before every shutdown, you need to enable Wake-On-LAN:
 </p>
 <pre>
 qnap # ethtool -s eth0 wol g
-qnap # qcontrol wakeonlan on
+qnap # qcontrol wol on
 </pre>
 
 <p>
