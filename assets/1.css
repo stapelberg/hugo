@@ -258,14 +258,29 @@ pre.Delphi span.CompilerDirective {
     margin-bottom: 15px
 }
 
-.Artikel pre {
+.Artikel pre, .Artikel details.output {
     border: 1px solid #b5b5b5;
     padding: 5px;
     background-color: #eee;
     color: #000;
     overflow: auto;
     width: 45em;
-    font-size: 14px
+    font-size: 14px;
+    border-radius: 0; /* overwrite bootstrap */
+}
+
+.Artikel details {
+    width: 45em;
+}
+
+.Artikel details.output {
+    /* Prevent horizontal scrollbar popping up.
+       Does not hide content, which is wrapped on the pre level. */
+    overflow: hidden;
+}
+
+.Artikel details.output pre {
+    border: 0;
 }
 
 .toc {
