@@ -18,8 +18,10 @@ up-to-date package list. For me, requiring a metadata update is the more common
 case, particularly on live systems or within Docker containers.
 
 All measurements were taken on an `Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz`
-running Docker 1.13.1 on Linux 4.19, backed by a Samsung 970 Pro NVMe
-drive boasting many hundreds of MB/s write performance.
+running Docker 1.13.1 on Linux 4.19, backed by a Samsung 970 Pro NVMe drive
+boasting many hundreds of MB/s write performance. The machine is located in
+Zürich and connected to the Internet with a 1 Gigabit fiber connection, so the
+expected top download speed is ≈115 MB/s.
 
 See [Appendix B](#appendix-b) for details on the measurement method and command
 outputs.
