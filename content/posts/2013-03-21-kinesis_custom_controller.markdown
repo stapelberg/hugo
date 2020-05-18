@@ -261,20 +261,20 @@ foundation for similar projects, here are the EAGLE files:
 <ul>
 <li>
 PCB with proper holes (2013-03-18):
-<a href="http://code.stapelberg.de/git/kinesis-repl/plain/untitled-bruecke.brd?id=e35752f772712e0ace5ac1862a57efdda0599e90">brd</a>, 
-<a href="http://code.stapelberg.de/git/kinesis-repl/plain/untitled-bruecke.sch?id=e35752f772712e0ace5ac1862a57efdda0599e90">sch</a>,
+<a href="https://github.com/stapelberg/kinesis-repl/blob/e35752f772712e0ace5ac1862a57efdda0599e90/untitled-bruecke.brd">brd</a>, 
+<a href="https://github.com/stapelberg/kinesis-repl/blob/e35752f772712e0ace5ac1862a57efdda0599e90/untitled.sch">sch</a>,
 <a href="/Bilder/kinesis-repl-board.png">brd (PNG)</a>,
 <a href="/Bilder/kinesis-repl-sch.png">sch (PNG)</a>,
 </li>
 
 <li>
 PCB as manufactured (2013-02-28):
-<a href="http://code.stapelberg.de/git/kinesis-repl/plain/untitled-bruecke.brd?id=55b4677238732dcc1927b864cdfde1d82dbbbdb0">brd</a>, 
-<a href="http://code.stapelberg.de/git/kinesis-repl/plain/untitled.sch?id=55b4677238732dcc1927b864cdfde1d82dbbbdb0">sch</a>
+<a href="https://github.com/stapelberg/kinesis-repl/blob/55b4677238732dcc1927b864cdfde1d82dbbbdb0/untitled-bruecke.brd">brd</a>, 
+<a href="https://github.com/stapelberg/kinesis-repl/blob/55b4677238732dcc1927b864cdfde1d82dbbbdb0/untitled.sch">sch</a>
 </li>
 
 <li>
-<a href="http://code.stapelberg.de/git/kinesis-repl/">git repository</a>
+<a href="https://github.com/stapelberg/kinesis-repl">git repository</a>
 </li>
 </ul>
 
