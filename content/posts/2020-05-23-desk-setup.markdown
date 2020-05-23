@@ -121,7 +121,7 @@ agreed to send me unpopulated PCBs into which I could solder my preferred
 key switches! Thank you, Kinesis.
 
 I later [replaced the keyboard controller to address a stuck modifier
-bug](posts/2013-03-21-kinesis_custom_controller/). The
+bug](/posts/2013-03-21-kinesis_custom_controller/). The
 PCB I made for this remains popular in the Kinesis modification community to
 this day.
 
