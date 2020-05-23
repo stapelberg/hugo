@@ -75,7 +75,7 @@ displays in my day-to-day with hi-DPI displays.
 
 My current monitor is the [Dell UP3218K, an 8K4K monitor (blog post)](/posts/2017-12-11-dell-up3218k/).
 
-Dell introduced the UP3218K in January 2007. It is the world’s first available
+Dell introduced the UP3218K in January 2017. It is the world’s first available
 8K monitor, meaning it has a resolution of 7680x4320 pixels at a refresh rate of
 60 Hz. The display’s dimensions are 698.1mm by 392.7mm (80cm diagonal, or 31.5
 inches), meaning the display shows 280 dpi.
