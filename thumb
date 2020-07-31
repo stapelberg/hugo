@@ -1,0 +1,13 @@
+#!/bin/bash
+
+file="$1"
+if [ -z "$file" ]
+then
+  echo "syntax: thumb <file>" >&2
+  exit 1
+fi
+
+for scale in 1 2 3
+do
+  convert "$file" -resize $((600*$scale)) "$(basename $file .jpg).thumb.${scale}x.jpg"
+done

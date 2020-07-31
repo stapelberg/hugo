@@ -419,3 +419,8 @@ span.tag a:link,span.tag a:visited {
 summary {
     display: list-item !important;
 }
+
+hr {
+    max-width: 40em;
+    margin-left: 0;
+}
