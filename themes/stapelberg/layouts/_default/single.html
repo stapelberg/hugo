@@ -32,9 +32,12 @@
 	  <span class="tag"><a href="/posts/tags/{{ $tag | urlize }}/">{{ $tag }}</a></span>
 	  {{ end }}
 	  {{ end }}
-	  <span style="background-color: black; border-radius: 25%; padding-left: 0.1em; padding-right: 0.1em">
-	    <a style="text-decoration: none; color: white" href="https://github.com/stapelberg/hugo/edit/master/content/posts/{{ .File.LogicalName }}">✎</a>
+	  <span style="padding-left: 0.1em; padding-right: 0.1em; margin-left: .5em; margin-right: .5em"><a style="text-decoration: none; color: white" href="https://github.com/stapelberg/hugo/edit/master/content/posts/{{ .File.LogicalName }}"><img src="../../Bilder/pen-square-solid.svg" style="height: 1.25em"></a></span>
+	  {{ if .Params.tweet_url }}
+	  <span style="padding-left: 0.1em; padding-right: 0.1em">
+	    <a style="text-decoration: none; color: white" href="{{ .Params.tweet_url }}"><img src="../../Bilder/twitter-brands.svg" style="height: 1.25em"></a>
 	  </span>
+	  {{ end }}
 	  </div>
 	  <div class="Artikel" id="content">
 	    {{- if gt .WordCount 1000 }}
