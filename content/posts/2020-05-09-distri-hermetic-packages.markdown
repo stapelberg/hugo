@@ -6,6 +6,7 @@ categories: Artikel
 tags:
 - distri
 - debian
+tweet_url: "https://twitter.com/zekjur/status/1259165997250023435"
 ---
 
 In [distri](https://distr1.org/), packages (e.g. `emacs`) are hermetic. By

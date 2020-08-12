@@ -5,6 +5,7 @@ date:   2019-02-05 09:00:00 +01:00
 categories: Artikel
 tags:
 - debian
+tweet_url: "https://twitter.com/zekjur/status/1092699610718580736"
 ---
 
 ### Motivation

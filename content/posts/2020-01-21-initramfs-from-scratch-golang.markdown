@@ -7,6 +7,7 @@ tags:
 - distri
 - debian
 - golang
+tweet_url: "https://twitter.com/zekjur/status/1219668424298770433"
 ---
 
 In case you are not yet familiar with why an initramfs (or initrd, or initial

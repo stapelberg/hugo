@@ -7,6 +7,7 @@ tags:
 - distri
 - debian
 - golang
+tweet_url: "https://twitter.com/zekjur/status/1162768273743765511"
 ---
 
 Over the last year or so I have worked on a research linux distribution in my

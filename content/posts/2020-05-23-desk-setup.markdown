@@ -3,6 +3,7 @@ layout: post
 title:  "stapelberg uses this: my 2020 desk setup"
 date:   2020-05-23 15:22:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1264187462458408961"
 ---
 
 <a href="../../Bilder/2020-05-22-desk-setup.jpg"><img

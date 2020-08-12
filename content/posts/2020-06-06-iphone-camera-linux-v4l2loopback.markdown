@@ -3,6 +3,7 @@ layout: post
 title:  "Using the iPhone camera as a Linux webcam with v4l2loopback"
 date:   2020-06-06 11:18:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1269199484673810432"
 ---
 
 <a href="../../Bilder/2020-06-06-iphone-cam.jpg"><img

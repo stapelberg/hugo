@@ -5,6 +5,7 @@ title: "Readiness notifications in Go"
 categories: Artikel
 tags:
 - golang
+tweet_url: "https://twitter.com/zekjur/status/1223982851944845318"
 ---
 
 When spawning a child program, for example in an integration test, it is often

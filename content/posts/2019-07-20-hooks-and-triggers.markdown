@@ -6,6 +6,7 @@ categories: Artikel
 tags:
 - distri
 - debian
+tweet_url: "https://twitter.com/zekjur/status/1152611129602035713"
 ---
 
 Hooks are an extension feature provided by all package managers that are used in

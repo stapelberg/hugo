@@ -5,7 +5,7 @@ title: "Optional dependencies don’t work"
 categories: Artikel
 tags:
 - debian
-
+tweet_url: "https://twitter.com/zekjur/status/1131534702509219840"
 ---
 
 In the i3 projects, we have always tried hard to avoid optional
