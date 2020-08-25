@@ -5,6 +5,7 @@ date:   2017-12-11 10:05:00 +01:00
 categories: Artikel
 Aliases:
   - /Artikel/dell-up3218k
+tweet_url: "https://twitter.com/zekjur/status/940146614655750144"
 ---
 
 ### Background
@@ -214,6 +215,10 @@ business day, they were very forthcoming and offered to replace the monitor.
 The replacement monitor still emits some noise, but much less pronounced. I
 think I can easily ignore the noise.
 
+**Update after 2+ years**: I had honestly forgotten that the replacement monitor
+also made noise. Maybe it went away, or my ears have gotten worse, or I just
+didn’t notice for long enough.
+
 ### Wakeup issues
 
 Rarely (less than once a week), when waking up the monitor from DPMS standby
@@ -227,6 +232,35 @@ video card, but I don’t know for sure.
 Interestingly enough, I also encountered this issue with the Dell UP2414Q I
 bought in 2014. My workaround is to power down that display using its power
 button in the evenings, and power it up in the mornings.
+
+**Update after 2+ years**: I have now figured out that the monitor wakes up
+reliably after:
+
+1. Swapping the cables around at my Graphics Card, i.e. using output `DP-4` for
+   the left monitor half and output `DP-0` for the right monitor half, not the
+   other way around:
+   ```
+xrandr \
+--output DP-4 --mode 3840x4320 --panning 0x0+0+0 \
+--output DP-0 --mode 3840x4320 --panning 0x0+3840+0 --right-of DP-4
+   ```
+
+1. When powering on the monitor, waiting until it shows the dialog box “No
+   signal on DP1”, and only then waking up my machine to generate a signal.
+
+When disconnecting and re-connecting the monitor to another machine,
+I found these steps the most reliable:
+
+1. Power off the monitor, then unplug the two DisplayPort cables.
+1. Plug in both cables, then power the monitor on again.
+\
+An easy mistake to make is to not push the DisplayPort connector in all the
+way. This issue usually manifests itself as the monitor still showing a picture
+(because the second cable likely is plugged in correctly), but the full
+resolution not being available.
+
+I have used these two steps twice a workday for weeks on end, and the monitor
+came up reliably every single time.
 
 ### Conclusion
 
