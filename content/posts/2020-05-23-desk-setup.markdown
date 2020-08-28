@@ -8,8 +8,10 @@ tweet_url: "https://twitter.com/zekjur/status/1264187462458408961"
 
 <a href="../../Bilder/2020-05-22-desk-setup.jpg"><img
 src="../../Bilder/2020-05-22-desk-setup.thumb.jpg"
-srcset="../../Bilder/2020-05-22-desk-setup.thumb.2x.jpg 2x,../../Bilder/2020-05-22-desk-setup.thumb.3x.jpg 3x" alt="Desk setup"
-width="600" style="border: 1px solid #ccc"></a>
+srcset="../../Bilder/2020-05-22-desk-setup.thumb.2x.jpg 2x,../../Bilder/2020-05-22-desk-setup.thumb.3x.jpg 3x"
+alt="Desk setup"
+width="600"
+style="border: 1px solid #ccc"></a>
 
 I generally enjoy reading the [uses this](https://usesthis.com/) blog, and
 recently people have been talking about desk setups in my bubble (and [on my
@@ -95,8 +97,11 @@ and I don’t miss anything about a multi-monitor setup.
 
 <a href="../../Bilder/2020-05-22-kinesis-advantage.jpg"><img
 src="../../Bilder/2020-05-22-kinesis-advantage.thumb.jpg"
-srcset="../../Bilder/2020-05-22-kinesis-advantage.thumb.2x.jpg 2x,../../Bilder/2020-05-22-kinesis-advantage.thumb.3x.jpg 3x" alt="Kinesis advantage keyboard"
-width="600" style="border: 1px solid #ccc"></a>
+srcset="../../Bilder/2020-05-22-kinesis-advantage.thumb.2x.jpg 2x,../../Bilder/2020-05-22-kinesis-advantage.thumb.3x.jpg 3x"
+alt="Kinesis advantage keyboard"
+loading="lazy"
+width="600"
+style="border: 1px solid #ccc"></a>
 
 The Kinesis is my preferred commercially available ergonomic keyboard. I like
 its matrix layout, ergonomic key bowls, thumb pads and split hands.

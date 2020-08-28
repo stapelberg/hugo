@@ -28,7 +28,7 @@ walls and still close the doors.
 So, we will replace one ethernet cable with one fiber cable and converters at
 each end:
 
-<a href="../../Bilder/2020-08-04-media-converters.jpg"><img src="../../Bilder/2020-08-04-media-converters.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-media-converters.thumb.2x.jpg 2x,../../Bilder/2020-08-04-media-converters.thumb.3x.jpg 3x" width="600" height="216" alt="0.9mm thin fiber cables" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-04-media-converters.jpg"><img src="../../Bilder/2020-08-04-media-converters.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-media-converters.thumb.2x.jpg 2x,../../Bilder/2020-08-04-media-converters.thumb.3x.jpg 3x" width="600" height="216" alt="0.9mm thin fiber cables" style="border: 1px solid #000" loading="lazy"></a>
 
 Why is it good to switch from copper ethernet cables to fiber in this case?
 Fiber cables are **smaller and hence easier to fit** into existing cable
@@ -41,7 +41,7 @@ hidden in plain sight! I had only ever seen 2mm fiber cables before, and the
 0.9mm cables are incredibly light, flexible and thin! Even pasta is typically
 thicker:
 
-<a href="../../Bilder/2020-08-04-glasnudeln.jpg"><img src="../../Bilder/2020-08-04-glasnudeln.thumb.jpg" srcset="../../Bilder/2020-08-04-glasnudeln.thumb.2x.jpg 2x,../../Bilder/2020-08-04-glasnudeln.thumb.3x.jpg 3x" width="600" height="450" alt="0.9mm thin fiber cables" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-04-glasnudeln.jpg"><img src="../../Bilder/2020-08-04-glasnudeln.thumb.jpg" srcset="../../Bilder/2020-08-04-glasnudeln.thumb.2x.jpg 2x,../../Bilder/2020-08-04-glasnudeln.thumb.3x.jpg 3x" width="600" height="450" alt="0.9mm thin fiber cables" style="border: 1px solid #000" loading="lazy"></a>
 
 <small><em>Preparing a delicious pot of glass noodles ;)</em></small>
 
@@ -197,7 +197,7 @@ existing connectors on the fiber. I have successfully just used a piece of tape
 to fix the fiber connector on the cable puller, pushing down the nose
 temporarily:
 
-<a href="../../Bilder/2020-08-04-cable-puller.jpg"><img src="../../Bilder/2020-08-04-cable-puller.thumb.jpg" srcset="../../Bilder/2020-08-04-cable-puller.thumb.2x.jpg 2x,../../Bilder/2020-08-04-cable-puller.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable taped to cable puller" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-04-cable-puller.jpg"><img src="../../Bilder/2020-08-04-cable-puller.thumb.jpg" srcset="../../Bilder/2020-08-04-cable-puller.thumb.2x.jpg 2x,../../Bilder/2020-08-04-cable-puller.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable taped to cable puller" style="border: 1px solid #000" loading="lazy"></a>
 
 Where there are no existing ducts, you may need to lay the fiber on top of the
 wall. Obviously, this is tricky as soon as you need to make a connection going
@@ -207,7 +207,7 @@ door frames, you quickly risk breaking fiber cables.
 Luckily, the fiber is very light, so it’s very easy to fix to the wall with a
 piece of tape:
 
-<a href="../../Bilder/2020-08-04-wand-kabel.jpg"><img src="../../Bilder/2020-08-04-wand-kabel.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-wand-kabel.thumb.2x.jpg 2x,../../Bilder/2020-08-04-wand-kabel.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cables on the wall" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-04-wand-kabel.jpg"><img src="../../Bilder/2020-08-04-wand-kabel.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-wand-kabel.thumb.2x.jpg 2x,../../Bilder/2020-08-04-wand-kabel.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cables on the wall" style="border: 1px solid #000" loading="lazy"></a>
 
 You can see the upstream internet fiber in the top right corner, which is rather
 thick in comparison to my 0.9mm yellow fiber that’s barely visible in the middle
@@ -229,11 +229,11 @@ I’m using this technique to cross another wall where the existing cable duct i
 too full, but there is a cable that can be removed and put back after pulling
 the fiber through:
 
-<a href="../../Bilder/2020-08-04-loch.jpg"><img src="../../Bilder/2020-08-04-loch.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-loch.thumb.2x.jpg 2x,../../Bilder/2020-08-04-loch.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable next to existing cable" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-04-loch.jpg"><img src="../../Bilder/2020-08-04-loch.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-loch.thumb.2x.jpg 2x,../../Bilder/2020-08-04-loch.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable next to existing cable" style="border: 1px solid #000" loading="lazy"></a>
 
 …and on the other side of the wall:
 
-<a href="../../Bilder/2020-08-04-dose.jpg"><img src="../../Bilder/2020-08-04-dose.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-dose.thumb.2x.jpg 2x,../../Bilder/2020-08-04-dose.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable next to existing socket" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-04-dose.jpg"><img src="../../Bilder/2020-08-04-dose.thumb.1x.jpg" srcset="../../Bilder/2020-08-04-dose.thumb.2x.jpg 2x,../../Bilder/2020-08-04-dose.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable next to existing socket" style="border: 1px solid #000" loading="lazy"></a>
 
 Note how the fiber is thin enough to fit between the socket and duct!
 
@@ -280,7 +280,7 @@ measure.
 
 For establishing an intuition of their different sizes, here are the different connectors:
 
-<a href="../../Bilder/2020-08-07-fiber-cable-connector-size.jpg"><img src="../../Bilder/2020-08-07-fiber-cable-connector-size.thumb.1x.jpg" srcset="../../Bilder/2020-08-07-fiber-cable-connector-size.thumb.2x.jpg 2x,../../Bilder/2020-08-07-fiber-cable-connector-size.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable next to existing socket" style="border: 1px solid #000"></a>
+<a href="../../Bilder/2020-08-07-fiber-cable-connector-size.jpg"><img src="../../Bilder/2020-08-07-fiber-cable-connector-size.thumb.1x.jpg" srcset="../../Bilder/2020-08-07-fiber-cable-connector-size.thumb.2x.jpg 2x,../../Bilder/2020-08-07-fiber-cable-connector-size.thumb.3x.jpg 3x" width="600" height="450" alt="fiber cable next to existing socket" style="border: 1px solid #000" loading="lazy"></a>
 
 From left to right:
 
