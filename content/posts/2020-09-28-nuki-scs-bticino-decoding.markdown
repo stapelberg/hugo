@@ -3,6 +3,7 @@ layout: post
 title:  "Nuki Opener with an SCS bus intercom (bTicino 344212)"
 date:   2020-09-28 08:43:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1310472046346993664"
 ---
 
 I have long been looking for a way to make my intercom a little more pleasant.
