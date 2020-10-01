@@ -177,30 +177,17 @@ checks.
 
 ## Captured SCS telegrams
 
-Find a capture of the door bell and door buzzer in <a
-href="../../2020-09-27-rohdaten-klingel.zip">2020-09-27-rohdaten-klingel.zip</a>.
+You can find my most recent captures in <a
+href="../../2020-09-27-rohdaten-klingel-rev2.zip">2020-09-27-rohdaten-klingel-rev2.zip</a>:
 
-To extract the interesting parts from the sigrok files, I had to use
-`sigrok-cli` to convert the data to CSV, cut the data and convert from CSV to
-sigrok again:
+* `2020-09-27-anlern-01-open-PUR-filtered.srzip` is the door buzzer
+* `2020-09-27-anlern-02-klingel-PUR-filtered.srzip` is the bell ringing
 
-```
-% sigrok-cli \
-  -i 2020-09-27-anlern-01-open.srzip \
-  --output-format csv \
-  -o 2020-09-27-anlern-01-open-PUR.csv
+To extract the interesting parts from the sigrok files, I:
 
-% tail -n 4050629 2020-09-27-anlern-01-open-PUR.csv \
-  > 2020-09-27-anlern-01-open-PUR-filtered.csv
-
-% $EDITOR *.csv # copy over the header
-
-% sigrok-cli \
-  -I csv:single_column=true:header=true:column_formats=1a \
-  -i 2020-09-27-anlern-01-open-PUR-filtered.csv \
-  --output-format srzip \
-  -o 2020-09-27-anlern-01-open-PUR-filtered.srzip
-```
+1. Click the `Show Cursors` icon in PulseView’s toolbar.
+1. Position the left and right cursor edges such that the signal of interest is selected.
+1. Click the drop-down next to the `Save` icon and select `Save Selected Range As`.
 
 ## Further reading
 
