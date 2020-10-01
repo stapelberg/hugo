@@ -160,6 +160,21 @@ acknowledged, and I indeed see no acknowledgement telegrams in my captures. Does
 that mean something is wrong with our intercom and it only works due to
 retransmissions?
 
+## SCS bus decoding with sigrok git: UART+SCS decoder
+
+As [Gerhard Sittig pointed
+out](https://sourceforge.net/p/sigrok/mailman/message/37118252/), in the git
+version of libsigrokdecode, one can use the existing UART decoder to decode SCS:
+
+1. Set `Baud rate` to `9600`
+1. Set `Sample point` to `20%`
+
+This seems a little more robust than my cobbled-together SCS decoder from above :)
+
+In addition to the UART decoder, we can still use a custom SCS decoder to label
+individual bytes within an SCS telegram according to their function, and do CRC
+checks.
+
 ## Captured SCS telegrams
 
 Find a capture of the door bell and door buzzer in <a
