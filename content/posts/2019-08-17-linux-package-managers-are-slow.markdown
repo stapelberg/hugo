@@ -8,6 +8,25 @@ tags:
 - debian
 ---
 
+{{< note >}}
+**Pending feedback:** [Allan McRae pointed
+out](http://allanmcrae.com/2020/10/distri-comparing-apples-and-oranges/) that I
+should be more precise with my terminology: strictly speaking, *distributions*
+are slow, and package managers are only part of the puzzle.
+
+I’ll try to be clearer in future revisions/posts.
+{{< /note >}}
+
+{{< note >}}
+
+**Pending feedback:** For a more accurate picture, [it would be good to take the
+network out of the
+picture](https://twitter.com/mueslix/status/1311581199723368448), or at least
+measure and report network speed separately. Ideas/tips for an easy way very
+welcome!
+
+{{< /note >}}
+
 I measured how long the most popular Linux distribution’s package manager take
 to install small and large packages (the
 [`ack(1p)`](https://manpages.debian.org/ack.1p) source code search Perl script

@@ -384,11 +384,26 @@ span.tag a:link,span.tag a:visited {
     }
 }
 
-.note,
+aside {
+    max-width: 40em;
+    margin: 1rem 0;
+}
+
+.note-container,
 .warning {
-  display: grid;
-  grid-template-columns: 20px auto;
-  max-width: 40em;
+    display: flex;
+    width: 90%;
+    padding: .5rem;
+    margin: auto;
+    background-color: #d6eaff;
+    border-radius: 2px;
+}
+
+.note-icon {
+    width: 20px;
+    height: 20px;
+    margin: .5rem;
+    margin-top: 1rem;
 }
 
 .note #exclamation-icon,
@@ -398,18 +413,10 @@ span.tag a:link,span.tag a:visited {
 }
 
 .admonition-content {
-  border-left-width: 4px;
-  border-left-style: solid;
-  border-color: #0594CB;
-
   display: block;
-  margin: 0px;
-  padding: .125em 1em;
-  margin-left: .5em;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 0;
+  padding: .5rem;
   overflow-x: auto;
-  background-color: rgba(0, 0, 0, .05);
 }
 
 #content table {

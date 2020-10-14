@@ -115,8 +115,10 @@ below](#fhs-compat).
    exchange directory and contain files from their `lib/irssi/modules`.
 
 {{< note >}}
-Only a few exchange directories are also available in the package build
+
+**Note:** Only a few exchange directories are also available in the package build
 environment (as opposed to run-time).
+
 {{< /note >}}
 
 #### Search paths sometimes need to be fixed
@@ -135,10 +137,10 @@ directory via a specific command line flag.
 
 {{< note >}}
 
-To create the illusion of a writable search path at package build-time,
-<code>$DESTDIR/ro/share</code> and <code>$DESTDIR/ro/lib</code> are diverted to
-<code>$DESTDIR/$PREFIX/share</code> and <code>$DESTDIR/$PREFIX/lib</code>,
-respectively.
+**Note:** To create the illusion of a writable search path at package
+build-time, <code>$DESTDIR/ro/share</code> and <code>$DESTDIR/ro/lib</code> are
+diverted to <code>$DESTDIR/$PREFIX/share</code> and
+<code>$DESTDIR/$PREFIX/lib</code>, respectively.
 
 {{< /note >}}
 
@@ -192,7 +194,9 @@ them on real hardware from a USB drive, or for cloud providers such as Google
 Cloud.
   
 {{< note >}}
-To saturate links above 1 Gbps, transfer packages without compression.
+
+**Note:** To saturate links above 1 Gbps, transfer packages without compression.
+
 {{< /note >}}
 
 ### Fast package builder
