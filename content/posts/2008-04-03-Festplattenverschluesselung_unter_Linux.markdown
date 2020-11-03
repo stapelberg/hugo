@@ -7,13 +7,11 @@ Aliases:
   - /Artikel/Festplattenverschluesselung_unter_Linux
 ---
 
+{{< note >}}
 
+Linux/UNIX-kenntnisse erforderlich! (in den Bereichen Dateisystem, Konsole)
 
-<div class="warning" style="min-height: 50px">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="margin-top: 15px" class="strong">Linux/UNIX-kenntnisse erforderlich!
-(in den Bereichen Dateisystem, Konsole)</p>
-</div>
+{{< /note >}}
 
 <p>
 Vorab: Ja, ich weiß, dass es schon genügend Anleitungen zu dem Thema gibt, aber
@@ -21,24 +19,9 @@ ich möchte es sicherheitshalber noch mal mit allen Hürden, vor die ich gestell
 wurde, aufschreiben.
 </p>
 
-<table class="toc">
-<tr><td><h3>Inhaltsverzeichnis:</h3>
-<ul>
-	<li class="level1"><a href="#vorbereitung">1.) Das System vorbereiten</a></li>
-		<li class="level2"><a href="#module">1.1) Module</a></li>
-		<li class="level2"><a href="#hilfsprogramme">1.2) Hilfsprogramme</a></li>
-	<li class="level1"><a href="#partition">2.) Komplette Partition verschlüsseln</a></li>
-		<li class="level2"><a href="#partitionaushaengen">2.1) Die Partition wieder aushängen</a></li>
-	<li class="level1"><a href="#container">3.) Einen verschlüsselten Container erstellen</a></li>
-	<li class="level1"><a href="#swap">4.) Swapspace verschlüsseln</a></li>
-	<li class="level1"><a href="#fehler">5.) Mögliche Fehlermeldungen</a></li>
-</ul>
-</td></tr>
-</table>
+## 1) Das System vorbereiten
 
-<h3>1) Das System vorbereiten</h3>
-
-<h4>1.1) Module</h4>
+### 1.1) Module
 
 <p>
 Zum Verschlüsseln brauchen wir die Module (oder die fest einkompilierte
@@ -60,9 +43,9 @@ Namen des Moduls natürlich.
 <p>
 Der typische Ablauf sieht also so aus:
 </p>
-<pre><b>#</b> modprobe dm_crypt
-<b>#</b> modprobe loop
-<b>#</b> lsmod | egrep "(^dm_crypt|^loop)"
+<pre># modprobe dm_crypt
+# modprobe loop
+# lsmod | egrep "(^dm_crypt|^loop)"
 loop                   17288  4 
 dm_crypt               12424  1 </pre>
 
@@ -108,9 +91,9 @@ Das Modul <code>dm_crypt</code> muss in den Modulordner
 <code>kernel/drivers/block/</code> und die Hash- und Cipher-Module müssen in
 <code>kernel/drivers/crypto/</code>:
 </p>
-<pre><b>#</b> cp drivers/md/dm_crypt.ko /lib/modules/2.6.15-25-386/kernel/drivers/md/
-<b>#</b> cp drivers/block/loop.ko /lib/modules/2.6.15-25-386/kernel/drivers/block/
-<b>#</b> cp crypto/*.ko /lib/modules/2.6.15-25-386/kernel/crypto</pre>
+<pre># cp drivers/md/dm_crypt.ko /lib/modules/2.6.15-25-386/kernel/drivers/md/
+# cp drivers/block/loop.ko /lib/modules/2.6.15-25-386/kernel/drivers/block/
+# cp crypto/*.ko /lib/modules/2.6.15-25-386/kernel/crypto</pre>
 
 <p>
 Nun müssen wir noch <code>depmod</code> ausführen, damit dem System die neuen
@@ -127,7 +110,7 @@ verewigen. Dies kann man mit einem Texteditor oder mit dem Befehl <code>echo -e
 verwenden müssen.)
 </p>
 
-<h4>1.2) Hilfsprogramme</h4>
+### 1.2) Hilfsprogramme
 
 <p>
 Da das direkte Aufrufen von <code>dm_crypt</code> ein bisschen kompliziert ist,
@@ -153,7 +136,7 @@ cryptsetup</code>) die LUKS-Erweiterung.
 Dieses Paket muss für diese Anleitung installiert sein.
 </p>
 
-<h3>2.) Komplette Partition verschlüsseln</h3>
+## 2.) Komplette Partition verschlüsseln
 
 <p>
 Ich gehe in diesem Beispiel davon aus, dass die zu verschlüsselnde Partition
@@ -210,7 +193,7 @@ Daten wollen.
 Nach Eingabe der richtigen Passphrase sagt uns <code>cryptsetup</code>, dass
 alles in Ordnung ist:
 </p>
-<pre><b>#</b> cryptsetup luksOpen /dev/hda2 daten
+<pre># cryptsetup luksOpen /dev/hda2 daten
 Enter LUKS passphrase:
 key slot 0 unlocked.
 Command successful.</pre>
@@ -222,7 +205,10 @@ mit <code>mkfs.ext3 /dev/mapper/daten</code> ein Dateisystem, erstellen einen
 Mountpoint mit <code>mkdir /mnt/daten</code> und hängen die Festplatte dann mit
 <code>mount /dev/mapper/daten /mnt/daten</code> dort ein:
 </p>
-<pre><b>#</b> mkfs.ext3 /dev/mapper/daten
+
+
+```
+# mkfs.ext3 /dev/mapper/daten
 mke2fs 1.39 (29-May-2006)
 Dateisystem-Label=
 OS-Typ: Linux
@@ -246,18 +232,24 @@ Schreibe Superblöcke und Dateisystem-Accountinginformationen: erledigt
 Das Dateisystem wird automatisch alle 27 Mounts bzw. alle 180 Tage überprüft,
 je nachdem, was zuerst eintritt. Veränderbar mit tune2fs -c oder -t .
 
-<b>#</b> mkdir /mnt/daten
-<b>#</b> mount /dev/mapper/daten /mnt/daten</pre>
+# mkdir /mnt/daten
+# mount /dev/mapper/daten /mnt/daten
+```
 
-<h4>2.1) Die Partition wieder aushängen</h4>
+### 2.1) Die Partition wieder aushängen
+
 <p>
 Mit folgenden Befehlen hängt man die verschlüsselte Partition wieder aus dem
 Dateisystem aus und entfernt das Loopdevice:
 </p>
-<pre><b>#</b> umount /mnt/daten
-<b>#</b> cryptsetup luksClose daten</pre>
 
-<h3>3.) Einen verschlüsselten Container erstellen</h3>
+```
+# umount /mnt/daten
+# cryptsetup luksClose daten
+ ```
+
+## 3.) Einen verschlüsselten Container erstellen
+
 <p>
 Ein verschlüsselter Container hat verschiedene Vorteile gegenüber einer
 komplett verschlüsselten Partition. Zum einen kann man dadurch die
@@ -266,32 +258,39 @@ gleich für jeden Benutzer eine eigene Festplatte einbauen muss. Außerdem kann
 man den Container auf andere Systeme transportieren, oder natürlich auch – wenn
 er klein genug ist – auf CD-ROM sichern.
 </p>
+
 <p>
 Ein Container ist lediglich eine Datei, die dann über ein Loopdevice eingehängt
 wird, also genau wie vorhin…
 </p>
+
 <p>
 Mit folgendem Befehl schreiben wir uns eine 5GB große Datei, in der wir private
 Daten wie Bilder und Dokumente ablegen könnten:
 </p>
-<pre><b>#</b> dd if=/dev/urandom of=/home/michael/privat.crypt bs=1024 count=5242880
+
+<pre># dd if=/dev/urandom of=/home/michael/privat.crypt bs=1024 count=5242880
 5242880+0 records in
 5242880+0 records out</pre>
+
 <p>
 In die Datei werden also Zufallswerte aus <code>/dev/urandom</code> gelesen,
 davon 5242880 * 1024 Stück, also 5GB. In der Beispielausgabe fehlt eine Zeile,
 in der <code>dd</code> angibt, wieviel Bytes das nun waren und wielange das
 gedauert hat (Ich habe bei mir das System mit anderen Werten aufgesetzt…).
 </p>
+
 <p>
 Vor diese Datei klemmen wir nun das Loopdevice <code>/dev/loop0</code> (0-9
 stehen zur Verfügung):
 </p>
-<pre><b>#</b> losetup /dev/loop0 /home/michael/privat.crypt</pre>
+<pre># losetup /dev/loop0 /home/michael/privat.crypt</pre>
 <p>
 Und schließlich verschlüsseln wir sie wie in Abschnitt 2:
 </p>
-<pre><b>#</b> cryptsetup -c blowfish-cbc-essiv:sha256 -y -s 256 luksFormat /dev/loop0
+
+```
+# cryptsetup -c blowfish-cbc-essiv:sha256 -y -s 256 luksFormat /dev/loop0
 
 WARNING!
 ========
@@ -301,15 +300,17 @@ Are you sure? (Type uppercase yes): YES
 Enter LUKS passphrase:
 Verify passphrase:
 Command successful.
-<b>#</b> cryptsetup luksOpen /dev/loop0 privat
+# cryptsetup luksOpen /dev/loop0 privat
 Enter LUKS passphrase:
 key slot 0 unlocked.
 Command successful.
-<b>#</b> mkfs.ext3 /dev/mapper/privat
-<b>#</b> mkdir /home/michael/privat/
-<b>#</b> mount /dev/mapper/privat /home/michael/privat</pre>
+# mkfs.ext3 /dev/mapper/privat
+# mkdir /home/michael/privat/
+# mount /dev/mapper/privat /home/michael/privat
+```
 
-<h3>4.) Swapspace verschlüsseln</h3>
+## 4.) Swapspace verschlüsseln
+
 <p>
 Hierfür müssen die Module wie unter Abschnitt erwähnt automatisch geladen werden.
 </p>
@@ -344,7 +345,8 @@ ersetzt werden.
 </p>
 
 
-<h3>5.) Mögliche Fehlermeldungen</h3>
+## 5.) Mögliche Fehlermeldungen
+
 <pre>Failed to setup dm-crypt key mapping.
 Check kernel for support for the blowfish-cbc-essiv:sha256 cipher spec and verify 
 that /dev/hda2 contains at least 258 sectors.

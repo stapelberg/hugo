@@ -1,33 +1,15 @@
-<!DOCTYPE html>
-<html>
+{{ define "main" }}
+<h1 class="ms_title">Blog Posts tagged {{ .Title | lower }}
+  <a href="{{ .Permalink }}feed.xml">
+    <img src="{{ "/feed-icon.svg" | relURL }}" style="width: .75em"
+	 alt="ATOM feed for posts tagged {{ .Title | urlize }}"
+	 title="ATOM feed for posts tagged {{ .Title | urlize }}">
+  </a>
+</h1>
 
-  {{ partial "head.html" . }}
-
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-	{{ partial "menu.html" . }}
-	<div id="contentBox" class="col-md-10">
-	  <h2 class="title">Posts tagged {{ .Title | lower }}
-	    <a href="{{ .Permalink }}feed.xml">
-	      <img src="/feed-icon.svg" style="width: .75em"
-		   alt="ATOM feed for posts tagged {{ .Title | urlize }}"
-		   title="ATOM feed for posts tagged {{ .Title | urlize }}">
-	    </a>
-	  </h2>
-	  <div class="Artikel" id="content">
-	    {{ partial (printf "tags/%s" (.Title | urlize)) . }}
-	    <ul class="ArticleList">
-	      {{ range .Data.Pages }}
-	      <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-	      {{ end }}
-	    </ul>
-	  </div>
-	</div>
-      </div>
-    </div>
+<div class="Artikel" id="content">
+  {{ partial (printf "tags/%s" (.Title | urlize)) . }}
+  {{ $pgs := where .Data.Pages "Params.hidden" "ne" "true" }}
+  {{ partial "postlist" $pgs }}
 </div>
-</div>
-</body>
-</html>
-
+{{ end }}

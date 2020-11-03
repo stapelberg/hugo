@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "kinX: latency measurement"
-date:   2018-04-17 17:49:00 +02:00
+date:   2018-04-17 17:51:00 +02:00
 categories: Artikel
 tags:
 - kinX

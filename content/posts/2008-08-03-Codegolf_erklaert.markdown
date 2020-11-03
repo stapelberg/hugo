@@ -5,6 +5,7 @@ date:   2008-08-03 10:00:00
 categories: Artikel
 Aliases:
   - /Artikel/Codegolf_erklaert
+summary: "Als Aufgabe (im NoName e.V.-Wiki) war gestellt, dass man ein Programm schreiben soll, welches den Wochentag (Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag) inklusive Zeilenumbruch auf stdout ausgibt."
 ---
 
 

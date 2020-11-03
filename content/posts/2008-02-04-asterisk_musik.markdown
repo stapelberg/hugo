@@ -7,32 +7,27 @@ Aliases:
   - /Artikel/asterisk_musik
 ---
 
-
-
-<p>
 Wer gerne Musik hört und oftmals angerufen wird kennt sicherlich das Problem,
 dass man die Musik immer leiser macht oder ausschaltet und nach dem Gespräch
 wieder anschaltet. Einer der Gründe, wieso ich freie Telefonanlagen (wie zum
 Beispiel <code>asterisk</code>) so mag, ist, dass man dieses Problem nun lösen
 kann. Ich hab’ das mit zwei einfachen Scripts und ein paar Einstellungen für
 meinen MP3-Player <code>cmus</code> erreicht.
-</p>
 
-<p>
 In der folgenden Anleitung gehe ich also davon aus, dass <code>cmus</code> oder
 ein ähnlich funktionierender MP3-Player verwendet wird sowie dass
 <code>asterisk</code> auf einem separaten Rechner läuft (wenn nicht, kann man
 sich den Webserver- und den Socket-Schritt sparen).
-</p>
 
-<h2>cmus’ Status speichern und abrufen</h2>
-<p>
+## cmus’ Status speichern und abrufen
+
 Da <code>cmus</code> standardmäßig keine externe „now playing”-Anzeige bietet,
 aber Scripts aufrufen kann, wenn sich der Status ändert, brauchen wir ein
 kleines Script, welches den Status behält:
-</p>
-<p class="filenameHeader">~/.cmus/status.sh</p>
-<pre>#!/bin/sh
+
+**~/.cmus/status.sh**:
+```
+#!/bin/sh
 # Saves the cmus status
 
 while test $# -ge 2
@@ -42,24 +37,22 @@ do
 	shift
 done
 
-echo $_status &gt; ~/.cmus/play_status/status</pre>
+echo $_status > ~/.cmus/play_status/status
+```
 
-<p>
 Um dieses Script aufrufen zu lassen, muss die Einstellung <code>:set
 status_display_program=/home/michael/.cmus/status.sh</code> getätigt werden in
 <code>cmus</code>. Außerdem muss das Verzeichnis
 <code>~/.cmus/play_status/</code> existieren.
-</p>
 
-<h2>Den Status über’s Netz abrufbar machen</h2>
-<p>
+## Den Status über’s Netz abrufbar machen
+
 Mithilfe deines Lieblingswebservers oder über eine beliebige andere Art (NFS,
 FTP, Samba, …) kannst du nun die Datei <code>~/.cmus/play_status/status</code>
 im Netz verfügbar machen, damit der (asterisk-)Server erkennt, ob momentan
 Musik läuft oder nicht (wenn diese nämlich nicht läuft und man den Pause-Befehl
 an <code>cmus</code> schickt, fängt dieser an zu spielen – genau das Gegenteil
 würde also erreicht).
-</p>
 
 <p>
 Ich hab’ das über einen <code>apache</code>-Vhost gelöst, da
@@ -96,25 +89,26 @@ Mithilfe von <code>:set passwd=foo</code> kann man das Passwort setzen, welches
 die Gegenseite braucht, um <code>cmus</code> fernsteuern zu können.
 </p>
 
-<h2>Scripts für eingehende Anrufe und aufgelegte Anrufe</h2>
-<p>
+## Scripts für eingehende Anrufe und aufgelegte Anrufe
+
 Das Script für eingehende Anrufe holt sich via <code>wget</code> den
 <code>cmus</code>-Status von meinem Rechner, hält (falls Musik läuft) den
 momentanen Song an und merkt sich, dass er eingegriffen hat, indem er
 <code>/tmp/call_broke_song</code> anlegt.
-</p>
 
-<p class="filenameHeader">~/.pbx/cmus-incoming.sh</p>
-<pre>#!/bin/sh
+**~/.pbx/cmus-incoming.sh**:
+```
+#!/bin/sh
 # This should be called on an incoming call from asterisk
 
 playstatus=$(wget -qO- http://192.168.1.23:2424/status)
-[ $playstatus = "playing" ] &amp;&amp; {
+[ $playstatus = "playing" ] && {
 	touch /tmp/call_broke_song
 	echo -e "foo\nplayer-pause" | nc -q0 192.168.1.23 2525
 }
 
-exit 0</pre>
+exit 0
+```
 
 <p>
 Das Script für aufgelegte Anrufe ist genauso simpel: Es prüft, ob zuvor
@@ -123,19 +117,22 @@ eingegriffen wurde, schaut nach, ob der Status noch immer auf Pause steht
 Stop ganz auszuschalten, könnte das nicht der Fall sein) und setzt sie dann
 fort.
 </p>
-<p class="filenameHeader">~/.pbx/cmus-hangup.sh</p>
-<pre>#!/bin/sh
+
+**~/.pbx/cmus-hangup.sh**:
+```
+#!/bin/sh
 # This should be called when the call is over from asterisk
 
-[ -f /tmp/call_broke_song ] &amp;&amp; {
+[ -f /tmp/call_broke_song ] && {
 	rm /tmp/call_broke_song
 	playstatus=$(wget -qO- http://192.168.1.23:2424/status)
-	[ $playstatus = "paused" ] &amp;&amp; {
+	[ $playstatus = "paused" ] && {
 		echo -e "foo\nplayer-pause" | nc -q0 192.168.1.23 2525
 	}
 }
 
-exit 0</pre>
+exit 0
+```
 
 <p>
 Hier sieht man übrigens auch, dass <code>cmus-remote</code> gar nicht verwendet
@@ -174,8 +171,11 @@ weiter – außer man definiert den Dialplan für die Extension <code>h</code> (
 </p>
 
 <p>So sieht ein solcher Dialplan dann aus:</p>
-<p class="filenameHeader">extensions.conf</p>
-<pre>[default]
+
+**extensions.conf**:
+
+```
+[default]
 exten =&gt; 23,1,System(/home/michael/.pbx/cmus-incoming.sh)
 exten =&gt; 23,2,Dial(SIP/23,30,gj)
 exten =&gt; 23,3,System(/home/michael/.pbx/cmus-hangup.sh)
@@ -185,4 +185,5 @@ exten =&gt; 23,5,Hangup()
 exten =&gt; 23,103,System(/home/michael/.pbx/cmus-hangup.sh)
 exten =&gt; 23,104,VoiceMail(b23)
 
-exten =&gt; h,1,System(/home/michael/.pbx/cmus-hangup.sh)</pre>
+exten =&gt; h,1,System(/home/michael/.pbx/cmus-hangup.sh)
+```

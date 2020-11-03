@@ -17,7 +17,7 @@ ich jedoch meist nach kurzer Zeit. Daher möchte ich hier kurz beschreiben,
 was mir letztendlich geholfen hat, nun flüssig neo zu schreiben:
 </p>
 
-<ol class="wide_list">
+<ol>
 	<li>
 	Nicht zwischen den verschiedenen Layouts hin- und herwechseln. Wenn man
 	nur zum Lernen täglich eine Stunde neo tippt und ansonsten qwerty,
@@ -75,7 +75,7 @@ beschäftigt man sich auch nicht damit.
 <p>
 Ich möchte also einen kurzen Überblick über Tastaturen geben, von schlecht nach gut geordnet:
 </p>
-<ul class="wide_list">
+<ul>
 	<li>
 	Standard-Tastatur. Hat alle Tasten und vielleicht noch mehr, die Tasten
 	sind relativ schwergängig und jedes Jahr wird sie erneuert
@@ -122,7 +122,7 @@ Da ich mir vor ca. 1 Monat eine Kinesis geleistet habe, möchte ich erstmal
 genauer auf die einzelnen Merkmale eingehen und anschließend meine
 Erfahrungen schildern:
 </p>
-<ul class="wide_list">
+<ul>
 	<li>
 	Die Tasten sind verschieden hoch angeordnet, sodass man quasi in die
 	Tastatur hineingreift. Dadurch werden die verschieden langen Finger
@@ -161,7 +161,7 @@ Erfahrungen schildern:
 </ul>
 
 <p>Nun zu meinen Erfahrungen:</p>
-<ul class="wide_list">
+<ul>
 	<li>
 	Die Tastatur ist kleiner als eine Standard-Tastatur, ziemlich genau so
 	groß, wie eine Standard-Tastatur ohne Numblock. Auf den Fotos

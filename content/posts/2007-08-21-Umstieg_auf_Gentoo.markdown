@@ -127,8 +127,10 @@ beschrieben:
 Die <code>/etc/make.conf</code> habe ich im Laufe des Installationsprozesses
 ergänzt, ich liste hier aber trotzdem schonmal ihren Inhalt:
 </p>
-<p class="filenameHeader">/etc/make.conf</p>
-<pre>CFLAGS="-march=k8 -O2 -pipe"
+
+**/etc/make.conf**:
+```
+CFLAGS="-march=k8 -O2 -pipe"
 CXXFLAGS="${CFLAGS}"
 CHOST="x86_64-pc-linux-gnu"
 USE="-nls -unicode -ldap -kde -ipv6 -perl ssl jpg jpeg png cups ogg theora truetype x264 xinerama caps alsa mp3 \
@@ -137,12 +139,15 @@ GENTOO_MIRRORS="http://mirrors.sec.informatik.tu-darmstadt.de/gentoo/ "
 VIDEO_CARDS="nvidia"
 INPUT_DEVICES="keyboard mouse"
 PORTDIR_OVERLAY="/usr/local/portage"
-source /usr/portage/local/layman/make.conf</pre>
+source /usr/portage/local/layman/make.conf
+```
 
-<p class="filenameHeader">/etc/locale.gen</p>
-<pre>en_US ISO-8859-1
+**/etc/locale.gen**:
+```
+en_US ISO-8859-1
 de_DE ISO-8859-1
-de_DE@euro ISO-8859-15</pre>
+de_DE@euro ISO-8859-15
+```
 
 <p>
 Nun geht’s an das Konfigurieren und Bauen des Kernels. Die von Gentoo
@@ -230,8 +235,9 @@ mit Benutzer einrichten und Software installieren:
 # nano /etc/portage/package.unmask
 # nano /etc/portage/package.keywords</pre>
 
-<p class="filenameHeader">/etc/portage/package.use</p>
-<pre>app-editors/vim -nls -gpm -acl -python
+**/etc/portage/package.use**:
+```
+app-editors/vim -nls -gpm -acl -python
 media-video/mplayer mmxext vorbis dvd encode X 3dnowext opengl dvdread gtk
 net-misc/openssh hpn
 media-video/avidemux vorbis a52 encode sdl
@@ -258,13 +264,17 @@ media-gfx/gphoto2 exif
 media-gfx/sane-backends gphoto2 usb
 media-gfx/sane-frontends gimp
 media-gfx/xsane gimp tiff
-sys-devel/gcc objc</pre>
+sys-devel/gcc objc
+```
 
-<p class="filenameHeader">/etc/portage/package.unmask</p>
-<pre>media-video/avidemux</pre>
+**/etc/portage/package.unmask**:
+```
+media-video/avidemux
+```
 
-<p class="filenameHeader">/etc/portage/package.keywords</p>
-<pre>sys-fs/multipath-tools ~amd64
+**/etc/portage/package.keywords**:
+```
+sys-fs/multipath-tools ~amd64
 x11-wm/e ~amd64
 x11-libs/ecore ~amd64
 x11-libs/evas ~amd64
@@ -277,7 +287,8 @@ dev-lang/spidermonkey ~amd64
 app-backup/bacula ~amd64
 sys-kernel/git-sources ~amd64
 media-libs/exiftool
-media-video/dvbsnoop ~amd64</pre>
+media-video/dvbsnoop ~amd64
+```
 
 <p>
 OK, jetzt noch folgender Befehl und dann erstmal schlafen gehen oder sich sonst
@@ -324,8 +335,11 @@ Kernel</a>). Mit folgendem Befehl als root kann man das beheben:
 Außerdem sollte man noch den X-Server mit <code>-nolisten</code> starten, wenn
 man nicht über’s Netz auf seinen X-Server zugreifen will:
 </p>
-<p class="filenameHeader">/etc/X11/xdm/Xservers</p>
-<pre>:0 local /usr/bin/X :0 -nolisten tcp vt7</pre>
+
+**/etc/X11/xdm/Xservers**:
+```
+:0 local /usr/bin/X :0 -nolisten tcp vt7
+```
 
 <h3>Konfiguration der ZSH</h3>
 

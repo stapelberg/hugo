@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html>
+{{ define "main" }}
+<h1 class="ms_title">{{ .Title }}</h1>
 
-  {{ partial "head.html" . }}
-
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-	{{ partial "menu.html" . }}
-	<div id="contentBox" class="col-md-10">
-	  {{ .Content }}
-	</div>
-      </div>
-    </div>
-  </body>
-</html>
+<div class="Artikel" id="content">
+  {{ .Content }}
+</div>
+{{ end }}

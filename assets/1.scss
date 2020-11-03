@@ -1,0 +1,576 @@
+/* CSS variables are not available in Internet Explorer,
+   so we use SCSS variables for now:
+   https://sass-lang.com/documentation/variables */
+$main-color: #047bc2;
+
+$desktop: "screen and (min-width: 58rem)";
+
+/* https://css-tricks.com/box-sizing/ */
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* https://css-tricks.com/reset-all-margins-padding/ */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#ms_navbar,
+#ms_footer,
+main {
+    max-width: 45rem;
+    margin: auto;
+    @media #{$desktop} {
+	max-width: calc(45rem + 13rem);
+    }
+}
+
+main > div:first-child {
+    max-width: 45rem;
+    padding: 1rem;
+}
+
+main {
+    @media #{$desktop} {
+	display: flex;
+    }
+}
+
+#ms_toc {
+    display: none;
+    @media #{$desktop} {
+	display: block;
+	position: sticky;
+	top: 0;
+	align-self: flex-start;
+	padding-top: 4.5rem;
+	max-width: 13rem;
+    }
+}
+
+.ms_toc_details {
+    margin-bottom: 2rem;
+    @media #{$desktop} {
+	display: none;
+    }
+    @media print {
+	/* Switch to open these from CSS once that is possible:
+   https://github.com/w3c/csswg-drafts/issues/2084 */
+	display: none;
+    }
+}
+
+#ms_toc > div {
+    @media #{$desktop} {
+	border-left: 1px solid #eee;
+	padding-left: 1rem;
+    }
+}
+
+#ms_footer {
+    padding: 1rem;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+    color: #666;
+}
+
+#ms_footer a {
+    color: #666;
+}
+
+#ms_navbar {
+    display: grid;
+    grid-template-columns: calc(2rem + 44px) auto auto;
+    align-items: center;
+    padding: .25rem 0;
+
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    /* TODO: border-bottom aber nur beim scrollen.
+       Scheint ohne JavaScript nicht möglich. */
+
+    @media #{$desktop} {
+	padding-top: .5rem;
+    }
+}
+
+/* Offset all scroll-to-view by the size of #ms_navbar */
+html, body {
+    scroll-padding-top: 6rem;
+}
+
+#ms_navbar {
+    img {
+	border-radius: 40%;
+	margin: 0 1rem;
+    }
+
+    li {
+	display: inline;
+	margin-right: 1.85rem;
+    }
+
+    a.active {
+	font-weight: bold;
+    }
+
+    a:link,
+    a:visited {
+	text-decoration: none;
+    }
+
+    ul a:link,
+    ul a:visited {
+	text-decoration: underline;
+	text-underline-offset: .3rem;
+    }
+}
+
+#ms_navbar h1 {
+    /* https://css-tricks.com/viewport-sized-typography/ */
+    font-size: #{"min(6vw, 30px)"};
+    margin-bottom: .25rem;
+}
+
+#ms_navbar > input {
+    display: none;
+}
+
+#ms_navbar input:checked ~ #ms_navdrawer {
+    visibility: visible;
+    left: 0;
+
+    @media #{$desktop} {
+	visibility: visible;
+	top: 0;
+    }
+}
+
+#ms_desktopnav {
+    display: none;
+
+    @media #{$desktop} {
+	display: block;
+    }
+}
+
+#ms_navdrawer {
+    /* this div must not be display: flex for iOS webkit bug! */
+
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+
+    /* slide in from the right */
+    left: 100vw;
+    visibility: hidden;
+    transition: all 200ms ease 0ms;
+    overflow: auto;
+    z-index: 1;
+
+    background-color: $main-color;
+    color: white;
+
+    padding-top: .25rem;
+
+    @media (prefers-reduced-motion) {
+	transition: all 1ms ease 0ms;
+    }
+}
+
+#ms_navdrawer_top {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#ms_navdrawer_search a {
+    display: flex;
+    align-items: center;
+}
+
+#ms_navdrawer_search h1 {
+    color: white;
+}
+
+#ms_navdrawer_content {
+    padding: 1rem;
+    padding-top: 0;
+    padding-right: 0;
+}
+
+#ms_navdrawer_content ul {
+    /* display text closer to where the thumb is */
+    text-align: right;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#ms_navdrawer_content li {
+    margin: 0;
+}
+
+#ms_navdrawer_content li a {
+    color: white;
+    display: block;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-right: 2.5rem;
+}
+
+#ms_burger_open,
+#ms_burger_close {
+    margin: 1.0rem;
+    margin-right: 1.5rem;
+    margin-bottom: 0;
+    justify-self: end;
+
+    @media #{$desktop} {
+	display: none;
+    }
+    @media print {
+	display: none;
+    }
+}
+
+#ms_logo *,
+#ms_burger_open *,
+#ms_burger_close * {
+    display: block;
+}
+
+#ms_burger_open label,
+#ms_burger_close label {
+    box-sizing: content-box;
+    width: 24px;
+    height: 24px;
+    padding: .75rem;
+    border-radius: 50%;
+    background-color: $main-color;
+}
+
+#ms_burger_close label {
+    background-color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato';
+    font-weight: bold;
+    font-variant-ligatures: none;
+    color: #000;
+    line-height: 150%;
+}
+
+h1 {
+    font-size: 29px;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6 {
+    margin-top: 2rem;
+    margin-bottom: .75rem;
+}
+
+.ms_title {
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.ms_meta {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.ms_meta > div {
+    margin-right: 1rem;
+}
+
+.ms_meta a {
+    text-decoration: none;
+}
+
+.ms_tag {
+    font-size: 90%;
+    padding: 0 .5rem;
+    background-color: #eee;
+    border-radius: 8px
+}
+
+.ms_tag a:link,
+.ms_tag a:visited {
+    text-decoration: none
+}
+
+a:link, a:visited {
+    text-decoration: underline;
+    color: $main-color;
+}
+
+main {
+    p,
+    table {
+	margin-top: .75rem;
+	margin-bottom: .75rem;
+    }
+
+    ul,
+    ol {
+	/* list bullet points are placed inside the padding by default.
+       Using list-style-position: inside; results in li text wrapping the bullet,
+       which is undesired. */
+	padding-left: 2rem;
+    }
+}
+
+.Artikel {
+    a:link,
+    a:visited {
+	text-underline-offset: .2rem;
+    }
+
+    hr {
+	margin: 2rem 20rem;
+	border: 0;
+	border-top: 1px solid grey;
+    }
+
+    table,
+    pre,
+    img,
+    hr {
+	max-width: 100%;
+    }
+
+    img {
+	object-fit: contain;
+	border: 0;
+    }
+
+    table th,
+    table td {
+	padding: .25rem;
+    }
+
+    table {
+	width: 100%;
+    }
+
+    th {
+	text-align: left;
+    }
+
+    ul,
+    ol,
+    ul ul,
+    ol ol,
+    ul ol,
+    ol ul {
+	margin-top: .5rem;
+    }
+
+    li {
+	margin-bottom: 1rem;
+    }
+
+    details.output {
+	/* Prevent horizontal scrollbar popping up.
+       Does not hide content, which is wrapped on the pre level. */
+	overflow: hidden;
+    }
+
+    details.output pre {
+	border: 0;
+    }
+}
+
+main {
+    code {
+	background-color: #eee;
+	padding: 0 .20rem;
+	border-radius: 4px;
+    }
+
+    pre,
+    code {
+	font-family: 'Roboto Mono', monospace;
+	font-size: 14px;
+    }
+
+    pre,
+    details.output {
+	border: 0;
+	background-color: #eee;
+	color: #000;
+	white-space: pre-wrap;
+	padding: 1rem;
+    }
+
+    pre code {
+	/* Within <pre>, all padding happens in the <pre> only, for consistency */
+	padding: 0;
+    }
+}
+
+.highlight code {
+    background-color: unset;
+}
+
+.talkthumb img {
+    width: 200px;
+    float: left;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    border: 1px solid black;
+    box-shadow: 1px 2px 5px black;
+}
+
+.note {
+    margin-bottom: 1rem;
+}
+
+.note-container,
+.warning,
+#ml {
+    display: flex;
+    width: 90%;
+    padding: .5rem;
+    margin: auto;
+    background-color: #d6eaff;
+    border-radius: 2px;
+}
+
+.note-icon {
+    width: 20px;
+    height: 20px;
+    margin: .5rem;
+    margin-top: 1rem;
+}
+
+.note #exclamation-icon,
+.warning #exclamation-icon {
+  fill: #0594CB;
+  margin-right: 2rem;
+}
+
+.admonition-content {
+  display: block;
+  margin: 0;
+  padding: .5rem;
+  padding-top: .75rem;
+  overflow-x: auto;
+}
+
+.admonition-content p {
+    margin-top: 0;
+}
+
+summary {
+    display: list-item !important;
+}
+
+ul.taglist {
+    list-style-type: none;
+}
+
+ul.taglist li {
+    display: inline;
+    line-height: 2.5rem;
+    margin-right: 1.5rem;
+}
+
+.ArticleList {
+    list-style-type: none;
+    padding-left: 5%
+}
+
+.ArticleList .summary {
+    display: flex;
+    margin-bottom: 2rem;
+    flex-direction: column;
+    @media #{$desktop} {
+	flex-direction: row;
+    }
+}
+
+.ArticleList .tags {
+    font-size: 90%;
+    margin-bottom: .5rem;
+}
+
+.ArticleList li:nth-child(n+2) {
+    margin-top: 3rem;
+}
+
+.ArticleList .summary p {
+    margin-top: 0;
+}
+
+.ArticleList img {
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ArticleList h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.ArticleList a {
+    text-decoration: none;
+}
+
+.ArticleList .readmore {
+    margin-left: .5rem;
+}
+
+/* TODO(later): /posts/ pagination */
+/* TODO(later): syntax highlighting e.g. for Go posts */
+/* TODO(later): include title in table of contents */
+
+/* TODO(later/style): /series/ mit display: grid? damit es besser flowed? */
+/* TODO(later/desktop): hover paragraph link für jedes heading */
+
+/* TODO: folgende styles in ein separates galerie-stylesheet verschieben */
+.image_description {
+    white-space: pre-wrap;
+    max-width: 110px
+}
+
+.group_pics td {
+    vertical-align: top;
+    width: 110px
+}
+
+.group_pics img {
+    border: 1px solid black
+}

@@ -7,13 +7,11 @@ Aliases:
   - /Artikel/Portweiterleitung
 ---
 
+{{< note >}}
 
+Linux/UNIX-kenntnisse erforderlich! (in den Bereichen ssh, Dateisystem, vi)
 
-<div class="warning" style="min-height: 50px">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="margin-top: 15px" class="strong">Linux/UNIX-kenntnisse erforderlich!
-(in den Bereichen ssh, Dateisystem, vi)</p>
-</div>
+{{< /note >}}
 
 <h3>Einleitung</h3>
 

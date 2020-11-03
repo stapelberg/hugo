@@ -1,0 +1,63 @@
+{{ define "profilepicture" }}
+<img
+    src="{{ "/logo1x.jpg" | relURL }}"
+    srcset="{{ "/logo2x.jpg" | relURL }} 2x, {{ "/logo3x.jpg" | relURL }} 3x"
+    width="42"
+    height="52"
+    alt="profile picture"
+    title="profile picture">
+{{ end }}
+
+{{ define "menuitems" }}
+  {{- $page := . -}}
+  {{- range .Site.Menus.main }}
+    {{ $is := $page.IsMenuCurrent "main" . -}}
+    {{- $has := $page.HasMenuCurrent "main" . -}}
+    {{- $blog := (and (eq .Name "Blog") (hasPrefix $page.RelPermalink "/posts/")) -}}
+    {{- $active := (or $is $has $blog) -}}
+    <li><a href="{{ .URL }}" {{ if $active }}class="active"{{ end }}>{{ .Name }}</a></li>
+  {{- end }}
+{{ end }}
+
+<header id="ms_navbar">
+  <a href="/">{{ block "profilepicture" . }}{{ end }}</a>
+  <div>
+    <a href="/"><h1>Michael Stapelberg</h1></a>
+    <nav id="ms_desktopnav">
+      <ul>
+	{{ block "menuitems" . }}{{ end }}
+      </ul>
+    </nav>
+  </div>
+
+  <div id="ms_burger_open">
+    <label for="ms_burger"><svg viewBox="0 0 100 80" width="24" height="24">
+	<rect width="100" height="17" rx="8" fill="white"></rect>
+	<rect y="30" width="100" height="17" rx="8" fill="white"></rect>
+	<rect y="60" width="100" height="17" rx="8" fill="white"></rect>
+    </svg></label>
+  </div>
+
+  <input type="checkbox" id="ms_burger">
+
+  <nav id="ms_navdrawer">
+    <div id="ms_navdrawer_top">
+      <div id="ms_navdrawer_search">
+	<a href="/">{{ block "profilepicture" . }}{{ end }}
+	<h1>Michael Stapelberg</h1></a>
+      </div>
+      <div id="ms_burger_close">
+	<label for="ms_burger"><svg viewBox="0 0 110 110" width="24" height="24">
+	    <line x1="10" y1="10" x2="100" y2="100" stroke="#047bc2" stroke-width="20" />
+	    <line x1="100" y1="10" x2="10" y2="100" stroke="#047bc2" stroke-width="20" />
+	</svg></label>
+      </div>
+    </div>
+
+    <div id="ms_navdrawer_content">
+      <ul>
+	{{ block "menuitems" . }}{{ end }}
+      </ul>
+    </div>
+  </nav>
+</header>

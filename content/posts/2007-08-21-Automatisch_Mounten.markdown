@@ -64,66 +64,69 @@ passenden Crontab-Eintrag hinzufügen, damit das Script minütlich ausgeführt
 wird:
 </p>
 
-<p>
-<span class="linuxcommand">„* * * * * /home/schueler/checkhost.sh”</span>
-</p>
-<p class="filenameHeader">checkhost.sh</p>
-<pre>
+```
+* * * * * /home/schueler/checkhost.sh
+```
+
+**checkhost.sh**:
+```
 #!/bin/bash
-<span class="DelphiComment"># a² - aquadraht@notmail.org 25.05.2005</span>
-<span class="DelphiComment"># Modifiziert von Michael Stapelberg @ 19.10.2005</span>
+# a² - aquadraht@notmail.org 25.05.2005
+# Modifiziert von Michael Stapelberg @ 19.10.2005
 
-FLAG=<span class="DelphiNumeric">/tmp/ping-alarm-$1</span>
+FLAG=/tmp/ping-alarm-$1
 
-<span class="DelphiComment"># check, ob FLAG älter als 12h</span>
-<b>if</b> [ -f $FLAG ]; <b>then</b>
+# check, ob FLAG älter als 12h
+if [ -f $FLAG ]; then
         find /tmp -name $FLAG -mmin +720 -exec rm -f {} \;
-<b>fi</b>
+fi
 
-<b>if</b> [ ! -f $FLAG ]; <b>then</b>
-        ping -c 1 <span class="DelphiNumeric">"$1"</span> > /dev/null 2>&1
-        <b>if</b> [ <span class="DelphiNumeric">"$?"</span> = <span class="DelphiNumeric">"0"</span> ]; <b>then</b>
+if [ ! -f $FLAG ]; then
+        ping -c 1 "$1" > /dev/null 2>&1
+        if [ "$?" = "0" ]; then
                 ./mount_it ${1}
-        <b>fi</b>
-<b>else</b>
-        ping -c 1 <span class="DelphiNumeric">"$1"</span> > /dev/null 2>&1
-        <b>if</b> [ <span class="DelphiNumeric">"$?"</span> = <span class="DelphiNumeric">"0"</span> ]; <b>then</b>
+        fi
+else
+        ping -c 1 "$1" > /dev/null 2>&1
+        if [ "$?" = "0" ]; then
                 ./mount_it ${1}
                 cd /tmp
                 rm $FLAG
-        <b>else</b>
+        else
                 echo "off"
-        <b>fi</b>
+        fi
 
-<b>fi</b>
+fi
 
 cd /tmp
 touch $FLAG
-</pre>
-<p class="filenameHeader">mount_it.sh</p>
-<pre>
+```
+
+**mount_it.sh**:
+```
 #!/bin/sh
 
-AMOUNT=<span class="DelphiNumeric">`mount | grep //${1}/${MOUNTPOINT} | wc -l`</span>
-<span class="DelphiComment"># TODO: An dieser Stelle muss man den Mounpoint (=Freigabenname) anpassen</span>
-MOUNTPOINT=<span class="DelphiNumeric">"Schuelerdateien"</span>
+AMOUNT=`mount | grep //${1}/${MOUNTPOINT} | wc -l`
+# TODO: An dieser Stelle muss man den Mountpoint (=Freigabenname) anpassen
+MOUNTPOINT="Schuelerdateien"
 
-<b>if</b> [ ${AMOUNT} -gt 1 ]; <b>then</b>
-        echo <span class="DelphiNumeric">"This share is already mounted many times, unmounting and remounting..."</span>
+if [ ${AMOUNT} -gt 1 ]; then
+        echo "This share is already mounted many times, unmounting and remounting..."
         i=${AMOUNT}
-        <b>while</b> [ ${i} -gt 0 ]; <b>do</b>
+        while [ ${i} -gt 0 ]; do
                 i=$((i-1))
                 umount //${1}/${MOUNTPOINT}
-        <b>done</b>
+        done
         mount //${1}/${MOUNTPOINT}
-<b>elif</b> [ ${AMOUNT} -gt 0 ]; <b>then</b>
-        echo <span class="DelphiNumeric">"Mount is already mounted one time, not mounting..."</span>
-<b>else</b>
-        echo <span class="DelphiNumeric">"Not mounted, mounting..."</span>
+elif [ ${AMOUNT} -gt 0 ]; then
+        echo "Mount is already mounted one time, not mounting..."
+else
+        echo "Not mounted, mounting..."
         mount //${1}/${MOUNTPOINT}
-<b>fi</b>
-echo <span class="DelphiNumeric">"Mounts now: `mount | grep //${1}/${MOUNTPOINT} | wc -l`"</span>
-</pre>
+fi
+echo "Mounts now: `mount | grep //${1}/${MOUNTPOINT} | wc -l`"
+```
+
 <p>
 Die Dateien sollten beide im selben Verzeichnis liegen, ansonsten muss der Pfad
 angepasst werden.

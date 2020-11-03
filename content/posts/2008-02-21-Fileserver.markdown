@@ -222,7 +222,8 @@ Danach setzen wir das Serverprofil:
 Und passen die Einstellungen zum Kompilieren an unsere Plattform und Wünsche
 an:
 </p>
-<p class="filenameHeader">/etc/make.conf</p>
+
+**/etc/make.conf**:
 <pre>
 CFLAGS="-O2 -march=athlon-xp -pipe"
 USE="-ldap -x11"
@@ -231,7 +232,8 @@ USE="-ldap -x11"
 <p>
 Anschließend wählen wir noch die Locales:
 </p>
-<p class="filenameHeader">/etc/locale.gen</p>
+
+**/etc/locale.gen**:
 <pre>
 en_US ISO-8859-1
 de_DE ISO-8859-1
@@ -290,7 +292,8 @@ Befehl:
 Nun sollten wir dem System noch klarmachen, welche (virtuellen) Laufwerke er
 wohin zu mounten hat bei Systemstart:
 </p>
-<p class="filenameHeader">/etc/fstab</p>
+
+**/etc/fstab**:
 <pre>
 /dev/sdc1		/boot		ext2	noauto,noatime		1	2
 /dev/mapper/root	/		ext3	noatime			0	1
@@ -301,7 +304,8 @@ shm			/dev/shm	tmpfs	nodev,nosuid,noexec	0	0
 <p>
 Dann setzen wir noch den Hostname:
 </p>
-<p class="filenameHeader">/etc/conf.d/hostname</p>
+
+**/etc/conf.d/hostname**:
 <pre>
 HOSTNAME="stability"
 </pre>
@@ -309,7 +313,8 @@ HOSTNAME="stability"
 <p>
 Und erledigen die Netzwerkkonfiguration:
 </p>
-<p class="filenameHeader">/etc/conf.d/net</p>
+
+**/etc/conf.d/net**:
 <pre>
 dns_servers_eth0="192.168.1.2 192.168.1.1 194.25.2.129"
 dns_sortlist_eth0="192.168.1.0/24"
@@ -409,7 +414,8 @@ cp /lib/{ld-linux.so.2,libblkid.so.1,libc.so.6,libdl.so.2,libncurses.so.5,libuui
 Anschließend erzeugen wir das eigentliche Script (stammt größtenteils aus dem
 Gentoo-Wiki, siehe Quellen):
 </p>
-<p class="filenameHeader">ramdisk/sbin/init</p>
+
+**ramdisk/sbin/init**:
 <pre>
 #!/bin/sh
 
@@ -490,7 +496,8 @@ tippt (vertauschte Position von y und z und der Sonderzeichen).
 <p>
 Hier noch das Script um die device-mapper-Nodes anzulegen:
 </p>
-<p class="filenameHeader">ramdisk/sbin/devmap_mknod.sh</p>
+
+**ramdisk/sbin/devmap_mknod.sh**:
 <pre>
 #!/bin/sh
 
@@ -575,7 +582,8 @@ Die Konfigurationsdatei von GRUB ist <code>/boot/grub/menu.lst</code>. Dort
 bringen wir GRUB nun bei, welchen Kernel auf welcher Festplatte mit welcher
 Initrd er booten soll:
 </p>
-<p class="filenameHeader">/boot/grub/menu.lst</p>
+
+**/boot/grub/menu.lst**:
 <pre>
 default 0
 timeout 5
@@ -711,7 +719,8 @@ mount /dev/mapper/home /home
 Damit wir nun nicht jedesmal nach dem Boot die ganzen Festplatten manuell
 mounten müssen, nutzen wir folgendes Script:
 </p>
-<p class="filenameHeader">/root/mountHDDs.sh</p>
+
+**/root/mountHDDs.sh**:
 <pre>
 #!/bin/sh
 status=1

@@ -7,7 +7,29 @@ Aliases:
   - /Artikel/x264
 ---
 
+<style>
+.bigImage {
+    padding-bottom: 5%
+}
 
+.bigImage h3 {
+    margin: 0;
+    border: 2px solid black;
+    text-align: center;
+    background-color: #047bc2;
+    color: #fff;
+}
+
+.bigImage p {
+    margin: 0;
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    padding-top: 1%;
+    padding-bottom: 1%
+}
+</style>
 
 <p>
 Zum Enkodieren meiner aufgenommenen DVB-Streams benutze ich in der Regel den
@@ -162,9 +184,8 @@ werden die Unterschiede nicht deutlich. Die Bilder sind jeweils 1024x576 Pixel
 groß.
 </p>
 
-<div class="bigImage" style="height: 160px">
+<div class="bigImage">
 <h3>XviD</h3>
-
 <table style="width: 100%">
 <tr>
   <td style="text-align: center">
@@ -187,10 +208,9 @@ groß.
   </td>
 </tr>
 </table>
-
 </div>
 
-<div class="bigImage" style="height: 160px">
+<div class="bigImage">
 <h3>H264</h3>
 <table style="width: 100%">
 <tr>
@@ -216,7 +236,7 @@ groß.
 </table>
 </div>
 
-<div class="bigImage" style="height: 160px">
+<div class="bigImage">
 <h3>H264 Two-Pass</h3>
 <table style="width: 100%">
 <tr>
@@ -242,7 +262,7 @@ groß.
 </table>
 </div>
 
-<div class="bigImage" style="height: 160px">
+<div class="bigImage">
 <h3>H264 High-Quality</h3>
 <table style="width: 100%">
 <tr>
@@ -307,7 +327,7 @@ Qualitätsverluste mit sich…
 Das Script könnt ihr euch auch <a href="/encodeMKV.sh" title="Direkt
 herunterladen">direkt herunterladen</a>.
 </p>
-<pre>
+```
 #!/bin/sh
 # (c) 2007 Michael Stapelberg
 # http://michael.stapelberg.de/Artikel/x264
@@ -429,4 +449,4 @@ rm "${TMP_VID}" "${TMP_AUD}" "${TMP_AUD}.ogg"
 echo -e "\n------------------------------------------------------------------------"
 echo "Created videofile \"${MKV}\"!"
 echo "------------------------------------------------------------------------"
-</pre>
+```

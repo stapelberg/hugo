@@ -83,7 +83,7 @@ Init2 = AT+CSQ
 
 <h2>Fakten</h2>
 
-<ul class="wide_list">
+<ul>
   <li>
     Entgegen der Aussage einer Mitarbeiterin beim T-Mobile-Support (Kurzwahl 2202) funktioniert
     die Karte nicht nur mit dem Surfstick von T-Mobile, sondern mit jeder Karte (mindestens

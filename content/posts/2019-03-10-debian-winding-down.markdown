@@ -30,7 +30,7 @@ fit for me.
 So I’m finally making a decision that I should have made a long time ago: I am
 winding down my involvement in Debian to a minimum.
 
-### What does this mean?
+## What does this mean?
 
 Over the coming weeks, I will:
 
@@ -47,7 +47,7 @@ For all intents and purposes, please treat me as permanently on vacation. I will
 try to be around for administrative issues (e.g. permission transfers) and
 questions addressed directly to me, permitted they are easy enough to answer.
 
-### Why?
+## Why?
 
 When I joined Debian, I was still studying, i.e. I had luxurious amounts of
 spare time. Now, over 5 years of full time work later, my day job taught me a
@@ -60,7 +60,7 @@ particular order. Some of them influence each other—for example, if changes
 worked better, we could have a chance at transitioning packages to be more
 easily machine readable.
 
-#### Change process in Debian
+### Change process in Debian
 
 The last few years, my current team at work conducted various smaller and larger
 refactorings across the entire code base (touching thousands of projects), so we
@@ -130,7 +130,7 @@ To learn more about how successful large changes can look like, I recommend [my
 colleague Hyrum Wright’s talk “Large-Scale Changes at Google: Lessons Learned
 From 5 Yrs of Mass Migrations”](https://www.youtube.com/watch?v=TrC6ROeV4GI).
 
-#### Fragmented workflow and infrastructure
+### Fragmented workflow and infrastructure
 
 Debian generally seems to prefer decentralized approaches over centralized
 ones. For example, individual packages are maintained in separate repositories
@@ -162,7 +162,7 @@ succeed in implementing it. The lack of effective automation and slow pace of
 changes in the surrounding tooling despite my willingness to contribute time and
 energy killed any motivation I had.
 
-#### Old infrastructure: package uploads
+### Old infrastructure: package uploads
 
 When you want to make a package available in Debian, you upload GPG-signed files
 via anonymous FTP. There are several batch jobs (the queue daemon, `unchecked`,
@@ -190,7 +190,7 @@ How would things look like in a better world?
    status and when the package will be available via the mirror network.
 1. Packages should be available within a few minutes after the build completed.
 
-#### Old infrastructure: bug tracker
+### Old infrastructure: bug tracker
 
 I dread interacting with the Debian bug
 tracker. [debbugs](https://en.wikipedia.org/wiki/Debbugs) is a piece of software
@@ -222,7 +222,7 @@ How would things look like in a better world?
    paper-trail and artifacts of the process in the form of a bug report, but the
    primary interface should be more convenient (e.g. a web form).
 
-#### Old infrastructure: mailing list archives
+### Old infrastructure: mailing list archives
 
 It baffles me that in 2019, we still don’t have a conveniently browsable
 threaded archive of mailing list discussions. Email and threading is more widely
@@ -234,7 +234,7 @@ the least (it is down as I write this).
 I tried to contribute a threaded list archive, but our listmasters didn’t seem
 to care or want to support the project.
 
-#### Debian is hard to machine-read
+### Debian is hard to machine-read
 
 While it is obviously possible to deal with Debian packages programmatically,
 the experience is far from pleasant. Everything seems slow and cumbersome. I
@@ -259,19 +259,19 @@ packages as quickly as possible. There used to be a
 longer seems to exist. It is unclear where to get notifications from for new
 packages, and where best to fetch those packages.
 
-#### Complicated build stack
+### Complicated build stack
 
 See my [“Debian package build tools”](/posts/2016-11-25-build-tools/) post. It
 really bugs me that the sprawl of tools is not seen as a problem by others.
 
-#### Developer experience pretty painful
+### Developer experience pretty painful
 
 Most of the points discussed so far deal with the experience in *developing
 Debian*, but as I recently described in my post [“Debugging experience in
 Debian”](/posts/2019-02-15-debian-debugging-devex/), the experience when
 *developing using Debian* leaves a lot to be desired, too.
 
-#### I have more ideas
+### I have more ideas
 
 At this point, the article is getting pretty long, and hopefully you got a rough
 idea of my motivation.

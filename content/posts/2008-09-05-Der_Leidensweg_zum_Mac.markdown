@@ -7,14 +7,15 @@ Aliases:
   - /Artikel/Der_Leidensweg_zum_Mac
 ---
 
+{{< note >}}
 
+Dieser Artikel schildert lediglich meine persönliche Erfahrung und Meinung!
 
-<div class="warning" style="min-height: 50px; overflow: hidden">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="margin-top: 15px;" class="strong">Vorsicht! Dieser Artikel spiegelt
-lediglich meine persönliche Erfahrung und Meinung!</p>
-<p style="clear:left; margin-top: 0; margin-bottom: 0;">Dieser Artikel soll nicht dazu dienen, Beratung oder Empfehlungen auszusprechen. Die hier angebotenen Informationen sind keine Grundlage für etwaige Entscheide.</p>
-</div>
+Dieser Artikel soll nicht dazu dienen, Beratung oder Empfehlungen
+auszusprechen. Die hier angebotenen Informationen sind keine Grundlage für
+etwaige Entscheide.
+
+{{< /note >}}
 
 <p>
 Ich war schon direkt nach der Vorstellung des <a

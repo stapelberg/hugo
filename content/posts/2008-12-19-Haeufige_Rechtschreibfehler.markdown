@@ -7,17 +7,13 @@ Aliases:
   - /Artikel/Haeufige_Rechtschreibfehler
 ---
 
+{{< note >}}
 
+**Als Tipp gemeint:** Bitte interpretiere diesen Artikel nicht zu kritisch, und
+bitte kritisiere die Fehler deiner Mitmenschen nur wenn es konstruktiv ankommen
+kann; nie als Angriff.
 
-<div class="warning" style="min-height: 50px; overflow: hidden">
-<img src="/Bilder/Warning.png" class="backButton" alt="Warnung">
-<p style="margin-top: 15px;" class="strong">Vorsicht! Dies ist ein
-Weltverbesserungsartikel</p>
-<p style="clear: left">Sollten Sie nicht in der Stimmung für
-Weltverbesserungen sein oder jemand, der sich leicht über Weltverbesserer
-aufregt, betätigen Sie bitte jetzt Ihren „Zurück”-Knopf.
-Danke.</p>
-</div>
+{{< /note >}}
 
 <p>
 Heute habe ich endlich die Zeit gefunden, alle Korrekturen, die ich meinen
@@ -40,29 +36,10 @@ via E-Mail oder IRC gekommen bist, so sei dir versichert, dass derjenige, der
 den Link geschickt hat, dir nur helfen möchte, keinesfalls dich beleidigen.</i>
 </p>
 
-<table class="toc">
-<tr><td><h3>Inhaltsverzeichnis:</h3>
-<ul>
-	<li class="level1"><a href="#absatz_1">1.: Häufig gemachte, ganz klar falsche, Fehler</a></li>
-		<li class="level2"><a href="#dassdas">1.1) dass/das</a></li>
-		<li class="level2"><a href="#seitseid">1.2) seit/seid</a></li>
-		<li class="level2"><a href="#todtot">1.3) tod/tot</a></li>
-		<li class="level2"><a href="#alswie">1.4) als/wie</a></li>
-		<li class="level2"><a href="#standart">1.5) standart</a></li>
-		<li class="level2"><a href="#nonexistente_woerter">1.6) „Wörter, die’s SO einfach nicht gibt”</a></li>
-	<li class="level1"><a href="#absatz_2">2.: Häufig gemachte Fehler, die kaum einem auffallen…</a></li>
-		<li class="level2"><a href="#deppenapostroph">2.1) Der Deppenapostroph</a></li>
-		<li class="level2"><a href="#deppenleerzeichen">2.2) Das Deppenleerzeichen</a></li>
-		<li class="level2"><a href="#kommafehler">2.3) Kommafehler</a></li>
-		<li class="level2"><a href="#scheinbar">2.4) Anscheinend und scheinbar</a></li>
-		<li class="level2"><a href="#superlativ">2.5) Die einzigste Sache, die jetzt noch bleibt…</a></li>
-		<li class="level2"><a href="#dennweil">2.6) Denn/Weil</a></li>
-	<li class="level1"><a href="#absatz_3">3.: Weitere interessante, themenverwandte Websites</a></li>
-</ul>
-</td></tr>
-</table>
-<h3><a name="absatz_1">1.: Häufig gemachte, ganz klar falsche, Fehler</a></h3>
-<h3><a name="dassdas">1.1) dass/das</a></h3>
+## 1.: Häufig gemachte, ganz klar falsche, Fehler {#absatz_1}
+
+### 1.1) dass/das {#dassdas}
+
 <p>
 <small>Siehe auch: <a href="http://www.dass-das.de/" target="_blank">
 dass-das.de</a></small>
@@ -104,7 +81,7 @@ Mit der Zeit verinnerlicht man sich das aber und wählt ganz automatisch das
 richtige Wort.
 </p>
 
-<h3><a name="seitseid">1.2) seit/seid</a></h3>
+### 1.2) seit/seid {#seitseid}
 
 <p>
 <small>Siehe auch: <a href="http://www.seit-seid.de/" target="_blank"
@@ -123,7 +100,7 @@ fällt mir die Unterscheidung zwischen seit und seid gar nicht mehr schwer.</i>
 und <i>Seit er nicht mehr zur Schule geht, hat er nur noch Flausen im Kopf.</i>
 </p>
 
-<h3><a name="todtot">1.3) tod/tot</a></h3>
+### 1.3) tod/tot {#todtot}
 
 <p>
 Der Unterschied zwischen dem „Tod” als Substantiv und „tot” als Adjektiv ist
@@ -146,7 +123,7 @@ fanden.”</i> Hier ist das Subjekt nicht mehr „Er”, sondern der Tod. Man fr
 nach einem Subjekt mit „Wer oder was?”.
 </p>
 
-<h3><a name="alswie">1.4) als/wie</a></h2>
+### 1.4) als/wie {#alswie}
 
 <p>
 Da ich mehrmals gefragt wurde, ob ich nicht auch den Unterschied zwischen als
@@ -162,12 +139,13 @@ Beispiel „doppelt so viel wie du”.
 <p>
 Zur Veranschaulichung noch ein paar Beispiele:
 </p>
-	<ul>
-		<li>Er nimmt sich immer mehr Kuchen <b>als</b> Peter.</li>
-		<li>Er ist älter <b>als</b> sein Bruder.</li>
-		<li>Er ist doppelt so alt <b>wie</b> seine Schwester</li>
-	</ul>
-<h3><a name="standart">1.5) Standart</a></h3>
+
+* Er nimmt sich immer mehr Kuchen <b>als</b> Peter.
+* Er ist älter <b>als</b> sein Bruder.
+* Er ist doppelt so alt <b>wie</b> seine Schwester
+
+### 1.5) Standart {#standart}
+
 <p>
 <small>Siehe auch: <a href="http://www.k-faktor.com/standart/" target="_blank"
 title="k-faktor.com/standart">k-faktor.com/standart</a></small>
@@ -180,21 +158,23 @@ title="k-faktor.com/standart">k-faktor.com/standart</a>). Weder im Deutschen,
 noch im Englischen. Nein. Wirklich. Ihr meint zu 100% Standard, mit „d”.
 Einfach merken: <i>immer</i> mit „d”. Danke.
 </p>
-<h3><a name="nonexistente_woerter">1.6) „Wörter, die’s SO einfach nicht gibt”</a></h3>
+
+### 1.6) „Wörter, die’s SO einfach nicht gibt” {#nonexistente_woerter}
+
 <p>
 Diese Wortgruppe ist schnell erklärt: Für den einen sind sie im alltäglichen
 Sprachgebrauch durchaus üblich, andere haben das Wort nie gehört – der örtliche
 Dialekt ist schuld. Hier eine kurze Auflistung:
 </p>
-	<ul>
-		<li>Richtig: <b>anders</b>, Falsch: <i>anderst, anderster</i></li>
-		<li>Richtig: <b>eben</b>, Falsch: <i>ebend, ebent</i></li>
-	</ul>
 
-<h3><a name="absatz_2">2.: Häufig gemachte Fehler, die kaum einem auffallen…</a></h3>
+* Richtig: <b>anders</b>, Falsch: <i>anderst, anderster</i>
+* Richtig: <b>eben</b>, Falsch: <i>ebend, ebent</i>
+
+## 2.: Häufig gemachte Fehler, die kaum einem auffallen… {#absatz_2}
+
 <small>(…aber trotzdem tierisch nerven!)</small>
 
-<h3><a name="deppenapostroph">2.1) Der Deppenapostroph</a></h3>
+### 2.1) Der Deppenapostroph {#deppenapostroph}
 
 <p>
 <small>Siehe auch: <a href="http://www.deppenapostroph.de/" target="_blank"
@@ -259,7 +239,8 @@ Textverarbeitungsprogramme bieten aber eine automatische Erkennung von
 „falschen” Apostrophen und wandeln sie korrekt um.
 </p>
 
-<h3><a name="deppenleerzeichen">2.2) Das Deppenleerzeichen</a></h3>
+### 2.2) Das Deppenleerzeichen {#deppenleerzeichen}
+
 <p>
 <small>Siehe auch: <a href="http://www.deppenleerzeichen.de/" target="_blank"
 title="deppenleerzeichen.de">deppenleerzeichen.de</a></small>
@@ -273,13 +254,15 @@ eine <a href="http://www.deppenleerzeichen.de/?page_id=217"
 target="_blank">gute Begründung</a> dafür.
 </p>
 
-<h3><a name="kommafehler">2.3) Kommafehler</a></h3>
+### 2.3) Kommafehler {#kommafehler}
+
 <p>
 Anstatt die gängigen Kommafehler aufzulisten, gehe ich hier einfach auf die
 Regeln ein und biete euch eine kleine Zusammenfassung. Man braucht natürlich
 nicht alle auswendig zu lernen, meistens hat man das nach kurzer Zeit im
 Gefühl.
 </p>
+
 <ol>
 	<li style="margin-bottom: 2%; margin-left: 2%">
 	Zwischen Aufzählungen steht ein Komma, vorausgesetzt, dass die
@@ -349,7 +332,7 @@ Gefühl.
 	</li>
 </ol>
 
-<h3><a name="scheinbar">2.4) Anscheinend und scheinbar</a></h3>
+### 2.4) Anscheinend und scheinbar {#scheinbar}
 
 <p>
 <small>Siehe auch: Bastian Sicks „Der Dativ ist dem Genitiv sein Tod” (auch
@@ -380,7 +363,8 @@ Einen schönen Spruch dazu erhielt ich letztens von einem Freund:
 <strong>„Das scheinbar hör’ ich weinend, du meinst gewiss anscheinend!”</strong>
 </p>
 
-<h3><a name="superlativ">2.5) Die einzigste Sache, die jetzt noch bleibt…</a></h3>
+### 2.5) Die einzigste Sache, die jetzt noch bleibt… {#superlativ}
+
 <p>
 <small>Siehe auch: <a href="http://de.wikipedia.org/wiki/Hyperlativ"
 title="Hyperlativ (Wikipedia)">Hyperlativ (Wikipedia)</a></small>
@@ -399,7 +383,9 @@ title="Hyperlativ (Wikipedia)">Wikipedia-Artikel
 „Hyperlativ”</a> findet sich eine kurze Erklärung, die auch noch 2 andere Fälle
 neben den absoluten Adjektiven erklärt.
 </p>
-<h3><a name="dennweil">2.6) Denn/Weil</a></h3>
+
+### 2.6) Denn/Weil {#dennweil}
+
 <p>
 <small>Zitiert von meiner Partnerseite <a href="http://www.dennweil.de/"
 title="dennweil.de" target="_blank">dennweil.de</a></small>
@@ -436,7 +422,8 @@ Stelle des Nebensatzes, wie in einem Hauptsatz.
 	<li>Er möchte, weil er hat zuviel gegessen, keinen Kuchen mehr.</li>
 </ul>
 
-<h3><a name="absatz_3">3.: Weitere interessante, themenverwandte Websites</a></h3>
+## 3.: Weitere interessante, themenverwandte Websites {#absatz_3}
+
 <ul>
 	<li style="margin-bottom: 2%; margin-left: 2%">
 	<a href="http://webdesign.crissov.de/Typographie" target="_blank"

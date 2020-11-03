@@ -1,47 +1,105 @@
+{{- define "description" }}
+{{- if .Description }}
+{{- .Description -}}
+{{- else if .IsPage }}
+{{- .Summary -}}
+{{- else }}
+{{- .Site.Params.description -}}
+{{- end -}}
+{{ end }}
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ .Title }}</title>
-    <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="{{ "/favicon.ico" | relURL }}" />
-    <meta name="description" content="{{ .Site.Params.description }}">
-    <link rel="canonical" href="{{ absURL .URL }}">
-    <meta name="author" content="Michael Stapelberg">
-    <meta name="keywords" content="Michael, Stapelberg, Linux, Debian">
-    <style type="text/css">
-@font-face {
-  font-family: 'Yanone Kaffeesatz Regular';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Yanone Kaffeesatz Regular'), url('{{ "/YanoneKaffeesatz-Regular.ttf" | relURL }}') format('truetype');
-}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ .Title }} - Michael Stapelberg</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="{{ "/favicon.ico" | relURL }}" />
+  <meta name="description" content="{{ block "description" . }}{{ end }}">
+  <link rel="canonical" href="{{ absURL .URL }}">
+  <meta name="author" content="Michael Stapelberg">
+  <style type="text/css">
+    @font-face {
+	font-family: 'Roboto Mono';
+	src: url('{{ "/font/subset-RobotoMono-Regular.eot" | relURL }}');
+	src: local('Roboto Mono Regular'), local('RobotoMono-Regular'),
+        url('{{ "/font/subset-RobotoMono-Regular.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "/font/subset-RobotoMono-Regular.woff2" | relURL }}') format('woff2'),
+        url('{{ "/font/subset-RobotoMono-Regular.woff" | relURL }}') format('woff'),
+        url('{{ "/font/subset-RobotoMono-Regular.ttf" | relURL }}') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+    }
 
-@font-face {
-  font-family: 'Droid Sans';
-  font-style: normal;
-  font-weight: normal;
-  src: local('Droid Sans'), local('DroidSans'), url('{{ "/droid_sans.ttf" | relURL }}') format('truetype');
-}
+    @font-face {
+	font-family: 'Roboto';
+	src: url('{{ "/font/subset-Roboto-Bold.eot" | relURL }}');
+	src: local('Roboto Bold'), local('Roboto-Bold'),
+        url('{{ "/font/subset-Roboto-Bold.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "/font/subset-Roboto-Bold.woff2" | relURL }}') format('woff2'),
+        url('{{ "/font/subset-Roboto-Bold.woff" | relURL }}') format('woff'),
+        url('{{ "/font/subset-Roboto-Bold.ttf" | relURL }}') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+    }
 
-@font-face {
-  font-family: 'Droid Sans';
-  font-style: normal;
-  font-weight: bold;
-  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('{{ "/droid_sans_bold.ttf" | relURL }}') format('truetype');
-}
+    @font-face {
+	font-family: 'Roboto';
+	src: url('{{ "/font/subset-Roboto-Regular.eot" | relURL }}');
+	src: local('Roboto'), local('Roboto-Regular'),
+        url('{{ "/font/subset-Roboto-Regular.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "/font/subset-Roboto-Regular.woff2" | relURL }}') format('woff2'),
+        url('{{ "/font/subset-Roboto-Regular.woff" | relURL }}') format('woff'),
+        url('{{ "/font/subset-Roboto-Regular.ttf" | relURL }}') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+    }
 
-body, td, th {
-  font-family: 'Droid Sans', Verdana, Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  color: #000;
-} 
-    </style>
-    <link rel="stylesheet" href="{{ "/2.css" | relURL }}" type="text/css">
-    {{ $style := resources.Get "/1.css" | resources.Minify }}
-    <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}" type="text/css">
-    {{- if (eq .Kind "taxonomy") }}
-    <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
-    {{- else -}}
-    <link rel="alternate" href="{{ "/feed.xml" | relURL }}" type="application/atom+xml" title="ATOM feed">
-    {{- end -}}
+    @font-face {
+	font-family: 'Lato';
+	src: url('{{ "/font/subset-Lato-Bold.eot" | relURL }}');
+	src: local('Lato Bold'), local('Lato-Bold'),
+        url('{{ "/font/subset-Lato-Bold.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "/font/subset-Lato-Bold.woff2" | relURL }}') format('woff2'),
+        url('{{ "/font/subset-Lato-Bold.woff" | relURL }}') format('woff'),
+        url('{{ "/font/subset-Lato-Bold.ttf" | relURL }}') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+    }
+
+    body, td, th {
+	font-family: 'Roboto';
+	font-size: 16px;
+	line-height: 150%;
+	color: #000;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+	font-family: 'Lato';
+	font-weight: bold;
+	font-variant-ligatures: none;
+	color: #000;
+    }
+  </style>
+
+  <!-- Instruct web browsers to load our header/text fonts immediately
+       instead of after the CSS was interpreted:
+       https://web.dev/codelab-preload-web-fonts/ -->
+  <link rel="preload" href="{{ "/font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2">
+  <link rel="preload" href="{{ "/font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2">
+  <!-- TODO: enable fingerprinting: do css versions just accumulate? put into a separate directory. see https://gohugo.io/hugo-pipes/introduction/. maybe hugo --gc is required? -->
+  {{- $style := resources.Get "/1.scss" | resources.ToCSS | resources.Minify }}
+  <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}" type="text/css">
+  {{ if (eq .Kind "taxonomy") -}}
+  <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
+  {{- else -}}
+  <link rel="alternate" href="{{ "/feed.xml" | relURL }}" type="application/atom+xml" title="ATOM feed">
+  {{- end }}
 </head>

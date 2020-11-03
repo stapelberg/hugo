@@ -1,0 +1,19 @@
+{{ $src := $.Page.Resources.GetMatch (.Get "src") }}
+
+{{ .Scratch.Set "x1" ($src.Resize "600x") }}
+{{ .Scratch.Set "x2" ($src.Resize "1200x") }}
+{{ .Scratch.Set "x3" ($src.Resize "1800x") }}
+
+{{ $x1 := .Scratch.Get "x1" }}
+{{ $x2 := .Scratch.Get "x2" }}
+{{ $x3 := .Scratch.Get "x3" }}
+
+{{/* Permalink instead of RelPermalink so that full URLs land in the feed (https://validator.w3.org/feed/docs/warning/ContainsRelRef.html) */}}
+<a href="{{ $src.Permalink }}"><img
+  srcset="{{ $x2.Permalink }} 2x,{{ $x3.Permalink }} 3x"
+  src="{{ $x1.Permalink }}"
+  {{ with .Get "alt" }}alt="{{.}}" title="{{.}}"{{ end }}
+  width="{{ $x1.Width }}"
+  height="{{ $x1.Height }}"
+  style="border: 1px solid #000"
+  loading="lazy"></a>

@@ -7,10 +7,8 @@ Aliases:
   - /Artikel/Mutt_i_ist_die_Beste
 ---
 
+## Worum geht’s?
 
-
-<div class="visiblelinks">
-<h3>Worum geht’s?</h3>
 <p>
 Diesmal geht es um das Einrichten und Benutzen des Kommandozeilen-Mailclients
 <code>mutt-ng</code> (Weiterentwicklung von <code>mutt</code>). Als System
@@ -27,7 +25,8 @@ das effizient zu synchronisieren und eventuell auch gerne mal von einem
 beliebigen anderen Rechner meine Mails beantworten möchte…
 </p>
 
-<h3>Kommandozeile?</h3>
+### Kommandozeile?
+
 <p>
 Ja, <code>mutt-ng</code> hat keine grafische Oberfläche und das macht ihn um
 einiges flexibler als andere Mailclients – auch in der allgemeinen Flexibilität
@@ -48,7 +47,6 @@ Tastatur nach einer gewissen Eingewöhnungsphase schneller, als wenn man dauernd
 mit der Maus umhersuchen muss.
 </p>
 
-<p>
 Zu den Abbildungen: Die Bildschirmfotos wurden gemacht, als
 <code>mutt-ng</code> in einer <a href="http://de.wikipedia.org/wiki/GNU_Screen"
 title="Wikipedia: GNU screen" target="_blank"><code>screen</code></a>-Session
@@ -56,39 +54,15 @@ title="Wikipedia: GNU screen" target="_blank"><code>screen</code></a>-Session
 lojban-beginners-Mailingliste. Da es sich hier um ein Konsolenprogramm handelt,
 liegt es in der Natur der Sache, dass man auf den Vorschauversionen der
 Abbildungen eigentlich nur schwarz sieht ;-).
-</p>
 
-<h3>Inhaltsverzeichnis</h3>
+## 1.) Installation {#installation}
 
-<div class="toc">
-<ul>
-	<li class="level1"><a href="#installation">1.) Installation von mutt-ng</a></li>
-	<li class="level1"><a href="#einrichtung">2.) Einrichtung von procmail, fetchmail (und cyrus-imapd)</a></li>
-		<li class="level2"><a href="#ohneimap">2.1) ohne IMAP-Server</a></li>
-		<li class="level2"><a href="#mitimap">2.2) Eigener IMAP-Server</a></li>
-	<li class="level1"><a href="#config">3.) Konfiguration von mutt-ng</a></li>
-		<li class="level2"><a href="#pgp">3.1) PGP</a></li>
-		<li class="level2"><a href="#pgpgenkey">3.1.1) Schlüssel erstellen</a></li>
-
-		<li class="level2"><a href="#pgppubkey">3.1.2) Schlüssel veröffentlichen</a></li>
-	<li class="level1"><a href="#benutzung">4.) Benutzung</a></li>
-		<li class="level2"><a href="#benutzung_lesen">4.1) Mails lesen</a></li>
-		<li class="level2"><a href="#benutzung_schreiben">4.2) Mails beantworten/schreiben</a></li>
-		<li class="level2"><a href="#benutzung_suchen">4.3) Mails suchen</a></li>
-		<li class="level2"><a href="#benutzung_vermischtes">4.4) Vermischtes</a></li>
-	<li class="level1"><a href="#links">5.) Weiterführende Links</li>
-</ul>
-</div>
-
-<h3><a name="installation">1.) Installation</a></h3>
-<p>
-<code>mutt-ng</code> ist zur Zeit noch in Entwicklung aber durchaus benutzbar.
+`mutt-ng` ist zur Zeit noch in Entwicklung aber durchaus benutzbar.
 Die aktuelle Version kann man sich aus dem CVS laden, einen täglichen Snapshot
 gibt’s unter <a href="http://nion.modprobe.de/mutt-ng/snapshots/"
 title="mutt-ng snapshots">http://nion.modprobe.de/mutt-ng/snapshots/</a>. Ich
 persönlich benutze den Snapshot vom 27.03.2006 (mittlerweile ziemlich alt, aber
 er funktioniert gut).
-</p>
 
 <p>
 Die Installation selbst verläuft wie bei den meisten anderen Linuxprogrammen,
@@ -128,7 +102,8 @@ Nachdem <code>configure</code> fertig ist, kann man mit <code>make &amp;&amp;
 make install</code> mutt kompilieren und installieren</code>.
 </p>
 
-<h3><a name="einrichtung">2.) Einrichtung</a></h3>
+## 2.) Einrichtung {#einrichtung}
+
 <p>
 OK, ab hier wird’s kompliziert ;-). Ich persönlich habe mich dafür entschieden,
 einen eigenen IMAP-Server aufzusetzen, damit ich zur Not auch mit anderen
@@ -190,7 +165,8 @@ Hinweis: Wenn man einen eigenen IMAP-Server verwendet, kann man die Zeile mit
 ohnehin so anpassen werden, dass er <code>procmail</code> benutzt.
 </p>
 
-<h4><a name="ohneimap">2.1) Ohne eigenen IMAP-Server</a></h4>
+### 2.1) Ohne eigenen IMAP-Server {#ohneimap}
+
 <p>
 Wir werden nun <code>procmail</code> einrichten und im nächsten Abschnitt
 schließlich <code>mutt-ng</code> in Betrieb nehmen. Hier direkt ’mal meine
@@ -232,7 +208,8 @@ dieser Stelle nicht eingehen, gerade auch zur Spamvermeidung gibt’s da schon
 einige Websites im Netz, die sich damit befassen.
 </p>
 
-<h4><a name="mitimap">2.2) Eigener IMAP-Server</a></h4>
+### 2.2) Eigener IMAP-Server {#mitimap}
+
 <p>
 Mit einem eigenen IMAP-Server fungieren wir wie ein kleiner E-Mailprovider –
 nur eben lokal. Das bedeutet, dass sich andere Rechner mit dem Server verbinden
@@ -301,7 +278,9 @@ So, das war’s auch schon. Nun müssen wir nur noch <code>procmail</code> selbs
 einrichten, die Konfiguration für einen IMAP-Server unterscheidet sich leicht
 von der obigen.
 </p>
-<pre>DELIVERMAIL="/usr/sbin/cyrdeliver"
+
+```
+DELIVERMAIL="/usr/sbin/cyrdeliver"
 LOGFILE="/var/log/mail/procmail.log"
 DEFAULT="$DELIVERMAIL -e -a $LOGNAME -m user.$LOGNAME"
 PRIVAT="$DELIVERMAIL -e -a $LOGNAME -m user.$LOGNAME.privat"
@@ -330,9 +309,10 @@ VERBOSE=off
 {
 	EXITCODE=$?
 	HOST
-}</pre>
+}
+```
 
-<h3><a name="config">3.) Konfiguration</a></h3>
+## 3.) Konfiguration {#config}
 
 <p>
 Ich werde hier auf meine Konfiguration eingehen, das heißt, welche Optionen ich
@@ -346,7 +326,6 @@ Klartext abgelegt werden, sollte sie nur für den Benutzer lesbar sein
 (<code>chmod 600 ~/.muttngrc</code>).</strong>
 </p>
 
-<div style="border: 1px solid black; padding: 5px; background-color: #C0C0C0">
 <h4>Allgemeine Einstellungen</h4>
 
 <p><code>set pager_context=1</code><br>
@@ -520,7 +499,9 @@ Mail nicht gesetzt sind, werden sie garnicht angezeigt) geordnet.</p>
 
 
 <h4>Farben</h4>
-<pre>color normal     white          black   # Normaler Text
+
+```
+color normal     white          black   # Normaler Text
 color indicator  black          red     # Die ausgewählte Nachricht
 color tree       red            black   # Die Pfeile, die einen Thread zusammenhalten
 color status     brightyellow   blue    # Die Statuszeile
@@ -559,7 +540,9 @@ color index      blue       black  ~F           # geflagged Nachrichte
 color index      red        black  ~N           # Neue Nachrichten
 color index      magenta    black  ~T           # getaggte Nachrichten
 color index      yellow     black  ~D           # Nachrichten, die als gelöscht
-                                                # markiert sind</pre>
+                                                # markiert sind
+```
+
 <p>
 Diese Farbkonfiguration stammt von <a
 href="http://liesdiemanpage.de/index.php?content=linux%2Fmutt"
@@ -634,15 +617,22 @@ Signieren verwendet.</p>
 Die komplette Konfiguration könnt ihr euch <a href="/Config/muttngrc"
 title="mutt-ng-Config">hier herunterladen</a>.
 </p>
-<h4><a name="pgp">3.2) PGP</a></h4>
+
+### 3.2) PGP {#pgp}
+
 <p>
 Selbstverständlich hat mutt auch PGP-Unterstützung, sodass man signierte und
 verschlüsselte Mails versenden kann. Dazu verwendet man in der Regel GNUPG,
 kurz GPG. Sollte GPG noch nicht installiert sein, kann man dies mit folgendem
 Befehl nachholen:
 </p>
-<pre>$ apt-get install gnupg</pre>
-<h5><a name="pgpgenkey">3.2.1) Schlüssel erstellen</a></h5>
+
+```
+$ apt-get install gnupg
+```
+
+### 3.2.1) Schlüssel erstellen {#pgpgenkey}
+
 <pre>$ gpg --gen-key
 Bitte wählen Sie, welche Art von Schlüssel Sie möchten:
    (1) DSA und ElGamal (voreingestellt)
@@ -680,23 +670,27 @@ Geben Sie das Mantra ein:</pre>
 leicht zu merkender, ausreichend langer Satz sein – ca 20 Zeichen sollten
 genügen.)
 </p>
-<h5><a name="pgppubkey">3.2.2) Schlüssel veröffentlichen</a></h5>
+
+### 3.2.2) Schlüssel veröffentlichen {#pgppubkey}
+
 <p>
 Mit <code>gpg -K</code> kann man sich alle Schlüssel im geheimen Schlüsselbund
 anzeigen lassen. In der ersten Zeile sieht man auch die ID, die wir nachher im
 GPG-Teil der mutt-Konfiguration verwenden werden:
 </p>
-<pre>pub   1024D/<b>65B790C2</b> 2006-07-24 [expires: 2011-07-23]</pre>
-<p>
-&nbsp;
-</p>
+
+```
+pub   1024D/65B790C2 2006-07-24 [expires: 2011-07-23]
+```
+
 <p>
 Nun kopieren wir uns noch die Standard-GPG-Konfiguration aus
 <code>contrib/gpg.rc</code> in dem Verzeichnis in dem der mutt-ng-Quelltext
 liegt in unser Konfigurationsverzeichnis.
 </p>
 
-<h3><a name="benutzung">4.) Benutzung</a></h3>
+## 4.) Benutzung {#benutzung}
+
 <p>
 Die meiste Zeit wird man vermutlich Mails lesen, beantworten und verzweifelt
 nach Mails suchen ;-), daher habe ich diesen Abschnitt in die entsprechenden
@@ -713,8 +707,9 @@ href="http://mutt-ng.berlios.de/manual/getting-started.html"
 title="mutt-ng-Handbuch">mutt-ng-Handbuch</a> zu Rate ziehen.
 </p>
 
-<h4><a name="benutzung_lesen">4.1) Mails lesen</a></h4>
-<div style="float: left" class="pictureLink"><a href="/Bilder/mutt-ng/mutt_overview.png" title="Bild „Übersicht” öffnen"><img alt="Vorschau: Übersicht" src="/Bilder/mutt-ng/thumbs/mutt_overview.png" border="0"></a><br><small><i>Abb.: Übersicht</i></small></div>
+### 4.1) Mails lesen {#benutzung_lesen}
+
+<div style="float: left"><a href="/Bilder/mutt-ng/mutt_overview.png" title="Bild „Übersicht” öffnen"><img alt="Vorschau: Übersicht" src="/Bilder/mutt-ng/thumbs/mutt_overview.png" border="0" style="margin-right: 1em"></a><br><small><i>Abb.: Übersicht</i></small></div>
 
 <p>
 In der Nachrichtenübersicht (siehe Abbildung links) werden soviele Nachrichten
@@ -734,8 +729,10 @@ eine Seite zurück. Die <code>Page Up/Page Dn</code>-Tasten funktionieren
 ebenfalls.
 </p>
 
-<h4><a name="benutzung_schreiben">4.2) Mails beantworten/schreiben</a></h4>
-<div style="float: right" class="pictureLink"><a href="/Bilder/mutt-ng/mutt_reply.png" title="Bild „Schreiben” öffnen"><img alt="Vorschau: Schreiben" src="/Bilder/mutt-ng/thumbs/mutt_reply.png" border="0"></a><br><small><i>Abb.: Schreiben</i></small></div>
+### 4.2) Mails beantworten/schreiben {#benutzung_schreiben}
+
+<div style="float: right"><a href="/Bilder/mutt-ng/mutt_reply.png" title="Bild „Schreiben” öffnen"><img alt="Vorschau: Schreiben" src="/Bilder/mutt-ng/thumbs/mutt_reply.png" border="0" style="margin-right: 1em"></a><br><small><i>Abb.: Schreiben</i></small></div>
+
 <p>
 Sowohl im Pager als auch in der Nachrichtenübersicht kann man der Taste
 <code>r</code> eine Mail beantworten. Es öffnet sich dann direkt der
@@ -747,7 +744,8 @@ Absendefenster" target="_blank">übliche Fenster zum Absenden der Mail
 den Titel verändern.
 </p>
 
-<h4><a name="benutzung_suchen">4.3) Mails suchen</a></h4>
+### 4.3) Mails suchen {#benutzung_suchen}
+
 <p>
 <strong>Filtern</strong>: Da wir bei der Installation die <a
 href="http://mutt-ng.berlios.de/manual/advanced-usage.html#advanced-regexp"
@@ -767,7 +765,8 @@ erneut, diesmal mit dem vorher gesuchten Text. Dadurch kann man mit
 <code>Enter</code> bestätigen und kommt zum nächsten Treffer.
 </p>
 
-<h4><a name="benutzung_vermischtes">4.4) Vermischtes</a></h4>
+### 4.4) Vermischtes {#benutzung_vermischtes}
+
 <ul>
 	<li>
 	<strong>Mails löschen</strong>: <code>D</code>
@@ -780,7 +779,8 @@ erneut, diesmal mit dem vorher gesuchten Text. Dadurch kann man mit
 	</li>
 </ul>
 
-<h3><a name="links">5.) Weiterführende Links</a></h3>
+## 5.) Weiterführende Links {#links}
+
 <ul>
 	<li><a href="http://mutt.sourceforge.net/imap/">mutt-Beschreibung zu IMAP</a></li>
 	<li><a href="http://mutt-ng.supersized.org/">mutt-ng development blog</a> mit Informationen über den Status des Projekts</li>

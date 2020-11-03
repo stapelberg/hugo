@@ -1,5 +1,7 @@
 baseURL = "https://michael.stapelberg.ch/"
+defaultContentLanguage = "en"
 languageCode = "en-us"
+summaryLength = 40
 title = "Michael Stapelbergs Website"
 theme = "stapelberg"
 disableKinds = ["RSS"]
@@ -10,6 +12,27 @@ enableGitInfo = true
 # fix that in hugo/commands/hugo.go
 # Delete files in docs/ if they vanish:
 # cleanDestinationDir = true
+
+# Enable triple backtick syntax for code blocks
+pygmentsCodefences = true
+
+pygmentsStyle = "friendly"
+
+# TODO: switch to pygmentsUseClasses for CSS-based syntax highlighting?
+# https://hugodown.r-lib.org/articles/config.html
+# https://harrycresswell.com/articles/performant-syntax-highlighting-in-hugo/
+
+# TODO: this makes menus per-language,
+# which is undesired (most content is not translated).
+
+# [languages]
+#   [languages.en]
+#     title = "English"
+#     weight = 1
+# 
+#   [languages.de]
+#     title = "Deutsch"
+#     weight = 2
 
 [taxonomies]
 tag = "tags"

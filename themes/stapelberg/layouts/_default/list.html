@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html>
+{{ define "main" }}
+<h1 class="ms_title">{{ .Title }}</h1>
 
-  {{ partial "head.html" . }}
-
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-	{{ partial "menu.html" . }}
-	<div id="contentBox" class="col-md-10">
-	  <h2 class="title">{{ .Title }}</h2>
-	  (<span id="date">{{ .Date.Format "2006-01-02" }}</span>)
-	  <div class="Artikel" id="content">
-	    {{ .Content }}
-	  </div>
-	</div>
-      </div>
-    </div>
-  </body>
-</html>
+<div class="Artikel" id="content">
+  {{ .Content }}
+</div>
+{{ end }}

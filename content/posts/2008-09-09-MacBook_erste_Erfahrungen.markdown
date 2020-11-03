@@ -7,23 +7,23 @@ Aliases:
   - /Artikel/MacBook_erste_Erfahrungen
 ---
 
+{{< note >}}
 
+Dieser Artikel schildert lediglich meine persönliche Erfahrung und Meinung!
 
-<div class="warning" style="min-height: 50px; overflow: hidden">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="margin-top: 15px;" class="strong">Vorsicht! Dieser Artikel spiegelt
-lediglich meine persönliche Erfahrung und Meinung!</p><p
-style="clear:left; margin-top: 0; margin-bottom: 0;">Dieser Artikel soll nicht
-dazu dienen, Beratung oder Empfehlungen auszusprechen. Die hier angebotenen
-Informationen sind keine Grundlage für etwaige Entscheide.</p></div>
+Dieser Artikel soll nicht dazu dienen, Beratung oder Empfehlungen
+auszusprechen. Die hier angebotenen Informationen sind keine Grundlage für
+etwaige Entscheide.
 
-<div class="warning" style="margin-top: 10px; min-height: 50px; overflow:
-hidden">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="font-weight: bold" class="strong"><i>UPDATE</i>: Mittlerweile besitze
-ich ein ThinkPad x200 und ziehe dies dem MacBook vor.<br>Die Beweggründe
-<a href="/Artikel/x200" title="ThinkPad x200">erfährst du
-hier</a>.</p></div>
+{{< /note >}}
+
+{{< note >}}
+
+**Update:** Mittlerweile besitze ich ein ThinkPad x200 und ziehe dies dem
+MacBook vor.<br>Die Beweggründe <a href="/Artikel/x200" title="ThinkPad
+x200">erfährst du hier</a>.
+
+{{< /note >}}
 
 <h3>Nächsten Dienstag: Das neue MacBook</h3>
 

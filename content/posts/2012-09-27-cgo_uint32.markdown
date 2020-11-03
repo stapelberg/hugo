@@ -26,7 +26,7 @@ Go’s data structures such as slices.
 To make sure we’re on the same page, let’s consider this simple example:
 </p>
 
-<pre>
+```go
 package main
 import "fmt"
 func main() {
@@ -35,7 +35,7 @@ func main() {
         fmt.Printf("index %d: value %d\n", idx, val)
     }
 }
-</pre>
+```
 
 <p>
 The output of that program is:
@@ -54,7 +54,7 @@ Let’s assume that we want to multiply all these numbers by 2. In Go, that’s
 pretty simple:
 </p>
 
-<pre>
+```go
 package main
 import "fmt"
 
@@ -74,7 +74,7 @@ func main() {
         fmt.Printf("index %d: value %d\n", idx, val)
     }
 }
-</pre>
+```
 
 <p>
 Now let’s see how we would do that in C with cgo. Note that we switch to using
@@ -82,14 +82,14 @@ Now let’s see how we would do that in C with cgo. Note that we switch to using
 I’m trying to make easier to convey.
 </p>
 
-<pre>
+```go
 package main
 import "fmt"
 
 /*
 // Note the -std=gnu99. Using -std=c99 will not work.
 #cgo CFLAGS: -std=gnu99
-#include &lt;stdint.h&gt;
+#include <stdint.h>
 
 void cMultiply(int len, uint32_t *input, uint32_t *output) {
     for (int i = 0; i < len; i++) {
@@ -114,7 +114,7 @@ func main() {
         fmt.Printf("index %d: value %d\n", idx, val)
     }
 }
-</pre>
+```
 
 <p>
 As you can see, we need to convert the Go types into C types, which can be done

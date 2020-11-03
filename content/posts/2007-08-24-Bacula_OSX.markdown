@@ -73,14 +73,17 @@ Mountpoints (für FTP/SMB-Server, USB-Geräte, etc…), die temporären Dateien,
 eingelegte CD-ROMs und das automatisch durchsuchte Netzwerk.
 </p>
 
-<p class="filenameHeader">/etc/bacula/std_mac_exclude.files</p>
-<pre>File = /Volumes
+**/etc/bacula/std_mac_exclude.files**:
+
+```
+File = /Volumes
 File = /tmp
 File = /private/tmp
 File = /cdrom
 File = /automount
 File = /Network
-File = /.vol</pre>
+File = /.vol
+```
 
 <h3>FileVault</h3>
 <p>
@@ -144,13 +147,16 @@ href="http://explanatorygap.net/2006/10/30/making-parts-of-the-filesystem-readwr
 target="_blank" title="explanatorygap.net">explanatorygap.net</a> gefunden. Es
 muss auf dem USB-Stick (oder -Festplatte) gespeichert werden.
 </p>
-<p class="filenameHeader">rd.sh</p>
-<pre>echo "Creating RAM Disk for $1"
+
+**rd.sh**:
+```
+echo "Creating RAM Disk for $1"
 dev=`hdik -drivekey system-image=yes -nomount ram://2048 `
 if [ $? -eq 0 ] ; then
 	newfs $dev
 	mount -o union $dev $1
-fi</pre>
+fi
+```
 
 <h3>Die eigentliche Rettung</h3>
 <p>

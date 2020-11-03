@@ -71,7 +71,7 @@ before closing the pipe, so that the parent program knows where to connect to.
 So, how do we go about readiness notifications in Go? We create a new pipe and
 specify the write end in the `ExtraFiles` field of `(os/exec).Cmd`:
 
-```
+```go
 r, w, err := os.Pipe()
 if err != nil {
   return err
@@ -90,7 +90,7 @@ behavior is usually opt-in.
 In this case, we’ll do that via an environment variable and start the child
 program:
 
-```
+```go
 // Go dup2()’s ExtraFiles to file descriptor 3 and counting.
 // File descriptors 0, 1, 2 are stdin, stdout and stderr.
 child.Env = append(os.Environ(), "CHILD_READY_FD=3")
@@ -106,7 +106,7 @@ referencing the write end of the pipe. Since the pipe will only be closed once
 *all* processes have closed the write end, we need to close the write end in the
 parent program:
 
-```
+```go
 // Close the write end of the pipe in the parent:
 w.Close()
 ```
@@ -114,7 +114,7 @@ w.Close()
 Now, we can blockingly read from the pipe, and know that once the read call
 returns, the child program is ready to receive requests:
 
-```
+```go
 // Avoid hanging forever in case the child program never becomes ready;
 // this is easier to diagnose than an unspecified CI/CD test timeout.
 // This timeout should be much much longer than initialization takes.
@@ -134,7 +134,7 @@ In the child program, we need to recognize that the parent program requests a
 readiness notification, and ensure our signaling doesn’t leak to child programs
 of the child program:
 
-```
+```go
 var readyFile *os.File
 
 func init() {

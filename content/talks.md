@@ -1,6 +1,10 @@
 ---
 title: "Talks"
 date: 2020-02-05T08:43:00+01:00
+menu:
+  main:
+    title: "Talks"
+    weight: 30
 ---
 
 I have given numerous presentations and talks over the years. As they are

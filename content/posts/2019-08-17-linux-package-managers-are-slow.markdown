@@ -6,6 +6,7 @@ categories: Artikel
 tags:
 - distri
 - debian
+summary: "I measured how long the most popular Linux distribution’s package manager take to install small and large packages."
 ---
 
 {{< note >}}

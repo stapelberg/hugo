@@ -1,62 +1,68 @@
-<!DOCTYPE html>
-<html>
+{{ define "toc" }}
+{{- if gt .WordCount 1000 }}
+<div id="ms_toc">
+  <div>
+    <strong>Table Of Contents</strong>
 
-  {{ partial "head.html" . }}
+    {{ .TableOfContents | replaceRE "id=\"TableOfContents\"" "class=\"TableOfContents\"" | safeHTML }}
+  </div>
+</div>
+{{- end }}
+{{ end }}
 
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-	{{ partial "menu.html" . }}
-	<div id="contentBox" class="col-md-10">
-	  <h2 class="title">{{ .Title }}</h2>
-	  <div style="margin-bottom: 2em">
-	    {{- $pub := .Date.Format "2006-01-02" -}}
-	    {{- $mod := "" -}}
-	    {{- if (not .GitInfo) }}
-            {{- $mod = .Lastmod.Format "2006-01-02" -}}
-	    {{ else }}
-            {{- $mod = .Page.GitInfo.CommitDate.Format "2006-01-02" -}}
-	    {{ end -}}
-	    {{ if eq $pub $mod }}
-	    <span id="date">published {{ $pub }}</span>
-	    {{ else }}
-	    <span id="date">published {{ $pub }}, last modified {{ $mod }}</span>
-	    {{ end }}
-	  {{ if .Params.tags }}
-	  {{ if eq (len .Params.tags) 1 }}
-	  in tag
-	  {{ else }}
-	  in tags
-	  {{ end }}
-	  {{ range $idx, $tag := .Params.tags }}
-	  <span class="tag"><a href="/posts/tags/{{ $tag | urlize }}/">{{ $tag }}</a></span>
-	  {{ end }}
-	  {{ end }}
-	  <span style="padding-left: 0.1em; padding-right: 0.1em; margin-left: .5em; margin-right: .5em"><a style="text-decoration: none; color: white" href="https://github.com/stapelberg/hugo/edit/master/content/posts/{{ .File.LogicalName }}"><img src="../../Bilder/pen-square-solid.svg" style="height: 1.25em"></a></span>
-	  {{ if .Params.tweet_url }}
-	  <span style="padding-left: 0.1em; padding-right: 0.1em">
-	    <a style="text-decoration: none; color: white" href="{{ .Params.tweet_url }}"><img src="../../Bilder/twitter-brands.svg" style="height: 1.25em"></a>
-	  </span>
-	  {{ end }}
-	  </div>
-	  <div class="Artikel" id="content">
-	    {{- if gt .WordCount 1000 }}
-	    <style type="text/css">
-	      #TableOfContents > ul, #TableOfContents > ul > li > ul {
-		  list-style: none;
-		  margin: 0;
-		  padding: 0;
-	      }
-	    </style>
-	    <details style="margin-bottom: 2em">
-	      <summary>Table of contents</summary>
-	      {{ .TableOfContents }}
-	    </details>
-	    {{- end }}
-	    {{ .Content }}
-	  </div>
-	</div>
-      </div>
-    </div>
-  </body>
-</html>
+{{ define "main" }}
+<h1 class="ms_title">{{ .Title }}</h1>
+<div class="ms_meta">
+  {{- $pub := .Date.Format "2006-01-02" -}}
+  {{- $mod := "" -}}
+  {{- if (not .GitInfo) }}
+  {{- $mod = .Lastmod.Format "2006-01-02" -}}
+  {{ else }}
+  {{- $mod = .Page.GitInfo.CommitDate.Format "2006-01-02" -}}
+  {{ end -}}
+  {{ if eq $pub $mod }}
+  <div id="ms_date">published {{ $pub }}</div>
+  {{ else }}
+  <div id="ms_date">published {{ $pub }}, last modified {{ $mod }}</div>
+  {{ end }}
+  {{ if .Params.tags }}
+  <div id="ms_tags">
+  {{ if eq (len .Params.tags) 1 }}
+  in tag
+  {{ else }}
+  in tags
+  {{ end }}
+  {{ range $idx, $tag := .Params.tags }}
+  <span class="ms_tag"><a href="/posts/tags/{{ $tag | urlize }}/">{{ $tag }}</a></span>
+  {{ end }}
+  </div>
+  {{ end }}
+  <div>
+    <a href="https://github.com/stapelberg/hugo/edit/master/content/posts/{{ .File.LogicalName }}"><img src="{{ "Bilder/pen-square-solid.svg" | relURL }}" width="18" height="20" alt="Edit Icon" title="Suggest a change to this article"></a>
+  </div>
+  {{ if .Params.tweet_url }}
+  <div>
+    <a href="{{ .Params.tweet_url }}"><img src="{{ "Bilder/twitter-brands.svg" | relURL }}" width="18" height="18" alt="Twitter icon" title="Discuss this article on Twitter!"></a>
+  </div>
+  {{ end }}
+</div>
+<div class="Artikel" id="content">
+  {{- if gt .WordCount 1000 }}
+  <style type="text/css">
+    .TableOfContents > ul, .TableOfContents > ul > li > ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+    }
+    .TableOfContents li {
+	margin-bottom: 1rem;
+    }
+  </style>
+  <details class="ms_toc_details">
+    <summary>Table of contents</summary>
+    {{ .TableOfContents | replaceRE "id=\"TableOfContents\"" "class=\"TableOfContents\"" | safeHTML }}
+  </details>
+  {{- end }}
+  {{ .Content }}
+</div>
+{{ end }}

@@ -1,21 +1,20 @@
 ---
 layout: post
-title:  "Neuer Internetanschluss und VoIP-Flatrate (Alice/Arcor/congster/sipgate/bellshare)"
+title:  "Neuer Internetanschluss und VoIP-Flatrate (Alice, Arcor, congster, sipgate, bellshare)"
 date:   2007-08-21 10:00:00
 categories: Artikel
 Aliases:
   - /Artikel/Internet_und_VoIP
 ---
 
+{{< note >}}
 
+Dieser Artikel schildert lediglich meine persönliche Erfahrung und Meinung!
 
-<div class="warning" style="min-height: 50px; overflow: hidden">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="margin-top: 10px;" class="strong">Vorsicht! Dieser Artikel spiegelt
-lediglich meine persönliche Erfahrung und Meinung!</p>
-<p style="clear: left; margin-top: 0; margin-bottom: 0">Die hier aufgeführten
-Kritikpunkte sollen nicht zur Rufschädigung der Kritisierten führen.</p>
-</div>
+Die hier aufgeführten Kritikpunkte sollen nicht zur Rufschädigung der
+Kritisierten führen.
+
+{{< /note >}}
 
 <p>
 Trotz der Existenz vieler ähnlicher Geschichten möchte ich meine Erfahrungen

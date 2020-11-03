@@ -7,13 +7,12 @@ Aliases:
   - /Artikel/Debian_Repository
 ---
 
+{{< note >}}
 
+Linux/UNIX-kenntnisse erforderlich! (in den Bereichen dpkg, apt-get und gpg)
 
-<div class="warning" style="min-height: 50px">
-<img src="/Bilder/Warning.png" class="backButton">
-<p style="margin-top: 15px" class="strong">Linux/UNIX-kenntnisse erforderlich!
-(in den Bereichen dpkg, apt-get und gpg)</p>
-</div>
+{{< /note >}}
+
 <h3>Worum geht’s?</h3>
 <p>
 Ein eigenes Debian-Repository ist nützlich, wenn man privat Pakete verteilen

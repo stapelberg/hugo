@@ -1,6 +1,11 @@
 ---
 title: "TV Series recommendations"
 date: 2018-12-30T15:56:58+01:00
+menu:
+  main:
+    title: "Series"
+    name: "Series"
+    weight: 40
 ---
 
 Whenever the subject of TV series comes up, I often blank, despite having seen a

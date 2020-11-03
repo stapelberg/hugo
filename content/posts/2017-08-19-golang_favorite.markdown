@@ -17,7 +17,7 @@ However, recently I was asked a couple of times why I like and use a lot of <a
 href="https://golang.org">Go</a>, so here is a coherent article to fill in the
 blanks of my ad-hoc in-person ramblings :-).
 
-### My background
+## My background
 
 I have used C and Perl for a number of decently sized projects. I have written
 programs in Python, Ruby, C++, CHICKEN Scheme, Emacs Lisp, Rust and Java (for
@@ -31,9 +31,9 @@ compatibility guarantee](https://golang.org/doc/go1compat). I still have
 [code](https://github.com/stapelberg/greetbot) running in production which I
 authored in 2012, largely untouched.
 
-### 1. Clarity
+## 1. Clarity
 
-#### Formatting
+### Formatting
 
 Go code, by convention, is formatted using the
 [`gofmt`](https://golang.org/cmd/gofmt/) tool. Programmatically formatting code
@@ -57,7 +57,7 @@ as quickly as possible and trust `gofmt` to make it pretty
 ([example](https://play.golang.org/p/I6GJwiT77v) of what I would type, click
 Format).
 
-#### High-quality code
+### High-quality code
 
 I use the standard library ([docs](https://golang.org/pkg/),
 [source](https://github.com/golang/go/tree/master/src)) quite a bit, see below.
@@ -70,7 +70,7 @@ between the [Wikipedia JPEG article](https://en.wikipedia.org/wiki/JPEG) and the
 `image/jpeg` code. If the package had a few more comments, I would qualify it as
 a teaching implementation.
 
-#### Opinions
+### Opinions
 
 I have come to agree with many opinions the Go community holds, such as:
 
@@ -79,7 +79,7 @@ I have come to agree with many opinions the Go community holds, such as:
 * There is a cost to introducing an abstraction layer. Go code is usually rather clear, at the cost of being a bit repetitive at times.
 * See [CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments) and [Go Proverbs](https://go-proverbs.github.io/) for more.
 
-#### Few keywords and abstraction layers
+### Few keywords and abstraction layers
 
 The Go specification lists only [25
 keywords](https://golang.org/ref/spec#Keywords), which I can easily keep in my
@@ -95,9 +95,9 @@ While we’re talking about it: I was surprised about how readable the [Go
 specification](https://golang.org/ref/spec) is. It really seems to target
 programmers (rather than standards committees?).
 
-### 2. Speed
+## 2. Speed
 
-#### Quick feedback / low latency
+### Quick feedback / low latency
 
 I love quick feedback: I appreciate websites which load quickly, I prefer fluent
 User Interfaces which don’t lag, and I will choose a quick tool over a more
@@ -116,7 +116,7 @@ just is that fast.
 
 Most Go tools are no exception, e.g. `gofmt` or `goimports` are blazingly fast.
 
-#### Maximum resource usage
+### Maximum resource usage
 
 For batch applications (as opposed to interactive applications), utilizing the
 available resources to their fullest is usually more important than low latency.
@@ -128,7 +128,7 @@ link](https://people.debian.org/~stapelberg/2014/01/17/debmirror-rackspace.html)
 and optimized [debiman](https://github.com/Debian/debiman/) to utilize all
 available resources, reducing its runtime by hours.
 
-### 3. Rich standard library
+## 3. Rich standard library
 
 The [Go standard library](https://golang.org/pkg) provides means to effectively
 use common communications protocols and data storage formats/mechanisms, such as
@@ -149,7 +149,7 @@ breaking changes, even if they are clearly worthwhile. A prominent example is
 secure
 default](https://github.com/golang/crypto/commit/e4e2799dd7aab89f583e1d898300d96367750991).
 
-### 4. Tooling
+## 4. Tooling
 
 To download, compile, install and update Go packages, I use the `go get` tool.
 
@@ -182,7 +182,7 @@ Note that these are standard tools coming with the language. Coming from C, each
 of the above would be a significant feat to accomplish. In Go, we take them for
 granted.
 
-### Getting started
+## Getting started
 
 Hopefully I was able to convey why I’m happy working with Go.
 
@@ -191,7 +191,7 @@ resources](https://github.com/gopheracademy/gopher/blob/1cdbcd9fc3ba58efd628d4a6
 we point people to when they join the Gophers slack channel. See
 [https://golang.org/help/](https://golang.org/help/).
 
-### Caveats
+## Caveats
 
 Of course, no programming tool is entirely free of problems. Given that this
 article explains why Go is my favorite programming language, it focuses on the

@@ -6,6 +6,7 @@ categories: Artikel
 tags:
 - debian
 - golang
+summary: "Over the last few months, I have been developing a new index format for Debian Code Search. This required a lot of careful refactoring, re-implementation, debug tool creation and debugging."
 ---
 <style type="text/css">
 .bar {

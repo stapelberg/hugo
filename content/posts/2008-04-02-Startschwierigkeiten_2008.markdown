@@ -87,7 +87,7 @@ nach ein paar Stunden passte der Kühler dann haargenau ;-).
 
 <h1>Blödeste Version eines PCI-Express-Befestigungs-Clip</h1>
 
-<div style="float: left" class="pictureLink"><a href="/Bilder/schalter_broken.jpg" title="Bild „PCI-E-Clip” öffnen" target="_blank"><img alt="Vorschau: PCI-E-Clip" src="/Bilder/schalter_broken_thumb.jpg" border="0"></a><br><small><i>Abb.: PCI-E-Clip</i></small></div>
+<div style="float: left"><a href="/Bilder/schalter_broken.jpg" title="Bild „PCI-E-Clip” öffnen" target="_blank"><img alt="Vorschau: PCI-E-Clip" src="/Bilder/schalter_broken_thumb.jpg" border="0" style="margin-right: 1em"></a><br><small><i>Abb.: PCI-E-Clip</i></small></div>
 <p>
 Normalerweise bin ich einen gut erreichbaren, greifbaren PCI-E-Clip gewöhnt.
 Anders jedoch beim MSI-Mainboard: Über dem Clip ist direkt die Kühlerhalterung,

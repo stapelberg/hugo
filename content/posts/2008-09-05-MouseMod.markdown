@@ -37,12 +37,12 @@ die wir dazu brauchen, sind ein Schraubenzieher (ein dünner, <a
 href="/Bilder/Galerien/MouseMod/MouseMod_6.jpg">siehe Foto</a>) und ein Teppichmesser.
 </p>
 
-<div class="warning" style="min-height: 50px; margin-top: 2em; margin-bottom: 2em">
-<img src="/Bilder/Warning.png" class="backButton" alt="Warnung">
-<p style="margin-top: .5em" class="strong">Die Umbauten an deiner Maus
-geschehen auf eigene Gefahr! Ich übernehme keine Haftung für eventuelle Schäden
-und die Garantie geht wohl auch verloren.</p>
-</div>
+{{< note >}}
+
+Die Umbauten an deiner Maus geschehen auf eigene Gefahr! Ich übernehme keine
+Haftung für eventuelle Schäden und die Garantie geht wohl auch verloren.
+
+{{< /note >}}
 
 <h2>&Ouml;ffnen der Maus</h2>
 <p>
