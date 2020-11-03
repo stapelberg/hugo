@@ -11,7 +11,7 @@
 	  <h2 class="title">Posts</h2>
 	  <div class="Artikel" id="content">
 	    <ul class="ArticleList">
-	      {{ range .Data.Pages }}
+	      {{ range where .Data.Pages "Params.hidden" "ne" "true" }}
 	      <li>
 		<a href="{{ .Permalink }}">{{ .Title }}</a>
 		{{ if .Params.tags }}

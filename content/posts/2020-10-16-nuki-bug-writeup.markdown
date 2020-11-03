@@ -1,9 +1,19 @@
 ---
 layout: post
-title:  "Bug Report: Regression: Nuki Opener + BTicino 344212"
+title:  "Bug Report: Defekter Nuki Opener (an BTicino 344212)"
 date:   2020-10-16 07:30:00 +02:00
 categories: Artikel
+hidden: true
 ---
+
+{{< note >}}
+
+**Update 2020-11-03:** Ich habe den zweiten Nuki Opener auf Software-Version
+1.5.3 aktualisiert, und wider erwarten funktioniert er!
+
+Offenbar war mein erster Nuki Opener defekt.
+
+{{< /note >}}
 
 Ich habe kürzlich einen Nuki Opener gekauft und leider nicht in Betrieb nehmen
 können.
@@ -26,12 +36,13 @@ der alten Software-Version:
 |----------------|------------------|---------------|
 | Nuki Opener #1 | 1.5.3 (aktuell)  | kaputt :-(    |
 | Nuki Opener #2 | 1.3.1            | funktioniert! |
+| Nuki Opener #2 | 1.5.3            | funktioniert! |
 
-Für mich sieht alles danach aus, als ob sich in neuere Software-Versionen ein
-Fehler eingeschlichen hat.
+<s>Für mich sieht alles danach aus, als ob sich in neuere Software-Versionen ein
+Fehler eingeschlichen hat.</s>
 
 Meine Oszilloskop-Aufzeichnungen beider Software-Versionen belegen, dass das
-Signal, welches die aktuelle Software-Version 1.5.3 auf den [BTicino SCS
+Signal, welches der Nuki Opener #1 auf den [BTicino SCS
 Bus](https://en.wikipedia.org/wiki/Bus_SCS) schickt, kaputt ist!
 
 Ich stelle die rohen Messwerte jeweils in mehreren Formaten zur Verfügung, mit

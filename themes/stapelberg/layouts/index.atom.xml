@@ -15,7 +15,7 @@
     <name>{{.}}</name>{{ with $.Site.Author.email }}
     <email>{{.}}</email>{{end}}
   </author>{{end}}
-  <generator>Hugo -- gohugo.io</generator>{{ range first 15 (where .Site.Pages "Section" "posts") }}
+  <generator>Hugo -- gohugo.io</generator>{{ range where (first 15 (where .Site.Pages "Section" "posts")) "Params.hidden" "ne" "true" }}
   <entry>
     {{ `<title type="html"><![CDATA[` | safeHTML }}{{ .Title }}]]></title>
     <link href="{{ .Permalink }}"/>
