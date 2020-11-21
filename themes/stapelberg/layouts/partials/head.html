@@ -92,8 +92,8 @@
   <!-- Instruct web browsers to load our header/text fonts immediately
        instead of after the CSS was interpreted:
        https://web.dev/codelab-preload-web-fonts/ -->
-  <link rel="preload" href="{{ "/font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2">
-  <link rel="preload" href="{{ "/font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2">
+  <link rel="preload" href="{{ "/font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ "/font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
   <!-- TODO: enable fingerprinting: do css versions just accumulate? put into a separate directory. see https://gohugo.io/hugo-pipes/introduction/. maybe hugo --gc is required? -->
   {{- $style := resources.Get "/1.scss" | resources.ToCSS | resources.Minify }}
   <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}" type="text/css">
