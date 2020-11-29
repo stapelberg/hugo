@@ -1,3 +1,17 @@
+
+
+{{ if strings.HasSuffix (.Get "src") "svg" }}
+{{ $src := $.Page.Resources.GetMatch (.Get "src") }}
+<a href="{{ $src.Permalink }}"><img
+  src="{{ $src.Permalink }}"
+  {{ with .Get "alt" }}alt="{{.}}" title="{{.}}"{{ end }}
+  style="border: 1px solid #000; margin-right: 1rem"
+  {{ if (ne (.Get "align") "") }}
+  align="{{ .Get "align" }}"
+  {{ end }}
+  loading="lazy"></a>
+{{ else }}
+
 {{ $src := $.Page.Resources.GetMatch (.Get "src") }}
 
 {{ .Scratch.Set "x1" ($src.Resize "600x") }}
@@ -17,3 +31,5 @@
   height="{{ $x1.Height }}"
   style="border: 1px solid #000"
   loading="lazy"></a>
+
+{{ end }}
