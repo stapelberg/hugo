@@ -14,7 +14,7 @@ I finally got the device working by interjecting my own micro controller between
 the intercom bus and the Nuki Opener, then driving the Nuki Opener in its
 Analogue mode:
 
-{{< img src="2020-11-28-nuki-opener-filtered.jpg" >}}
+{{< img src="2020-11-28-nuki-opener-filtered-featured.jpg" >}}
 
 The rest of this article outlines how this setup works at a high level.
 
