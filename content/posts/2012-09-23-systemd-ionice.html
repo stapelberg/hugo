@@ -11,34 +11,63 @@ load on the machine:
 </p>
 
 <pre>
-cp /lib/systemd/system/bacula-fd.service /etc/systemd/system/bacula-fd.service
+$ sudo systemctl enable bacula-fd.service
+Created symlink /etc/systemd/system/multi-user.target.wants/bacula-fd.service → /usr/lib/systemd/system/bacula-fd.service.
 </pre>
 
 <p>
-Then, open the file with an editor and change the following paragraph:
+Should this fail for you, you can also just link or copy the unit file by hand.
+</p>
+
+<p>
+Then, add an override for the service unit by doing the following:
 </p>
 
 <pre>
-[Service]
-Type=forking
-PIDFile=/var/run/bacula/bacula-fd.9102.pid
-StandardOutput=syslog
-ExecStart=/usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+$ sudo systemctl edit bacula-fd.service
 </pre>
 
 <p>
-To look like this:
+This will open an editor to add additions to the service unit. depending on your
+systemd version you might not see the commented out options of the current unit.
+After adding the options it might look something like this:
 </p>
 
 <pre>
-[Service]
-<strong>Nice=10
+### Editing /etc/systemd/system/bacula-fd.service.d/override.conf
+### Anything between here and the comment below will become the new contents of the file
+<strong>[Service]
+Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7</strong>
-Type=forking
-PIDFile=/var/run/bacula/bacula-fd.9102.pid
-StandardOutput=syslog
-ExecStart=/usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+
+### Lines below this comment will be discarded
+
+### /usr/lib/systemd/system/bacula-fd.service
+# [Unit]
+# Description=Bacula File Daemon service
+# Documentation=man:bacula-fd(8)
+# Requires=network.target
+# After=network.target
+# RequiresMountsFor=/var/lib/bacula /etc/bacula /usr/sbin
+#
+# # from http://www.freedesktop.org/software/systemd/man/systemd.service.html
+# [Service]
+# Type=exec
+# User=root
+# Group=root
+# Environment="CONFIG=/etc/bacula/bacula-fd.conf"
+# EnvironmentFile=-/etc/default/bacula-fd
+# ExecStartPre=/usr/sbin/bacula-fd -t -c $CONFIG
+# ExecStart=/usr/sbin/bacula-fd -fP -c $CONFIG
+# ExecReload=/usr/sbin/bacula-fd -t -c $CONFIG
+# ExecReload=/bin/kill -HUP $MAINPID
+# SuccessExitStatus=15
+# Restart=on-failure
+# RestartSec=60
+#
+# [Install]
+# WantedBy=multi-user.target
 </pre>
 
 <p>
