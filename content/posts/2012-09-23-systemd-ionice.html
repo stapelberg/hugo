@@ -11,13 +11,16 @@ load on the machine:
 </p>
 
 <p>
-To override the service unit, in this case <code>bacula-fd.service</code>, you
-add these lines by runnning:
+To override the service unit, in this case <code>bacula-fd.service</code>, run:
 </p>
 
 <pre>
 $ sudo systemctl edit bacula-fd.service
 </pre>
+
+<p>
+And add these lines:
+</p>
 
 <pre>
 [Service]
