@@ -10,35 +10,49 @@ IO scheduling class/priority in a very simple way. I have recently configured
 load on the machine:
 </p>
 
+<p>
+To override the service unit, in this case <code>bacula-fd.service</code>, run:
+</p>
+
 <pre>
-cp /lib/systemd/system/bacula-fd.service /etc/systemd/system/bacula-fd.service
+$ sudo systemctl edit bacula-fd.service
 </pre>
 
 <p>
-Then, open the file with an editor and change the following paragraph:
+And add these lines:
 </p>
 
 <pre>
 [Service]
-Type=forking
-PIDFile=/var/run/bacula/bacula-fd.9102.pid
-StandardOutput=syslog
-ExecStart=/usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
 </pre>
 
 <p>
-To look like this:
+To verify the current unit configuration you can use <code>systemctl cat</code>:
 </p>
 
 <pre>
+$ sudo systemctl cat bacula-fd.service
+<strong># /lib/systemd/system/bacula-fd.service</strong>
+# Systemd Bacula service file
+...here you can see the base configuration provided by the package...
+
+<strong># /etc/systemd/system/bacula-fd.service.d/override.conf
 [Service]
-<strong>Nice=10
+Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7</strong>
-Type=forking
-PIDFile=/var/run/bacula/bacula-fd.9102.pid
-StandardOutput=syslog
-ExecStart=/usr/sbin/bacula-fd -u root -g root -c /etc/bacula/bacula-fd.conf
+</pre>
+
+<p>
+Note that this created a separate file to avoid touching the original one.<br>
+Now you can enable and start the unit as you usually would:
+</p>
+
+<pre>
+$ sudo systemctl enable --now bacula-fd.service
 </pre>
 
 <p>
@@ -52,4 +66,11 @@ root      3522  30  10  0.0  0.0 /usr/sbin/bacula-fd -u root -g root -c /etc/bac
 root     23380  30  10  0.0  0.0  \_ /bin/sh /root/bin/xen-lvm-snapshot/foreach-domu.sh mount
 root     23607  30  10  0.0  0.0      \_ /bin/sh /root/bin/xen-lvm-snapshot/mount-snapshot.sh plana/domu-web
 root     23665  30  10  0.0  0.0          \_ /sbin/fsck.ext3 -y /dev/loop3
+</pre>
+
+<p>
+PS: If you wanted, you can revert the the changes with:
+</p>
+<pre>
+$ sudo systemctl revert bacula-fd.service
 </pre>
