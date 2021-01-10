@@ -3,6 +3,7 @@ layout: post
 title:  "A quick introduction to MQTT for IOT"
 date:   2021-01-10 15:26:00 +01:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1348284522853523458"
 ---
 
 While I had heard the abbreviation [MQTT](https://en.wikipedia.org/wiki/MQTT)
