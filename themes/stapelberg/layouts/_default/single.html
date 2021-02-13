@@ -38,7 +38,7 @@
   </div>
   {{ end }}
   <div>
-    <a href="https://github.com/stapelberg/hugo/edit/master/content/posts/{{ .File.LogicalName }}"><img src="{{ "Bilder/pen-square-solid.svg" | relURL }}" width="18" height="20" alt="Edit Icon" title="Suggest a change to this article"></a>
+    <a href="https://github.com/stapelberg/hugo/edit/master/content/{{ .File.Path }}"><img src="{{ "Bilder/pen-square-solid.svg" | relURL }}" width="18" height="20" alt="Edit Icon" title="Suggest a change to this article"></a>
   </div>
   {{ if .Params.tweet_url }}
   <div>
