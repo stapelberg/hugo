@@ -10,7 +10,12 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{{- $year := .Date.Format "2006" -}}
+{{- if (eq (now.Format "2006") $year) -}}
   <title>{{ .Title }} - Michael Stapelberg</title>
+{{ else }}
+  <title>{{ .Title }} ({{ $year }}) - Michael Stapelberg</title>
+{{ end }}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{{ "/favicon.ico" | relURL }}" />
   <meta name="description" content="{{ block "description" . }}{{ end }}">

@@ -11,7 +11,12 @@
 {{ end }}
 
 {{ define "main" }}
+{{- $year := .Date.Format "2006" -}}
+{{- if (eq (now.Format "2006") $year) -}}
 <h1 class="ms_title">{{ .Title }}</h1>
+{{ else }}
+<h1 class="ms_title">{{ .Title }} ({{ $year }})</h1>
+{{ end }}
 <div class="ms_meta">
   {{- $pub := .Date.Format "2006-01-02" -}}
   {{- $mod := "" -}}
