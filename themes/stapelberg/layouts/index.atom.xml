@@ -25,11 +25,6 @@
     </author>{{end}}
     {{- $fmt := "2006-01-02T15:04:05-07:00" }}
     <published>{{ .Date.Format $fmt | safeHTML }}</published>
-    {{- if (not .GitInfo) }}
-    <updated>{{ .Lastmod.Format $fmt | safeHTML }}</updated>
-    {{ else }}
-    <updated>{{ .GitInfo.CommitDate.Format $fmt | safeHTML }}</updated>
-    {{ end -}}
     {{ `<content type="html"><![CDATA[` | safeHTML }}{{ .Content }}]]></content>
   </entry>{{ end }}
 </feed>
