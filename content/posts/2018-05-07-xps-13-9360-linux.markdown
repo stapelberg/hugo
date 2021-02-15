@@ -5,6 +5,15 @@ date:   2018-05-07 09:10:00 +02:00
 categories: Artikel
 ---
 
+### Update (2021)
+
+**Update (2021):** After Dell didn’t update their Linux version for a while, I
+concluded it would be best to just install a standard Ubuntu Linux. All required
+drivers are upstreamed, and I never needed the Dell tools that come with their
+version.
+
+### Disclaimer
+
 Warning: if you don’t understand one of the steps, don’t blindly follow them,
 but ask a friend for help instead! Be sure to have a known-working backup
 before messing with your system.
