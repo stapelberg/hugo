@@ -30,6 +30,9 @@
   width="{{ $x1.Width }}"
   height="{{ $x1.Height }}"
   style="border: 1px solid #000"
+  {{ if (ne (.Get "align") "") }}
+  align="{{ .Get "align" }}"
+  {{ end }}
   loading="lazy"></a>
 
 {{ end }}

@@ -20,6 +20,19 @@ break point and step through the code.
 
 ### Enabling debug symbols in Debian
 
+{{< note >}}
+
+**Update (February 2021):** Debian [has
+announced](https://lists.debian.org/debian-devel-announce/2021/02/msg00003.html)
+a [`debuginfod` service](https://wiki.debian.org/Debuginfod). This makes
+enabling and finding debug symbols much easier: `export
+DEBUGINFOD_URLS="https://debuginfod.debian.net" ` is all that’s necessary, and
+hopefully that step will become unnecessary next, too.
+
+Unfortunately, (this instance of?) debuginfod does not cover sources, yet.
+
+{{< /note >}}
+
 Debian, by default, strips debug symbols when building packages to conserve disk
 space and network bandwidth. The motivation is very reasonable: most users will
 never need the debug symbols.
