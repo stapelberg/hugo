@@ -8,6 +8,11 @@ disableKinds = ["RSS"]
 publishDir = "docs"
 ignoreFiles = ["turbopfor/[^s][^v][^g][^o]\\.svg$", "turbopfor/Makefile$"]
 enableGitInfo = true
+
+# Raise generation timeout from 10s to 60s to account for our heavy image
+# processing when rendering the site from scratch.
+timeout = 60000
+
 # TODO: this wipes .git of docs/ :O
 # fix that in hugo/commands/hugo.go
 # Delete files in docs/ if they vanish:
