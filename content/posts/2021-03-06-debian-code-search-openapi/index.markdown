@@ -3,6 +3,7 @@ layout: post
 title:  "Debian Code Search: OpenAPI now available"
 date:   2021-03-06 11:15:11 +01:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1368144954804043777"
 tags:
 - debian
 ---
