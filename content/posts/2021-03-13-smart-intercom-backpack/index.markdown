@@ -3,6 +3,7 @@ layout: post
 title:  "Make your intercom smarter with an MQTT backpack"
 date:   2021-03-13 16:54:00 +01:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1370766574886486018"
 ---
 
 I bought the cheapest compatible BTicino intercom device (BT 344232 for 32 €)
