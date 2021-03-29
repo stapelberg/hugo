@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2020-02-05T08:43:00+01:00
+date: 2021-03-29T08:43:00+01:00
 menu:
   main:
     title: "Talks"
@@ -10,7 +10,36 @@ menu:
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
+## 2020
+
+(en @ Arch Conf 2020) distri: researching fast Linux package management
+
+{{< talkthumb id="Whakbi7nGok" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/Whakbi7nGok)
+  [slides](https://docs.google.com/presentation/d/1tiMGtnsvYyVYml_yYGK0vZY1LloLg0Y48MP8_E6dwRE/edit?usp=sharing)
+
+<br style="clear: left" />
+
 ## 2019
+
+(en @ CCC Camp 2019) distri: a Linux distribution to research fast package management
+
+{{< talkthumb id="5F39sWoICqo" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://www.youtube.com/watch?v=5F39sWoICqo&t=2190s)
+  [slides](https://docs.google.com/presentation/d/1treZdaUKJ6puSZReF4kKF9thYpr7eFAZaY1FedcnCCo/edit?usp=sharing)
+
+<br style="clear: left" />
+
+(de @ GPN19) Linux package manager sind zu langsam!
+
+{{< talkthumb id="TdfEF0zRIL4" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/TdfEF0zRIL4)
+  [slides](https://docs.google.com/presentation/d/1VOwH9veN7uVZDLWizNqzePqBRL16MClBL6TVWDeLkwA/edit?usp=sharing)
+
+<br style="clear: left" />
 
 (en @ Go meetup Zürich) distri: researching fast Linux package management
 
