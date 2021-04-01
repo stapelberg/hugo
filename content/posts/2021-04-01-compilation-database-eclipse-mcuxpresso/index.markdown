@@ -3,6 +3,7 @@ layout: post
 title:  "Eclipse: Enabling Compilation Database (CDB, compile_commands.json) in NXP MCUXpresso v11.3"
 date:   2021-04-01 11:59:23 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1377562137858609153"
 ---
 
 NXP’s Eclipse-based MCUXpresso IDE is the easiest way to make full use of the
