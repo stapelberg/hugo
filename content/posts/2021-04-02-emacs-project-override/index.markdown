@@ -3,6 +3,7 @@ layout: post
 title:  "Emacs: overriding the project.el project directory"
 date:   2021-04-02 14:08:23 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1377957310245466116"
 ---
 
 I recently learnt about the Emacs package `project.el`, which is used to figure
