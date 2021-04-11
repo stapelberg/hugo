@@ -333,3 +333,21 @@ The overall strategy should be widely applicable regardless of the specific
 intercom vendor/unit you have. Be sure to buy your own unit (don’t solder into
 your landlord’s intercom unit!) and test in a separate lab setup first, of
 course!
+
+## Appendix A: Troubleshooting
+
+To debug the problem of ring detection no longer working, check:
+
+* Is the ESP32 still working?
+  * `ping doorbelltp`
+  * `mosquitto_pub -h dr -t 'doorbell/debug/cmd/ring' -m '3'` should signal a
+    ring to the Nuki Opener and result in events on the MQTT bus
+* Is the QT Py still working?
+  * Its power LED should be off. If the LED is on, the QT Py is in the bootloader.
+  * Unplug and replug the `+5V` wire to the QT Py, see if that fixes it.
+  * Connect a USB-to-serial adapter and see if triggering a door open results in SCS bytes on the serial interface.
+  * See if ringing the bell results in SCS bytes on the serial interface. If no, re-solder cable to `SCSRX5V`.
+
+To debug the problem of door opening no longer working, check:
+
+* Does it work when triggering it via the button on the BTicino? If yes, re-solder cable to `OPEN5V`.
