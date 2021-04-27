@@ -3,6 +3,7 @@ layout: post
 title:  "Linux and USB virtual serial devices (CDC ACM)"
 date:   2021-04-27 08:18:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1386930540817920005"
 ---
 
 During my work on [Teensy 4.1](https://www.pjrc.com/store/teensy41.html) support
