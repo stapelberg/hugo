@@ -80,12 +80,12 @@ With the kinX keyboard controller, we can achieve the following end-to-end laten
 
 contributor | latency
 ------------|------
-Matrix scan | ≈ 100 μs
+Matrix scan | ≈ 208 μs
 USB poll    | ≈ 125 μs
 Linux       | ≈ 152 μs
 Emacs       | ≈ 278 μs
 
-<br>This sums up to ≈ 655 μs on average. On top of that, we have output latency
+<br>This sums up to ≈ 763 μs on average. On top of that, we have output latency
 within \[0, 16ms\] due to the 60 Hz refresh rate of our monitors.
 
 Note that using a compositor adds one frame of output latency.
@@ -131,7 +131,7 @@ typing too much.
 When I started looking into input latency, my keyboard had dozens of
 milliseconds of latency. I found an easy win in the old firmware, then hit a
 wall, started the kinX project and eventually ended up with a keyboard with just
-0.225ms input latency.
+0.33ms input latency.
 
 Even if I had not reduced the input latency of my keyboard at all, I feel that
 this project was a valuable learning experience: I now know a lot more about PCB

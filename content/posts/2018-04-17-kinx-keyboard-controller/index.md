@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "kinX: keyboard controller with <0.225ms input latency"
+title:  "kinX: keyboard controller with <0.33ms input latency"
 date:   2018-04-17 17:49:00 +02:00
 categories: Artikel
 tags:
@@ -107,7 +107,15 @@ and, most importantly, key matrix scanning code.
 
 In my firmware, the Teensy 3.6 runs at 180 MHz (compared to the Teensy++’s 16
 MHz) and scans the keyboard matrix in a busy loop (as opposed to on USB
-poll). Measurements confirmed a matrix scan time of only 100μs (0.1ms).
+poll). Measurements confirmed a matrix scan time of only 208μs (0.2ms).
+
+{{< note >}}
+
+**Update:** Previously, I had measured the matrix scan time as 100μs
+(0.1ms). While that is technically correct, in practice, matrix scans take
+longer due to interrupts, so the new 208μs measurement is more realistic.
+
+{{< /note >}}
 
 I implemented debouncing the way it is described in [Yin Zhong’s “Keyboard
 Matrix Scanning and
@@ -124,7 +132,7 @@ micro frame, which is 1ms long with USB 1.x (Full Speed).
 
 This leaves us at an input latency within [0ms, 1.1ms]:
 
-* ≤ 0.1ms scan latency
+* ≤ 0.2ms scan latency
 * 0ms debounce latency
 * ≤ 1ms USB poll latency
 
@@ -169,9 +177,9 @@ The firmware can be found at https://github.com/kinx-project/mk66f-fw
 
 The hardware can be found at https://github.com/kinx-project/mk66f-hw
 
-Using USB 2.0 High Speed leaves us at an input latency within [0ms, 0.225ms]:
+Using USB 2.0 High Speed leaves us at an input latency within [0ms, 0.33ms]:
 
-* ≤ 0.1ms scan latency
+* ≤ 0.2ms scan latency
 * 0ms debounce latency
 * ≤ 0.125ms USB poll latency
 
