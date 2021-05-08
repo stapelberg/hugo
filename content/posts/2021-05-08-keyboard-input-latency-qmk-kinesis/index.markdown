@@ -4,6 +4,8 @@ title:  "Measure and reduce keyboard input latency with QMK on the Kinesis Advan
 date:   2021-05-08 15:57:00 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1391031601182695426"
+tags:
+- kinX
 ---
 
 Over the last few years, I worked on a few projects around keyboard input latency:

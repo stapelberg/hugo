@@ -7,6 +7,15 @@ Aliases:
   - /Artikel/kinesis_custom_controller
 ---
 
+{{< note >}}
+
+**Update:** The [kinT kinesis keyboard
+controller](/posts/2020-07-09-kint-kinesis-keyboard-controller/) from 2020 is an
+updated version, with [several
+improvements](https://github.com/kinx-project/kint/#why-use-the-kint-instead-of-the-older-replacement-board)
+over the older 2013 design!
+
+{{< /note >}}
 
 <p>
 The <a href="http://kinesis-ergo.com/advantage.htm">Kinesis Advantage

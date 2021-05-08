@@ -4,6 +4,8 @@ title:  "Introducing the kinT kinesis keyboard controller"
 date:   2020-07-09 09:25:00 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1281130647776608257"
+tags:
+- kinX
 ---
 
 <a href="../../Bilder/2020-05-22-desk-setup-kinesis.jpg"><img
