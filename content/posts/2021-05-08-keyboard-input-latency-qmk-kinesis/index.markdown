@@ -55,7 +55,7 @@ separate QMK working copy per project:
 
 ```
 % docker run -it -v $PWD:/usr/src archlinux
-# pacman -Sy && pacman -S qmk make which diffutils
+# pacman -Sy && pacman -S qmk make which diffutils python-hidapi python-pyusb
 # cd /usr/src
 # qmk clone -b develop qmk/qmk_firmware $PWD/qmk-input-latency
 # cd qmk-input-latency
