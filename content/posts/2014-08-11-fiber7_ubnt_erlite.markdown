@@ -5,6 +5,8 @@ date:   2014-08-11 09:55:00
 categories: Artikel
 Aliases:
   - /Artikel/fiber7_ubnt_erlite
+tags:
+- fiber
 ---
 
 

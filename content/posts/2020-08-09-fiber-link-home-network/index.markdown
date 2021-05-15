@@ -4,6 +4,8 @@ title:  "Adding a fiber link to my home network"
 date:   2020-08-09 14:53:53 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1292450019904311296"
+tags:
+- fiber
 ---
 
 ## Motivation
