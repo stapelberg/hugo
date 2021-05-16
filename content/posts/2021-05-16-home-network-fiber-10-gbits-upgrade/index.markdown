@@ -5,6 +5,7 @@ date:   2021-05-16 17:33:16 +02:00
 categories: Artikel
 tags:
 - fiber
+tweet_url: "https://twitter.com/zekjur/status/1393953665774407691"
 ---
 
 After [adding a fiber link to my home
