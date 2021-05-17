@@ -49,8 +49,10 @@ This device [costs 149 CHF on digitec](https://www.digitec.ch/de/s1/product/mikr
 * 1 × RJ45 Ethernet port for management, can be used as a regular 1 Gbit/s port.
 * 4 × SFP+ ports
 
-Each SFP+ port can be used with either an RJ-45 Ethernet or a fiber SFP+
-module.
+Each SFP+ port can be used with either an RJ-45 Ethernet or a fiber SFP+ module,
+but beware! As [Nexus2kSwiss points out on
+twitter](https://twitter.com/Nexus2kSwiss/status/1394395280120897544), the
+Mikrotik supports **at most 2 RJ-45 SFPs at a time**!
 
 ## Fiber module upgrade
 
