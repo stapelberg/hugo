@@ -5,6 +5,7 @@ date:   2021-05-28 14:57:00 +02:00
 categories: Artikel
 tags:
 - fiber
+tweet_url: "https://twitter.com/zekjur/status/1398265184301559809"
 ---
 
 init7 recently announced that with their [FTTH fiber offering
