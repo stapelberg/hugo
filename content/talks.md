@@ -10,6 +10,16 @@ menu:
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
+## 2021
+
+(en @ Dev Tool Time) Dev Tool Time with Michael Stapelberg
+
+{{< talkthumb id="lgJfs5GkjQw" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/lgJfs5GkjQw)
+
+<br style="clear: left" />
+
 ## 2020
 
 (en @ Arch Conf 2020) distri: researching fast Linux package management
