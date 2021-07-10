@@ -3,6 +3,7 @@ layout: post
 title:  "25 Gigabit Linux internet router PC build"
 date:   2021-07-10 13:43:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1413827196557434882"
 tags:
 - fiber
 ---
