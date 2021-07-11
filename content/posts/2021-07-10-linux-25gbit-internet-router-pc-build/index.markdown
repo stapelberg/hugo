@@ -113,6 +113,17 @@ chipsets](https://en.wikipedia.org/wiki/Socket_AM4#Chipsets) exist. Our network
 cards need PCIe 3.0, so that disqualifies 5 chipsets right away: only the A520,
 B550 and X570 chipsets remain.
 
+{{< note >}}
+
+**Note:** Multiple people pointed out (thank you!) that the Wikipedia table only
+lists PCIe lanes provided by the chipset, and strictly speaking, the older X470
+chipset (released March 2018) supports CPUs which provide PCIe 3.0
+lines. E.g. the [ROG Strix
+X470-F](https://www.asus.com/microsite/motherboard/AMD-X470/) with its x8/x8
+mode should work, too.
+
+{{< /note >}}
+
 {{< img src="2021-06-08-ryzen5-on-mainboard.jpg" alt="Ryzen 5" >}}
 
 ### Mainboard: PCIe bandwidth
