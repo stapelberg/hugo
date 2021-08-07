@@ -173,8 +173,9 @@ odd, so I went with the ASRock B550 Taichi mainboard.
 For the case, I needed a midi case (large enough for the B550 mainboard’s ATX
 form factor) with plenty of options for large, low-spinning fans.
 
-I stumbled upon the [Corsair 4000D Airflow](#), which is available for 80 CHF
-and [achieved positive
+I stumbled upon the [Corsair 4000D
+Airflow](https://www.corsair.com/us/en/Categories/Products/Cases/Mid-Tower-ATX-Cases/4000D-Airflow-Tempered-Glass-Mid-Tower-ATX-Case/p/CC-9011200-WW),
+which is available for 80 CHF and [achieved positive
 reviews](https://www.gamersnexus.net/hwreviews/3624-corsair-4000d-airflow-case-review-vs-solid-panel). I’m
 pleased with the 4000D: there are no sharp corners, installation is quick, easy
 and clean, and the front and top panels offer plenty of space for cooling behind
@@ -379,7 +380,7 @@ to `UEFI only`.
 
 ## Fan Controller Setup
 
-The [Corsair Commander Pro](#) fan controller is well-supported on Linux.
+The [Corsair Commander Pro](https://www.corsair.com/eu/en/Categories/Products/Accessories-%7C-Parts/iCUE-CONTROLLERS/iCUE-Commander-PRO-Smart-RGB-Lighting-and-Fan-Speed-Controller/p/CL-9011110-WW) fan controller is well-supported on Linux.
 
 After enabling the Linux kernel option `CONFIG_SENSORS_CORSAIR_CPRO`, the device
 shows up in the `hwmon` subsystem.
