@@ -540,3 +540,21 @@ Presence (POP, German Anschlusszentrale) close to my home is upgraded to support
 25 Gbit/s “Fiber7-X2” connections. As I mentioned, unfortunately [the upgrade
 plan is delayed](https://twitter.com/init7/status/1403287499175235584) due to
 the component shortage. I’ll keep you posted!
+
+## Appendix A: DPDK test
+
+[Pim](https://twitter.com/ipngnetworks) ran a [DPDK](https://www.dpdk.org/)
+based loadtester called [T-Rex](https://trex-tgn.cisco.com/) on this
+machine. Here’s his summary of the test:
+
+For DPDK, this hardware does 4x10G at 64b frames. It does not do 6x10G as it
+tops out at 62Mpps using 4 cores (of 15.5Mpps per core).
+
+I couldn't test 25G symmetric [because we lacked a 25G DAC cable], but
+extrapolating from the numbers, 3 CPUs source and sink ~24.6Gbit per core, so
+we'd probably make it, leaving 1 core for OS and 2 cores for controlplane.
+
+If the machine had a 12 core Ryzen, it would saturate all NICs with room to
+spare. So that's what I'll end up buying :)
+
+{{< img src="2021-07-13-dpdk-test.png" alt="DPDK test" >}}
