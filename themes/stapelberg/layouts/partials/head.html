@@ -16,6 +16,15 @@
 {{ else }}
   <title>{{ .Title }} ({{ $year }}) - Michael Stapelberg</title>
 {{ end }}
+  <meta property="og:site_name" content="Michael Stapelberg">
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:description" content="{{ block "description" . }}{{ end }}">
+  {{ $featured := .Resources.Match "*featured*" }}
+  {{ $imgs := $featured | append (.Resources.ByType "image") }}
+  {{ range first 1 $imgs }}
+  {{ $img := .Fit "200x200" }}
+  {{ printf "<meta property=\"og:image\" content=\"%s\">" $img.Permalink | safeHTML }}
+  {{ end }}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{{ "/favicon.ico" | relURL }}" />
   <meta name="description" content="{{ block "description" . }}{{ end }}">
