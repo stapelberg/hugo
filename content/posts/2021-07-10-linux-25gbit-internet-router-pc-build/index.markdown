@@ -541,6 +541,13 @@ Presence (POP, German Anschlusszentrale) close to my home is upgraded to support
 plan is delayed](https://twitter.com/init7/status/1403287499175235584) due to
 the component shortage. I’ll keep you posted!
 
+## Other Builds
+
+In case my build doesn’t exactly match your requirements, perhaps these others
+help inspire you:
+
+* [Scott Dier’s Intel NUC 9 Pro build](https://medium.com/@sdier/new-internet-service-calls-for-a-new-router-4dbebbdc6dbd)
+
 ## Appendix A: DPDK test
 
 [Pim](https://twitter.com/ipngnetworks) ran a [DPDK](https://www.dpdk.org/)
