@@ -558,7 +558,21 @@ ul.taglist li {
 /* TODO(later): syntax highlighting e.g. for Go posts */
 /* TODO(later): include title in table of contents */
 
-/* TODO(later/style): /series/ mit display: grid? damit es besser flowed? */
+.series {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1em;
+}
+
+.series img {
+    width: 150px;
+}
+
+.series .label {
+    width: 150px;
+    text-align: center;
+}
+
 /* TODO(later/desktop): hover paragraph link für jedes heading */
 
 /* TODO: folgende styles in ein separates galerie-stylesheet verschieben */
