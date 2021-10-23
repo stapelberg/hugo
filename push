@@ -1,5 +1,5 @@
 #!/bin/sh
-stapelberg-hugo
+hugo
 cd docs
 git add . && git commit -m 'update site'
 git push origin master
