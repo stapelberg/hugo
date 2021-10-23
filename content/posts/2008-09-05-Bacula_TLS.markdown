@@ -48,8 +48,12 @@ installieren.
 Folgendermaßen wird ein Private Key und ein Certificate Request erstellt (auf
 jedem Rechner ausführen):
 </p>
-<pre>cd /etc/ssl/private
-openssl req -newkey rsa:4096 -subj /CN=ipv6.server.de -nodes -keyout ipv6.server.de.key -out ipv6.server.de.csr</pre>
+
+```
+cd /etc/ssl/private
+openssl req -newkey rsa:4096 -subj /CN=ipv6.server.de -nodes -keyout ipv6.server.de.key -out ipv6.server.de.csr
+```
+
 
 <p>
 Den Certificate Request aus ipv6.server.de.csr geben wir nun bei CACert ein und
@@ -87,7 +91,9 @@ beiden anderen Daemons spielen entsprechend mit.
 </p>
 
 <h3>Director (bacula-dir.conf)</h3>
-<pre>Director {
+
+```
+Director {
         Name = fs-dir
         DIRport = 9101
         QueryFile = "/usr/libexec/bacula/query.sql"
@@ -103,9 +109,12 @@ beiden anderen Daemons spielen entsprechend mit.
         TLS Certificate = /etc/ssl/certs/stability.crt
         TLS Key = /etc/ssl/private/stability.key
         TLS CA Certificate File = /etc/ssl/certs/root.pem</strong>
-}</pre>
+}
+```
 
-<pre>Client {
+
+```
+Client {
         Name = server-fd
         Address = ipv6.server.de
         FDPort = 9102 
@@ -118,7 +127,9 @@ beiden anderen Daemons spielen entsprechend mit.
         <strong>TLS Enable = yes
         TLS Require = no
         TLS CA Certificate File = /etc/ssl/certs/root.pem</strong>
-}</pre>
+}
+```
+
 
 <p>
 Hinweis: Sollte der Storage-Daemon auf einem anderen Rechner laufen als der
@@ -128,7 +139,8 @@ man in der Storage-Resource <code>TLS Require</code> auf yes setzen.
 
 <h3>Storage Daemon (bacula-sd.conf)</h3>
 
-<pre>Storage {
+```
+Storage {
         Name = fs-sd
         SDAddresses = {
       		ipv6 = { addr = 2001:xx:yy:zz; port = 9103; }
@@ -143,11 +155,14 @@ man in der Storage-Resource <code>TLS Require</code> auf yes setzen.
         TLS Certificate = /etc/ssl/certs/stability.crt
         TLS Key = /etc/ssl/private/stability.key
 	TLS CA Certificate File = /etc/ssl/certs/root.pem</strong>
-}</pre>
+}
+```
+
 
 <h3>File Daemon (bacula-fd.conf)</h3>
 
-<pre>Director {
+```
+Director {
   Name = fs-dir
   Password = ""
 
@@ -157,10 +172,13 @@ man in der Storage-Resource <code>TLS Require</code> auf yes setzen.
   TLS CA Certificate File = /etc/ssl/certs/root.pem
   TLS Certificate = /etc/bacula/ipv6.server.de.crt
   TLS Key = /etc/ssl/private/ipv6.server.de.key</strong>
-}</pre>
+}
+```
 
 
-<pre>FileDaemon {
+
+```
+FileDaemon {
   Name = server-fd
   WorkingDirectory = /var/lib/bacula
   Pid Directory = /var/run/bacula
@@ -173,7 +191,9 @@ man in der Storage-Resource <code>TLS Require</code> auf yes setzen.
   TLS CA Certificate File = /etc/ssl/certs/root.pem
   TLS Certificate = /etc/bacula/ipv6.server.de.crt
   TLS Key = /etc/ssl/private/ipv6.server.de.key</strong>
-}</pre>
+}
+```
+
 
 <h2>Verify Peer/Allowed CN</h2>
 <p>

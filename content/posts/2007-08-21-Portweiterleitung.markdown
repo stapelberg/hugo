@@ -42,11 +42,11 @@ sich einen Alias in der SSH-config anlegen. Diese Datei bearbeitet
 beziehungsweise erzeugt man unter ~/.ssh/config. Der benötigte Eintrag sieht so
 aus:
 </p>
-<pre>
+```
 Host wrt
     HostName 192.168.1.1
     User root
-</pre>
+```
 <p>
 Mittels „ssh wrt” kann man dann schnell und bequem auf den OpenWRT-Router
 zugreifen.
@@ -55,7 +55,9 @@ zugreifen.
 <p>
 Nachdem wir uns eingeloggt haben, sollte die Ausgabe in etwa so aussehen:
 </p>
-<pre>$ ssh wrt
+
+```
+$ ssh wrt
 The authenticity of host '192.168.1.1 (192.168.1.1)' can't be established.
 RSA key fingerprint is f9:92:ab:la:34:le:64:lu:40:nu:3f:rd:bc:er:41:ma.
 Are you sure you want to continue connecting (yes/no)? yes
@@ -76,7 +78,8 @@ Enter 'help' for a list of built-in commands.
   * 1 oz Kahlua  over ice, then float the cream or
   * 1/2oz cream  milk on the top.
  ---------------------------------------------------
-root@OpenWrt:~# </pre>
+root@OpenWrt:~#
+```
 
 <h3>Firewall</h3>
 <p>
@@ -85,7 +88,9 @@ LAN-Schnittstelle weiter.<br>
 Dieses Verhalten können wir in der Datei /etc/firewall.user ändern.
 Normalerweise sieht diese Datei so aus:
 </p>
-<pre>!/bin/sh
+
+```
+!/bin/sh
 . /etc/functions.sh
 
 WAN=$(nvram get wan_ifname)
@@ -111,7 +116,9 @@ iptables -t nat -F postrouting_rule
 
 ### DMZ (should be placed after port forwarding / accept rules)
 # iptables -t nat -A prerouting_rule -i $WAN -j DNAT --to 192.168.1.2
-# iptables        -A forwarding_rule -i $WAN -d 192.168.1.2 -j ACCEPT</pre>
+# iptables        -A forwarding_rule -i $WAN -d 192.168.1.2 -j ACCEPT
+```
+
 <p>
 Außerdem ist sie im Read-only-Teil des Routers gespeichert, das heißt, in
 /rom/etc/firewall.user. Die Datei /etc/firewall.user ist lediglich eine
@@ -123,10 +130,12 @@ Verknüpfung.
 Wir müssen zuerst einmal die Verknüpfung löschen und stattdessen die echte
 Datei kopieren:
 </p>
-<pre>
+
+```
 root@OpenWrt:~# rm /etc/firewall.user
 root@OpenWrt:~# cp /rom/etc/firewall.user /etc/firewall.user
-</pre>
+```
+
 <p>
 Anschließend öffnen wir die Datei mit einem Texteditor (zum Beispiel mit „vi” -
 nicht so erfahrene Benutzer können sich die Datei auch via „scp
@@ -137,50 +146,72 @@ beliebigen, lokalen Editor öffnen).
 <p>
 Eine Portweiterleitung sieht so aus:
 </p>
-<pre>iptables -t nat -A prerouting_rule -i $WAN -p tcp -j DNAT --dport <b>&lt;PORT&gt;</b> --to <b>&lt;IP&gt;</b>
-iptables -A forwarding_rule -i $WAN -p tcp -j ACCEPT --dport <b>&lt;PORT&gt;</b> -d <b>&lt;IP&gt;</b></pre>
+
+```
+iptables -t nat -A prerouting_rule -i $WAN -p tcp -j DNAT --dport <PORT> --to <IP>
+iptables -A forwarding_rule -i $WAN -p tcp -j ACCEPT --dport <PORT> -d <IP>
+```
+
 <p>
 Hierbei fällt natürlich auf, dass der erste Teil beider Regeln immer gleich
 bleibt und das Ganze bei vielen Weiterleitungen entsprechend viel Schreibarbeit
 ist. Wir legen uns also zwei Variablen an (direkt am Anfang der Datei):
 </p>
-<pre>#!/bin/sh
+
+```
+#!/bin/sh
 . /etc/functions.sh
 
 WAN=$(nvram get wan_ifname)
 LAN=$(nvram get lan_ifname)
 PRE_STR="iptables -t nat -A prerouting_rule -i $WAN -p tcp -j DNAT"
-FOR_STR="iptables -A forwarding_rule -i $WAN -p tcp -j ACCEPT"</pre>
+FOR_STR="iptables -A forwarding_rule -i $WAN -p tcp -j ACCEPT"
+```
+
 Nun können wir eine Portweiterleitung so anlegen:
-<pre>$PRE_STR --dport <b>&lt;PORT&gt;</b> --to <b>&lt;IP&gt;</b>
-$FOR_STR --dport <b>&lt;PORT&gt;</b> -d <b>&lt;IP&gt;</b></pre>
+
+```
+$PRE_STR --dport <PORT> --to <IP>
+$FOR_STR --dport <PORT> -d <IP>
+```
+
 <p>
-Die Platzhalter <b>&lt;PORT&gt;</b> und <b>&lt;IP&gt;</b> müssen natürlich
+Die Platzhalter <PORT> und <IP> müssen natürlich
 ersetzt werden. Für den Fall, dass wir nun aber verschiedene Quell- und
 Zielports haben (was häufig der Fall ist, wenn man mehrere Rechner hat, auf
 denen jeweils der gleiche Port freizugeben ist), müssen wir die Regel anpassen
 (am Beispiel von Quellport 2002 und Zielport 22 auf Zielrechner 192.168.1.3):
 </p>
-<pre>$PRE_STR --dport 2002 --to 192.168.1.3:22
-$FOR_STR --dport 22 -d 192.168.1.3</pre>
+
+```
+$PRE_STR --dport 2002 --to 192.168.1.3:22
+$FOR_STR --dport 22 -d 192.168.1.3
+```
+
 <p>
 Auch Portbereiche anzugeben ist möglich, „3000:3500” steht zum Beispiel für die
 Ports 3000 bis 3500 (einschließlich jeweils). Eine solche Weiterleitung sieht
 dann so aus:
 </p>
-<pre>$PRE_STR --dport 3000:3500 --to 192.168.1.3
-$FOR_STR --dport 3000:3500 -d 192.168.1.3</pre>
+
+```
+$PRE_STR --dport 3000:3500 --to 192.168.1.3
+$FOR_STR --dport 3000:3500 -d 192.168.1.3
+```
+
 <p>
 Eine komplett fertige /etc/firewall.user sieht dann zum Beispiel so aus (die
 Änderungen habe ich kursiv und fettgedruckt gekennzeichnet):
 </p>
-<pre>#!/bin/sh
+
+```
+#!/bin/sh
 . /etc/functions.sh
 
 WAN=$(nvram get wan_ifname)
 LAN=$(nvram get lan_ifname)
-<b><i>PRE_STR="iptables -t nat -A prerouting_rule -i $WAN -p tcp -j DNAT"
-FOR_STR="iptables -A forwarding_rule -i $WAN -p tcp -j ACCEPT"</i></b>
+PRE_STR="iptables -t nat -A prerouting_rule -i $WAN -p tcp -j DNAT"
+FOR_STR="iptables -A forwarding_rule -i $WAN -p tcp -j ACCEPT"
 
 iptables -F input_rule
 iptables -F output_rule
@@ -197,10 +228,10 @@ iptables -t nat -F postrouting_rule
 # iptables        -A input_rule      -i $WAN -p tcp --dport 22 -j ACCEPT
 
 ### Port forwarding
-<b><i># SSH auf Webserver (port 2002->22)
+# SSH auf Webserver (port 2002->22)
 $PRE_STR --dport 2002 --to 192.168.1.3:22
-$FOR_STR --dport 22 -d 192.168.1.3</i></b>
-</pre>
+$FOR_STR --dport 22 -d 192.168.1.3
+```
 
 <h3>Änderungen übernehmen</h3>
 <p>

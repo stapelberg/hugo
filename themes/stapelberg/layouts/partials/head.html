@@ -114,7 +114,7 @@
   <!-- TODO: enable fingerprinting: do css versions just accumulate? put into a separate directory. see https://gohugo.io/hugo-pipes/introduction/. maybe hugo --gc is required? -->
   {{- $style := resources.Get "/1.scss" | resources.ToCSS | resources.Minify }}
   <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}" type="text/css">
-  {{ if (eq .Kind "taxonomy") -}}
+  {{ if (eq .Kind "term") -}}
   <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
   {{- else -}}
   <link rel="alternate" href="{{ "/feed.xml" | relURL }}" type="application/atom+xml" title="ATOM feed">

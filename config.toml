@@ -6,7 +6,6 @@ title = "Michael Stapelbergs Website"
 theme = "stapelberg"
 disableKinds = ["RSS"]
 publishDir = "docs"
-ignoreFiles = ["turbopfor/[^s][^v][^g][^o]\\.svg$", "turbopfor/Makefile$"]
 enableGitInfo = true
 
 # Raise generation timeout from 10s to 60s to account for our heavy image
@@ -62,4 +61,16 @@ isPlainText = false
 
 [outputs]
 home = [ "HTML", "Atom" ]
-taxonomy = [ "HTML", "Atom" ]
+term = [ "HTML", "Atom" ]
+
+# Prevent <!-- raw HTML omitted -->:
+[markup.goldmark.renderer]
+unsafe = true
+
+[module]
+[[module.mounts]]
+  source = 'static'
+  target = 'static'
+  # Not using [!s][!v][!g][!o] because that doesn’t match bitpacking256v32.svg
+  excludeFiles = "turbopfor/*[!g][!o].svg"
+# TODO(https://github.com/gohugoio/hugo/issues/9076): add "turbopfor/Makefile"
