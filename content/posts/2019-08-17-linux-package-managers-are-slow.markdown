@@ -267,9 +267,9 @@ Arch Linux’s pacman takes a little over 1s to fetch and unpack 25 MB.
 % docker run -t -i archlinux:base
 [root@9f6672688a64 /]# time (pacman -Sy && pacman -S --noconfirm ack)
 :: Synchronizing package databases...
- core                                                                                              138.8 KiB  1542 KiB/s
- extra                                                                                            1569.8 KiB  26.9 MiB/s
- community                                                                                           5.8 MiB  92.2 MiB/s
+ core           138.8 KiB  1542 KiB/s
+ extra         1569.8 KiB  26.9 MiB/s
+ community        5.8 MiB  92.2 MiB/s
 resolving dependencies...
 looking for conflicting packages...
 
@@ -389,9 +389,9 @@ Arch Linux’s pacman takes about 10s to fetch and unpack 128 MB.
 % docker run -t -i archlinux:base
 [root@58c78bda08e8 /]# time (pacman -Sy && pacman -S --noconfirm qemu)
 :: Synchronizing package databases...
- core                                                                                              138.7 KiB  1541 KiB/s
- extra                                                                                            1569.8 KiB  35.7 MiB/s
- community                                                                                           5.8 MiB  92.2 MiB/s
+ core          138.7 KiB  1541 KiB/s
+ extra        1569.8 KiB  35.7 MiB/s
+ community       5.8 MiB  92.2 MiB/s
 […]
 Total Download Size:   118.97 MiB
 Total Installed Size:  586.68 MiB
@@ -405,7 +405,7 @@ sys	0m1.569s
 
 <details>
 <summary>
-Alpine’s apk takes only about 1.8 seconds to fetch and unpack 26 MB.
+Alpine’s apk takes only about 1.8 seconds to fetch and unpack 34 MB.
 </summary>
 
 ```
