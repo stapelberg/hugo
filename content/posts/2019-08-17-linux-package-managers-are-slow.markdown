@@ -55,24 +55,23 @@ actual performance, but your experience may vary.
 
 distribution | package manager | data   | wall-clock time | rate
 -------------|-----------------|--------|-----------------|-----
-Fedora       | dnf             | 114 MB | 33s             | 3.4 MB/s
-Debian       | apt             | 16 MB  | 10s             | 1.6 MB/s
-NixOS        | Nix             | 15 MB  | 5s              | 3.0 MB/s
-Arch Linux   | pacman          | 6.5 MB | 3s              | 2.1 MB/s
-Alpine       | apk             | 10 MB  | 1s              | 10.0 MB/s
+Fedora       | dnf             | 84 MB  | 25s             | 3.4 MB/s
+NixOS        | Nix             | 15 MB  | 7s              | 2.3 MB/s
+Debian       | apt             | 16 MB  | 3s              | 4.9 MB/s
+Arch Linux   | pacman          | 25 MB  | 1s              | 18.4 MB/s
+Alpine       | apk             | 10 MB  | 1s              | 11.9 MB/s
 
 #### qemu (large C program)
 
 distribution | package manager | data   | wall-clock time | rate
 -------------|-----------------|--------|-----------------|-----
-Fedora       | dnf             | 226 MB | 4m37s           | 1.2 MB/s
-Debian       | apt             | 224 MB | 1m35s           | 2.3 MB/s
-Arch Linux   | pacman          | 142 MB | 44s             | 3.2 MB/s
-NixOS        | Nix             | 180 MB | 34s             | 5.2 MB/s
-Alpine       | apk             | 26 MB  | 2.4s            | 10.8 MB/s
+Fedora       | dnf             | 350 MB | 56s             | 6.25 MB/s
+Debian       | apt             | 256 MB | 39s             | 6.5 MB/s
+Arch Linux   | pacman          | 128 MB | 10s             | 12.1 MB/s
+NixOS        | Nix             | 251 MB | 36s             | 6.8 MB/s
+Alpine       | apk             | 34 MB  | 1.8s            | 18.6 MB/s
 
-
-(Looking for older measurements? See [Appendix B (2019)](#appendix-b)).
+(Looking for older measurements? See [Appendix B (2019)](#appendix-b) or [Appendix C (2020)](#appendix-c)).
 
 The difference between the slowest and fastest package managers is 30x!
 
@@ -163,6 +162,264 @@ There are a couple of recent developments going into the same direction:
 * [Android Q uses ext4 loopback images](https://android.googlesource.com/platform/system/apex/+/refs/heads/master/docs/README.md)
 * The Haiku Operating System’s package manager [Haiku
   Depot](https://en.wikipedia.org/wiki/Haiku_Depot) uses images
+
+### Appendix D: measurement details (2021) {#appendix-c}
+
+#### ack
+
+You can expand each of these:
+
+<details>
+<summary>
+Fedora’s dnf takes almost 25 seconds to fetch and unpack 84 MB.
+</summary>
+
+```
+% docker run --security-opt=seccomp:unconfined -t -i fedora /bin/bash
+[root@62d3cae2e2f9 /]# time dnf install -y ack
+Fedora 35 - x86_64                         25 MB/s |  61 MB
+Fedora 35 openh264 (From Cisco) - x86_64  3.5 kB/s | 2.5 kB
+Fedora Modular 35 - x86_64                5.0 MB/s | 2.6 MB
+Fedora 35 - x86_64 - Updates              6.0 MB/s | 9.3 MB
+Fedora Modular 35 - x86_64 - Updates      4.1 MB/s | 3.3 MB
+Dependencies resolved.
+[…]
+real	0m24.882s
+user	0m17.377s
+sys	0m0.835s
+```
+
+</details>
+
+<details>
+<summary>
+NixOS’s Nix takes a little under 7s to fetch and unpack 15 MB.
+</summary>
+
+```
+% docker run -t -i nixos/nix
+39e9186422ba:/# time sh -c 'nix-channel --update && nix-env -iA nixpkgs.ack'
+unpacking channels...
+created 1 symlinks in user environment
+installing 'perl5.34.0-ack-3.5.0'
+these paths will be fetched (15.78 MiB download, 86.82 MiB unpacked):
+  /nix/store/11xpmmwy95396nkhih3qc3814lqhqb8f-libunistring-0.9.10
+  /nix/store/1h18nl3gisw89znbzbmnxhd7jk20xlff-perl5.34.0-File-Next-1.18
+  /nix/store/1mpxs3109cjrbhmi3q1vmvc0djz102pl-libidn2-2.3.2
+  /nix/store/jr35z7n8jbv9q89my50vhyndqd3y541i-attr-2.5.1
+  /nix/store/krc4xirbvjnff8m62snqdbayg46z5l5b-acl-2.3.1
+  /nix/store/mij848h2x5wiqkwhg027byvmf9x3gx7y-glibc-2.33-50
+  /nix/store/wq38iqzdh40dzfsndb927kh7y5bqh457-perl5.34.0-ack-3.5.0-man
+  /nix/store/xyn0240zrpprnspg3n0fi8c8aw5bq0mr-coreutils-8.32
+  /nix/store/y8r9ymbz59yjm1bwr3fdvd23jvcb2bzj-perl5.34.0-ack-3.5.0
+  /nix/store/ypr273yvmr07n5n1w1gbcqnhpw7lbbvz-perl-5.34.0
+copying path '/nix/store/wq38iqzdh40dzfsndb927kh7y5bqh457-perl5.34.0-ack-3.5.0-man' from 'https://cache.nixos.org'...
+copying path '/nix/store/11xpmmwy95396nkhih3qc3814lqhqb8f-libunistring-0.9.10' from 'https://cache.nixos.org'...
+copying path '/nix/store/1h18nl3gisw89znbzbmnxhd7jk20xlff-perl5.34.0-File-Next-1.18' from 'https://cache.nixos.org'...
+copying path '/nix/store/1mpxs3109cjrbhmi3q1vmvc0djz102pl-libidn2-2.3.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/mij848h2x5wiqkwhg027byvmf9x3gx7y-glibc-2.33-50' from 'https://cache.nixos.org'...
+copying path '/nix/store/jr35z7n8jbv9q89my50vhyndqd3y541i-attr-2.5.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/krc4xirbvjnff8m62snqdbayg46z5l5b-acl-2.3.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/xyn0240zrpprnspg3n0fi8c8aw5bq0mr-coreutils-8.32' from 'https://cache.nixos.org'...
+copying path '/nix/store/ypr273yvmr07n5n1w1gbcqnhpw7lbbvz-perl-5.34.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/y8r9ymbz59yjm1bwr3fdvd23jvcb2bzj-perl5.34.0-ack-3.5.0' from 'https://cache.nixos.org'...
+building '/nix/store/pwlxhy7kry56z6593rh397fc49x5avlw-user-environment.drv'...
+created 49 symlinks in user environment
+real	0m 6.82s
+user	0m 3.47s
+sys	0m 2.11s
+```
+
+</details>
+
+<details>
+<summary>
+Debian’s apt takes about 3 seconds to fetch and unpack 16 MB.
+</summary>
+
+```
+% docker run -t -i debian:sid
+root@40a3899b1f2f:/# time (apt update && apt install -y ack-grep)
+Get:1 http://deb.debian.org/debian sid InRelease [165 kB]
+Get:2 http://deb.debian.org/debian sid/main amd64 Packages [8800 kB]
+Fetched 8965 kB in 1s (9495 kB/s)
+[…]
+The following NEW packages will be installed:
+  ack libfile-next-perl libgdbm-compat4 libgdbm6 libperl5.32 netbase perl perl-modules-5.32
+0 upgraded, 8 newly installed, 0 to remove and 24 not upgraded.
+Need to get 7479 kB of archives.
+After this operation, 47.7 MB of additional disk space will be used.
+[…]
+real	0m3.260s
+user	0m2.463s
+sys	0m0.352s
+```
+
+</details>
+
+<details>
+<summary>
+Arch Linux’s pacman takes a little over 1s to fetch and unpack 25 MB.
+</summary>
+
+```
+% docker run -t -i archlinux:base
+[root@9f6672688a64 /]# time (pacman -Sy && pacman -S --noconfirm ack)
+:: Synchronizing package databases...
+ core                                                                                              138.8 KiB  1542 KiB/s
+ extra                                                                                            1569.8 KiB  26.9 MiB/s
+ community                                                                                           5.8 MiB  92.2 MiB/s
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (5) db-5.3.28-5  gdbm-1.22-1  perl-5.34.0-2  perl-file-next-1.18-3  ack-3.5.0-2
+
+Total Download Size:   16.77 MiB
+Total Installed Size:  66.21 MiB
+[…]
+real	0m1.403s
+user	0m0.484s
+sys	0m0.211s
+```
+
+</details>
+
+<details>
+<summary>
+Alpine’s apk takes a little under 1 second to fetch and unpack 10 MB.
+</summary>
+
+```
+% docker run -t -i alpine
+# time apk add ack
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
+(1/4) Installing libbz2 (1.0.8-r1)
+(2/4) Installing perl (5.32.1-r0)
+(3/4) Installing perl-file-next (1.18-r2)
+(4/4) Installing ack (3.5.0-r1)
+Executing busybox-1.33.1-r3.trigger
+OK: 43 MiB in 18 packages
+real	0m 0.76s
+user	0m 0.27s
+sys	0m 0.09s
+```
+
+</details>
+
+#### qemu
+
+You can expand each of these:
+
+<details>
+<summary>
+Fedora’s dnf takes about 1 minute to fetch and unpack 350 MB.
+</summary>
+
+```
+% docker run -t -i fedora /bin/bash
+[root@6a52ecfc3afa /]# time dnf install -y qemu
+Fedora 35 - x86_64                           15 MB/s |  61 MB
+Fedora 35 openh264 (From Cisco) - x86_64    3.0 kB/s | 2.5 kB
+Fedora Modular 35 - x86_64                  5.2 MB/s | 2.6 MB
+Fedora 35 - x86_64 - Updates                6.6 MB/s | 9.3 MB
+Fedora Modular 35 - x86_64 - Updates        2.2 MB/s | 3.3 MB
+Dependencies resolved.
+[…]
+
+Total download size: 274 M
+Downloading Packages:
+[…]
+
+real	0m56.031s
+user	0m31.275s
+sys	0m3.868s
+```
+
+</details>
+
+<details>
+<summary>
+NixOS’s Nix takes almost 36s to fetch and unpack 230 MB.
+</summary>
+
+```
+% docker run -t -i nixos/nix
+83971cf79f7e:/# time sh -c 'nix-channel --update && nix-env -iA nixpkgs.qemu'
+unpacking channels...
+created 1 symlinks in user environment
+installing 'qemu-6.1.0'
+these paths will be fetched (230.72 MiB download, 1424.84 MiB unpacked):
+[…]
+real	0m 36.55s
+user	0m 19.83s
+sys	0m 3.34s
+```
+
+</details>
+
+<details>
+<summary>
+Debian’s apt takes almost 39 seconds to fetch and unpack 256 MB.
+</summary>
+
+```
+% docker run -t -i debian:sid
+root@b7cc25a927ab:/# time (apt update && apt install -y qemu-system-x86)
+Get:1 http://deb.debian.org/debian sid InRelease [146 kB]
+Get:2 http://deb.debian.org/debian sid/main amd64 Packages [8400 kB]
+Fetched 8965 kB in 1s (9048 kB/s)
+[…]
+Fetched 247 MB in 4s (64.9 MB/s)
+[…]
+real	0m38.875s
+user	0m21.282s
+sys	0m5.298s
+```
+
+</details>
+
+<details>
+<summary>
+Arch Linux’s pacman takes about 10s to fetch and unpack 128 MB.
+</summary>
+
+```
+% docker run -t -i archlinux:base
+[root@58c78bda08e8 /]# time (pacman -Sy && pacman -S --noconfirm qemu)
+:: Synchronizing package databases...
+ core                                                                                              138.7 KiB  1541 KiB/s
+ extra                                                                                            1569.8 KiB  35.7 MiB/s
+ community                                                                                           5.8 MiB  92.2 MiB/s
+[…]
+Total Download Size:   118.97 MiB
+Total Installed Size:  586.68 MiB
+[…]
+real	0m10.542s
+user	0m3.092s
+sys	0m1.569s
+```
+
+</details>
+
+<details>
+<summary>
+Alpine’s apk takes only about 1.8 seconds to fetch and unpack 26 MB.
+</summary>
+
+```
+% docker run -t -i alpine
+/ # time apk add qemu-system-x86_64
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
+[…]
+OK: 281 MiB in 66 packages
+real	0m 1.83s
+user	0m 0.77s
+sys	0m 0.24s
+```
+
+</details>
 
 ### Appendix C: measurement details (2020) {#appendix-c}
 
