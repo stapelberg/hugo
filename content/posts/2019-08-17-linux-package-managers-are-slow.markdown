@@ -38,12 +38,12 @@ up-to-date package list. For me, requiring a metadata update is the more common
 case, particularly on live systems or within Docker containers.
 
 All measurements were taken on an `Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz`
-running Docker 1.13.1 on Linux 4.19, backed by a Samsung 970 Pro NVMe drive
-boasting many hundreds of MB/s write performance. The machine is located in
-Zürich and connected to the Internet with a 1 Gigabit fiber connection, so the
-expected top download speed is ≈115 MB/s.
+running Docker 20.10.8 on Linux 5.13.10, backed by a Corsair Force MP600 NVMe
+drive boasting many hundreds of MB/s write performance. The machine is located
+in Zürich and connected to the Internet with a 1 Gigabit fiber connection, so
+the expected top download speed is ≈115 MB/s.
 
-See [Appendix C](#appendix-c) for details on the measurement method and command
+See [Appendix D](#appendix-d) for details on the measurement method and command
 outputs.
 
 ### Measurements
@@ -152,7 +152,8 @@ I think that space is really interesting, as it uses a minimal design to achieve
 significant real-world speed-ups.
 
 I have explored this idea in much more detail, and am happy to talk more about
-it in my post “Introducing the distri research linux distribution".
+it in my post [distri: a Linux distribution to research fast package
+management](/posts/2019-08-17-introducing-distri/).
 
 ### Appendix A: related work
 
@@ -163,7 +164,7 @@ There are a couple of recent developments going into the same direction:
 * The Haiku Operating System’s package manager [Haiku
   Depot](https://en.wikipedia.org/wiki/Haiku_Depot) uses images
 
-### Appendix D: measurement details (2021) {#appendix-c}
+### Appendix D: measurement details (2021) {#appendix-d}
 
 #### ack
 
