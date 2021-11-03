@@ -67,8 +67,8 @@ distribution | package manager | data   | wall-clock time | rate
 -------------|-----------------|--------|-----------------|-----
 Fedora       | dnf             | 350 MB | 56s             | 6.25 MB/s
 Debian       | apt             | 256 MB | 39s             | 6.5 MB/s
-Arch Linux   | pacman          | 128 MB | 10s             | 12.1 MB/s
 NixOS        | Nix             | 251 MB | 36s             | 6.8 MB/s
+Arch Linux   | pacman          | 128 MB | 10s             | 12.1 MB/s
 Alpine       | apk             | 34 MB  | 1.8s            | 18.6 MB/s
 
 (Looking for older measurements? See [Appendix B (2019)](#appendix-b) or [Appendix C (2020)](#appendix-c)).
