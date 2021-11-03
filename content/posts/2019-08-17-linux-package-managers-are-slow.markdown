@@ -72,8 +72,7 @@ NixOS        | Nix             | 180 MB | 34s             | 5.2 MB/s
 Alpine       | apk             | 26 MB  | 2.4s            | 10.8 MB/s
 
 
-<br>
-(Looking for older measurements? See [Appendix B (2019)](#appendix-b).
+(Looking for older measurements? See [Appendix B (2019)](#appendix-b)).
 
 The difference between the slowest and fastest package managers is 30x!
 
@@ -175,6 +174,7 @@ You can expand each of these:
 <summary>
 Fedora’s dnf takes almost 33 seconds to fetch and unpack 114 MB.
 </summary>
+
 ```
 % docker run -t -i fedora /bin/bash
 [root@62d3cae2e2f9 /]# time dnf install -y ack
@@ -188,12 +188,14 @@ real	0m32.898s
 user	0m25.121s
 sys	0m1.408s
 ```
+
 </details>
 
 <details>
 <summary>
 NixOS’s Nix takes a little over 5s to fetch and unpack 15 MB.
 </summary>
+
 ```
 % docker run -t -i nixos/nix
 39e9186422ba:/# time sh -c 'nix-channel --update && nix-env -iA nixpkgs.ack'
@@ -227,6 +229,7 @@ real	0m 5.60s
 user	0m 3.21s
 sys	0m 1.66s
 ```
+
 </details>
 
 <details>
@@ -251,12 +254,14 @@ real	0m9.544s
 user	0m2.839s
 sys	0m0.775s
 ```
+
 </details>
 
 <details>
 <summary>
 Arch Linux’s pacman takes a little under 3s to fetch and unpack 6.5 MB.
 </summary>
+
 ```
 % docker run -t -i archlinux/base
 [root@9f6672688a64 /]# time (pacman -Sy && pacman -S --noconfirm ack)
@@ -276,12 +281,14 @@ real	0m2.936s
 user	0m0.375s
 sys	0m0.160s
 ```
+
 </details>
 
 <details>
 <summary>
 Alpine’s apk takes a little over 1 second to fetch and unpack 10 MB.
 </summary>
+
 ```
 % docker run -t -i alpine
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
@@ -296,6 +303,7 @@ real	0m 1.24s
 user	0m 0.40s
 sys	0m 0.15s
 ```
+
 </details>
 
 #### qemu
@@ -306,6 +314,7 @@ You can expand each of these:
 <summary>
 Fedora’s dnf takes over 4 minutes to fetch and unpack 226 MB.
 </summary>
+
 ```
 % docker run -t -i fedora /bin/bash
 [root@6a52ecfc3afa /]# time dnf install -y qemu
@@ -324,12 +333,14 @@ real	4m37.652s
 user	0m38.239s
 sys	0m6.321s
 ```
+
 </details>
 
 <details>
 <summary>
 NixOS’s Nix takes almost 34s to fetch and unpack 180 MB.
 </summary>
+
 ```
 % docker run -t -i nixos/nix
 83971cf79f7e:/# time sh -c 'nix-channel --update && nix-env -iA nixpkgs.qemu'
@@ -342,6 +353,7 @@ real	0m 33.64s
 user	0m 16.96s
 sys	0m 3.05s
 ```
+
 </details>
 
 <details>
@@ -362,12 +374,14 @@ real	1m25.375s
 user	0m29.163s
 sys	0m12.835s
 ```
+
 </details>
 
 <details>
 <summary>
 Arch Linux’s pacman takes almost 44s to fetch and unpack 142 MB.
 </summary>
+
 ```
 % docker run -t -i archlinux/base
 [root@58c78bda08e8 /]# time (pacman -Sy && pacman -S --noconfirm qemu)
@@ -383,12 +397,14 @@ real	0m43.901s
 user	0m4.980s
 sys	0m2.615s
 ```
+
 </details>
 
 <details>
 <summary>
 Alpine’s apk takes only about 2.4 seconds to fetch and unpack 26 MB.
 </summary>
+
 ```
 % docker run -t -i alpine
 / # time apk add qemu-system-x86_64
@@ -400,6 +416,7 @@ real	0m 2.43s
 user	0m 0.46s
 sys	0m 0.09s
 ```
+
 </details>
 
 
@@ -413,6 +430,7 @@ You can expand each of these:
 <summary>
 Fedora’s dnf takes almost 30 seconds to fetch and unpack 107 MB.
 </summary>
+
 ```
 % docker run -t -i fedora /bin/bash
 [root@722e6df10258 /]# time dnf install -y ack
@@ -430,12 +448,14 @@ real	0m29.498s
 user	0m22.954s
 sys	0m1.085s
 ```
+
 </details>
 
 <details>
 <summary>
 NixOS’s Nix takes 14s to fetch and unpack 15 MB.
 </summary>
+
 ```
 % docker run -t -i nixos/nix
 39e9186422ba:/# time sh -c 'nix-channel --update && nix-env -i perl5.28.2-ack-2.28'
@@ -465,6 +485,7 @@ real	0m 14.02s
 user	0m 8.83s
 sys	0m 2.69s
 ```
+
 </details>
 
 <details>
@@ -491,12 +512,14 @@ real	0m9.096s
 user	0m2.616s
 sys	0m0.441s
 ```
+
 </details>
 
 <details>
 <summary>
 Arch Linux’s pacman takes a little over 3s to fetch and unpack 6.5 MB.
 </summary>
+
 ```
 % docker run -t -i archlinux/base
 [root@9604e4ae2367 /]# time (pacman -Sy && pacman -S --noconfirm ack)
@@ -512,12 +535,14 @@ real	0m3.354s
 user	0m0.224s
 sys	0m0.049s
 ```
+
 </details>
 
 <details>
 <summary>
 Alpine’s apk takes only about 1 second to fetch and unpack 10 MB.
 </summary>
+
 ```
 % docker run -t -i alpine
 / # time apk add ack
@@ -533,6 +558,7 @@ real	0m 0.96s
 user	0m 0.25s
 sys	0m 0.07s
 ```
+
 </details>
 
 #### qemu
@@ -543,6 +569,7 @@ You can expand each of these:
 <summary>
 Fedora’s dnf takes over a minute to fetch and unpack 266 MB.
 </summary>
+
 ```
 % docker run -t -i fedora /bin/bash
 [root@722e6df10258 /]# time dnf install -y qemu
@@ -560,12 +587,14 @@ real	1m7.877s
 user	0m44.237s
 sys	0m3.258s
 ```
+
 </details>
 
 <details>
 <summary>
 NixOS’s Nix takes 38s to fetch and unpack 262 MB.
 </summary>
+
 ```
 % docker run -t -i nixos/nix
 39e9186422ba:/# time sh -c 'nix-channel --update && nix-env -i qemu-4.0.0'
@@ -578,6 +607,7 @@ real	0m 38.49s
 user	0m 26.52s
 sys	0m 4.43s
 ```
+
 </details>
 
 <details>
@@ -598,12 +628,14 @@ real	0m51.583s
 user	0m15.671s
 sys	0m3.732s
 ```
+
 </details>
 
 <details>
 <summary>
 Arch Linux’s pacman takes 1m2s to fetch and unpack 124 MB.
 </summary>
+
 ```
 % docker run -t -i archlinux/base
 [root@9604e4ae2367 /]# time (pacman -Sy && pacman -S --noconfirm qemu)
@@ -619,12 +651,14 @@ real	1m2.475s
 user	0m9.272s
 sys	0m2.458s
 ```
+
 </details>
 
 <details>
 <summary>
 Alpine’s apk takes only about 2.4 seconds to fetch and unpack 26 MB.
 </summary>
+
 ```
 % docker run -t -i alpine
 / # time apk add qemu-system-x86_64
@@ -636,4 +670,5 @@ real	0m 2.43s
 user	0m 0.46s
 sys	0m 0.09s
 ```
+
 </details>
