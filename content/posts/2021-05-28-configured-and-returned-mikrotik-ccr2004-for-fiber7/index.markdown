@@ -47,8 +47,10 @@ Long-term RouterOS track is [at version 6.47.9](https://mikrotik.com/download)
 for the CCR2004 (ARM64):
 
 1. Use `/system package print` to display the current version.
-1. Upload `routeros-arm64-6.47.9.npk` using Webfig.
-1. `/system reboot` and verify that `/system package print` shows `6.47.9` now.
+2. Upload `routeros-arm64-6.47.9.npk` using Webfig.
+3. `/system reboot` and verify that `/system package print` shows `6.47.9` now.
+4. `/system routerboard upgrade` to upgrade the firmware of the underlying chipsets, etc. Enter `y` at the prompt, wait for a response of "echo: system,info,critical Firmware upgraded successfully, please reboot for changes to take effect"
+5. `/system reboot` again and verify that `/system routerboard print` has the line `current-firmware:6.47.9` now.
 
 ## Set up auth
 
