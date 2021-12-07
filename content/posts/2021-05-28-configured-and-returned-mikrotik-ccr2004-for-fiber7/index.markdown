@@ -181,6 +181,8 @@ By default, the Mikrotik Router will not respond to DNS Queries, when enabling r
 
 ```
 /ip dns set allow-remote-requests=yes
+/ip firewall filter add chain=input protocol=tcp port=53 in-interface=sfp28-1 action=drop
+/ip firewall filter add chain=input protocol=udp port=53 in-interface=sfp28-1 action=drop
 ```
 ## Enable DHCPv4 Server
 
@@ -245,7 +247,7 @@ lease time: 20m
 We need NAT to route all IPv4 traffic over our single public IP address:
 
 ```
-/ip firewall nat add action=masquerade chain=srcnat out-interface=sfp28-1 to-addresses=0.0.0.0
+/ip firewall nat add action=masquerade chain=srcnat out-interface=sfp28-1
 ```
 
 Disable NAT services for security, e.g. to mitigate against NAT slipstreaming
