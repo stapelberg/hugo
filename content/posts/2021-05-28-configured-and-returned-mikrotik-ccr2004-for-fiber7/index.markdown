@@ -177,13 +177,11 @@ DHCP server:
 
 ## Enable DNS Server
 
-By default, only the MikroTik itself can send DNS queries. Enable access for
-network clients:
+By default, the Mikrotik Router will not respond to DNS Queries, when enabling remote requests make sure to firewall the DNS server from responding to DNS Queries from the greater internet. Otherwise you will find yourself participating in DNS DDOS attacks.
 
 ```
 /ip dns set allow-remote-requests=yes
 ```
-
 ## Enable DHCPv4 Server
 
 First, let’s bundle all SFP+ ports into a single bridge interface:
@@ -236,7 +234,7 @@ Select pool of ip addresses given out by DHCP server
 addresses to give out: 10.0.0.2-10.0.0.240
 Select DNS servers
 
-dns servers: 10.0.0.1
+dns servers: 10.0.0.1,8.8.8.8
 Select lease time
 
 lease time: 20m
