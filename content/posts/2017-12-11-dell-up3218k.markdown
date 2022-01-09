@@ -240,9 +240,9 @@ reliably after:
    the left monitor half and output `DP-0` for the right monitor half, not the
    other way around:
    ```
-xrandr \
---output DP-4 --mode 3840x4320 --panning 0x0+0+0 \
---output DP-0 --mode 3840x4320 --panning 0x0+3840+0 --right-of DP-4
+   xrandr \
+   --output DP-4 --mode 3840x4320 --panning 0x0+0+0 \
+   --output DP-0 --mode 3840x4320 --panning 0x0+3840+0 --right-of DP-4
    ```
 
 1. When powering on the monitor, waiting until it shows the dialog box “No
