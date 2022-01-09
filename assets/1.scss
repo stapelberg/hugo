@@ -50,6 +50,7 @@ main {
 	align-self: flex-start;
 	padding-top: 4.5rem;
 	max-width: 13rem;
+	z-index: 1;
     }
 }
 
@@ -94,6 +95,8 @@ main {
     background-color: #fff;
     /* TODO: border-bottom aber nur beim scrollen.
        Scheint ohne JavaScript nicht möglich. */
+
+    z-index: 1;
 
     @media #{$desktop} {
 	padding-top: .5rem;
