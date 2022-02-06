@@ -3,6 +3,7 @@ layout: post
 title:  "My 2022 high-end Linux PC 🐧"
 date:   2022-01-15 16:00:00 +01:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1482423164667936771"
 ---
 
 I finally managed to get my hands on some DDR5 RAM to complete my Intel i9-12900
@@ -153,6 +154,9 @@ I figured it should be safe to try out the XMP option because it is shown as
 part of ASUS’s “EZ Mode” welcome page in the UEFI setup.
 
 So far, I have not noticed any issues when running the system with XMP enabled.
+
+**Update February 2022**: I have experienced weird crashes that seem to have
+gone away after disabling XMP. I’ll leave it disabled for now.
 
 ## UEFI settings: fan speed {#uefifan}
 
