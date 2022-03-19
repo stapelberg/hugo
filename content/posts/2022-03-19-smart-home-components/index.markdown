@@ -3,6 +3,7 @@ layout: post
 title:  "Smart Home components 🏠"
 date:   2022-03-19 14:51:20 +01:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1505191936184893444"
 ---
 
 I have tried a bunch of different Smart Home products over the last few years
