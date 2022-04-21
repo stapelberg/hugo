@@ -74,3 +74,9 @@ unsafe = true
   # Not using [!s][!v][!g][!o] because that doesn’t match bitpacking256v32.svg
   excludeFiles = "turbopfor/*[!g][!o].svg"
 # TODO(https://github.com/gohugoio/hugo/issues/9076): add "turbopfor/Makefile"
+
+[privacy]
+  [privacy.twitter]
+    enableDNT = true
+  [privacy.youtube]
+    privacyEnhanced = true
