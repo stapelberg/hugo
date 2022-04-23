@@ -143,7 +143,7 @@ Being able to plug in the SFP module into the new POP infrastructure yourself (l
 
 Giddy with excitement, I left my place at just before 23:00 for a short walk to the POP building, which I had seen many times before, but never from the inside.
 
-The init7 engineer met me in front of the building and explained “Hey! You wrote my [window manager](https://i3wm.org/)!” — what a coincidence :-). Luckily I had packed some i3 stickers that I could hand him as a small thank you.
+[Patrick](https://twitter.com/patte8), the init7 engineer met me in front of the building and explained “Hey! You wrote my [window manager](https://i3wm.org/)!” — what a coincidence :-). Luckily I had packed some i3 stickers that I could hand him as a small thank you.
 
 Inside, I met the other init7 employee working on this upgrade. Pascal, init7’s CTO, was coordinating everything remotely.
 
@@ -242,10 +242,10 @@ I now have a 25 Gbit/s connection in 2022, and it feels like I’m living 10 yea
 in the future.
 
 Thank you to [Fredy](https://twitter.com/kuenzler),
-[Pascal](https://twitter.com/spale75), and all the other former and current
-init7 employees for showing how to run an amazing Internet Service
-Provider. Thank you for letting me peek behind the curtains, and keep up the
-good work! 💪
+[Pascal](https://twitter.com/spale75), [Patrick](https://twitter.com/patte8),
+and all the other former and current init7 employees for showing how to run an
+amazing Internet Service Provider. Thank you for letting me peek behind the
+curtains, and keep up the good work! 💪
 
 If you want to learn more, check out Pascal’s talk at DENOG:
 
