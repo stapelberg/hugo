@@ -14,9 +14,9 @@ My favorite internet service provider, init7, is rolling out faster speeds with 
 
 (Feel free to skip right to the [25 Gbit/s announcement](#announcement) section, but I figured this would be a good point to reflect on the last 20 years of internet connections for me!)
 
-The first internet connection that I consciously used was a symmetric DSL connection that [my dad († 2020)](https://rent-a-guru.de) shared between his home office and the rest of the house, which was around the year 2000. My dad was an early adopter and was connected to the internet well before then using dial up connections, but the SDSL connection in our second house was the first connection I remember using myself. It wasn’t particularly fast in terms of download speed — I think it delivered 256 Kbit/s or something along those lines.
+The first internet connection that I consciously used was a symmetric DSL connection that [my dad († 2020)](https://rent-a-guru.de) shared between his home office and the rest of the house, which was around the year 2000. My dad was an early adopter and was connected to the internet well before then using dial up connections, but the SDSL connection in our second house was the first connection I remember using myself. It wasn’t particularly fast in terms of download speed — I think it delivered 256 kbit/s or something along those lines.
 
-I encountered two surprises with this internet connection. The first surprise was that the upload speed (also 256 Kbit/s — it was a symmetric connection) was faster than other people’s. At the time, even DSL connections with much higher download speeds were asymmetric (ADSL) and came with only 128 Kbit/s upload. I learnt this while making first contact with file sharing: people kept asking me to stay online so that their transfers would complete more quickly.
+I encountered two surprises with this internet connection. The first surprise was that the upload speed (also 256 kbit/s — it was a symmetric connection) was faster than other people’s. At the time, even DSL connections with much higher download speeds were asymmetric (ADSL) and came with only 128 kbit/s upload. I learnt this while making first contact with file sharing: people kept asking me to stay online so that their transfers would complete more quickly.
 
 The second surprise was the concept of a metered connection, specifically one where you pay more the more data you transfer. During the aforementioned file sharing experiments, it never crossed my mind that down- or uploading files could result in extra charges.
 
@@ -24,7 +24,7 @@ These two facts combined resulted in a 3000 € surprise bill for my dad!
 
 Luckily, his approach to solve this problem wasn’t to restrict my internet usage, but rather to buy a cheap, separate ADSL flatrate line for the family (from Telekom, which he hated), while he kept the good SDSL metered line for his business.
 
-I still vividly remember the first time that ADSL connection synchronized. It was a massive upgrade in download speed (768 Kbit/s!), but a downgrade in upload speed (128 Kbit/s). But, because it was a flatrate, it made possible new use cases for my dad, who would jump on this opportunity to download a number of CD images to upgrade the software of his SGI machines.
+I still vividly remember the first time that ADSL connection synchronized. It was a massive upgrade in download speed (768 kbit/s!), but a downgrade in upload speed (128 kbit/s). But, because it was a flatrate, it made possible new use cases for my dad, who would jump on this opportunity to download a number of CD images to upgrade the software of his SGI machines.
 
 The different connection speeds and characteristics have always interested me, and I used several other connections over the years, all of which felt limiting. The ADSL connection at my parent’s place started at 1 Mbit/s, was upgraded first to 3 Mbit/s, then 6 Mbit/s, and eventually reached its limit at 16 Mbit/s. When I spent one semester in Ireland, I had a 9 Mbit/s ADSL connection, and then later in Zürich I started out with a 15 Mbit/s ADSL connection.
 
