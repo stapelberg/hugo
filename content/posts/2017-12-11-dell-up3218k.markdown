@@ -262,6 +262,14 @@ resolution not being available.
 I have used these two steps twice a workday for weeks on end, and the monitor
 came up reliably every single time.
 
+### Power Usage
+
+When the display is turned on, it consumes about 70W of power.
+
+But, when the display enters “power saving mode”, for example because you ran
+`xset dpms force off`, it still consumes 30W of power! Therefore, better turn it
+off with the button every night, so that it consumes less than 1W.
+
 ### Conclusion
 
 For me, this monitor is worth it: I am okay with paying the hefty Research &
