@@ -1,6 +1,6 @@
 ---
 title: "TV Series recommendations"
-date: 2018-12-30T15:56:58+01:00
+date: 2022-05-01T14:00:00+02:00
 menu:
   main:
     title: "Series"
@@ -95,6 +95,22 @@ official trailer was available), the text typically leads to Wikipedia.
 <p class="label"><a href="https://en.wikipedia.org/wiki/Sex_Education_(TV_series)">Sex Education</a></p>
 </div>
 
+<div style="text-align: center">
+{{< talkthumb id="bkWx5bv_EGw" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Santa_Clarita_Diet">Santa Clarita Diet</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="ZybYIJtbcu0" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Tuca_%26_Bertie">Tuca &amp; Bertie</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="kX-QbcXyZug" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Love_on_the_Spectrum">Love on the Spectrum</a></p>
+</div>
+
+
 </div>
 
 ## Netflix: good
@@ -176,6 +192,62 @@ official trailer was available), the text typically leads to Wikipedia.
 <p class="label"><a href="https://de.wikipedia.org/wiki/Der_Tatortreiniger">Der Tatortreiniger</a></p>
 </div>
 
+<div style="text-align: center">
+{{< talkthumb id="wnKEoXbBTEw" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/GLOW_(TV_series)">GLOW</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="gk1vKFcUxyU" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Workin%27_Moms">Workin’ Moms</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="CDv6PRi1SgQ" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Grace_and_Frankie">Grace and Frankie</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="Xcbc7horP3A" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Avatar:_The_Last_Airbender">Avatar: The Last Airbender</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="E44KCJMOS9c" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Toon_(TV_series)">Toon</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="XXuBwwZvruI" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Bonding_(TV_series)">Bonding</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="ieHh4U-QYwU" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Atypical">Atypical</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="0kQWAqjFJS0" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/The_Midnight_Gospel">The Midnight Gospel</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="4Ps6nV4wiCE" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Arcane_(TV_series)">Arcane</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="oqxAJKy0ii4" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Squid_Game">Squid Game</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="3sfQehgUUFQ" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Close_Enough">Close Enough</a></p>
+</div>
+
+
 </div>
 
 ## YouTube
@@ -210,6 +282,36 @@ official trailer was available), the text typically leads to Wikipedia.
 <div style="text-align: center">
 {{< talkthumb id="egvnmbPkRwY" webp="1" >}}
 <p class="label"><a href="https://www.youtube.com/channel/UCyEA3vUnlpg0xzkECEq1rOA">My Name Is Andong</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="6m2mh6rxRaA" >}}
+<p class="label"><a href="https://www.youtube.com/user/aragusea/videos">Adam Ragusea</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="8v4BaWwoyA0" >}}
+<p class="label"><a href="https://www.youtube.com/c/The8BitGuy">The 8-Bit Guy</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="_rBO8neWw04" >}}
+<p class="label"><a href="https://www.youtube.com/c/TechnologyConnections">Technology Connections</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="21zsjzFKOrI" >}}
+<p class="label"><a href="https://www.youtube.com/c/CookwithE">Ethan Chlebowski</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="xNRbhl1Eh_4" >}}
+<p class="label"><a href="https://www.youtube.com/user/epicuriousdotcom">Epicurious</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="Zrf1cou_yVo" >}}
+<p class="label"><a href="https://www.youtube.com/c/MarkBrownGMT">Game Maker's Toolkit</a></p>
 </div>
 
 
@@ -279,6 +381,27 @@ official trailer was available), the text typically leads to Wikipedia.
 <p class="label"><a href="https://en.wikipedia.org/wiki/South_Park">South Park</a></p>
 </div>
 
+<div style="text-align: center">
+{{< talkthumb id="M1bhOaLV4FU" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/The_Boys_(TV_series)">The Boys</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="sj9J2ecsSpo" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/WandaVision">Wandavision</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="3u7EIiohs6U" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Ted_Lasso">Ted Lasso</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="xEQP4VVuyrY" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Severance_(TV_series)">Severance</a></p>
+</div>
+
+
 </div>
 
 ## Elsewhere: good
@@ -302,7 +425,7 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="dHj2FHw1IgU" webp="1" >}}
+{{< talkthumb id="48mu4aT0sAU" >}}
 <p class="label"><a href="https://en.wikipedia.org/wiki/Almost_Human_(TV_series)">Almost Human</a></p>
 </div>
 
@@ -337,7 +460,7 @@ official trailer was available), the text typically leads to Wikipedia.
 </div>
 
 <div style="text-align: center">
-{{< talkthumb id="9qK-VGjMr8g" webp="1" >}}
+{{< talkthumb id="lUeOCo0HeJo" >}}
 <p class="label"><a href="https://en.wikipedia.org/wiki/The_Wire">The Wire</a></p>
 </div>
 
@@ -349,6 +472,21 @@ official trailer was available), the text typically leads to Wikipedia.
 <div style="text-align: center">
 {{< talkthumb id="Fp9LMsI6uJ8" webp="1" >}}
 <p class="label"><a href="https://en.wikipedia.org/wiki/Devs_(miniseries)">Devs</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="1W1FFiT51lg" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/The_Owl_House">The Owl House</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="nW948Va-l10" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Loki_(TV_series)">Loki</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="mfBbSwX6kEk" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/What_We_Do_in_the_Shadows_(TV_series)">What We Do in the Shadows</a></p>
 </div>
 
 
