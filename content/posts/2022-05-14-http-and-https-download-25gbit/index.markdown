@@ -3,6 +3,7 @@ layout: post
 title:  "25 Gbit/s HTTP and HTTPS download speeds"
 date:   2022-05-14 16:18:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1525482567096537090"
 tags:
 - fiber
 ---
