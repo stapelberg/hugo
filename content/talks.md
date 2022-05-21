@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2021-03-29T08:43:00+01:00
+date: 2022-05-21T12:54:00+02:00
 menu:
   main:
     title: "Talks"
@@ -9,6 +9,17 @@ menu:
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
+
+## 2022
+
+(en @ GPN 2022) Why I wrote my own rsync
+
+{{< talkthumb id="BZUmaUd0MKE" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/BZUmaUd0MKE)
+  [slides](https://docs.google.com/presentation/d/1XqWF7h8ScimDFbQgLcXP4NcnUWRGEm59F0kGvw4aYa0/edit?usp=sharing)
+
+<br style="clear: left" />
 
 ## 2021
 
