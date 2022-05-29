@@ -66,7 +66,7 @@ from the surrounding operating system).
 
 </ul>
 
-<h2>What did not work well</h2>
+## What did not work well
 
 <p>
 Even a well-supported embedded device like the qnap TS-119P requires too much
@@ -126,7 +126,7 @@ itself</strong>.
 </li>
 </ol>
 
-<h2>What I would like to improve</h2>
+## What I would like to improve
 
 <p>
 One continuous pain point was how slow the qnap TS-119P was with regards to
@@ -150,7 +150,7 @@ network, i.e. it should be able to <strong>write files to disk with gigabit
 speed</strong>.
 </p>
 
-<h2>What I can get rid of</h2>
+## What I can get rid of
 
 <p>
 While <a
@@ -166,7 +166,7 @@ storage solution needs to be running 24/7 — no more automated shutdowns and
 wake-up procedures.
 </p>
 
-<h2>What worked well</h2>
+## What worked well
 
 <p>
 Reducing the scope drastically in terms of software setup complexity paid off.
@@ -175,7 +175,7 @@ upgrade within a few mornings/evenings and would likely have pushed this
 project out for a long time.
 </p>
 
-<h2>The new hardware</h2>
+## The new hardware
 
 <p>
 I researched the following components back in March, but then put the project
@@ -275,7 +275,7 @@ Further, any linux distribution can easily be installed from a bootable USB
 drive, without the need for any custom tools or ports.
 </p>
 
-<h3>Full-disk encryption performance</h3>
+### Full-disk encryption performance
 
 <pre>
 # cryptsetup benchmark
@@ -292,7 +292,7 @@ PBKDF2-whirlpool   84891 iterations per second
      aes-xts   512b   725.0 MiB/s   740.6 MiB/s
 </pre>
 
-<h3>Network performance</h3>
+### Network performance
 
 <p>
 As the old qnap TS-119P would only sustain gigabit performance using IPv4 (with
@@ -321,7 +321,7 @@ The CPU was >90% idle using <code>netcat-traditional</code>.<br>
 The CPU was >70% idle using <code>netcat-openbsd</code>.
 </p>
 
-<h3>End-to-end throughput</h3>
+### End-to-end throughput
 
 <p>
 Reading/writing to a disk which uses cryptsetup-luks full-disk encryption with
@@ -352,7 +352,7 @@ During rsync+ssh backups, the CPU is never 100% maxed out, and data is sent to
 the NAS at 65 MB/s.
 </p>
 
-<h2>The new software setup</h2>
+## The new software setup
 
 <p>
 Given that I wanted to use a software setup which has as few non-standard
@@ -396,7 +396,7 @@ storage $ sudo cp /tmp/cloud-config.storage.yaml /var/lib/coreos-install/user_da
 storage $ sudo coreos-cloudinit --from-file=/var/lib/coreos-install/user_data
 </pre>
 
-<h3>Dockerfiles: rrsync and samba</h3>
+### Dockerfiles: rrsync and samba
 
 <p>
 Since neither rsync nor samba directly provide Docker containers, I had to whip
@@ -417,25 +417,30 @@ picked up either manually when time-critical, or automatically by virtue of
 CoreOS rebooting to update itself.
 </p>
 
-<pre>
+rrsync:
+
+```dockerfile
 FROM debian:jessie
 RUN apt-get update \
   && apt-get install -y rsync \
   && gunzip -c /usr/share/doc/rsync/scripts/rrsync.gz > /usr/bin/rrsync \
   && chmod +x /usr/bin/rrsync
 ENTRYPOINT ["/usr/bin/rrsync"]
-</pre>
+```
 
-<pre>
+samba:
+
+```dockerfile
 FROM debian:jessie
 RUN apt-get update && apt-get install -y samba
 ADD smb.conf /etc/samba/smb.conf
 EXPOSE 137 138 139 445
 CMD ["/usr/sbin/smbd", "-FS"]
-</pre>
+```
 
-<h3>Appendix A: cloud-config</h3>
-<pre>
+### Appendix A: cloud-config
+
+```yaml
 #cloud-config
 
 hostname: "storage"
@@ -595,4 +600,4 @@ coreos:
           -v /srv/emby:/config \
           emby/embyserver
 
-</pre>
+```
