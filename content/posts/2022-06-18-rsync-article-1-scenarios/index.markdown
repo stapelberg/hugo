@@ -3,6 +3,7 @@ layout: post
 title:  "rsync, article 1: Scenarios"
 date:   2022-06-18 15:04:00 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1538148488286031874"
 tags:
 - rsync
 ---
