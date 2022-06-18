@@ -16,7 +16,7 @@ every computer user put this great tool into their toolbox 🛠 🧰 !
 
 I’m publishing a series of blog posts about rsync:
 
-* [rsync, article 1: Scenarios](../2022-06-12-rsync-article-1-scenarios/). To
+* [rsync, article 1: Scenarios](../2022-06-18-rsync-article-1-scenarios/). To
   motivate why it makes sense to look at rsync, I present three scenarios for
   which I have come to appreciate rsync: DokuWiki transfers, Software deployment
   and Backups.
