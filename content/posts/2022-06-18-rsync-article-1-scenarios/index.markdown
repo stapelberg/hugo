@@ -9,7 +9,7 @@ tags:
 ---
 
 This post is the first article in a series of blog posts about rsync, [see the
-Series Overview](../2022-06-11-rsync-overview/).
+Series Overview](../2022-06-18-rsync-overview/).
 
 To motivate why it makes sense to look at rsync, I present three scenarios for
 which I have come to appreciate rsync: [DokuWiki
