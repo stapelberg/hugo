@@ -256,7 +256,7 @@ From the branch contents, our autobuilder creates:
 
 1. [documentation for the release](https://repo.distr1.org/distri/jackherer/docs/).
   * Definitely check out the [“Cool things to
-    try”](https://github.com/distr1/distri#cool-things-to-try) README section.
+    try”](https://distr1.org/things-to-try/) README section.
 
 The project website can be found at https://distr1.org. The website is just the
 README for now, but we can improve that later.
