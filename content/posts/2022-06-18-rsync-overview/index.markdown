@@ -20,10 +20,10 @@ I’m publishing a series of blog posts about rsync:
   motivate why it makes sense to look at rsync, I present three scenarios for
   which I have come to appreciate rsync: DokuWiki transfers, Software deployment
   and Backups.
-* rsync, article 2: Surroundings (To be published). Now that we know what to use
-  rsync for, how can we best integrate rsync into monitoring and alerting, and
-  on which operating systems does it work?
-* rsync, article 3: How does rsync work? (To be published). With rsync up and
-  running, it’s time to take a peek under the hood of rsync to better understand
-  how it works.
+* [rsync, article 2: Surroundings](../2022-07-02-rsync-surroundings/). Now that
+  we know what to use rsync for, how can we best integrate rsync into monitoring
+  and alerting, and on which operating systems does it work?
+* [rsync, article 3: How does rsync
+  work?](../2022-07-02-rsync-how-does-it-work). With rsync up and running, it’s
+  time to take a peek under the hood of rsync to better understand how it works.
 * rsync, article 4: My own rsync implementation (To be published.)

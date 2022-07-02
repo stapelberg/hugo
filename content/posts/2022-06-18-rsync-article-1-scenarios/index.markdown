@@ -269,6 +269,7 @@ command="/root/backup-remote.pl",no-port-forwarding,no-X11-forwarding ssh-ed2551
 
 ## Next up
 
-The second article in this series is “rsync, article 2: Surroundings” (To be
-published). Now that we know what to use rsync for, how can we best integrate
-rsync into monitoring and alerting, and on which operating systems does it work?
+The second article in this series is [rsync, article 2:
+Surroundings](../2022-07-02-rsync-surroundings/). Now that we know what to use
+rsync for, how can we best integrate rsync into monitoring and alerting, and on
+which operating systems does it work?
