@@ -3,6 +3,7 @@ layout: post
 title:  "rsync, article 3: How does rsync work?"
 date:   2022-07-02 14:30:10 +02:00
 categories: Artikel
+tweet_url: "https://twitter.com/zekjur/status/1543213705290194944"
 tags:
 - rsync
 ---
