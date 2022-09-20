@@ -460,8 +460,8 @@ ripple effect. Getting rid of this ripple is called
 firmware does it.
 
 See [QMK’s documentation on the Debounce
-API](https://beta.docs.qmk.fm/using-qmk/software-features/feature_debounce_type)
-for a good explanation of the differences between the different debounce approaches.
+API](https://docs.qmk.fm/#/feature_debounce_type) for a good explanation of the
+differences between the different debounce approaches.
 
 QMK’s default debounce algorithm `sym_defer_g` is chosen very cautiously. I
 don’t know what the criteria are specifically for which types of key switches
