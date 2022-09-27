@@ -31,6 +31,18 @@ synchronization.
 
 ### iPhone Software: Instant Webcam app
 
+{{< note >}}
+
+On 2022-09-27, PhobosLab [released a new “Magic Webcam”
+app](https://twitter.com/phoboslab/status/1574688742463373313?s=46&t=2_XgvCz4cSItPeajaFcojA). Unfortunately,
+the protocol changed between the two apps, so the steps below only work for the
+older “Instant Webcam”.
+
+I’m not looking into updating the instructions, but if you figure it out, feel
+free to send me a pull request or email.
+
+{{< /note >}}
+
 I’m using the [PhobosLab Instant Webcam](https://instant-webcam.com/) (install
 from the [Apple App
 Store](https://apps.apple.com/us/app/instant-webcam/id683949930)) app on an old
