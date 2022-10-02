@@ -10,8 +10,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{{- $blog := hasPrefix .RelPermalink "/posts/" -}}
 {{- $year := .Date.Format "2006" -}}
-{{- if (eq (now.Format "2006") $year) -}}
+{{- if (or (not $blog) (eq (now.Format "2006") $year)) -}}
   <title>{{ .Title }} - Michael Stapelberg</title>
 {{ else }}
   <title>{{ .Title }} ({{ $year }}) - Michael Stapelberg</title>
