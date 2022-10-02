@@ -13,18 +13,27 @@ and open-source software community.
 
 ## Projects
 
-I wrote the Linux tiling window manager [i3](https://i3wm.org/), the code
-search engine [Debian Code Search](https://codesearch.debian.net/) and the
-netsplit-free, distributed IRC network [RobustIRC](https://robustirc.net/).
+I wrote and maintain the Linux tiling window manager [i3](https://i3wm.org/)
+since 2009.
 
-Sometimes I dabble in electronics, for example with
-[freetserv](https://freetserv.github.io/), my open hardware serial terminal
-server, or [kinX](/posts/2018-04-17-kinx/), a low-latency replacement keyboard
-controller for Kinesis keyboards.
+Shortly thereafter, I started focusing on projects in Go, [my favorite
+programming language](/posts/2017-08-19-golang_favorite/). Notable Go projects
+of mine are the code search engine [Debian Code
+Search](https://codesearch.debian.net/), and the Go appliance platform
+[gokrazy](https://gokrazy.org/), on top of which I implemented
+[router7](https://router7.org), a small home internet router.
 
-I used to be a [Debian](https://en.wikipedia.org/wiki/Debian) Developer, but
-these days I have [effectively retired](/posts/2019-03-10-debian-winding-down/),
-aside from keeping services running. Instead, I like to publish [Linux distribution research on the topic of fast package management](/posts/tags/distri/).
+Sometimes I dabble in electronics: many people know me from the
+[kinT](/posts/2020-07-09-kint-kinesis-keyboard-controller/) replacement keyboard
+controller for Kinesis Advantage ergonomic keyboards, which allows you to run
+the QMK Open Source Firmware. During the pandemic, I [made my doorbell intercom
+smarter with MQTT](/posts/2021-03-13-smart-intercom-backpack/).
+
+I used to be a [Debian](https://en.wikipedia.org/wiki/Debian) Linux Developer,
+but these days I have [effectively
+retired](/posts/2019-03-10-debian-winding-down/), aside from keeping services
+running. Instead, I like to publish [Linux distribution research on the topic of
+fast package management](/posts/tags/distri/).
 
 My early adoptions are IPv6 and HiDPI, so I contributed patches to numerous
 programs (chromium, apt, radvd, vsftpd, etc.)
