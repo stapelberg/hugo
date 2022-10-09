@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "DIY out of band management: remote power button"
+title:  "DIY out-of-band management: remote power button"
 date:   2022-10-09 16:27:00 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1579117792384540672"
