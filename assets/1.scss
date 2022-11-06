@@ -51,6 +51,9 @@ main {
 	padding-top: 4.5rem;
 	max-width: 13rem;
 	z-index: 1;
+	/* Force a scroll bar to appear when the table of contents is higher than the viewport */
+	max-height: 100vh;
+	overflow-y: auto;
     }
 }
 
