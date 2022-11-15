@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2022-05-21T12:54:00+02:00
+date: 2022-11-15T20:55:45+01:00
 menu:
   main:
     title: "Talks"
@@ -11,6 +11,14 @@ I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
 ## 2022
+
+(de @ NoName e.V.) 🔎 power usage trackdown 🔍 strom sparen durch hinschauen
+{{< talkthumb id="N3LarQL5v2Q" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/N3LarQL5v2Q)
+  [slides](https://docs.google.com/presentation/d/184X4xSbmRwl4-OcKr8bRyxsLmbJr90qoXdw2YUZH5jw/edit?usp=sharing)
+
+<br style="clear: left" />
 
 (en @ GPN 2022) Why I wrote my own rsync
 
