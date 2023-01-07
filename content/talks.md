@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2022-11-15T20:55:45+01:00
+date: 2023-01-07T09:18:28+01:00
 menu:
   main:
     title: "Talks"
@@ -11,6 +11,20 @@ I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
 ## 2022
+
+(de @ programmier.bar) Deep Dive #114: Go mit Michael Stapelberg
+
+<div markdown="0">
+<a href="https://www.programmier.bar/podcast/deep-dive-114-go-mit-michael-stapelberg">
+<picture class="talkthumb">
+<img src="/Bilder/2023-01-07-programmierbar-114.jpg">
+</picture>
+</a>
+</div>
+
+  [Podcast](https://www.programmier.bar/podcast/deep-dive-114-go-mit-michael-stapelberg)
+
+<br style="clear: left" />
 
 (de @ NoName e.V.) 🔎 power usage trackdown 🔍 strom sparen durch hinschauen
 {{< talkthumb id="N3LarQL5v2Q" maxresdefault="1" webp="1" >}}
