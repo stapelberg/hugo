@@ -2,17 +2,24 @@
 <h1 class="ms_title">All Blog Posts</h1>
 <div class="Artikel" id="content">
 
-  <p>
-    Or are you here only for a certain topic? Browse posts within a tag:
-    <ul class="taglist">
-      {{ range .Site.Taxonomies.tags }}
-      <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a></li>
-      {{ end }}
-    </ul>
-  </p>
+  Filter by tag: <ul class="taglist">
+    {{ range .Site.Taxonomies.tags }}
+    <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a></li>
+    {{ end }}
+  </ul>
+  <br>
   
-  {{ $pgs := where .Pages "Params.hidden" "ne" "true" }}
+  {{ $pgs := where .Paginator.Pages "Params.hidden" "ne" "true" }}
+
+  Go to page:
+  {{ template "_internal/pagination.html" . }}
+  <br>
+
   {{ partial "postlist" $pgs }}
+
+  Go to page:
+  {{ template "_internal/pagination.html" . }}
+  <br>
 
 </div>
 {{ end }}

@@ -421,6 +421,27 @@ main {
     }
 }
 
+.Artikel ul.pagination,
+.Artikel ul.taglist {
+    display: inline-block;
+}
+
+.Artikel ul.pagination {
+    padding-left: 2.25rem;
+}
+
+.Artikel .pagination {
+    li {
+	margin: 0;
+	margin-right: 1em;
+	display: inline-block;
+    }
+
+    li.active {
+	font-weight: bold;
+    }
+}
+
 main {
     code {
 	background-color: #eee;

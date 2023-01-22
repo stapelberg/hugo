@@ -1,4 +1,4 @@
-  {{ range .GroupByDate "2006-Jan" }}
+  {{ range .GroupByDate "2006 › January" }}
   <h2>{{ .Key }}</h2>
   <ul class="ArticleList">
     {{ range .Pages.ByDate.Reverse }}
@@ -31,4 +31,5 @@
     </li>
     {{ end }}
   </ul>
+
   {{ end }}
