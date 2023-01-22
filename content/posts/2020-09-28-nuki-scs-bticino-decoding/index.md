@@ -6,6 +6,10 @@ categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1310472046346993664"
 ---
 
+This post is the first article in a series of blog posts about the Nuki Opener
+on the SCS bus intercom, [see the Series
+Overview](/posts/2021-03-13-nuki-scs-series-overview/).
+
 I have long been looking for a way to make my intercom a little more pleasant.
 
 Recently, a friend made me aware of the [Nuki Opener](https://nuki.io/opener),
@@ -196,3 +200,9 @@ I used the following sources; please let me know of any others!
 * https://it.wikipedia.org/wiki/Bus_SCS
 * http://guidopic.altervista.org/alter/eibscsgt.html
 * https://www.mikrocontroller.net/topic/493823
+
+## Next up
+
+The second article in this series is [Fixing the Nuki Opener smart intercom IOT
+device (on the BTicino SCS bus intercom
+system)](/posts/2020-11-30-scs-processing-microcontroller/).

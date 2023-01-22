@@ -5,6 +5,10 @@ date:   2020-11-30 08:12:00 +01:00
 categories: Artikel
 ---
 
+This post is the second article in a series of blog posts about the Nuki Opener
+on the SCS bus intercom, [see the Series
+Overview](/posts/2021-03-13-nuki-scs-series-overview/).
+
 I recently bought a [Nuki Opener, which “turns your existing intercom into a
 smart door opener”](https://nuki.io/en/opener/).
 
@@ -420,6 +424,17 @@ turns out in practice. I think I noticed push notifications when the door rang
 coming in rather late (many seconds later).
 
 I’ll keep an eye on this and explore the various Nuki APIs more.
+
+**Update (January 2023)**: The doorbell push notification typically arrives
+within seconds of the doorbell ring, but sometimes there is a noticeable delay
+of tens of seconds — definitely long enough for the delivery person to lose
+patience. I’m glad I have my [MQTT-based
+solution](/posts/2021-03-13-smart-intercom-backpack/) which has a <1s delay.
+
+## Next up
+
+The third article in this series is [Make your intercom smarter with an MQTT
+backpack](/posts/2021-03-13-smart-intercom-backpack/).
 
 ## Appendix: Project Journal
 

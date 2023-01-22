@@ -6,6 +6,10 @@ categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1370766574886486018"
 ---
 
+This post is the third article in a series of blog posts about the Nuki Opener
+on the SCS bus intercom, [see the Series
+Overview](/posts/2021-03-13-nuki-scs-series-overview/).
+
 I bought the cheapest compatible BTicino intercom device (BT 344232 for 32 €)
 that I could find on eBay, then soldered in 4 wires and added microcontrollers
 to make it smart. It now connects to my [Nuki Opener Smart Intercom IOT
