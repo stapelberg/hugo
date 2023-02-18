@@ -126,12 +126,17 @@ period of time.
 I ordered two [Noctua NF-A9x14 PWM](https://noctua.at/en/nf-a9x14-pwm) fans (for
 about 25 CHF each) to replace the stock front and rear fans.
 
-Unfortunately, HP uses a custom 4-pin fan connector on its Z440 mainboard!
+Unfortunately, while HP uses a standard 4-pin PWM fan connector
+(electronically), the connector on the Z440 mainboard uses a non-standard guard
+rail configuration (mechanically)!
+
 Luckily, modifying the connector of the Noctua Low-Noise Adapter cable to fit on
 the custom 4-pin connector is as simple as using a knife to remove the
 connector’s guard rails:
 
 {{< img src="2021-08-24-fan-connector-mod.jpg" alt="fan connector mod" >}}
+
+After connecting the Noctua fan, the boot warning was gone.
 
 ## CPU fan
 
