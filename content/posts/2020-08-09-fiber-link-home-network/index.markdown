@@ -322,4 +322,6 @@ electrician!
 
 ---
 
-Stay tuned for the next part, where I upgrade the 1G link to a 10G link!
+Also check out the next blog post, [Home network 10 Gbit/s
+upgrade](/posts/2021-05-16-home-network-fiber-10-gbits-upgrade/), where I
+upgrade the 1G link to a 10G link!
