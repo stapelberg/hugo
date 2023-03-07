@@ -107,6 +107,19 @@ Power)](https://en.wikipedia.org/wiki/Thermal_design_power) and 105W TDP
 models. Only one 65W model is available to customers right now: the Ryzen 5
 5600X.
 
+{{< note >}}
+
+**Update (2023):** The [AMD Ryzen 7 PRO
+5750GE](https://www.digitec.ch/de/s1/product/amd-ryzen-7-pro-5750ge-46ghz-tray-am4-460-ghz-8-core-prozessor-20796931)
+is now available, with a TDP of only 35W, and comparable performance.
+
+In March 2023, I switched from the Ryzen 5 5600X to the Ryzen 7 PRO 5750GE, and
+verified that my router can still forward and serve at 25 Gbit/s with ease.
+
+The router now consumes 14W less power, and runs 7 to 10 ℃ cooler!
+
+{{< /note >}}
+
 Mainboards are built for/with a certain so-called chipset. Zen 3 CPUs use the
 AM4 socket, for which [8 different
 chipsets](https://en.wikipedia.org/wiki/Socket_AM4#Chipsets) exist. Our network
@@ -298,6 +311,13 @@ Longer-term, I think the best option would be to use the Ryzen 5 5600G with
 integrated graphics, but that model only [becomes available later this
 year](https://www.pcmag.com/news/amds-new-ryzen-5000-g-series-will-come-with-an-integrated-gpu).
 
+{{< note >}}
+
+**Update (2023):** As [described above](#cpu-and-chipset), I switched to the
+Ryzen 7 PRO 5750GE, and its integrated HDMI output works like a charm :)
+
+{{< /note >}}
+
 
 ### Component List
 
@@ -309,7 +329,7 @@ same base components:
 |---------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | 347 CHF | Network card | [FS.COM Intel XXV710, 2 × 25 Gbit/s (#75603)](https://www.fs.com/products/75603.html)                                                     |
 | 329 CHF | Network card | [FS.COM Intel XL710, 4 × 10 Gbit/s (#75602)](https://www.fs.com/products/75602.html)                                                      |
-| 314 CHF | CPU          | [Ryzen 5 5600X](https://www.digitec.ch/de/s1/product/amd-ryzen-5-5600x-am4-370ghz-6-core-prozessor-13987919)                              |
+| 395 CHF | CPU          | [Ryzen 7 PRO 5750GE](https://www.digitec.ch/de/s1/product/amd-ryzen-7-pro-5750ge-46ghz-tray-am4-460-ghz-8-core-prozessor-20796931)                              |
 | 290 CHF | Mainboard    | [ASRock B550 Taichi](https://www.digitec.ch/de/s1/product/asrock-b550-taichi-am4-amd-b550-atx-mainboard-13348335)                         |
 | 92 CHF  | Case         | [Corsair 4000D Airflow (Midi Tower)](https://www.digitec.ch/de/s1/product/corsair-4000d-airflow-midi-tower-pc-gehaeuse-13552873)          |
 | 67 CHF  | Fan control  | [Corsair Commander Pro](https://www.digitec.ch/de/s1/product/corsair-commander-pro-extern-6x-luefter-kontroller-6332927)                  |
@@ -318,7 +338,7 @@ same base components:
 | 35 CHF  | Case fan     | [1 × Noctua NF-A12x25 PWM (120mm)](https://www.digitec.ch/de/s1/product/noctua-nf-a12x25-pwm-120mm-1x-pc-luefter-9161307)                 |
 | 60 CHF  | GPU          | [Zotac GeForce GT 710 Zone Edition (1GB)](https://www.digitec.ch/de/s1/product/zotac-geforce-gt-710-zone-edition-1gb-grafikkarte-7526609) |
 
-Base total: 1590 CHF
+Base total: 1671 CHF
 
 **Option A: Server extension**. Because I had some parts lying around, and because I
 wanted to use my router for serving files (from large RAM cache/fast disk), I
@@ -335,7 +355,7 @@ went with the following parts:
 The Corsair SF600 power supply is not server-related, I just had it lying around. I’d
 recommend going for the Corsair RM650x \*2018\* (which has longer cables) instead.
 
-Server total: 2770 CHF
+Server total: 2851 CHF
 
 **Option B: Non-server (router only) alternative**. If you’re *only* interested
 in routing, you can opt for cheaper low-end disk and RAM, for example:
@@ -346,7 +366,7 @@ in routing, you can opt for cheaper low-end disk and RAM, for example:
 | 33 CHF  | Disk         | [Kingston A400 120GB M.2 SSD](https://www.digitec.ch/de/s1/product/kingston-a400-120gb-m2-2280-ssd-10628775)                               |
 | 29 CHF  | RAM          | [Crucial CT4G4DFS8266 4GB DDR4-2666 RAM](https://www.digitec.ch/de/s1/product/crucial-ct4g4dfs8266-1x-4gb-ddr4-2666-dimm-288-ram-10447900) |
 
-Non-server total: 1764 CHF
+Non-server total: 1845 CHF
 
 {{< note >}}
 
