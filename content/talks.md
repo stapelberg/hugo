@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2023-01-07T09:18:28+01:00
+date: 2023-03-08T17:03:00+01:00
 menu:
   main:
     title: "Talks"
@@ -9,6 +9,17 @@ menu:
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
+
+## 2023
+
+(en @ Go meetup Zürich) Run Go programs on your Raspberry Pi with gokrazy!
+
+{{< talkthumb id="mv_THRgLRHY" maxresdefault="1" webp="1" >}}
+
+  [YouTube](https://youtu.be/mv_THRgLRHY)
+  [slides](https://docs.google.com/presentation/d/1m9GfnEixK2ezQuzXO77LmZfgZUL8fdyUsJjyBkuBRO0/edit?usp=sharing)
+
+<br style="clear: left" />
 
 ## 2022
 
