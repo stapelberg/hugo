@@ -78,7 +78,8 @@ What nobody expected before init7 announced it on their seventh birthday, howeve
 
 This was init7’s announcement on Twitter:
 
-{{< tweet user="init7" id="1397111796914327552" >}}
+<blockquote class="twitter-tweet" data-dnt="true"><p lang="de" dir="ltr">Fünfundzwanzig ist das neue <a href="https://twitter.com/hashtag/Gigabit?src=hash&amp;ref_src=twsrc%5Etfw">#Gigabit</a>.<br><br>Sieben Jahre nach dem Launch von <a href="https://twitter.com/hashtag/Fiber7?src=hash&amp;ref_src=twsrc%5Etfw">#Fiber7</a> zünden wir die nächste Stufe 🚀 - Fiber7-X (10Gbps) und Fiber7-X2 (25Gbps) - zum selben Preis: CHF 777 pro Jahr.<br><br>Unsere Medienmitteilung: <a href="https://t.co/UnnWTexcD0">https://t.co/UnnWTexcD0</a> <a href="https://twitter.com/hashtag/MaxFix?src=hash&amp;ref_src=twsrc%5Etfw">#MaxFix</a> <a href="https://twitter.com/hashtag/FTTH?src=hash&amp;ref_src=twsrc%5Etfw">#FTTH</a> <a href="https://twitter.com/hashtag/Glasfaser?src=hash&amp;ref_src=twsrc%5Etfw">#Glasfaser</a></p>&mdash; Init7 (AS13030) (@init7) <a href="https://twitter.com/init7/status/1397111796914327552?ref_src=twsrc%5Etfw">May 25, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 With this move, init7 has done it again: they introduced an offer that is better than anything else in the Swiss internet market, perhaps even world-wide!
 
