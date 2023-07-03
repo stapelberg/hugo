@@ -12,11 +12,25 @@ starting to vanish from the internet, I started collecting them here.
 
 ## 2023
 
+(en @ GPN 21) Build Go appliances for the Raspberry Pi using gokrazy!
+
+{{< talkthumb id="6Ozu6Bou164" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://www.youtube.com/watch?v=6Ozu6Bou164) or
+  [media.ccc.de](https://media.ccc.de/v/gpn21-78-build-go-appliances-for-the-raspberry-pi-using-gokrazy-)
+
+  → browse the
+  [slides](https://docs.google.com/presentation/d/106LKTICiRa0hhQ6ZlvOYkSoGZEXA4NSZVhom7KA3bsE/edit?usp=sharing)
+
+<br style="clear: left" />
+
 (en @ Go meetup Zürich) Run Go programs on your Raspberry Pi with gokrazy!
 
 {{< talkthumb id="mv_THRgLRHY" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/mv_THRgLRHY)
+  → watch the recording on [YouTube](https://youtu.be/mv_THRgLRHY)
+
+  → browse the
   [slides](https://docs.google.com/presentation/d/1m9GfnEixK2ezQuzXO77LmZfgZUL8fdyUsJjyBkuBRO0/edit?usp=sharing)
 
 <br style="clear: left" />
@@ -45,7 +59,7 @@ starting to vanish from the internet, I started collecting them here.
 
 <br style="clear: left" />
 
-(en @ GPN 2022) Why I wrote my own rsync
+(en @ GPN 20) Why I wrote my own rsync
 
 {{< talkthumb id="BZUmaUd0MKE" maxresdefault="1" webp="1" >}}
 
