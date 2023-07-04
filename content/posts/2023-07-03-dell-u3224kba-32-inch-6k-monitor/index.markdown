@@ -56,12 +56,12 @@ Here are the combinations I have successfully tried:
 | Device                                 | Cable  | OS / Driver                   | Resolution                        |
 |----------------------------------------|--------|-------------------------------|-----------------------------------|
 | MacBook Air M1                         | TB 3   | macOS 13.4.1                  | native @ 60 Hz,<br> 8.1Gbps       |
-| GeForce RTX 4070<br>(DisplayPort 1.4a) | mDP-DP | Windows 11 21H2               | native @ 60 Hz,<br> 12GBps DSC    |
-| GeForce RTX 4070                       | mDP-DP | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 8.1GBps DSC   |
-| GeForce RTX 4070<br>(HDMI 2.1a)        | HDMI   | Windows 11 21H2               | native @ 60 Hz,<br> 8.1GBps DSC   |
-| GeForce RTX 4070                       | HDMI   | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 6GBps 3CH DSC |
-| GeForce RTX 3060                       | HDMI   | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 6GBps 3CH DSC |
-| ThinkPad X1 Extreme                    | TB 4   | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 8.1GBps DSC   |
+| GeForce RTX 4070<br>(DisplayPort 1.4a) | mDP-DP | Windows 11 21H2               | native @ 60 Hz,<br> 12Gbps DSC    |
+| GeForce RTX 4070                       | mDP-DP | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 8.1Gbps DSC   |
+| GeForce RTX 4070<br>(HDMI 2.1a)        | HDMI   | Windows 11 21H2               | native @ 60 Hz,<br> 8.1Gbps DSC   |
+| GeForce RTX 4070                       | HDMI   | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 6Gbps 3CH DSC |
+| GeForce RTX 3060                       | HDMI   | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 6Gbps 3CH DSC |
+| ThinkPad X1 Extreme                    | TB 4   | Linux 6.3<br>nVidia 535.54.03 | native @ 60 Hz,<br> 8.1Gbps DSC   |
 
 {{< note >}}
 
