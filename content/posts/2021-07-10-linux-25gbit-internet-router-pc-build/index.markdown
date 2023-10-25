@@ -6,6 +6,7 @@ categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1413827196557434882"
 tags:
 - fiber
+- pc
 ---
 
 init7 recently announced that with their [FTTH fiber offering

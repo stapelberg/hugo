@@ -4,6 +4,8 @@ title:  "MacBook Air M1: the best laptop?"
 date:   2021-11-28 16:50:00 +01:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1464986951392673807"
+tags:
+- pc
 ---
 
 You most likely have heard that Apple switched from Intel CPUs to their own,

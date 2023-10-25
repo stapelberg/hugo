@@ -4,6 +4,8 @@ title:  "Silent HP Z440 workstation: replacing noisy fans"
 date:   2021-08-28 15:16:00 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1431607602992107523"
+tags:
+- pc
 ---
 
 Since March 2020, I have been using my work computer at home: an [HP Z440

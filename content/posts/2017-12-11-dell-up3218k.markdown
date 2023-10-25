@@ -6,6 +6,8 @@ categories: Artikel
 Aliases:
   - /Artikel/dell-up3218k
 tweet_url: "https://twitter.com/zekjur/status/940146614655750144"
+tags:
+- pc
 ---
 
 ### Background

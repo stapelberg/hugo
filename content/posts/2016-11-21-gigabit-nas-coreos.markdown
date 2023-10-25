@@ -5,6 +5,8 @@ date:   2016-11-21 16:12:00
 categories: Artikel
 Aliases:
   - /Artikel/gigabit-nas-coreos
+tags:
+- pc
 ---
 <p>
 tl;dr: I upgraded from a qnap TS-119P to a custom HTPC-like network storage

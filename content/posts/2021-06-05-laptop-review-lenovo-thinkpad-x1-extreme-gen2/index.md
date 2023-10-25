@@ -4,6 +4,8 @@ title:  "Laptop review: ThinkPad X1 Extreme (Gen 2)"
 date:   2021-06-05 20:43:00 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1401249410781257732"
+tags:
+- pc
 ---
 
 {{< img src="2021-06-02-thinkpad-x1-extreme.jpg" alt="ThinkPad X1 Extreme Gen 2, pear for scale" >}}

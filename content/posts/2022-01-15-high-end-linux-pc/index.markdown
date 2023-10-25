@@ -4,6 +4,8 @@ title:  "My 2022 high-end Linux PC 🐧"
 date:   2022-01-15 16:00:00 +01:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1482423164667936771"
+tags:
+- pc
 ---
 
 I finally managed to get my hands on some DDR5 RAM to complete my Intel i9-12900

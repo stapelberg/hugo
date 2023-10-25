@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "My 2023 all-flash ZFS NAS (Network Storage) build"
-date:   2023-10-22 08:00:00 +01:00
+date:   2023-10-25 18:03:14 +02:00
 categories: Artikel
 tags:
 - pc

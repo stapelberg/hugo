@@ -4,6 +4,8 @@ date: 2019-10-23
 title: "Network Storage PC Hardware (2019)"
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1187045397535035392"
+tags:
+- pc
 ---
 
 One of my two NAS builds recently died, so I bought a new one until I find some

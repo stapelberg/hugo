@@ -4,6 +4,8 @@ title:  "DIY out-of-band management: remote console server"
 date:   2022-08-27 14:40:00 +02:00
 categories: Artikel
 tweet_url: "https://twitter.com/zekjur/status/1563508916289687553"
+tags:
+- pc
 ---
 
 For the guest WiFi at an event that eventually fell through, we wanted to tunnel

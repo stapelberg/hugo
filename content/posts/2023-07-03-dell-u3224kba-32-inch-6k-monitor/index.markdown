@@ -3,6 +3,8 @@ layout: post
 title:  "Can Dell’s 6K monitor beat their 8K monitor?"
 date:   2023-07-03 20:47:00 +02:00
 categories: Artikel
+tags:
+- pc
 ---
 
 For the last 10 years, I have been interested in hi-DPI monitors, and recently I

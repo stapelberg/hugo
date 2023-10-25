@@ -5,6 +5,8 @@ date:   2016-05-10 18:46:00
 categories: Artikel
 Aliases:
   - /Artikel/supermicro_x11ssz-qf_workstation_mainboard
+tags:
+- pc
 ---
 
 <h3>Context</h3>
