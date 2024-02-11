@@ -804,8 +804,29 @@ complicated. See also [Julio Merino’s “Beyond the 1 MB barrier in DOS”
 post](https://blogsystem5.substack.com/p/beyond-the-1-mb-barrier-in-dos) to get
 an idea of the amount of code needed.
 
-Do you know if either of these two changes is workable? Would you be interested
-in tinkering? Send me a mail! I’d love to learn more.
+### Update: a fix!
+
+[Lobsters reader abbeyj pointed
+out](https://lobste.rs/s/kaj3c2/minimal_linux_bootloader_debugging#c_ybraf4)
+that the following code change should fix the truncation and result in a GDT
+with all address bits in the right place:
+
+```diff
+--- i/mbr/bootloader.asm
++++ w/mbr/bootloader.asm
+@@ -119,6 +119,7 @@ read_protected_mode_kernel:
+ 	sub	edx, 0xfe00			; update the number of bytes to load
+ 	add	word [gdt.dest], 0xfe00
+ 	adc	byte [gdt.dest+2], 0
++	adc	byte [gdt.dest+5], 0
+ 	jmp	short read_protected_mode_kernel.loop
+
+ read_protected_mode_kernel_2:
+```
+
+…and indeed, in my first test this seems to fix the problem! It’ll take me a
+little while to clean this up and submit it. You can follow [gokrazy issue
+#248](https://github.com/gokrazy/gokrazy/issues/248) if you’re interested.
 
 ## Bonus: reading BIOS source
 
