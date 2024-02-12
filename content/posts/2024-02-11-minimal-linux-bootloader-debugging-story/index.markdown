@@ -238,7 +238,8 @@ and takes the size from the **kernel header**, which I did not update.
 
 {{< /note >}}
 
-I read that one of the main changes in GCC 10 is to enable stack protection by default.
+I read that GCC 10 [changed behavior with regards to stack
+protection](https://lore.kernel.org/lkml/20200422192113.GG26846@zn.tnic/t/).
 
 Indeed, building the kernel with Debian 11 (bullseye), but with
 `CONFIG_STACKPROTECTOR=n` makes it boot. So, I suspected that our bootloader
