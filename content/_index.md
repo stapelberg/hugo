@@ -46,4 +46,12 @@ I sometimes give [talks](/talks).
 
 To email me, replace the first dot with an @ symbol in this site’s domain.
 
+If you want to say thank you, feel free to [buy me a coffee](https://www.buymeacoffee.com/stapelberg) :)
+
+If you’re curious about the software behind this blog: It’s
+[Hugo](https://gohugo.io/), a static site generator written in Go, with a custom
+theme developed from scratch. Please don’t steal my custom theme, it was a lot
+of work! Chose one of the [many great Hugo templates](https://themes.gohugo.io/)
+instead.
+
 If you decide to GPG-encrypt your email, expect a delayed clear-text response.
