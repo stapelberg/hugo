@@ -77,7 +77,7 @@ connectors**, you can make a new network connection with just a few parts:
 
 | amt | price | total | article | note |
 |--------|-------|-------|----------------|------|
-| 2x     | 36 CHF|72 CHF | [#17237](https://www.FS.COM/de-en/products/17237.html) | [1 Gbit/s media converter RJ45/SFP](https://www.FS.COM/de-en/products/17237.html) |
+| 2x     | 36 CHF|72 CHF | [#101473](https://www.fs.com/de-en/products/101473.html) | [1 Gbit/s media converter RJ45/SFP](https://www.fs.com/de-en/products/101473.html) |
 | 1x     | 8.5 CHF|8.5 CHF | [#39135](https://www.FS.COM/de-en/products/75339.html) | [1 Gbit/s BiDi SFP 1310nm-TX/1550nm-RX](https://www.FS.COM/de-en/products/75339.html) |
 | 1x     | 11 CHF|11 CHF | [#39138](https://www.FS.COM/de-en/products/75340.html) | [1 Gbit/s BiDi SFP 1550nm-TX/1310nm-RX](https://www.FS.COM/de-en/products/75340.html) |
 | 1x     | 2.3 CHF|2.3 CHF| [#12285](https://www.FS.COM/de-en/products/12285.html) | [fiber cable, 0.9mm LC UPC/LC UPC simplex](https://www.FS.COM/de-en/products/12285.html) |
