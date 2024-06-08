@@ -1,5 +1,5 @@
 {{ define "toc" }}
-{{- if gt .WordCount 1000 }}
+{{- if (and (gt .WordCount 1000) (ne .Params.toc false)) }}
 <div id="ms_toc">
   <div>
     <strong>Table Of Contents</strong>
@@ -52,7 +52,7 @@
   {{ end }}
 </div>
 <div class="Artikel" id="content">
-  {{- if gt .WordCount 1000 }}
+  {{- if (and (gt .WordCount 1000) (ne .Params.toc false)) }}
   <style type="text/css">
     .TableOfContents > ul, .TableOfContents > ul > li > ul {
 	list-style: none;
