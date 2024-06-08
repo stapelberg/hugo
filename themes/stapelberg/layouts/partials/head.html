@@ -112,9 +112,21 @@
        https://web.dev/codelab-preload-web-fonts/ -->
   <link rel="preload" href="{{ "/font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{{ "/font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
-  <!-- TODO: enable fingerprinting: do css versions just accumulate? put into a separate directory. see https://gohugo.io/hugo-pipes/introduction/. maybe hugo --gc is required? -->
   {{- $style := resources.Get "/1.scss" | resources.ToCSS | resources.Minify }}
-  <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}" type="text/css">
+
+  <!--
+
+      We use fingerprinting, but in a non-standard way. Typically, hugo writes
+      the file under a file name that contains the fingerprint, but that needs
+      extra work to keep the public directory clean:
+      https://discourse.gohugo.io/t/garbage-collector-not-deleting-old-fingerprinted-assets/19572
+
+      Instead, we just add the fingerprint as a cache-busting parameter:
+
+    -->
+
+  {{ $fp := $style | resources.Fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $style.Permalink | relURL  }}?cachebust={{ $fp.Data.Integrity }}" type="text/css">
   {{ if (eq .Kind "term") -}}
   <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
   {{- else -}}
