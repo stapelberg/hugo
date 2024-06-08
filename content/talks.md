@@ -1,14 +1,34 @@
 ---
 title: "Talks"
-date: 2023-03-08T17:03:00+01:00
+date: 2024-06-08T10:32:00+02:00
 menu:
   main:
     title: "Talks"
     weight: 30
+toc: false
 ---
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
+
+## 2024
+
+(en @ GPN 22) Supply Chain Security with Go
+
+<!--
+
+TODO: add thumb once this talk is available on YouTube as well.
+
+{{< talkthumb id="6Ozu6Bou164" maxresdefault="1" webp="1" >}}
+
+-->
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn22-438-supply-chain-security-with-go)
+
+  → browse the
+  [slides](https://docs.google.com/presentation/d/1Va7O7mtx5YfcezcONcXr76O-ptUMpU3mnihTj_gAp4E/edit?usp=drive_link)
+
+<br style="clear: left" />
 
 ## 2023
 
