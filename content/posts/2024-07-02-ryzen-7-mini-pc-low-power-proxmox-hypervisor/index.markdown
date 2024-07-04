@@ -38,9 +38,10 @@ The CPU fan is not strictly required (the DeskMini X600 already comes with a
 fan), but I wanted the best cooling performance at lowest noise levels, so
 Noctua it is.
 
-I read that the machine should support ECC RAM, too, but I couldn’t find any ECC
-DDR5-SODIMM in stock at my usual electronics stores. If you have successfully
-used ECC RAM in the X600, please send me a note with the model name :-)
+~~I read that the machine should support ECC RAM, too~~. **Update:** The [Ryzen
+8700G does not support
+ECC-RAM](https://www.tomshardware.com/pc-components/cpus/amd-confirms-ryzen-8000g-apus-dont-support-ecc-ram-despite-initial-claims)
+after all. Only the Ryzen 7 **PRO** 8700G supports ECC-RAM.
 
 {{< img src="IMG_3871.jpg" alt="components" >}}
 
