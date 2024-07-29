@@ -196,4 +196,12 @@ perhaps its larger variant, the [DeskMeet
 X600](https://www.asrock.com/nettop/AMD/DeskMeet%20X600%20Series/index.asp)
 which is largely identical, but comes with a PCIe slot.
 
-If this one doesn’t fit your needs, keep looking: there are many more mini PCs on the market. Check out [ServeTheHome’s “Project TinyMiniMicro”](https://www.servethehome.com/introducing-project-tinyminimicro-home-lab-revolution/) for a lot more reviews.
+If this one doesn’t fit your needs, keep looking: there are many more mini PCs
+on the market. Check out [ServeTheHome’s “Project
+TinyMiniMicro”](https://www.servethehome.com/introducing-project-tinyminimicro-home-lab-revolution/)
+for a lot more reviews.
+
+**Update:** Apparently ASRock is [releasing their X600
+mainboard](https://www.golem.de/news/asrock-x600tm-itx-sehr-flaches-am5-mainboard-mit-externer-stromversorgung-2407-187469.html)
+as a standalone product, too, if you like the electronics but not the form
+factor.
