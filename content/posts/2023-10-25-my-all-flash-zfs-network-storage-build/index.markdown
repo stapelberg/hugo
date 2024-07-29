@@ -230,6 +230,7 @@ To switch to `systemd-networkd`, I ran:
 
 ```
 apt remove --purge netplan.io
+systemctl enable --now systemd-networkd
 ```
 
 Then, I created a `systemd-networkd` config file with a static IPv6 token, resulting in a predictable IPv6 address:
