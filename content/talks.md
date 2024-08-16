@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2024-06-08T10:32:00+02:00
+date: 2024-08-16T17:40:50+02:00
 menu:
   main:
     title: "Talks"
@@ -12,6 +12,17 @@ I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
 ## 2024
+
+(en @ Go meetup Zürich) Supply Chain Security with Go
+
+{{< talkthumb id="ORVzCcX0gzE" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://www.youtube.com/watch?v=ORVzCcX0gzE)
+
+  → browse the
+  [slides](https://docs.google.com/presentation/d/1sPeFM6Qpt8ZeQLVGk2mYz6jvfECnx2uD4LJ0s6fzDmw/edit?usp=sharing)
+
+<br style="clear: left" />
 
 (en @ GPN 22) Supply Chain Security with Go
 
