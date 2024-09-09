@@ -1,6 +1,6 @@
 ---
 title: "TV Series recommendations"
-date: 2022-05-01T14:00:00+02:00
+date: 2024-09-09T21:32:20+02:00
 menu:
   main:
     title: "Series"
@@ -401,6 +401,16 @@ official trailer was available), the text typically leads to Wikipedia.
 <p class="label"><a href="https://en.wikipedia.org/wiki/Severance_(TV_series)">Severance</a></p>
 </div>
 
+<div style="text-align: center">
+{{< talkthumb id="4x2NzusLAqk" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Poker_Face_(TV_series)">Poker Face</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="gBmkI4jlaIo" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/The_Bear_(TV_series)">The Bear</a></p>
+</div>
+
 
 </div>
 
@@ -487,6 +497,11 @@ official trailer was available), the text typically leads to Wikipedia.
 <div style="text-align: center">
 {{< talkthumb id="mfBbSwX6kEk" >}}
 <p class="label"><a href="https://en.wikipedia.org/wiki/What_We_Do_in_the_Shadows_(TV_series)">What We Do in the Shadows</a></p>
+</div>
+
+<div style="text-align: center">
+{{< talkthumb id="xjrObBtzGYg" >}}
+<p class="label"><a href="https://en.wikipedia.org/wiki/Castle_(TV_series)">Castle</a></p>
 </div>
 
 
