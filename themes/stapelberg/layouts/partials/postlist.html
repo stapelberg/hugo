@@ -19,9 +19,10 @@
       <div class="summary">
 	{{ $featured := .Resources.Match "*featured*" }}
 	{{ $imgs := $featured | append (.Resources.ByType "image") }}
+	{{ $permalink := .Permalink }}
 	{{ range first 1 $imgs }}
 	{{ $img := .Fit "200x200" }}
-	{{ printf "<img src=\"%s\" width=\"%d\" height=\"%d\"/>" $img.Permalink $img.Width $img.Height | safeHTML }}
+	<a href="{{ $permalink }}" style="min-width: 200px; margin-right: 1.5rem; margin-bottom: 1.5rem">{{ printf "<img src=\"%s\" width=\"%d\" height=\"%d\"/>" $img.Permalink $img.Width $img.Height | safeHTML }}</a>
 	{{ end }}
 	<p>
 	  {{ .Summary }}
