@@ -18,10 +18,7 @@ doesn’t), you’ll first need to enable connectivity checking in NetworkManage
 </p>
 
 <pre>
-# cat &gt;&gt; /etc/NetworkManager/NetworkManager.conf &lt;&lt;'EOT'
-[connectivity]
-uri=http://network-test.debian.org/nm
-EOT
+# sudo apt install network-manager-config-connectivity-debian
 </pre>
 
 <p>
