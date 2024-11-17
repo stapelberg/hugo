@@ -453,6 +453,9 @@ main {
     code {
 	font-family: 'Roboto Mono', monospace;
 	font-size: 14px;
+	/* The default line-height of 150% is too much for code blocks,
+	   which are then unnecessarily streched out vertically. */
+	line-height: normal;
     }
 
     pre,
