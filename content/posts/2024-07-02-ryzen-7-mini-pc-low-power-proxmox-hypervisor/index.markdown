@@ -3,6 +3,8 @@ layout: post
 title:  "Ryzen 7 Mini-PC makes a power-efficient VM host"
 date:   2024-07-02 17:17:00 +02:00
 categories: Artikel
+tags:
+- pc
 ---
 
 When I saw the first reviews of the [ASRock DeskMini X600
