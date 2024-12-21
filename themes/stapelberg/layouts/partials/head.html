@@ -34,6 +34,9 @@
   <meta name="description" content="{{ block "description" . }}{{ end }}">
   <link rel="canonical" href="{{ .Permalink }}">
   <meta name="author" content="Michael Stapelberg">
+  {{- if .Params.noindex }}
+  <meta name="robots" content="noindex">
+  {{- end }}
   <style type="text/css">
     @font-face {
 	font-family: 'Roboto Mono';
