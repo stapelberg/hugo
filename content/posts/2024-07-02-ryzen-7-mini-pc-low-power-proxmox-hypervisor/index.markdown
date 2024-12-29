@@ -107,6 +107,18 @@ I don’t have enough nodes for advanced features like clustering, but I might
 investigate whether I want to set up backups on the Proxmox layer or keep doing
 them on the OS layer.
 
+### Fan speed monitoring
+
+Sven Geggus shared how to make the fan speed sensors work in current versions of
+Debian:
+
+```
+pve# echo "options nct6683 force=1" >> /etc/modprobe.d/sensors.conf
+pve# echo nct6683 >> /etc/modules-load.d/sensors.conf
+pve# modprobe nct6683
+pve# systemctl restart prometheus-node-exporter
+```
+
 ## Power Usage
 
 The power usage values I measure are indeed excellent: The DeskMini X600 with
