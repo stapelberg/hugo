@@ -452,7 +452,11 @@ main {
     pre,
     code {
 	font-family: 'Roboto Mono', monospace;
-	font-size: 14px;
+	/* A font-size of 0.875em; comes out to 14 px, relative to our 16px font. */
+	/* NOTE: Must be em, not rem, so that the size is relative to the parent
+	   and can be reduced in articles like debug-hanging-go-programs where
+	   a large stack trace needs to be printed in smaller font. */
+	font-size: 0.875em;
 	/* The default line-height of 150% is too much for code blocks,
 	   which are then unnecessarily streched out vertically. */
 	line-height: normal;
@@ -468,6 +472,7 @@ main {
     }
 
     pre code {
+	font-size: inherit;
 	/* Within <pre>, all padding happens in the <pre> only, for consistency */
 	padding: 0;
     }
