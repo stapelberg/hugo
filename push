@@ -1,5 +1,6 @@
 #!/bin/sh
 hugo
+rsync --exclude .git -av ./docs/ router7:/perm/srv/michael.stapelberg.ch/
 cd docs
 git add . && git commit -m 'update site'
 git push origin master
