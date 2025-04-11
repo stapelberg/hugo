@@ -5,6 +5,7 @@ date:   2024-10-22 17:22:23 +02:00
 categories: Artikel
 tags:
 - golang
+- debug
 ---
 
 Not all bugs can easily be reproduced — sometimes, all you have is a core dump

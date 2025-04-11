@@ -3,6 +3,8 @@ layout: post
 title:  "Minimal Linux Bootloader debugging story 🐞"
 date:   2024-02-11 10:28:00 +01:00
 categories: Artikel
+tags:
+- debug
 ---
 
 I maintain two builds of the Linux kernel, a `linux/arm64` build for [gokrazy,

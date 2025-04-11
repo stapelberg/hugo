@@ -6,6 +6,7 @@ categories: Artikel
 tags:
 - golang
 - rsync
+- debug
 ---
 
 I was helping someone get my [gokrazy/rsync](https://github.com/gokrazy/rsync)
