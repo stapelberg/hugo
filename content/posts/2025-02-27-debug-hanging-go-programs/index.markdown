@@ -402,11 +402,10 @@ If you see only hexadecimal addresses followed by `n/a (n/a + 0x0)`, that means
 `systemd-coredump` could not symbolize (= resolve addresses to function names)
 your core dump. Here are a few possible reasons for missing symbolization:
 
-* Linux 6.12 [started producing core dumps that elfutils cannot
+* Linux 6.12 and 6.13 [produced core dumps that elfutils cannot
   symbolize](https://sourceware.org/bugzilla/show_bug.cgi?id=32713). `systemd-coredump`
-  uses elfutils for symbolization, so until this issue is fixed in either Linux
-  and/or elfutils, you’ll need to stick to Linux <6.12 or revert [the triggering
-  commit](https://github.com/torvalds/linux/commit/7d442a33bfe817ab2a735f3d2e430e36305354ea).
+  uses elfutils for symbolization, so avoid 6.12/6.13 in favor of using 6.14 or
+  newer.
 * With systemd v234-v256, `systemd-coredump` did not have permission to look
   into programs living in the `/home` directory (fixed with [commit
   `4ac1755`](https://github.com/systemd/systemd/commit/4ac1755be2d6c141fae7e57c42936e507c5b54e3)
