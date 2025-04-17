@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2024-08-16T17:40:50+02:00
+date: 2025-04-17T17:29:34+02:00
 menu:
   main:
     title: "Talks"
@@ -10,6 +10,19 @@ toc: false
 
 I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
+
+## 2025
+
+(en @ Go meetup Zürich) Go Protobuf: Opaque API
+
+{{< talkthumb id="QpLjj3yZ4R8" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://youtu.be/QpLjj3yZ4R8?si=s9gvRku3WXSky8EK)
+
+  → browse the
+  [slides](https://docs.google.com/presentation/d/1-B5_5FAavAX2gNmtVs1rgLqofB95F3VAqSpKMJ8go44/edit?usp=drive_link)
+
+<br style="clear: left" />
 
 ## 2024
 
