@@ -347,3 +347,9 @@ when compiling/testing software? No thanks.
 I will buy a different mainboard to see if that helps, likely the ASRock Z890
 Pro-A. If you have any recommendations for a Z890 mainboard that actually works
 reliably, please let me know!
+
+**Update 2025-04-17:** I have received the ASRock Z890 Pro-A, but the machine
+shows exactly the same symptoms! I also swapped the power supply, which also did
+not help. Running Prime95 crashed almost immediately. At this point, I have to
+assume the CPU itself is defective and have started an RMA. I will post another
+update once (if?) I get a replaced CPU.
