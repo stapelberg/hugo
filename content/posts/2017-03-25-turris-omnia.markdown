@@ -5,6 +5,8 @@ date:   2017-03-25 09:40:00
 categories: Artikel
 Aliases:
   - /Artikel/turris-omnia
+tags:
+- fiber
 ---
 <p>
 The <a href="https://omnia.turris.cz/en/">Turris Omnia</a> is an open source
