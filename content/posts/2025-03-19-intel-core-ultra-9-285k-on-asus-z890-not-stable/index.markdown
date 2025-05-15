@@ -7,6 +7,14 @@ tags:
 - pc
 ---
 
+{{< note >}}
+
+**Update (2025-05-15):** Turns out the CPU was faulty! See [My 2025 high-end
+Linux PC](/posts/2025-05-11-my-2025-high-end-linux-pc/) for a new article on
+this build, now with a working CPU.
+
+{{< /note >}}
+
 In January I ordered the components for a new PC and expected that I would
 publish a successor to my [2022 high-end Linux PC
 🐧](/posts/2022-01-15-high-end-linux-pc/) article. Instead, I am now sitting on
@@ -215,7 +223,7 @@ update the Intel ME firmware. Just put the ZIP file onto the USB disk as-is.
 I verified that with this UEFI version, the `Power Limit 1 (PL1)` is 250W, and
 `ICCMAX=347A`, which are exactly the values that Intel recommends. Great!
 
-I also enabled XMPP and verified that memtest86 reported no errors.
+I also enabled XMP and verified that memtest86 reported no errors.
 
 ### Software setup: early adopter pains
 
@@ -353,3 +361,7 @@ shows exactly the same symptoms! I also swapped the power supply, which also did
 not help. Running Prime95 crashed almost immediately. At this point, I have to
 assume the CPU itself is defective and have started an RMA. I will post another
 update once (if?) I get a replaced CPU.
+
+**Update 2025-05-11:** The CPU was faulty indeed! See [My 2025 high-end Linux
+PC](/posts/2025-05-11-my-2025-high-end-linux-pc/) for a new article on this
+build, now with a working CPU.
