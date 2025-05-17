@@ -377,12 +377,12 @@ Ultimately, it was easier to upgrade my old PC to Linux 6.13 and linux-firmware
 
 ### TRIM your SSDs
 
-SSD disks can degrade over time, especially when using full-disk encryption,
-because then the SSD firmware cannot know anymore which parts of the disk are
-used and which parts are free.
+SSD disks can degrade over time, so it is essential that the Operating System
+tells the SSD firmware about freed-up blocks (for wear leveling). When using
+full-disk encryption, all involved layers need to have TRIM support enabled.
 
-I think I saw this effect in action back in 2022, [when I copied my data from a
-Force MP600 to a WD Black
+I think I saw the effect of an incorrectly configured TRIM setup in action back
+in 2022, [when I copied my data from a Force MP600 to a WD Black
 SN850](/posts/2022-01-15-high-end-linux-pc/#copying-the-data), which
 unexpectedly took many hours!
 
