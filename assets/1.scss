@@ -363,6 +363,7 @@ main {
     a:link,
     a:visited {
 	text-underline-offset: .2rem;
+	word-wrap: break-word;
     }
 
     hr {
@@ -451,6 +452,7 @@ main {
 	background-color: #eee;
 	padding: 0 .20rem;
 	border-radius: 4px;
+	word-wrap: break-word;
     }
 
     pre,
