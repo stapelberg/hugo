@@ -238,8 +238,7 @@ problems:
 1. There is no network connectivity because the kernel and linux-firmware
    versions are too old.
 
-    * r8169: add support for RTL8125D
-      https://github.com/torvalds/linux/commit/f75d1fbe7809bc5ed134204b920fd9e2fc5db1df
+    * [r8169: add support for RTL8125D](https://github.com/torvalds/linux/commit/f75d1fbe7809bc5ed134204b920fd9e2fc5db1df)
 
 1. I could not get Xorg to work at all. Not with the Intel integrated GPU, nor
    with the nVidia dedicated GPU. Not with `nomodeset` or any of the other

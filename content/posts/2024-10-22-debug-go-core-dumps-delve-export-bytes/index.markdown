@@ -258,8 +258,8 @@ contents to a file.
 
 ## Exporting byte slices with writebytestofile
 
-You need a version of dlv that contains commit
-https://github.com/go-delve/delve/commit/52405ba86bd9e14a2e643db391cbdebdcbdb3368. Until
+You need a version of dlv that contains [commit
+52405ba](https://github.com/go-delve/delve/commit/52405ba86bd9e14a2e643db391cbdebdcbdb3368). Until
 the commit is part of a released version, you can install the latest dlv
 directly from git:
 
