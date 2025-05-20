@@ -378,6 +378,10 @@ main {
 	max-width: 100%;
     }
 
+    pre {
+	overflow-x: auto;
+    }
+
     img {
 	object-fit: contain;
 	border: 0;
