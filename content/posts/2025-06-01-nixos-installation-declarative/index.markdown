@@ -1485,6 +1485,6 @@ Where do you go from here?
     * Wolfgang has a [YouTube video about using NixOS for his Home
       Server](https://www.youtube.com/watch?v=f-x5cB6qCzA&t=1036s&pp=ygUOV29sZmdhbmcgbml4b3M%3D)
       ([→ his configs](https://github.com/notthebee/nix-config))
-* Contact your local Nix community! I recently attended the [“Zero Hyra
+* Contact your local Nix community! I recently attended the [“Zero Hydra
   Failures” event of the Nix Zürich group](https://zurich.nix.ug/) and the kind
   people there were happy to talk about all things Nix :)
