@@ -79,7 +79,7 @@ unsafe = true
 # TODO(https://github.com/gohugoio/hugo/issues/9076): add "turbopfor/Makefile"
 
 [privacy]
-  [privacy.twitter]
+  [privacy.x]
     enableDNT = true
   [privacy.youtube]
     privacyEnhanced = true
