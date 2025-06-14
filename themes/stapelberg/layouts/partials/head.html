@@ -2,7 +2,7 @@
 {{- if .Description }}
 {{- .Description -}}
 {{- else if .IsPage }}
-{{- .Summary -}}
+{{- .Summary | plainify -}}
 {{- else }}
 {{- .Site.Params.description -}}
 {{- end -}}
