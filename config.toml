@@ -22,7 +22,8 @@ pygmentsCodefences = true
 
 pygmentsStyle = "friendly"
 
-paginate = 30
+[pagination]
+  pagerSize = 30
 
 # TODO: switch to pygmentsUseClasses for CSS-based syntax highlighting?
 # https://hugodown.r-lib.org/articles/config.html
