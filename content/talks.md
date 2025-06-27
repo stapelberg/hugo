@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2025-04-17T17:29:34+02:00
+date: 2025-06-27T08:20:45+02:00
 menu:
   main:
     title: "Talks"
@@ -12,6 +12,19 @@ I have given numerous presentations and talks over the years. As they are
 starting to vanish from the internet, I started collecting them here.
 
 ## 2025
+
+(en @ GPN 23) My 2025 Linux + Go self-hosting stack
+
+{{< talkthumb id="CI2so-lY04k" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://youtu.be/CI2so-lY04k?si=g5SToNK3HwEruPwC)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn23-118-my-2025-linux-go-self-hosting-stack)
+
+  → browse the
+  [slides (3 MB PDF)](https://cfp.gulas.ch/media/gpn23/submissions/U8D9KR/resources/2025-06-21-linux-go_7ggmNX4.pdf)
+
+<br style="clear: left" />
 
 (en @ Go meetup Zürich) Go Protobuf: Opaque API
 
