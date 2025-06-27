@@ -26,6 +26,14 @@ starting to vanish from the internet, I started collecting them here.
 
 ## 2024
 
+(en @ Go meetup Zürich) What’s new in Go 1.23?
+
+{{< talkthumb id="GaateXs8qs0" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://www.youtube.com/watch?v=GaateXs8qs0)
+
+<br style="clear: left" />
+
 (en @ Go meetup Zürich) Supply Chain Security with Go
 
 {{< talkthumb id="ORVzCcX0gzE" maxresdefault="1" webp="1" >}}
