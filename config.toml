@@ -8,6 +8,9 @@ disableKinds = ["RSS"]
 publishDir = "docs"
 enableGitInfo = true
 
+# Keep old behavior of hugo < 0.123:
+capitalizeListTitles = false
+
 # Raise generation timeout from 10s to 60s to account for our heavy image
 # processing when rendering the site from scratch.
 timeout = 60000
