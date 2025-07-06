@@ -106,6 +106,7 @@ Now, running `nix-shell -p hello` should drop you in a new shell in which the
 GNU hello package is installed:
 
 ```
+% export NIX_PATH=nixpkgs=channel:nixos-25.05
 % nix-shell -p hello
 hello
 
