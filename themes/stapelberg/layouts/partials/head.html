@@ -27,10 +27,10 @@
   {{ printf "<meta property=\"og:image\" content=\"%s\">" $img.Permalink | safeHTML }}
   {{ end }}
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="{{ "/favicon-16x16.png" | relURL }}" sizes="16x16">
-  <link rel="icon" type="image/png" href="{{ "/favicon-32x32.png" | relURL }}" sizes="32x32">
-  <link rel="icon" type="image/png" href="{{ "/favicon-48x48.png" | relURL }}" sizes="48x48">
-  <link rel="apple-touch-icon" sizes="152x152" href="{{ "/apple-touch-icon-152x152.png" | relURL }}">
+  <link rel="icon" type="image/png" href="{{ "favicon-16x16.png" | relURL }}" sizes="16x16">
+  <link rel="icon" type="image/png" href="{{ "favicon-32x32.png" | relURL }}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{{ "favicon-48x48.png" | relURL }}" sizes="48x48">
+  <link rel="apple-touch-icon" sizes="152x152" href="{{ "apple-touch-icon-152x152.png" | relURL }}">
   <meta name="description" content="{{ block "description" . }}{{ end }}">
   <link rel="canonical" href="{{ .Permalink }}">
   <meta name="author" content="Michael Stapelberg">
@@ -40,12 +40,12 @@
   <style type="text/css">
     @font-face {
 	font-family: 'Roboto Mono';
-	src: url('{{ "/font/subset-RobotoMono-Regular.eot" | relURL }}');
+	src: url('{{ "font/subset-RobotoMono-Regular.eot" | relURL }}');
 	src: local('Roboto Mono Regular'), local('RobotoMono-Regular'),
-        url('{{ "/font/subset-RobotoMono-Regular.eot?#iefix" | relURL }}') format('embedded-opentype'),
-        url('{{ "/font/subset-RobotoMono-Regular.woff2" | relURL }}') format('woff2'),
-        url('{{ "/font/subset-RobotoMono-Regular.woff" | relURL }}') format('woff'),
-        url('{{ "/font/subset-RobotoMono-Regular.ttf" | relURL }}') format('truetype');
+        url('{{ "font/subset-RobotoMono-Regular.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "font/subset-RobotoMono-Regular.woff2" | relURL }}') format('woff2'),
+        url('{{ "font/subset-RobotoMono-Regular.woff" | relURL }}') format('woff'),
+        url('{{ "font/subset-RobotoMono-Regular.ttf" | relURL }}') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -53,12 +53,12 @@
 
     @font-face {
 	font-family: 'Roboto';
-	src: url('{{ "/font/subset-Roboto-Bold.eot" | relURL }}');
+	src: url('{{ "font/subset-Roboto-Bold.eot" | relURL }}');
 	src: local('Roboto Bold'), local('Roboto-Bold'),
-        url('{{ "/font/subset-Roboto-Bold.eot?#iefix" | relURL }}') format('embedded-opentype'),
-        url('{{ "/font/subset-Roboto-Bold.woff2" | relURL }}') format('woff2'),
-        url('{{ "/font/subset-Roboto-Bold.woff" | relURL }}') format('woff'),
-        url('{{ "/font/subset-Roboto-Bold.ttf" | relURL }}') format('truetype');
+        url('{{ "font/subset-Roboto-Bold.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "font/subset-Roboto-Bold.woff2" | relURL }}') format('woff2'),
+        url('{{ "font/subset-Roboto-Bold.woff" | relURL }}') format('woff'),
+        url('{{ "font/subset-Roboto-Bold.ttf" | relURL }}') format('truetype');
 	font-weight: bold;
 	font-style: normal;
 	font-display: swap;
@@ -66,12 +66,12 @@
 
     @font-face {
 	font-family: 'Roboto';
-	src: url('{{ "/font/subset-Roboto-Regular.eot" | relURL }}');
+	src: url('{{ "font/subset-Roboto-Regular.eot" | relURL }}');
 	src: local('Roboto'), local('Roboto-Regular'),
-        url('{{ "/font/subset-Roboto-Regular.eot?#iefix" | relURL }}') format('embedded-opentype'),
-        url('{{ "/font/subset-Roboto-Regular.woff2" | relURL }}') format('woff2'),
-        url('{{ "/font/subset-Roboto-Regular.woff" | relURL }}') format('woff'),
-        url('{{ "/font/subset-Roboto-Regular.ttf" | relURL }}') format('truetype');
+        url('{{ "font/subset-Roboto-Regular.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "font/subset-Roboto-Regular.woff2" | relURL }}') format('woff2'),
+        url('{{ "font/subset-Roboto-Regular.woff" | relURL }}') format('woff'),
+        url('{{ "font/subset-Roboto-Regular.ttf" | relURL }}') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -79,12 +79,12 @@
 
     @font-face {
 	font-family: 'Lato';
-	src: url('{{ "/font/subset-Lato-Bold.eot" | relURL }}');
+	src: url('{{ "font/subset-Lato-Bold.eot" | relURL }}');
 	src: local('Lato Bold'), local('Lato-Bold'),
-        url('{{ "/font/subset-Lato-Bold.eot?#iefix" | relURL }}') format('embedded-opentype'),
-        url('{{ "/font/subset-Lato-Bold.woff2" | relURL }}') format('woff2'),
-        url('{{ "/font/subset-Lato-Bold.woff" | relURL }}') format('woff'),
-        url('{{ "/font/subset-Lato-Bold.ttf" | relURL }}') format('truetype');
+        url('{{ "font/subset-Lato-Bold.eot?#iefix" | relURL }}') format('embedded-opentype'),
+        url('{{ "font/subset-Lato-Bold.woff2" | relURL }}') format('woff2'),
+        url('{{ "font/subset-Lato-Bold.woff" | relURL }}') format('woff'),
+        url('{{ "font/subset-Lato-Bold.ttf" | relURL }}') format('truetype');
 	font-weight: bold;
 	font-style: normal;
 	font-display: swap;
@@ -113,8 +113,8 @@
   <!-- Instruct web browsers to load our header/text fonts immediately
        instead of after the CSS was interpreted:
        https://web.dev/codelab-preload-web-fonts/ -->
-  <link rel="preload" href="{{ "/font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{{ "/font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ "font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ "font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
   {{- $style := resources.Get "/1.scss" | css.Sass | resources.Minify }}
 
   <!--
@@ -133,6 +133,6 @@
   {{ if (eq .Kind "term") -}}
   <link rel="alternate" href="{{ .Permalink }}feed.xml" type="application/atom+xml" title="ATOM feed for posts tagged {{ .Title | urlize }}">
   {{- else -}}
-  <link rel="alternate" href="{{ "/feed.xml" | relURL }}" type="application/atom+xml" title="ATOM feed">
+  <link rel="alternate" href="{{ "feed.xml" | relURL }}" type="application/atom+xml" title="ATOM feed">
   {{- end }}
 </head>

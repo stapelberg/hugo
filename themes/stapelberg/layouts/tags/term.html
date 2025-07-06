@@ -1,7 +1,7 @@
 {{ define "main" }}
 <h1 class="ms_title">Blog Posts tagged {{ .Title | lower }}
   <a href="{{ .Permalink }}feed.xml">
-    <img src="{{ "/feed-icon.svg" | relURL }}" style="width: .75em"
+    <img src="{{ "feed-icon.svg" | relURL }}" style="width: .75em"
 	 alt="ATOM feed for posts tagged {{ .Title | urlize }}"
 	 title="ATOM feed for posts tagged {{ .Title | urlize }}">
   </a>
