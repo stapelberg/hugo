@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2025-06-27T08:20:45+02:00
+date: 2025-08-29T08:50:00+02:00
 menu:
   main:
     title: "Talks"
@@ -128,8 +128,11 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="BZUmaUd0MKE" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/BZUmaUd0MKE)
-  [slides](https://docs.google.com/presentation/d/1XqWF7h8ScimDFbQgLcXP4NcnUWRGEm59F0kGvw4aYa0/edit?usp=sharing)
+  → watch the recording on [YouTube](https://youtu.be/BZUmaUd0MKE)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn23-118-my-2025-linux-go-self-hosting-stack)
+
+  → browse the [slides (Google Slides)](https://docs.google.com/presentation/d/1XqWF7h8ScimDFbQgLcXP4NcnUWRGEm59F0kGvw4aYa0/edit?usp=sharing)
 
 <br style="clear: left" />
 
@@ -149,8 +152,11 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="Whakbi7nGok" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/Whakbi7nGok)
-  [slides](https://docs.google.com/presentation/d/1tiMGtnsvYyVYml_yYGK0vZY1LloLg0Y48MP8_E6dwRE/edit?usp=sharing)
+  → watch the recording on [YouTube](https://youtu.be/Whakbi7nGok)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/arch-conf-online-2020-6387-distri-researching-fast-linux-package-management)
+
+  → browse the [slides (Google Slides)](https://docs.google.com/presentation/d/1tiMGtnsvYyVYml_yYGK0vZY1LloLg0Y48MP8_E6dwRE/edit?usp=sharing)
 
 <br style="clear: left" />
 
@@ -160,8 +166,9 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="5F39sWoICqo" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://www.youtube.com/watch?v=5F39sWoICqo&t=2190s)
-  [slides](https://docs.google.com/presentation/d/1treZdaUKJ6puSZReF4kKF9thYpr7eFAZaY1FedcnCCo/edit?usp=sharing)
+  → watch the recording on [YouTube](https://www.youtube.com/watch?v=5F39sWoICqo&t=2190s)
+
+  → browse the [slides (Google Slides)](https://docs.google.com/presentation/d/1treZdaUKJ6puSZReF4kKF9thYpr7eFAZaY1FedcnCCo/edit?usp=sharing)
 
 <br style="clear: left" />
 
@@ -169,8 +176,11 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="TdfEF0zRIL4" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/TdfEF0zRIL4)
-  [slides](https://docs.google.com/presentation/d/1VOwH9veN7uVZDLWizNqzePqBRL16MClBL6TVWDeLkwA/edit?usp=sharing)
+  → watch the recording on [YouTube](https://youtu.be/TdfEF0zRIL4)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn19-56-linux-package-manager-sind-zu-langsam-)
+
+  → browse the [slides (Google Slides)](https://docs.google.com/presentation/d/1VOwH9veN7uVZDLWizNqzePqBRL16MClBL6TVWDeLkwA/edit?usp=sharing)
 
 <br style="clear: left" />
 
@@ -215,8 +225,11 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="6bX6iqqR3XY" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/6bX6iqqR3XY)
-  [slides](https://docs.google.com/presentation/d/1bp53WFR5xnELxQ-oZMDGNNiWYUHSjyyGvBMcd5EPzzc/edit?usp=sharing﻿)
+  → watch the recording on [YouTube](https://youtu.be/6bX6iqqR3XY)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn18-19-kinx-keyboard-hacking)
+
+  → browse the [slides (Google Slides)](https://docs.google.com/presentation/d/1bp53WFR5xnELxQ-oZMDGNNiWYUHSjyyGvBMcd5EPzzc/edit?usp=sharing﻿)
 
 <br style="clear: left" />
 
@@ -224,10 +237,11 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="H2fipGm2ysY" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/H2fipGm2ysY)
-  [abstract](https://entropia.de/GPN18:kinX:_keyboard_hacking)
-  [mp4](https://cdn.media.ccc.de/events/gpn/gpn18/h264-hd/gpn18-19-deu-kinX_keyboard_hacking_hd.mp4)
-  [pdf](https://entropia.de/Datei:KinX_(GPN_2018).pdf)
+  → watch the recording on [YouTube](https://youtu.be/H2fipGm2ysY)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn18-19-kinx-keyboard-hacking)
+
+  → browse the [slides (PDF)](https://entropia.de/Datei:KinX_(GPN_2018).pdf)
 
 <br style="clear: left" />
 
@@ -235,10 +249,11 @@ TODO: add thumb once this talk is available on YouTube as well.
 
 {{< talkthumb id="Bq9zubsyPSg" maxresdefault="1" webp="1" >}}
 
-  [YouTube](https://youtu.be/Bq9zubsyPSg)
-  [abstract](https://entropia.de/GPN18:Go_f%C3%BCr_ProgrammiererInnen)
-  [mp4](https://cdn.media.ccc.de/events/gpn/gpn18/h264-hd/gpn18-23-deu-Go_fuer_Programmierer_hd.mp4)
-  [pdf](https://entropia.de/Datei:Go_f%C3%BCr_Programmierer_(GPN_2018).pdf)
+  → watch the recording on [YouTube](https://youtu.be/Bq9zubsyPSg)
+
+  → watch the recording on [media.ccc.de](https://media.ccc.de/v/gpn18-23-go-fr-programmierer)
+
+  → browse the [slides (PDF)](https://entropia.de/Datei:Go_f%C3%BCr_Programmierer_(GPN_2018).pdf)
 
 <br style="clear: left" />
 
