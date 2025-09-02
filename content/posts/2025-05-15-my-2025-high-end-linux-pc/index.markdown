@@ -7,6 +7,14 @@ tags:
 - pc
 ---
 
+{{< note >}}
+
+**Update (2025-09-07):** The replacement CPU also died and I have given up on
+Intel. See [Bye Intel, hi AMD!](/posts/2025-09-07-bye-intel-hi-amd-9950x3d/) for
+more details on the AMD 9950X3D.
+
+{{< /note >}}
+
 Turns out [my previous attempt at this build had a faulty
 CPU!](/posts/2025-03-19-intel-core-ultra-9-285k-on-asus-z890-not-stable/) With
 the CPU replaced, the machine now is stable and fast! 🚀 In this article, I’ll

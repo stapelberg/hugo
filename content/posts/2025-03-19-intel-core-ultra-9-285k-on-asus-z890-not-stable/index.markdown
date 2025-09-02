@@ -15,6 +15,14 @@ this build, now with a working CPU.
 
 {{< /note >}}
 
+{{< note >}}
+
+**Update (2025-09-07):** The replacement CPU also died and I have given up on
+Intel. See [Bye Intel, hi AMD!](/posts/2025-09-07-bye-intel-hi-amd-9950x3d/) for
+more details on the AMD 9950X3D.
+
+{{< /note >}}
+
 In January I ordered the components for a new PC and expected that I would
 publish a successor to my [2022 high-end Linux PC
 🐧](/posts/2022-01-15-high-end-linux-pc/) article. Instead, I am now sitting on
