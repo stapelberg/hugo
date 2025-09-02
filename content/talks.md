@@ -1,6 +1,6 @@
 ---
 title: "Talks"
-date: 2025-08-29T08:50:00+02:00
+date: 2025-09-02T17:20:00+02:00
 menu:
   main:
     title: "Talks"
@@ -23,6 +23,14 @@ starting to vanish from the internet, I started collecting them here.
 
   → browse the
   [slides (3 MB PDF)](https://cfp.gulas.ch/media/gpn23/submissions/U8D9KR/resources/2025-06-21-linux-go_7ggmNX4.pdf)
+
+<br style="clear: left" />
+
+(en @ GopherCon EU 2025) Go Protobuf: Opaque API
+
+{{< talkthumb id="scNYFVtD5ZM" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://youtu.be/scNYFVtD5ZM)
 
 <br style="clear: left" />
 
