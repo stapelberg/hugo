@@ -10,7 +10,7 @@ tags:
 {{< note >}}
 
 **Update (2025-05-15):** Turns out the CPU was faulty! See [My 2025 high-end
-Linux PC](/posts/2025-05-11-my-2025-high-end-linux-pc/) for a new article on
+Linux PC](/posts/2025-05-15-my-2025-high-end-linux-pc/) for a new article on
 this build, now with a working CPU.
 
 {{< /note >}}
@@ -362,5 +362,5 @@ assume the CPU itself is defective and have started an RMA. I will post another
 update once (if?) I get a replaced CPU.
 
 **Update 2025-05-11:** The CPU was faulty indeed! See [My 2025 high-end Linux
-PC](/posts/2025-05-11-my-2025-high-end-linux-pc/) for a new article on this
+PC](/posts/2025-05-15-my-2025-high-end-linux-pc/) for a new article on this
 build, now with a working CPU.
