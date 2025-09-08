@@ -39,7 +39,8 @@ the first sign of the CPU being unreliable.
 
 When the CUDA build failed, I ran the batch job without GPU offloading
 instead. It took about 4 hours and consumed roughly 300W constantly. You can see
-it on this CPU usage graph:
+it on this CPU usage graph (screenshot of a [Grafana](https://grafana.com/)
+dashboard showing metrics collected by [Prometheus](https://prometheus.io/)):
 
 {{< img src="2025-07-19-cpu.jpg" alt="CPU usage (measured with Prometheus)" >}}
 
@@ -147,7 +148,10 @@ of usage:
 | Intel 285k   | ASUS PRIME Z890-P              | 46W        | 65W                     |
 | AMD 9950X3D  | ASUS TUF GAMING X870-PLUS WIFI | 55W        | 80W                     |
 
-Looking at two typical evenings, here is the power consumption of the Intel 285K:
+Looking at two typical evenings, here is the power consumption of the Intel 285K
+(measured using a [myStrom WiFi switch smart
+plug](https://mystrom.com/de/produkt/mystrom-wifi-switch-eu/), which comes with
+a REST API):
 
 {{< img src="2025-09-01-power-285k.jpg" alt="Power consumption of the Intel 285K-based PC" >}}
 
