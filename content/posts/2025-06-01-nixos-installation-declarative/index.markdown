@@ -1471,9 +1471,6 @@ Where do you go from here?
     * Michael Lynch wrote about [setting up an Oracle Cloud VM with
       NixOS](https://mtlynch.io/notes/nix-oracle-cloud/) and about [managing his
       Zig configuration](https://mtlynch.io/notes/zig-vscode-nix/).
-	* Yvan [shared some
-      use-cases](https://mas.to/@YvanDaSilva@hachyderm.io/114146425705705982) on
-      Mastodon.
 	* Nelson Elhage wrote about using Nix to test dozens of Python interpreters
       as part of his [performance investigation into Python 3.14 tail-call
       interpreter
