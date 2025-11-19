@@ -212,7 +212,7 @@ bitpacking to a variable byte encoding:
 The variable byte encoding used by the TurboPFor format is similar to the one
 [used by SQLite](https://sqlite.org/src4/doc/trunk/www/varint.wiki), which is
 described, alongside other common variable byte encodings, at
-[github.com/stoklund/varint](https://github.com/stoklund/varint).
+[github.com/stoklund/varint](https://web.archive.org/web/20201119135834/https://github.com/stoklund/varint).
 
 Instead of using individual bits for dispatching, this format classifies the
 first byte (`b[0]`) into ranges:
