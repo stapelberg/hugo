@@ -100,6 +100,7 @@ NixOS) on Arch Linux:
 % for n in $(seq 1 24); do sudo useradd -c "Nix build user $n" \
     -d /var/empty -g nixbld -G nixbld -M -N -r -s "$(which nologin)" \
     nixbld$n; done
+% sudo systemctl enable --now nix-daemon.socket
 ```
 
 Now, running `nix-shell -p hello` should drop you in a new shell in which the
