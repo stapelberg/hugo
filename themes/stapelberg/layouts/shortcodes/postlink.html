@@ -1,0 +1,24 @@
+{{ $path := .Get "post" }}
+{{ $page := site.GetPage $path }}
+{{ with $page }}
+  <div class="postlink">
+      <div>
+	<a href="{{ .Permalink }}"><h3>{{ .Title }}</h3></a>
+      </div>
+      <div class="summary">
+	{{ $featured := .Resources.Match "*featured*" }}
+	{{ $imgs := $featured | append (.Resources.ByType "image") }}
+	{{ $permalink := .Permalink }}
+	{{ range first 1 $imgs }}
+	{{ $img := .Fit "200x200" }}
+	<a href="{{ $permalink }}" style="min-width: 200px; margin-right: 1.5rem; margin-bottom: 1.5rem">{{ printf "<img src=\"%s\" width=\"%d\" height=\"%d\"/>" $img.Permalink $img.Width $img.Height | safeHTML }}</a>
+	{{ end }}
+	<p>
+	  <a href="{{ .Permalink }}">
+	  {{ .Summary | plainify }}
+	  <span class="readmore"><a href="{{ .Permalink }}">Read more →</a></span>
+	  </a>
+	</p>
+      </div>
+  </div>
+{{ end }}
