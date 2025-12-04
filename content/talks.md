@@ -13,7 +13,33 @@ starting to vanish from the internet, I started collecting them here.
 
 ## 2025
 
-(en @ GPN 23) My 2025 Linux + Go self-hosting stack
+(en @ [Go meetup Zürich](https://zh.gophers.ch/)) Emacs: a super quick introduction
+
+{{< talkthumb id="nrbJm00Uko0" maxresdefault="1" webp="1" >}}
+
+  → watch the recording on [YouTube](https://youtu.be/nrbJm00Uko0)
+
+  → browse the [slides](https://docs.google.com/presentation/d/1E5cfcVsdFOLM8YaHsYATXJTh7XFD_cQLANE1tHXNc9Y/edit?usp=sharing)
+
+<br style="clear: left" />
+
+(en @ [Nix Your Bugs](https://rheinneckar.events/events/f331e308-07fc-4196-8cf4-0714456a899b) meetup) Nix in 2025: Why I switched!
+
+<div markdown="0">
+<a href="https://tube.tchncs.de/w/47FUkqjedpPRwbyWDs54At">
+<picture class="talkthumb">
+<img src="https://tube.tchncs.de/lazy-static/previews/93575c7e-e181-45ae-9728-b0a7e093ec8f.jpg">
+</picture>
+</a>
+</div>
+
+  → watch the recording on [tchncs PeerTube](https://tube.tchncs.de/w/47FUkqjedpPRwbyWDs54At)
+
+  → browse the [slides](https://docs.google.com/presentation/d/1uUUV8s6pE-JMQQcvN7hnLUxQ2NPbpJMr-_NfHIx2zqE/edit?usp=sharing)
+
+<br style="clear: left" />
+
+(en @ [GPN 23](https://entropia.de/GPN)) My 2025 Linux + Go self-hosting stack
 
 {{< talkthumb id="CI2so-lY04k" maxresdefault="1" webp="1" >}}
 
@@ -26,7 +52,7 @@ starting to vanish from the internet, I started collecting them here.
 
 <br style="clear: left" />
 
-(en @ GopherCon EU 2025) Go Protobuf: Opaque API
+(en @ [GopherCon EU 2025](https://www.gophercon.eu/)) Go Protobuf: Opaque API
 
 {{< talkthumb id="scNYFVtD5ZM" maxresdefault="1" webp="1" >}}
 
@@ -34,7 +60,7 @@ starting to vanish from the internet, I started collecting them here.
 
 <br style="clear: left" />
 
-(en @ Go meetup Zürich) Go Protobuf: Opaque API
+(en @ [Go meetup Zürich](https://zh.gophers.ch/)) Go Protobuf: Opaque API
 
 {{< talkthumb id="QpLjj3yZ4R8" maxresdefault="1" webp="1" >}}
 
