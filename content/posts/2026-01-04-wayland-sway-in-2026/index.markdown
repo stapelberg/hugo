@@ -431,7 +431,15 @@ gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
 gsettings set org.gnome.desktop.interface font-hinting 'full'
 ```
 
-Any tips?
+**Update**: Thanks to
+[Hugo](https://fosstodon.org/@whynothugo/115836011150423009) for pointing out
+that under Wayland, GTK3 ignores the `~/.config/gtk-3.0/settings.ini`
+configuration file and uses dconf exclusively! Setting the following dconf
+setting makes the font rendering match:
+
+```
+gsettings set org.gnome.desktop.interface font-name 'Cantarell 11'
+```
 
 ### Screen locker: swaylock {#swaylock}
 
