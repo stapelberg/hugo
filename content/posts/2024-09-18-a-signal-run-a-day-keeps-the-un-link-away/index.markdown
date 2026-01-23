@@ -335,7 +335,8 @@ EOT
 ```
 
 The `Persistent=true` line is important so that the program will be run even
-when the computer is asleep when the timer would have fired.
+when the computer is shut down when the timer would have fired (when the
+computer is asleep, the timer will also fire when the system has woken up).
 
 Let’s enable the timer:
 
