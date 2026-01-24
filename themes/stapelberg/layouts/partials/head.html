@@ -115,7 +115,7 @@
        https://web.dev/codelab-preload-web-fonts/ -->
   <link rel="preload" href="{{ "font/subset-Lato-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{{ "font/subset-Roboto-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
-  {{- $style := resources.Get "/1.scss" | css.Sass | resources.Minify }}
+  {{- $style := resources.Get "/1.css" | resources.Minify }}
 
   <!--
 
