@@ -65,8 +65,13 @@ mediaType = "application/atom"
 baseName = "feed"
 isPlainText = false
 
+[outputFormats.AtomNoAI]
+mediaType = "application/atom"
+baseName = "feed-no-ai"
+isPlainText = false
+
 [outputs]
-home = [ "HTML", "Atom" ]
+home = [ "HTML", "Atom", "AtomNoAI" ]
 term = [ "HTML", "Atom" ]
 
 # Prevent <!-- raw HTML omitted -->:

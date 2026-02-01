@@ -1,9 +1,9 @@
 {{ `<?xml version="1.0" encoding="utf-8"?>` | safeHTML }}
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Michael Stapelbergs Website</title>
-  <link href="{{ .Permalink }}feed.xml" rel="self"/>
+  <title>Michael Stapelbergs Website (Feed without AI posts)</title>
+  <link href="{{ .Permalink }}feed-no-ai.xml" rel="self"/>
   <link href="{{ .Permalink }}"/>
-  <id>{{ .Permalink }}</id>{{ with .Site.Author.name }}
+  <id>{{ .Permalink }}feed-no-ai.xml</id>{{ with .Site.Author.name }}
   <author>
     <name>{{.}}</name>{{ with $.Site.Author.email }}
     <email>{{.}}</email>{{end}}
@@ -11,7 +11,9 @@
   <generator>Hugo -- gohugo.io</generator>
   {{- $posts := where .Site.Pages "Section" "posts" }}
   {{- $posts = where $posts "Params.hidden" "ne" "true" }}
-  {{- range (first 15 $posts) }}
+  {{- $ai := where $posts "Params.tags" "intersect" (slice "ai") }}
+  {{- $nonai := complement $ai $posts }}
+  {{- range (first 15 $nonai) }}
   <entry>
     {{ `<title type="html"><![CDATA[` | safeHTML }}{{ .Title }}]]></title>
     <link href="{{ .Permalink }}"/>
