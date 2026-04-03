@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Regular.woff2') format('woff2'),
+             url('/font/Go-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Bold.woff2') format('woff2'),
+             url('/font/Go-Bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go Mono';
+        src: url('/font/Go-Mono.woff2') format('woff2'),
+             url('/font/Go-Mono.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      .box-green { fill: #d4eac6; }
+      .box-gray { fill: #dee4eb; }
+      .box-ok { fill: #1a6b3a; }
+      .txt { fill: #333; }
+      .txt-dark { fill: #333; }
+      .txt-green { fill: #1a6b3a; }
+      .txt-white { fill: #fff; }
+      .txt-label { fill: #555; }
+      .arrow-line {
+        fill: none;
+        stroke: #444;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 0 4;
+      }
+      .arrow-head { fill: #444; }
+      text {
+        font-family: 'Go', sans-serif;
+      }
+      .mono {
+        font-family: 'Go Mono', monospace;
+      }
+    </style>
+  </defs>
+
+  <rect width="900" height="400" fill="#fff"/>
+
+  <text x="450" y="30" text-anchor="middle" font-size="15" font-weight="bold" class="txt-dark">Common case: Building directly from a git checkout</text>
+  <text x="450" y="50" text-anchor="middle" font-size="11" class="txt-label" letter-spacing=".05em">No packaging system involved. VCS info flows straight through.</text>
+
+  <!-- Git repo -->
+  <rect x="30" y="80" width="200" height="100" rx="4" class="box-green"/>
+  <text x="130" y="108" text-anchor="middle" font-weight="bold" class="txt-dark" font-size="14">git repository</text>
+  <text x="50" y="132" class="txt" font-size="11">source code</text>
+  <text x="50" y="150" class="txt-green mono" font-size="11" font-weight="bold">.git/ directory</text>
+  <text x="50" y="168" class="txt mono" font-size="11">rev = abc123...</text>
+
+  <!-- Arrow -->
+  <line x1="230" y1="130" x2="290" y2="130" class="arrow-line"/>
+  <polygon points="290,126 298,130 290,134" class="arrow-head"/>
+  <text x="264" y="120" class="txt-green" font-size="10" text-anchor="middle">.git/ present</text>
+
+  <!-- go build -->
+  <rect x="305" y="80" width="220" height="100" rx="4" class="box-green"/>
+  <text x="415" y="108" text-anchor="middle" font-weight="bold" class="txt-dark mono" font-size="14">go build / go install</text>
+  <text x="320" y="132" class="txt" font-size="11">Go detects .git/</text>
+  <text x="320" y="150" class="txt mono" font-size="11">runs git log, git status</text>
+  <text x="320" y="168" class="txt-green mono" font-size="11" font-weight="bold">-buildvcs=auto (default)</text>
+
+  <!-- Arrow -->
+  <line x1="525" y1="130" x2="585" y2="130" class="arrow-line"/>
+  <polygon points="585,126 593,130 585,134" class="arrow-head"/>
+  <text x="558" y="120" class="txt-green" font-size="10" text-anchor="middle">stamps!</text>
+
+  <!-- Binary -->
+  <rect x="600" y="80" width="270" height="100" rx="6" class="box-ok"/>
+  <text x="735" y="108" text-anchor="middle" font-weight="bold" class="txt-white" font-size="14">binary</text>
+  <text x="620" y="132" class="txt-white mono" font-size="11">vcs.revision=abc123...def</text>
+  <text x="620" y="150" class="txt-white mono" font-size="11">vcs.time=2026-04-04T10:05:30Z</text>
+  <text x="620" y="168" class="txt-white mono" font-size="11">vcs.modified=false</text>
+
+  <!-- Example commands -->
+  <rect x="30" y="220" width="840" height="155" rx="4" class="box-gray"/>
+  <text x="50" y="248" font-weight="bold" class="txt-dark" font-size="12">Example:</text>
+
+  <text x="50" y="275" class="txt mono" font-size="12">$ cd ~/myproject</text>
+  <text x="50" y="297" class="txt mono" font-size="12">$ go install ./cmd/myapp</text>
+  <text x="50" y="319" class="txt mono" font-size="12">$ go version -m $(which myapp) | grep vcs</text>
+  <text x="50" y="346" class="txt-green mono" font-size="12" font-weight="bold">  build  vcs.revision=5f30b9570a9cbd0525c4259fce754a7667a44e1b</text>
+  <text x="50" y="366" class="txt-green mono" font-size="12" font-weight="bold">  build  vcs.time=2026-04-04T10:05:30Z</text>
+</svg>

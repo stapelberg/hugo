@@ -1,0 +1,352 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-size="13">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Regular.woff2') format('woff2'),
+             url('/font/Go-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Bold.woff2') format('woff2'),
+             url('/font/Go-Bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go Mono';
+        src: url('/font/Go-Mono.woff2') format('woff2'),
+             url('/font/Go-Mono.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      text {
+        font-family: 'Go', sans-serif;
+      }
+      .mono {
+        font-family: 'Go Mono', monospace;
+      }
+      .arrow-line {
+        fill: none;
+        stroke: #444;
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-dasharray: 0 3.5;
+      }
+      .arrow-head { fill: #444; }
+    </style>
+  </defs>
+
+  <rect width="1000" height="560" fill="#fff"/>
+
+  <!-- Vertical divider lines -->
+  <line x1="330" y1="0" x2="330" y2="560" stroke="#4a6f84" stroke-width="3"/>
+  <line x1="640" y1="0" x2="640" y2="560" stroke="#4a6f84" stroke-width="3"/>
+
+  <!-- Group labels at top -->
+  <text x="175" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">fetchers (flake and non-flake)</text>
+  <text x="485" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">fixed-output derivation (FOD)</text>
+  <text x="810" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">copiers (not git-aware)</text>
+
+  <!-- ════ nix eval ════════════════════════════════════════════════ -->
+  <line x1="0" y1="24" x2="1000" y2="24" stroke="#a2c4db" stroke-width="2"/>
+  <text x="15" y="21" fill="#444" font-size="9" font-weight="bold" letter-spacing=".11em" class="mono">nix eval</text>
+
+  <!-- ── Row 1: What users write ─────────────────────────────────── -->
+  <!-- L1 (green) -->
+  <rect x="30" y="32" width="140" height="112" rx="4" fill="#d4eac6"/>
+  <text x="36" y="44" fill="#333" font-size="6">flake.nix inputs:</text>
+  <text x="36" y="55" fill="#333" font-size="6.5" class="mono">foo = {</text>
+  <text x="46" y="64" fill="#333" font-size="6.5" class="mono">url = "github:org/repo";</text>
+  <text x="36" y="73" fill="#333" font-size="6.5" class="mono">};</text>
+  <text x="36" y="85" fill="#333" font-size="6.5" class="mono">bar = {</text>
+  <text x="46" y="94" fill="#333" font-size="6.5" class="mono">url = "git+file:///…";</text>
+  <text x="46" y="103" fill="#333" font-size="6.5" class="mono">flake = false;</text>
+  <text x="36" y="112" fill="#333" font-size="6.5" class="mono">};</text>
+
+  <!-- L2 (green) -->
+  <rect x="180" y="32" width="140" height="112" rx="4" fill="#d4eac6"/>
+  <text x="186" y="44" fill="#333" font-size="6">any .nix file:</text>
+  <text x="186" y="55" fill="#333" font-size="6.5" class="mono">src = builtins.fetchGit {</text>
+  <text x="196" y="64" fill="#333" font-size="6.5" class="mono">url = "https://…";</text>
+  <text x="196" y="73" fill="#333" font-size="6.5" class="mono">rev = "abc123…";</text>
+  <text x="186" y="82" fill="#333" font-size="6.5" class="mono">};</text>
+  <text x="186" y="94" fill="#333" font-size="6.5" class="mono">src = builtins.fetchGit</text>
+  <text x="196" y="103" fill="#333" font-size="6.5" class="mono">./local/path;</text>
+
+  <!-- L3+L4 combined (gray) -->
+  <rect x="340" y="32" width="290" height="112" rx="4" fill="#dee4eb"/>
+  <text x="346" y="44" fill="#333" font-size="6">any .nix file (e.g. -pkg.nix):</text>
+  <text x="346" y="55" fill="#333" font-size="6.5" class="mono">src = pkgs.fetchgit {</text>
+  <text x="356" y="64" fill="#333" font-size="6.5" class="mono">url = "https://…";</text>
+  <text x="356" y="73" fill="#333" font-size="6.5" class="mono">sha256 = "…";</text>
+  <text x="346" y="82" fill="#333" font-size="6.5" class="mono">};</text>
+  <text x="346" y="93" fill="#333" font-size="6.5" class="mono">src = pkgs.fetchFromGitHub {</text>
+  <text x="356" y="102" fill="#333" font-size="6.5" class="mono">owner = "…";</text>
+  <text x="356" y="111" fill="#333" font-size="6.5" class="mono">repo = "…";</text>
+  <text x="356" y="120" fill="#333" font-size="6.5" class="mono">sha256 = "…";</text>
+  <text x="346" y="129" fill="#333" font-size="6.5" class="mono">};</text>
+
+  <!-- L5 (pink) -->
+  <rect x="650" y="32" width="130" height="112" rx="4" fill="#f2d8e0"/>
+  <text x="656" y="44" fill="#333" font-size="6">flake.nix inputs:</text>
+  <text x="656" y="55" fill="#333" font-size="6.5" class="mono">foo = {</text>
+  <text x="666" y="64" fill="#333" font-size="6.5" class="mono">url = "/home/me/foo";</text>
+  <text x="666" y="73" fill="#333" font-size="6.5" class="mono">flake = false;</text>
+  <text x="656" y="82" fill="#333" font-size="6.5" class="mono">};</text>
+
+  <!-- L6 (pink) -->
+  <rect x="800" y="32" width="160" height="112" rx="4" fill="#f2d8e0"/>
+  <text x="806" y="44" fill="#333" font-size="6">any .nix file:</text>
+  <text x="806" y="55" fill="#333" font-size="6.5" class="mono">src = ./.;</text>
+  <text x="806" y="67" fill="#333" font-size="6.5" class="mono">src = /home/me/project;</text>
+  <text x="806" y="79" fill="#333" font-size="6.5" class="mono">src = ./src/subdir;</text>
+
+  <!-- ── Row 2: Entry points ─────────────────────────────────────── -->
+  <rect x="30" y="168" width="140" height="24" rx="4" fill="#d4eac6"/>
+  <text x="100" y="183" text-anchor="middle" font-weight="bold" fill="#333" font-size="8">Flake input (git)</text>
+  <rect x="180" y="168" width="140" height="24" rx="4" fill="#d4eac6"/>
+  <text x="250" y="183" text-anchor="middle" font-weight="bold" fill="#333" font-size="8" class="mono">builtins.fetchGit</text>
+  <rect x="340" y="168" width="290" height="24" rx="4" fill="#dee4eb"/>
+  <text x="485" y="183" text-anchor="middle" font-weight="bold" fill="#333" font-size="8"><tspan class="mono">pkgs.fetchgit</tspan> / <tspan class="mono">fetchFromGitHub</tspan></text>
+  <rect x="650" y="168" width="130" height="24" rx="4" fill="#f2d8e0"/>
+  <text x="715" y="183" text-anchor="middle" font-weight="bold" fill="#333" font-size="8">path: flake input</text>
+  <rect x="800" y="168" width="160" height="24" rx="4" fill="#f2d8e0"/>
+  <text x="880" y="183" text-anchor="middle" font-weight="bold" fill="#333" font-size="8">Nix language path</text>
+
+  <!-- ── Row 3: Input Schemes ────────────────────────────────────── -->
+  <rect x="30" y="208" width="140" height="16" rx="3" fill="#d4eac6"/>
+  <text x="100" y="219" text-anchor="middle" fill="#333" font-size="7">github InputScheme</text>
+  <rect x="180" y="208" width="140" height="16" rx="3" fill="#d4eac6"/>
+  <text x="250" y="219" text-anchor="middle" fill="#333" font-size="7">git InputScheme</text>
+  <rect x="340" y="208" width="290" height="16" rx="3" fill="#dee4eb" stroke="#fff" stroke-width="2" stroke-dasharray="0 3"/>
+  <text x="485" y="219" text-anchor="middle" fill="#333" font-size="7">not an InputScheme (FOD <tspan class="mono">.drv</tspan>)</text>
+  <rect x="650" y="208" width="130" height="16" rx="3" fill="#f2d8e0"/>
+  <text x="715" y="219" text-anchor="middle" fill="#333" font-size="7">path: InputScheme</text>
+  <rect x="800" y="208" width="160" height="16" rx="3" fill="#f2d8e0" stroke="#fff" stroke-width="2" stroke-dasharray="0 3"/>
+  <text x="880" y="219" text-anchor="middle" fill="#333" font-size="7">path coercion</text>
+
+  <!-- ── Row 4: Eval outputs ─────────────────────────────────────── -->
+  <rect x="30" y="240" width="290" height="24" rx="4" fill="#d4eac6"/>
+  <text x="175" y="255" text-anchor="middle" font-weight="bold" fill="#333" font-size="7">attrset with <tspan class="mono">.rev</tspan> (in-memory)</text>
+  <text x="175" y="278" text-anchor="middle" fill="#333" font-size="6">↓ depends on overlay ↓</text>
+
+  <!-- L1+L2 fork -->
+  <rect x="30" y="288" width="140" height="24" rx="3" fill="#e2f2d4"/>
+  <text x="100" y="303" text-anchor="middle" fill="#333" font-size="6" font-weight="bold">stapelberg/nix/go-vcs-stamping</text>
+  <rect x="180" y="288" width="140" height="24" rx="3" fill="#f2d8e0"/>
+  <text x="250" y="303" text-anchor="middle" fill="#a82030" font-size="6" font-weight="bold">status quo (without overlay)</text>
+
+  <!-- L3+L4 combined -->
+  <rect x="340" y="240" width="290" height="24" rx="4" fill="#dee4eb"/>
+  <text x="485" y="255" text-anchor="middle" font-weight="bold" fill="#333" font-size="7">FOD derivation (<tspan class="mono">.drv</tspan> on disk)</text>
+  <text x="485" y="278" text-anchor="middle" fill="#333" font-size="6">↓ depends on <tspan class="mono">leaveDotGit</tspan> ↓</text>
+
+  <!-- L5 (pink) -->
+  <rect x="650" y="240" width="130" height="64" rx="4" fill="#f2d8e0"/>
+  <text x="715" y="260" text-anchor="middle" fill="#333" font-size="7">attrset, no <tspan class="mono">.rev</tspan></text>
+  <text x="715" y="274" text-anchor="middle" fill="#a82030" font-size="6">never existed</text>
+  <!-- L6 (pink) -->
+  <rect x="800" y="240" width="160" height="64" rx="4" fill="#f2d8e0"/>
+  <text x="880" y="260" text-anchor="middle" fill="#333" font-size="7">attrset, no <tspan class="mono">.rev</tspan></text>
+  <text x="880" y="274" text-anchor="middle" fill="#a82030" font-size="6">never existed</text>
+
+  <!-- ════ fetch source ═══════════════════════════════════════════ -->
+  <line x1="0" y1="328" x2="1000" y2="328" stroke="#888" stroke-width="1"/>
+  <text x="15" y="324" fill="#444" font-size="9" font-weight="bold" letter-spacing=".11em">fetch source</text>
+
+  <rect x="30" y="336" width="140" height="16" rx="3" fill="#dee4eb"/>
+  <text x="100" y="347" text-anchor="middle" fill="#333" font-size="6">already in store</text>
+  <rect x="180" y="336" width="140" height="16" rx="3" fill="#dee4eb"/>
+  <text x="250" y="347" text-anchor="middle" fill="#333" font-size="6">already in store</text>
+
+  <rect x="340" y="336" width="290" height="16" rx="3" fill="#dee4eb"/>
+  <text x="485" y="347" text-anchor="middle" fill="#333" font-size="6" class="mono">git clone</text>
+  <rect x="340" y="360" width="140" height="16" rx="3" fill="#f2d8e0"/>
+  <text x="410" y="371" text-anchor="middle" fill="#a82030" font-size="6">remove <tspan class="mono">.git/</tspan> for reproducibility</text>
+  <rect x="490" y="360" width="140" height="16" rx="3" fill="#e2f2d4"/>
+  <text x="560" y="371" text-anchor="middle" fill="#1a6b3a" font-size="6">deterministically re-create <tspan class="mono">.git/</tspan></text>
+
+  <rect x="650" y="336" width="130" height="16" rx="3" fill="#dee4eb"/>
+  <text x="715" y="347" text-anchor="middle" fill="#333" font-size="6">already in store</text>
+  <rect x="800" y="336" width="160" height="16" rx="3" fill="#dee4eb"/>
+  <text x="880" y="347" text-anchor="middle" fill="#333" font-size="6">already in store</text>
+
+  <!-- ════ nix store ══════════════════════════════════════════════ -->
+  <line x1="0" y1="392" x2="1000" y2="392" stroke="#888" stroke-width="1.5"/>
+  <text x="15" y="388" fill="#444" font-size="9" font-weight="bold" letter-spacing=".11em">nix store</text>
+  <text x="100" y="388" fill="#333" font-size="7">(on disk — in-memory <tspan class="mono">.rev</tspan> is gone)</text>
+
+  <rect x="30" y="400" width="140" height="24" rx="3" fill="#d4eac6"/>
+  <text x="100" y="412" text-anchor="middle" fill="#333" font-size="7">source/ (no <tspan class="mono">.git/</tspan>)</text>
+  <text x="100" y="421" text-anchor="middle" fill="#1a6b3a" font-size="6"><tspan class="mono">.rev</tspan> stamped into <tspan class="mono">.drv</tspan></text>
+  <rect x="180" y="400" width="140" height="24" rx="3" fill="#f2d8e0"/>
+  <text x="250" y="412" text-anchor="middle" fill="#333" font-size="7">source/ (no <tspan class="mono">.git/</tspan>)</text>
+  <text x="250" y="421" text-anchor="middle" fill="#a82030" font-size="6"><tspan class="mono">.rev</tspan> lost</text>
+  <rect x="340" y="400" width="140" height="24" rx="3" fill="#f2d8e0"/>
+  <text x="410" y="412" text-anchor="middle" fill="#333" font-size="7">source/ (no <tspan class="mono">.git/</tspan>)</text>
+  <text x="410" y="421" text-anchor="middle" fill="#a82030" font-size="6"><tspan class="mono">.git/</tspan> stripped</text>
+  <rect x="490" y="400" width="140" height="24" rx="3" fill="#d4eac6"/>
+  <text x="560" y="412" text-anchor="middle" fill="#333" font-size="7">source/ (with <tspan class="mono">.git/</tspan>)</text>
+  <text x="560" y="421" text-anchor="middle" fill="#1a6b3a" font-size="6"><tspan class="mono">.git/</tspan> preserved</text>
+  <rect x="650" y="400" width="130" height="24" rx="3" fill="#f2d8e0"/>
+  <text x="715" y="412" text-anchor="middle" fill="#333" font-size="7">source/ (no <tspan class="mono">.git/</tspan>)</text>
+  <text x="715" y="421" text-anchor="middle" fill="#a82030" font-size="6">no <tspan class="mono">.rev</tspan></text>
+  <rect x="800" y="400" width="160" height="24" rx="3" fill="#f2d8e0"/>
+  <text x="880" y="412" text-anchor="middle" fill="#333" font-size="7">source/ (no <tspan class="mono">.git/</tspan>)</text>
+  <text x="880" y="421" text-anchor="middle" fill="#a82030" font-size="6">no <tspan class="mono">.rev</tspan></text>
+
+  <!-- ════ compile ═══════════════════════════════════════════════ -->
+  <line x1="0" y1="440" x2="1000" y2="440" stroke="#888" stroke-width="1"/>
+  <text x="15" y="436" fill="#444" font-size="9" font-weight="bold" letter-spacing=".11em">compile (with <tspan class="mono">buildGoModule</tspan>)</text>
+
+  <rect x="30" y="448" width="140" height="40" rx="3" fill="#d4eac6"/>
+  <text x="100" y="462" text-anchor="middle" font-weight="bold" fill="#1a6b3a" font-size="7">overlay fires</text>
+  <text x="100" y="473" text-anchor="middle" fill="#1a6b3a" font-size="6">synthesize <tspan class="mono">.git/</tspan> from <tspan class="mono">.rev</tspan></text>
+  <text x="100" y="484" text-anchor="middle" fill="#1a6b3a" font-size="6"><tspan class="mono">go build</tspan> stamps VCS</text>
+  <rect x="180" y="448" width="140" height="40" rx="3" fill="#f2d8e0"/>
+  <text x="250" y="462" text-anchor="middle" font-weight="bold" fill="#a82030" font-size="7">no overlay</text>
+  <text x="250" y="473" text-anchor="middle" fill="#a82030" font-size="6"><tspan class="mono">.rev</tspan> lost</text>
+  <text x="250" y="484" text-anchor="middle" fill="#a82030" font-size="6" class="mono">go build → (devel)</text>
+  <rect x="340" y="448" width="140" height="40" rx="3" fill="#f2d8e0"/>
+  <text x="410" y="462" text-anchor="middle" font-weight="bold" fill="#a82030" font-size="7">nothing available</text>
+  <text x="410" y="473" text-anchor="middle" fill="#a82030" font-size="6"><tspan class="mono">.git/</tspan> stripped, no <tspan class="mono">.rev</tspan></text>
+  <text x="410" y="484" text-anchor="middle" fill="#a82030" font-size="6" class="mono">go build → (devel)</text>
+  <rect x="490" y="448" width="140" height="40" rx="3" fill="#d4eac6"/>
+  <text x="560" y="462" text-anchor="middle" font-weight="bold" fill="#1a6b3a" font-size="7">Go finds <tspan class="mono">.git/</tspan></text>
+  <text x="560" y="473" text-anchor="middle" fill="#1a6b3a" font-size="6">reads it directly</text>
+  <text x="560" y="484" text-anchor="middle" fill="#1a6b3a" font-size="6"><tspan class="mono">go build</tspan> stamps VCS</text>
+  <rect x="650" y="448" width="130" height="40" rx="3" fill="#f2d8e0"/>
+  <text x="715" y="462" text-anchor="middle" font-weight="bold" fill="#a82030" font-size="7">nothing available</text>
+  <text x="715" y="473" text-anchor="middle" fill="#a82030" font-size="6">no <tspan class="mono">.rev</tspan>, no <tspan class="mono">.git/</tspan></text>
+  <text x="715" y="484" text-anchor="middle" fill="#a82030" font-size="6" class="mono">go build → (devel)</text>
+  <rect x="800" y="448" width="160" height="40" rx="3" fill="#f2d8e0"/>
+  <text x="880" y="462" text-anchor="middle" font-weight="bold" fill="#a82030" font-size="7">nothing available</text>
+  <text x="880" y="473" text-anchor="middle" fill="#a82030" font-size="6">no <tspan class="mono">.rev</tspan>, no <tspan class="mono">.git/</tspan></text>
+  <text x="880" y="484" text-anchor="middle" fill="#a82030" font-size="6" class="mono">go build → (devel)</text>
+
+  <!-- ════ result ═════════════════════════════════════════════════ -->
+  <line x1="0" y1="504" x2="1000" y2="504" stroke="#888" stroke-width="1"/>
+  <text x="15" y="500" fill="#444" font-size="9" font-weight="bold" letter-spacing=".11em">result</text>
+
+  <rect x="30" y="512" width="140" height="40" rx="6" fill="#1a6b3a"/>
+  <text x="100" y="534" text-anchor="middle" font-weight="bold" fill="#fff" font-size="11">🥳 Now Stamped! 🥳</text>
+  <text x="100" y="546" text-anchor="middle" fill="#fff" font-size="6"><tspan class="mono">vcs.revision</tspan> from <tspan class="mono">.drv</tspan></text>
+
+  <rect x="180" y="512" width="140" height="40" rx="6" fill="#a82030"/>
+  <text x="250" y="534" text-anchor="middle" font-weight="bold" fill="#fff" font-size="11">VCS info lost</text>
+  <text x="250" y="546" text-anchor="middle" fill="#fff" font-size="6"><tspan class="mono">.rev</tspan> lost</text>
+
+  <rect x="340" y="512" width="140" height="40" rx="6" fill="#a82030"/>
+  <text x="410" y="534" text-anchor="middle" font-weight="bold" fill="#fff" font-size="11">VCS info lost</text>
+  <text x="410" y="546" text-anchor="middle" fill="#fff" font-size="6"><tspan class="mono">.git/</tspan> stripped, no <tspan class="mono">.rev</tspan></text>
+
+  <rect x="490" y="512" width="140" height="40" rx="6" fill="#1a6b3a"/>
+  <text x="560" y="534" text-anchor="middle" font-weight="bold" fill="#fff" font-size="11">Stamped, but FOD 😞</text>
+  <text x="560" y="546" text-anchor="middle" fill="#fff" font-size="6"><tspan class="mono">vcs.revision</tspan> from <tspan class="mono">.git/</tspan></text>
+
+  <rect x="650" y="512" width="130" height="40" rx="6" fill="#a82030"/>
+  <text x="715" y="534" text-anchor="middle" font-weight="bold" fill="#fff" font-size="11">VCS info lost</text>
+  <text x="715" y="546" text-anchor="middle" fill="#fff" font-size="6">no <tspan class="mono">.rev</tspan> ever</text>
+
+  <rect x="800" y="512" width="160" height="40" rx="6" fill="#a82030"/>
+  <text x="880" y="534" text-anchor="middle" font-weight="bold" fill="#fff" font-size="11">VCS info lost</text>
+  <text x="880" y="546" text-anchor="middle" fill="#fff" font-size="6">no <tspan class="mono">.rev</tspan> ever</text>
+
+  <!-- ════ ARROWS ═══════════════════════════════════════════════ -->
+
+  <!-- Row 1 → Row 2 -->
+  <line x1="100" y1="144" x2="100" y2="163" class="arrow-line"/>
+  <polygon points="97,163 100,168 103,163" class="arrow-head"/>
+  <line x1="250" y1="144" x2="250" y2="163" class="arrow-line"/>
+  <polygon points="247,163 250,168 253,163" class="arrow-head"/>
+  <line x1="485" y1="144" x2="485" y2="163" class="arrow-line"/>
+  <polygon points="482,163 485,168 488,163" class="arrow-head"/>
+  <line x1="715" y1="144" x2="715" y2="163" class="arrow-line"/>
+  <polygon points="712,163 715,168 718,163" class="arrow-head"/>
+  <line x1="880" y1="144" x2="880" y2="163" class="arrow-line"/>
+  <polygon points="877,163 880,168 883,163" class="arrow-head"/>
+
+  <!-- Row 2 → Row 3 -->
+  <line x1="100" y1="192" x2="100" y2="203" class="arrow-line"/>
+  <polygon points="97,203 100,208 103,203" class="arrow-head"/>
+  <line x1="250" y1="192" x2="250" y2="203" class="arrow-line"/>
+  <polygon points="247,203 250,208 253,203" class="arrow-head"/>
+  <line x1="485" y1="192" x2="485" y2="203" class="arrow-line"/>
+  <polygon points="482,203 485,208 488,203" class="arrow-head"/>
+  <line x1="715" y1="192" x2="715" y2="203" class="arrow-line"/>
+  <polygon points="712,203 715,208 718,203" class="arrow-head"/>
+  <line x1="880" y1="192" x2="880" y2="203" class="arrow-line"/>
+  <polygon points="877,203 880,208 883,203" class="arrow-head"/>
+
+  <!-- Row 3 → Row 4 (L1,L2 converge) -->
+  <line x1="100" y1="224" x2="130" y2="235" class="arrow-line"/>
+  <polygon points="127,236 132,240 133,234" class="arrow-head"/>
+  <line x1="250" y1="224" x2="220" y2="235" class="arrow-line"/>
+  <polygon points="217,234 218,240 223,236" class="arrow-head"/>
+  <line x1="485" y1="224" x2="485" y2="235" class="arrow-line"/>
+  <polygon points="482,235 485,240 488,235" class="arrow-head"/>
+  <line x1="715" y1="224" x2="715" y2="235" class="arrow-line"/>
+  <polygon points="712,235 715,240 718,235" class="arrow-head"/>
+  <line x1="880" y1="224" x2="880" y2="235" class="arrow-line"/>
+  <polygon points="877,235 880,240 883,235" class="arrow-head"/>
+
+  <!-- Row 4 → Row 5: L1+L2 fork, L3+L4 fork -->
+  <line x1="100" y1="312" x2="100" y2="331" class="arrow-line"/>
+  <polygon points="97,331 100,336 103,331" class="arrow-head"/>
+  <line x1="250" y1="312" x2="250" y2="331" class="arrow-line"/>
+  <polygon points="247,331 250,336 253,331" class="arrow-head"/>
+  <path d="M 455 264 L 455 300 Q 455 310 445 310 L 410 310 L 410 331" fill="none" class="arrow-line"/>
+  <polygon points="407,331 410,336 413,331" class="arrow-head"/>
+  <path d="M 515 264 L 515 300 Q 515 310 525 310 L 560 310 L 560 331" fill="none" class="arrow-line"/>
+  <polygon points="557,331 560,336 563,331" class="arrow-head"/>
+  <line x1="715" y1="304" x2="715" y2="331" class="arrow-line"/>
+  <polygon points="712,331 715,336 718,331" class="arrow-head"/>
+  <line x1="880" y1="304" x2="880" y2="331" class="arrow-line"/>
+  <polygon points="877,331 880,336 883,331" class="arrow-head"/>
+
+  <!-- Row 5 → Row 6 -->
+  <line x1="100" y1="352" x2="100" y2="395" class="arrow-line"/>
+  <polygon points="97,395 100,400 103,395" class="arrow-head"/>
+  <line x1="250" y1="352" x2="250" y2="395" class="arrow-line"/>
+  <polygon points="247,395 250,400 253,395" class="arrow-head"/>
+  <line x1="410" y1="376" x2="410" y2="395" class="arrow-line"/>
+  <polygon points="407,395 410,400 413,395" class="arrow-head"/>
+  <line x1="560" y1="376" x2="560" y2="395" class="arrow-line"/>
+  <polygon points="557,395 560,400 563,395" class="arrow-head"/>
+  <line x1="715" y1="352" x2="715" y2="395" class="arrow-line"/>
+  <polygon points="712,395 715,400 718,395" class="arrow-head"/>
+  <line x1="880" y1="352" x2="880" y2="395" class="arrow-line"/>
+  <polygon points="877,395 880,400 883,395" class="arrow-head"/>
+
+  <!-- Row 6 → Row 7 -->
+  <line x1="100" y1="424" x2="100" y2="443" class="arrow-line"/>
+  <polygon points="97,443 100,448 103,443" class="arrow-head"/>
+  <line x1="250" y1="424" x2="250" y2="443" class="arrow-line"/>
+  <polygon points="247,443 250,448 253,443" class="arrow-head"/>
+  <line x1="410" y1="424" x2="410" y2="443" class="arrow-line"/>
+  <polygon points="407,443 410,448 413,443" class="arrow-head"/>
+  <line x1="560" y1="424" x2="560" y2="443" class="arrow-line"/>
+  <polygon points="557,443 560,448 563,443" class="arrow-head"/>
+  <line x1="715" y1="424" x2="715" y2="443" class="arrow-line"/>
+  <polygon points="712,443 715,448 718,443" class="arrow-head"/>
+  <line x1="880" y1="424" x2="880" y2="443" class="arrow-line"/>
+  <polygon points="877,443 880,448 883,443" class="arrow-head"/>
+
+  <!-- Row 7 → Results -->
+  <line x1="100" y1="488" x2="100" y2="507" class="arrow-line"/>
+  <polygon points="97,507 100,512 103,507" class="arrow-head"/>
+  <line x1="250" y1="488" x2="250" y2="507" class="arrow-line"/>
+  <polygon points="247,507 250,512 253,507" class="arrow-head"/>
+  <line x1="410" y1="488" x2="410" y2="507" class="arrow-line"/>
+  <polygon points="407,507 410,512 413,507" class="arrow-head"/>
+  <line x1="560" y1="488" x2="560" y2="507" class="arrow-line"/>
+  <polygon points="557,507 560,512 563,507" class="arrow-head"/>
+  <line x1="715" y1="488" x2="715" y2="507" class="arrow-line"/>
+  <polygon points="712,507 715,512 718,507" class="arrow-head"/>
+  <line x1="880" y1="488" x2="880" y2="507" class="arrow-line"/>
+  <polygon points="877,507 880,512 883,507" class="arrow-head"/>
+
+</svg>

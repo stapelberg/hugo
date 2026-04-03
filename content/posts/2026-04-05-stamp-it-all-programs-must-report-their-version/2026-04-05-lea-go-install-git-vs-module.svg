@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 680">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Regular.woff2') format('woff2'),
+             url('/font/Go-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Bold.woff2') format('woff2'),
+             url('/font/Go-Bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go Mono';
+        src: url('/font/Go-Mono.woff2') format('woff2'),
+             url('/font/Go-Mono.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      .box-green { fill: #d4eac6; }
+      .box-pink { fill: #f2d8e0; }
+      .box-gray { fill: #dee4eb; }
+      .box-ok { fill: #1a6b3a; }
+      .box-warn { fill: #dee4eb; }
+      .txt { fill: #333; }
+      .txt-dark { fill: #333; }
+      .txt-green { fill: #1a6b3a; }
+      .txt-red { fill: #8b1a2b; }
+      .txt-amber { fill: #6b5a10; }
+      .txt-white { fill: #fff; }
+      .txt-label { fill: #555; }
+      .arrow-line {
+        fill: none;
+        stroke: #444;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 0 4;
+      }
+      .arrow-head { fill: #444; }
+      .divider {
+        stroke: #444;
+        stroke-width: 1;
+      }
+      text {
+        font-family: 'Go', sans-serif;
+      }
+      .mono {
+        font-family: 'Go Mono', monospace;
+      }
+    </style>
+  </defs>
+
+  <rect width="950" height="680" fill="#fff"/>
+
+  <!-- Vertical divider between left and right paths -->
+  <line x1="460" y1="70" x2="460" y2="520" stroke="#4a6f84" stroke-width="3"/>
+
+  <text x="475" y="30" text-anchor="middle" font-size="15" font-weight="bold" class="txt-dark">The two go install modes: git vs. module</text>
+  <text x="475" y="50" text-anchor="middle" font-size="11" class="txt-label" letter-spacing=".05em">go install can build from a local git checkout (stamped) or from a Go module proxy (partial info).</text>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Left: local git checkout -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+
+  <rect x="30" y="80" width="400" height="90" rx="4" class="box-green"/>
+  <text x="230" y="105" text-anchor="middle" font-weight="bold" class="txt-dark" font-size="14">Local git checkout</text>
+  <text x="50" y="128" class="txt mono" font-size="12">$ cd ~/myproject &amp;&amp; go install ./cmd/foo</text>
+  <text x="50" y="148" class="txt-green" font-size="11"><tspan class="mono">.git/</tspan> is present — Go runs <tspan class="mono">git log</tspan>, <tspan class="mono">git status</tspan></text>
+
+  <!-- Right: go install remote module -->
+  <rect x="500" y="80" width="410" height="90" rx="4" class="box-gray"/>
+  <text x="705" y="105" text-anchor="middle" font-weight="bold" class="txt-dark" font-size="14">Go module proxy (remote install)</text>
+  <text x="520" y="128" class="txt mono" font-size="12">$ go install github.com/foo/bar/cmd/baz@latest</text>
+  <text x="520" y="148" class="txt-amber" font-size="11">downloads from proxy.golang.org — no <tspan class="mono">.git/</tspan></text>
+
+  <!-- Arrows down -->
+  <line x1="230" y1="170" x2="230" y2="210" class="arrow-line"/>
+  <polygon points="227,210 230,218 233,210" class="arrow-head"/>
+  <line x1="705" y1="170" x2="705" y2="210" class="arrow-line"/>
+  <polygon points="702,210 705,218 708,210" class="arrow-head"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Go build process (left) -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+
+  <rect x="30" y="225" width="400" height="115" rx="4" class="box-green"/>
+  <text x="230" y="252" text-anchor="middle" font-weight="bold" class="txt-dark mono" font-size="14">go build -buildvcs=auto</text>
+  <text x="50" y="278" class="txt" font-size="11">Go detects <tspan class="mono">.git/</tspan> in source tree</text>
+  <text x="50" y="296" class="txt mono" font-size="11">→ git -c log.showsignature=false log -1 ...</text>
+  <text x="50" y="314" class="txt mono" font-size="11">→ git status --porcelain</text>
+  <text x="50" y="332" class="txt-green mono" font-size="11" font-weight="bold">stamps vcs.revision, vcs.time, vcs.modified</text>
+
+  <!-- Go build process (right) -->
+  <rect x="500" y="225" width="410" height="115" rx="4" class="box-gray"/>
+  <text x="705" y="252" text-anchor="middle" font-weight="bold" class="txt-dark mono" font-size="14">go build (from module cache)</text>
+  <text x="520" y="278" class="txt" font-size="11">source is in <tspan class="mono">~/go/pkg/mod/...</tspan> (no <tspan class="mono">.git/</tspan>)</text>
+  <text x="520" y="296" class="txt" font-size="11">Go can't use <tspan class="mono">-buildvcs</tspan></text>
+  <text x="520" y="314" class="txt" font-size="11">but: module version is embedded via module resolution</text>
+  <text x="520" y="332" class="txt-amber" font-size="11" font-weight="bold">stamps module version (pseudo-version), NOT vcs.*</text>
+
+  <!-- Arrows to results -->
+  <line x1="230" y1="340" x2="230" y2="385" class="arrow-line"/>
+  <polygon points="227,385 230,393 233,385" class="arrow-head"/>
+  <line x1="705" y1="340" x2="705" y2="385" class="arrow-line"/>
+  <polygon points="702,385 705,393 708,385" class="arrow-head"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Results -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+
+  <!-- Left result: full stamp -->
+  <rect x="30" y="400" width="400" height="115" rx="6" class="box-ok"/>
+  <text x="230" y="425" text-anchor="middle" font-weight="bold" class="txt-white" font-size="14">binary — full VCS stamp</text>
+  <text x="50" y="450" class="txt-white mono" font-size="11">mod  github.com/foo/bar  v0.0.0-20260131174001-ccb1d233f2a4+dirty</text>
+  <text x="50" y="470" class="txt-white mono" font-size="11" font-weight="bold">vcs.revision=ccb1d233f2a43e9118b9146b3c9a5ded1efb7551</text>
+  <text x="50" y="488" class="txt-white mono" font-size="11" font-weight="bold">vcs.time=2026-01-31T17:40:01Z</text>
+  <text x="50" y="506" class="txt-white mono" font-size="11" font-weight="bold">vcs.modified=true</text>
+
+  <!-- Right result: partial stamp -->
+  <rect x="500" y="400" width="410" height="115" rx="6" class="box-pink"/>
+  <text x="705" y="425" text-anchor="middle" font-weight="bold" class="txt-dark" font-size="14">binary ~ partial info</text>
+  <text x="520" y="450" class="txt mono" font-size="11">mod  github.com/foo/bar  v0.3.1-0.20260105212325-5347ac5f5bcb</text>
+  <text x="520" y="473" class="txt-label" font-size="11">[no <tspan class="mono">vcs.*</tspan> lines]</text>
+  <text x="520" y="495" class="txt-amber" font-size="10">module pseudo-version contains a truncated commit hash</text>
+  <text x="520" y="510" class="txt-amber" font-size="10">(12 chars, not 40) and a date, but no dirty flag</text>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Comparison table -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+
+  <rect x="30" y="545" width="880" height="120" rx="4" class="box-gray"/>
+  <text x="475" y="570" text-anchor="middle" font-weight="bold" class="txt-dark" font-size="13">Comparison: what you get in each case</text>
+
+  <text x="50" y="595" class="txt-dark" font-size="12" font-weight="bold">Information</text>
+  <text x="350" y="595" class="txt-green mono" font-size="12" font-weight="bold">go install ./cmd/... (local)</text>
+  <text x="650" y="595" class="txt-dark mono" font-size="12" font-weight="bold">go install ...@latest (proxy)</text>
+
+  <line x1="50" y1="603" x2="900" y2="603" class="divider"/>
+
+  <text x="50" y="621" class="txt" font-size="11">full 40-char commit hash</text>
+  <text x="390" y="621" class="txt-green mono" font-size="11">✓ vcs.revision=abc123...</text>
+  <text x="690" y="621" class="txt-amber" font-size="11">~ 12 chars in pseudo-version</text>
+
+  <text x="50" y="641" class="txt" font-size="11">dirty/modified flag</text>
+  <text x="390" y="641" class="txt-green mono" font-size="11">✓ vcs.modified=true/false</text>
+  <text x="690" y="641" class="txt-red" font-size="11">✗ not available</text>
+
+  <text x="50" y="658" class="txt" font-size="11">timestamp</text>
+  <text x="390" y="658" class="txt-green mono" font-size="11">✓ vcs.time=2026-...</text>
+  <text x="690" y="658" class="txt-amber" font-size="11">~ date in pseudo-version</text>
+</svg>

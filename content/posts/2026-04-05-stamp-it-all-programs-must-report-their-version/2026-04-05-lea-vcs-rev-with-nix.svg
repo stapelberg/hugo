@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Regular.woff2') format('woff2'),
+             url('/font/Go-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go';
+        src: url('/font/Go-Bold.woff2') format('woff2'),
+             url('/font/Go-Bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Go Mono';
+        src: url('/font/Go-Mono.woff2') format('woff2'),
+             url('/font/Go-Mono.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+      .box-green { fill: #d4eac6; }
+      .box-pink { fill: #f2d8e0; }
+      .box-gray { fill: #dee4eb; }
+      .box-accent { fill: #e2f2d4; }
+      .box-ok { fill: #1a6b3a; }
+      .box-bad { fill: #a82030; }
+      .txt { fill: #333; }
+      .txt-dark { fill: #333; }
+      .txt-green { fill: #1a6b3a; }
+      .txt-red { fill: #8b1a2b; }
+      .txt-white { fill: #fff; }
+      .txt-label { fill: #555; }
+      .arrow-line {
+        fill: none;
+        stroke: #444;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 0 4;
+      }
+      .arrow-solid {
+        fill: none;
+        stroke: #444;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .arrow-head { fill: #444; }
+      .break-x { stroke: #a82030; stroke-width: 3; stroke-linecap: round; }
+      text {
+        font-family: 'Go', sans-serif;
+      }
+      .mono {
+        font-family: 'Go Mono', monospace;
+      }
+    </style>
+  </defs>
+
+  <rect width="820" height="340" fill="#fff"/>
+
+  <!-- ═══ TOP ROW: broken path ═══════════════════════════════════ -->
+
+  <!-- Git repo -->
+  <rect x="20" y="40" width="140" height="70" rx="4" class="box-green"/>
+  <text x="90" y="66" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark">Git repo</text>
+  <text x="90" y="86" text-anchor="middle" font-size="11" class="txt mono">rev=ccb1d233...</text>
+
+  <!-- Arrow 1 -->
+  <line x1="160" y1="75" x2="195" y2="75" class="arrow-line"/>
+  <polygon points="195,71 203,75 195,79" class="arrow-head"/>
+  <text x="180" y="65" text-anchor="middle" font-size="9" class="txt-green mono">.rev</text>
+
+  <!-- Nix Flake -->
+  <rect x="210" y="40" width="140" height="70" rx="4" class="box-green"/>
+  <text x="280" y="66" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark">Nix Flake</text>
+  <text x="280" y="86" text-anchor="middle" font-size="11" class="txt">locks <tspan class="mono">.rev</tspan></text>
+
+  <!-- Arrow 2 with break -->
+  <line x1="350" y1="75" x2="378" y2="75" class="arrow-solid"/>
+  <line x1="383" y1="67" x2="397" y2="83" class="break-x"/>
+  <line x1="397" y1="67" x2="383" y2="83" class="break-x"/>
+  <line x1="402" y1="75" x2="423" y2="75" class="arrow-line"/>
+  <polygon points="423,71 431,75 423,79" class="arrow-head"/>
+  <text x="390" y="60" text-anchor="middle" font-size="9" font-weight="bold" class="txt-red">no <tspan class="mono">.git/</tspan></text>
+
+  <!-- fetchers/FOD -->
+  <rect x="438" y="40" width="140" height="70" rx="4" class="box-gray"/>
+  <text x="508" y="64" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark">fetchers/FOD</text>
+  <text x="508" y="82" text-anchor="middle" font-size="10" class="txt">lose/strip <tspan class="mono">.git/</tspan>,</text>
+  <text x="508" y="96" text-anchor="middle" font-size="10" class="txt">lose <tspan class="mono">.rev</tspan></text>
+
+  <!-- Arrow 3 -->
+  <line x1="578" y1="75" x2="623" y2="75" class="arrow-line"/>
+  <polygon points="623,71 631,75 623,79" class="arrow-head"/>
+  <text x="605" y="65" text-anchor="middle" font-size="9" class="txt-label">no VCS</text>
+
+  <!-- Go build (broken) -->
+  <rect x="638" y="40" width="160" height="70" rx="4" class="box-pink"/>
+  <text x="718" y="64" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark mono">go build</text>
+  <text x="718" y="86" text-anchor="middle" font-size="11" class="txt-red mono">(devel)</text>
+  <text x="718" y="100" text-anchor="middle" font-size="10" class="txt-red">no stamp!</text>
+
+  <!-- ═══ BOTTOM ROW: fixed path ═════════════════════════════════ -->
+
+  <text x="20" y="168" font-size="13" font-weight="bold" class="txt-green">With my go-vcs-stamping Nix overlay workaround:</text>
+
+  <!-- Git repo -->
+  <rect x="20" y="190" width="140" height="70" rx="4" class="box-green"/>
+  <text x="90" y="216" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark">Git repo</text>
+  <text x="90" y="238" text-anchor="middle" font-size="11" class="txt mono">rev=ccb1d233...</text>
+
+  <!-- Arrow -->
+  <line x1="160" y1="225" x2="195" y2="225" class="arrow-line"/>
+  <polygon points="195,221 203,225 195,229" class="arrow-head"/>
+
+  <!-- Nix Flake -->
+  <rect x="210" y="190" width="140" height="70" rx="4" class="box-green"/>
+  <text x="280" y="216" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark">Nix Flake</text>
+  <text x="280" y="238" text-anchor="middle" font-size="11" class="txt">locks <tspan class="mono">.rev</tspan></text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="225" x2="423" y2="225" class="arrow-line"/>
+  <polygon points="423,221 431,225 423,229" class="arrow-head"/>
+  <text x="390" y="215" text-anchor="middle" font-size="9" class="txt-green mono">.rev</text>
+
+  <!-- go-vcs-stamping overlay -->
+  <rect x="438" y="190" width="140" height="70" rx="4" class="box-accent"/>
+  <text x="508" y="214" text-anchor="middle" font-size="12" font-weight="bold" class="txt-dark">go-vcs-stamping</text>
+  <text x="508" y="232" text-anchor="middle" font-size="10" class="txt">create <tspan class="mono">.git/</tspan> from</text>
+  <text x="508" y="246" text-anchor="middle" font-size="10" class="txt">flake <tspan class="mono">.rev</tspan></text>
+
+  <!-- Arrow -->
+  <line x1="578" y1="225" x2="623" y2="225" class="arrow-line"/>
+  <polygon points="623,221 631,225 623,229" class="arrow-head"/>
+  <text x="605" y="215" text-anchor="middle" font-size="9" class="txt-green mono">.git/</text>
+
+  <!-- Go build (fixed) -->
+  <rect x="638" y="190" width="160" height="70" rx="4" class="box-green"/>
+  <text x="718" y="216" text-anchor="middle" font-size="13" font-weight="bold" class="txt-dark mono">go build</text>
+  <text x="718" y="238" text-anchor="middle" font-size="11" class="txt-green mono">vcs.revision</text>
+</svg>
