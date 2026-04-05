@@ -1,6 +1,6 @@
 ---
 title:  "About"
-date:   2017-12-11 10:05:00 +01:00
+date:   2026-04-05 00:00:00 +02:00
 menu:
   main:
     title: "About"
@@ -8,8 +8,14 @@ menu:
     weight: 10
 ---
 
-I use computers for fun and profit. In my spare time, I participate in the Free
-and open-source software community.
+Hello world! I am a human looking for positive and friendly interactions; please
+share what you like and tell me what interests you, if you think I would enjoy
+it too! :)
+
+I like learning, knowledge, structure and ideas!
+
+My mission is to organize the world’s information and make it universally
+accessible and useful.
 
 ## Projects
 
