@@ -28,7 +28,7 @@ response.
 Every household appliance has incredibly detailed versioning! Consider this
 dishwasher:
 
-{{< img src="2026-04-04-feuermurmel-dishwasher-versioning.png" alt="a dishwasher, with many precise bits of version information" >}}
+{{< img src="2026-04-04-feuermurmel-dishwasher-versioning.jpg" alt="a dishwasher, with many precise bits of version information" >}}
 
 *(Thank you Feuermurmel for sending me this lovely example!)*
 
