@@ -1,6 +1,6 @@
 baseURL = "https://michael.stapelberg.ch/"
 defaultContentLanguage = "en"
-languageCode = "en-us"
+locale = "en-us"
 summaryLength = 40
 title = "Michael Stapelbergs Website"
 theme = "stapelberg"
@@ -83,7 +83,7 @@ unsafe = true
   source = 'static'
   target = 'static'
   # Not using [!s][!v][!g][!o] because that doesn’t match bitpacking256v32.svg
-  excludeFiles = "turbopfor/*[!g][!o].svg"
+  files = [ '! turbopfor/*[!g][!o].svg' ]
 # TODO(https://github.com/gohugoio/hugo/issues/9076): add "turbopfor/Makefile"
 
 [privacy]
