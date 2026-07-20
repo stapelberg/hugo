@@ -6,11 +6,10 @@
 {{ range first 1 (where .Data.Pages "Section" "posts") }}
     {{- $fmt := "2006-01-02T15:04:05-07:00" }}
 {{ end }}
-  <id>{{ .Permalink }}</id>{{ with .Site.Author.name }}
+  <id>{{ .Permalink }}</id>
   <author>
-    <name>{{.}}</name>{{ with $.Site.Author.email }}
-    <email>{{.}}</email>{{end}}
-  </author>{{end}}
+    <name>Michael Stapelberg</name>
+  </author>
   <generator>Hugo -- gohugo.io</generator>{{ range first 15 (where .Data.Pages "Section" "posts") }}
   <entry>
     {{ `<title type="html"><![CDATA[` | safeHTML }}{{ .Title }}]]></title>

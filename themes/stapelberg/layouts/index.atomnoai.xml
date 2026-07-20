@@ -3,11 +3,10 @@
   <title>Michael Stapelbergs Website (Feed without AI posts)</title>
   <link href="{{ .Permalink }}feed-no-ai.xml" rel="self"/>
   <link href="{{ .Permalink }}"/>
-  <id>{{ .Permalink }}feed-no-ai.xml</id>{{ with .Site.Author.name }}
+  <id>{{ .Permalink }}feed-no-ai.xml</id>
   <author>
-    <name>{{.}}</name>{{ with $.Site.Author.email }}
-    <email>{{.}}</email>{{end}}
-  </author>{{end}}
+    <name>Michael Stapelberg</name>
+  </author>
   <generator>Hugo -- gohugo.io</generator>
   {{- $posts := where .Site.Pages "Section" "posts" }}
   {{- $posts = where $posts "Params.hidden" "ne" "true" }}
