@@ -33,3 +33,9 @@ I wrote three blog posts about this issue:
   to connect a microcontroller to the intercom unit’s SCS signal and “Open”
   button, which allows for a more reliable, more compact and actually simpler
   solution.
+
+**Update(August 2026):** A Nuki employee has contacted me to let me know that
+starting with [firmware release
+1.12.4](https://help.nuki.io/hc/en-001/articles/49259166569489-Release-Notes-Nuki-Opener-1-12-4)
+(2026-07-29), the Nuki Opener speaks proper SCS! (I have not tested this and
+have no plans to. My solution works fine for me.)

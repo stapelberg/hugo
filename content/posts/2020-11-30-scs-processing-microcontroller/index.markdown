@@ -450,3 +450,8 @@ backpack](/posts/2021-03-13-smart-intercom-backpack/).
 * 2020-11-26: My Teensy 4 microcontroller [successfully decodes the SCS bus signal with its Analog Comparator and UART decoder](https://twitter.com/zekjur/status/1332021864206626817).
 * 2020-11-28: My Teensy 4 microcontroller [is deployed to filter the SCS bus ring signal and drive the Nuki Opener in analogue mode](https://twitter.com/zekjur/status/1332740378907250693).
 
+**Update(August 2026):** A Nuki employee has contacted me to let me know that
+starting with [firmware release
+1.12.4](https://help.nuki.io/hc/en-001/articles/49259166569489-Release-Notes-Nuki-Opener-1-12-4)
+(2026-07-29), the Nuki Opener speaks proper SCS! (I have not tested this and
+have no plans to. My solution works fine for me.)

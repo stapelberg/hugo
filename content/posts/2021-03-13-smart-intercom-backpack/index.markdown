@@ -16,6 +16,12 @@ to make it smart. It now connects to my [Nuki Opener Smart Intercom IOT
 device](https://nuki.io/en/opener/), and to [my local MQTT Pub/Sub
 bus](/posts/2021-01-10-mqtt-introduction/) (why not?).
 
+**Update(August 2026):** A Nuki employee has contacted me to let me know that
+starting with [firmware release
+1.12.4](https://help.nuki.io/hc/en-001/articles/49259166569489-Release-Notes-Nuki-Opener-1-12-4)
+(2026-07-29), the Nuki Opener speaks proper SCS! (I have not tested this and
+have no plans to. My solution works fine for me.)
+
 {{< img src="intercom-modified-featured.jpg" alt="modified BTicino" >}}
 
 ## Background

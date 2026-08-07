@@ -27,6 +27,12 @@ it yet. What I have seen so far makes a good impression, but it just does not
 seem to work at all with my intercom. I will update this article after working
 with the Nuki support to fix this.
 
+**Update(August 2026):** A Nuki employee has contacted me to let me know that
+starting with [firmware release
+1.12.4](https://help.nuki.io/hc/en-001/articles/49259166569489-Release-Notes-Nuki-Opener-1-12-4)
+(2026-07-29), the Nuki Opener speaks proper SCS! (I have not tested this and
+have no plans to. My solution works fine for me.)
+
 ## Connecting the Nuki Opener to the bTicino 344212
 
 First, I identified which wires are used for the bus: between BUS- and BUS+, the
@@ -206,3 +212,9 @@ I used the following sources; please let me know of any others!
 The second article in this series is [Fixing the Nuki Opener smart intercom IOT
 device (on the BTicino SCS bus intercom
 system)](/posts/2020-11-30-scs-processing-microcontroller/).
+
+**Update(August 2026):** A Nuki employee has contacted me to let me know that
+starting with [firmware release
+1.12.4](https://help.nuki.io/hc/en-001/articles/49259166569489-Release-Notes-Nuki-Opener-1-12-4)
+(2026-07-29), the Nuki Opener speaks proper SCS! (I have not tested this and
+have no plans to. My solution works fine for me.)
