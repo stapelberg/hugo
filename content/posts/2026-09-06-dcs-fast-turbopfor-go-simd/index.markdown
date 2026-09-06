@@ -66,7 +66,7 @@ For many years, you had the following options for using SIMD instructions in Go:
    “Avo”](https://github.com/mmcloughlin/avo). This is [how
    `crypto/internal/fips140/sha256` uses
    AVX2](https://cs.opensource.google/go/go/+/refs/tags/go1.27.1:src/crypto/internal/fips140/sha256/_asm/sha256block_amd64_avx2.go). While
-   Avo generator code definitely is higher-level than hind-written assembly, it
+   Avo generator code definitely is higher-level than hand-written assembly, it
    is still too close to assembly for my taste.
 3. Use a C library via [cgo](https://go.dev/wiki/cgo) so gcc or clang compiles
    SIMD code. Debian Code Search used to use the
